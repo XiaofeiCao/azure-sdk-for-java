@@ -177,8 +177,8 @@ public class KubernetesClustersImpl
     }
 
     @Override
-    public List<CredentialResult> listUserKubeConfigContent(String resourceGroupName, String name, Format format) {
-        return listUserKubeConfigContentAsync(resourceGroupName, name, format).block();
+    public List<CredentialResult> listUserKubeConfigContent(String resourceGroupName, String kubernetesClusterName, Format format) {
+        return listUserKubeConfigContentAsync(resourceGroupName, kubernetesClusterName, format).block();
     }
 
     @Override
