@@ -15,6 +15,9 @@ public final class SkuName extends ExpandableStringEnum<SkuName> {
     /** Static value S0 for SkuName. */
     public static final SkuName S0 = fromString("S0");
 
+    /** Static value E0 for SkuName. This standards for Enterprise Tier.*/
+    public static final SkuName E0 = fromString("E0");
+
     /**
      * Creates or finds a SkuName from its string representation.
      *

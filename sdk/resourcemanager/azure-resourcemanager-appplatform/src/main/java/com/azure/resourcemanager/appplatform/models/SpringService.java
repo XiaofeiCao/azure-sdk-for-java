@@ -14,6 +14,8 @@ import com.azure.resourcemanager.resources.fluentcore.model.Refreshable;
 import com.azure.resourcemanager.resources.fluentcore.model.Updatable;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /** An immutable client-side representation of an Azure Spring Service. */
 @Fluent
 public interface SpringService
@@ -91,11 +93,15 @@ public interface SpringService
      */
     Mono<TestKeys> enableTestEndpointAsync();
 
+    /** @return the entry point of Tanzu Configuration Service for Enterprise Tier */
+    SpringConfigurationServices configurationServices();
+
     /** Container interface for all the definitions that need to be implemented. */
     interface Definition
         extends DefinitionStages.Blank,
             DefinitionStages.WithGroup,
-            DefinitionStages.WithCreate { }
+            DefinitionStages.WithCreate,
+            DefinitionStages.WithEnterpriseTierCreate { }
 
     /** Grouping of all the spring service definition stages. */
     interface DefinitionStages {
@@ -138,6 +144,12 @@ public interface SpringService
              * @return the next stage of spring service definition
              */
             WithCreate withSku(Sku sku);
+
+            /**
+             * Specifies the sku of the spring service to be enterprise tier.
+             * @return the next stage of enterprise tier spring service definition
+             */
+            WithEnterpriseTierCreate withEnterpriseTierSku();
         }
 
         /** The stage of a spring service definition allowing to specify tracing with app insight. */
@@ -176,6 +188,22 @@ public interface SpringService
             WithCreate withGitConfig(ConfigServerGitProperty gitConfig);
         }
 
+        /** The stage of a spring service definition allowing to specify the enterprise tier configuration service */
+        interface WithConfigurationService {
+            /**
+             * Specifies the default git repository for the spring service.
+             * @param uri the uri of the git repository
+             * @param branch branch of the git repository to look configuration files for
+             * @param filePatterns patterns for configuration files to be selected from the git repository
+             * @return the next stage of spring service definition
+             */
+            WithEnterpriseTierCreate withGitConfig(String uri, String branch, List<String> filePatterns);
+
+            WithEnterpriseTierCreate withGitConfigRepository(String name, String uri, String branch, List<String> filePatterns);
+
+            WithEnterpriseTierCreate withGitConfig(ConfigurationServiceGitProperty gitConfig);
+        }
+
         /** The stage of a spring service definition allowing to specify the certificate. */
         interface WithCertificate {
             /**
@@ -197,6 +225,18 @@ public interface SpringService
              */
             WithCreate withCertificate(String name, String keyVaultUri, String certNameInKeyVault, String certVersion);
         }
+
+        /**
+         * The stage of the definition which contains all the minimum required inputs for the resource of enterprise tier to be created,
+         * but also allows for any other optional settings to be specified.
+         */
+        interface WithEnterpriseTierCreate
+            extends Creatable<SpringService>,
+                Resource.DefinitionWithTags<WithCreate>,
+                WithSku,
+                WithTracing,
+                WithConfigurationService,
+                WithCertificate { }
 
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created,
