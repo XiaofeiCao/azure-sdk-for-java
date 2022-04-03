@@ -40,8 +40,8 @@ public class EnterpriseTierTest extends AppPlatformTest {
 //        Assertions.assertNotNull(serviceRegistry);
 //        Assertions.assertNotNull(gateway);
 //        Assertions.assertNotNull(apiPortal);
-        Assertions.assertEquals(springService.configurationServices().getDefault().gitUri(), GIT_CONFIG_URI);
-        Assertions.assertEquals(springService.configurationServices().getDefault().filePatterns(), filePatterns);
+        Assertions.assertEquals(springService.getDefaultConfigurationService().gitUri(), GIT_CONFIG_URI);
+        Assertions.assertEquals(springService.getDefaultConfigurationService().filePatterns(), filePatterns);
 //        Assertions.assertNotNull(serviceRegistry.cpu());
 //        Assertions.assertNotNull(gateway.cpu());
 //        Assertions.assertNotNull(apiPortal.cpu());
@@ -51,7 +51,7 @@ public class EnterpriseTierTest extends AppPlatformTest {
             .withoutGitConfig()
             .apply();
 
-        Assertions.assertNull(springService.configurationServices().getDefault().gitUri());
+        Assertions.assertNull(springService.getDefaultConfigurationService().gitUri());
     }
 
     @Test

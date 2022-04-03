@@ -93,6 +93,9 @@ public interface SpringService
      */
     Mono<TestKeys> enableTestEndpointAsync();
 
+    /** @return default Configuration Service for Enterprise Tier */
+    SpringConfigurationService getDefaultConfigurationService();
+
     /** @return the entry point of Tanzu Configuration Service for Enterprise Tier */
     SpringConfigurationServices configurationServices();
 

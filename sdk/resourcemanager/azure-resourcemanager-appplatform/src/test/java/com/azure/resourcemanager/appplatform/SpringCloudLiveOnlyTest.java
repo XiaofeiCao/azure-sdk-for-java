@@ -5,21 +5,20 @@ package com.azure.resourcemanager.appplatform;
 
 import com.azure.core.management.Region;
 import com.azure.core.test.annotation.DoNotRecord;
-import com.azure.resourcemanager.appplatform.fluent.models.BuildServiceAgentPoolResourceInner;
-import com.azure.resourcemanager.appplatform.fluent.models.BuildServiceInner;
-import com.azure.resourcemanager.appplatform.models.BuildServiceAgentPoolProperties;
-import com.azure.resourcemanager.appplatform.models.BuildServiceAgentPoolSizeProperties;
 import com.azure.resourcemanager.appplatform.models.RuntimeVersion;
 import com.azure.resourcemanager.appplatform.models.SpringApp;
 import com.azure.resourcemanager.appplatform.models.SpringAppDeployment;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appservice.models.AppServiceDomain;
 import com.azure.resourcemanager.dns.models.DnsZone;
+import com.azure.resourcemanager.keyvault.models.CertificatePermissions;
+import com.azure.resourcemanager.keyvault.models.SecretPermissions;
+import com.azure.resourcemanager.keyvault.models.Vault;
 import com.azure.resourcemanager.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.resourcemanager.resources.fluentcore.arm.CountryPhoneCode;
-import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.azure.security.keyvault.certificates.CertificateClient;
+import com.azure.security.keyvault.certificates.CertificateClientBuilder;
+import com.azure.security.keyvault.certificates.models.ImportCertificateOptions;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -28,6 +27,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,8 +40,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.security.KeyStore;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SpringCloudLiveOnlyTest extends AppPlatformTest {
@@ -187,43 +190,43 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
             .withExistingDnsZone(dnsZone)
             .create();
 
-//        Vault vault = keyVaultManager.vaults().define(vaultName)
-//            .withRegion(region)
-//            .withExistingResourceGroup(rgName)
-//            .defineAccessPolicy()
-//                .forServicePrincipal(clientIdFromFile())
-//                .allowSecretAllPermissions()
-//                .allowCertificateAllPermissions()
-//                .attach()
-//            .defineAccessPolicy()
-//                .forObjectId(SPRING_CLOUD_SERVICE_OBJECT_ID)
-//                .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST)
-//                .allowSecretPermissions(SecretPermissions.GET, SecretPermissions.LIST)
-//                .attach()
-//            .create();
-//
-//        // upload certificate
-//        CertificateClient certificateClient = new CertificateClientBuilder()
-//            .vaultUrl(vault.vaultUri())
-//            .pipeline(appPlatformManager.httpPipeline())
-//            .buildClient();
-//
-//        certificateClient.importCertificate(
-//            new ImportCertificateOptions(certName, certificate)
-//                .setPassword(cerPassword)
-//                .setEnabled(true)
-//        );
-//
-//        // get thumbprint
-//        KeyStore store = KeyStore.getInstance("PKCS12");
-//        store.load(new ByteArrayInputStream(certificate), cerPassword.toCharArray());
-//        String alias = Collections.list(store.aliases()).get(0);
-//        String thumbprint = printHexBinary(MessageDigest.getInstance("SHA-1").digest(store.getCertificate(alias).getEncoded()));
+        Vault vault = keyVaultManager.vaults().define(vaultName)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .defineAccessPolicy()
+                .forServicePrincipal(clientIdFromFile())
+                .allowSecretAllPermissions()
+                .allowCertificateAllPermissions()
+                .attach()
+            .defineAccessPolicy()
+                .forObjectId(SPRING_CLOUD_SERVICE_OBJECT_ID)
+                .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST)
+                .allowSecretPermissions(SecretPermissions.GET, SecretPermissions.LIST)
+                .attach()
+            .create();
+
+        // upload certificate
+        CertificateClient certificateClient = new CertificateClientBuilder()
+            .vaultUrl(vault.vaultUri())
+            .pipeline(appPlatformManager.httpPipeline())
+            .buildClient();
+
+        certificateClient.importCertificate(
+            new ImportCertificateOptions(certName, certificate)
+                .setPassword(cerPassword)
+                .setEnabled(true)
+        );
+
+        // get thumbprint
+        KeyStore store = KeyStore.getInstance("PKCS12");
+        store.load(new ByteArrayInputStream(certificate), cerPassword.toCharArray());
+        String alias = Collections.list(store.aliases()).get(0);
+        String thumbprint = printHexBinary(MessageDigest.getInstance("SHA-1").digest(store.getCertificate(alias).getEncoded()));
 //
         SpringService service = appPlatformManager.springServices().define(serviceName)
             .withRegion(region)
             .withExistingResourceGroup(rgName)
-//            .withCertificate("test", vault.vaultUri(), certName)
+            .withCertificate("test", vault.vaultUri(), certName)
             .create();
 
         service.apps().define(appName).withDefaultActiveDeployment().withDefaultPublicEndpoint().create();
@@ -231,21 +234,21 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
 
         dnsZone.update()
             .withCNameRecordSet("www", app.fqdn())
-//            .withCNameRecordSet("ssl", app.fqdn())
+            .withCNameRecordSet("ssl", app.fqdn())
             .apply();
 
         app.update()
             .withoutDefaultPublicEndpoint()
             .withCustomDomain(String.format("www.%s", domainName))
-//            .withCustomDomain(String.format("ssl.%s", domainName), thumbprint)
+            .withCustomDomain(String.format("ssl.%s", domainName), thumbprint)
             .apply();
 
         Assertions.assertTrue(app.customDomains().validate(String.format("www.%s", domainName)).isValid());
-//        Assertions.assertTrue(requestSuccess(String.format("http://www.%s", domainName)));
-//        Assertions.assertTrue(requestSuccess(String.format("https://ssl.%s", domainName)));
+        Assertions.assertTrue(requestSuccess(String.format("http://www.%s", domainName)));
+        Assertions.assertTrue(requestSuccess(String.format("https://ssl.%s", domainName)));
 
         app.update()
-//            .withHttpsOnly()
+            .withHttpsOnly()
             .withoutCustomDomain(String.format("www.%s", domainName))
             .apply();
         Assertions.assertTrue(checkRedirect(String.format("http://ssl.%s", domainName)));
@@ -329,46 +332,6 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
 
         app.deployments().deleteByName(deploymentName);
         Assertions.assertEquals(1, app.deployments().list().stream().count());
-    }
-
-    @Test
-    public void updateBuildService() throws JsonProcessingException {
-        String resourceGroup = "rg28800d0cdc6";
-        String service = "springsvc49997";
-        appPlatformManager.serviceClient().getBuildServiceAgentPools().updatePut(resourceGroup, service, "default", "default", new BuildServiceAgentPoolResourceInner().withProperties(new BuildServiceAgentPoolProperties().withPoolSize(new BuildServiceAgentPoolSizeProperties().withName("S1"))));
-        BuildServiceAgentPoolResourceInner agentPoolResourceInner = appPlatformManager.serviceClient().getBuildServiceAgentPools().list(resourceGroup, service, "default").stream().findFirst().get();
-//        BuildServiceAgentPoolResourceInner agentPoolResourceInner = appPlatformManager.serviceClient().getBuildServiceAgentPools().get(resourceGroup, service, "default", "default");
-        System.out.println(agentPoolResourceInner.properties().poolSize());
-        System.out.println(agentPoolResourceInner.properties().provisioningState());
-        BuildServiceInner serviceInner = appPlatformManager.serviceClient().getBuildServices().getBuildService(resourceGroup, service, "default");
-        System.out.println(new ObjectMapper().writeValueAsString(serviceInner));
-    }
-
-    @Test
-    public void resourceNameTest() {
-        String resourceId = "/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/rg39693328e70/providers/Microsoft.AppPlatform/Spring/springsvc03883/buildServices/default/builds/gateway/results/2";
-        String name = ResourceUtils.nameFromResourceId(resourceId);
-        Assertions.assertEquals("2", name);
-    }
-
-    @Test
-    public void testCreateAppWithExistingService() {
-        String resourceGroup = "rg-xiaofei";
-        String service = "testxiaofei2022040202";
-        String appName = "api-gateway";
-        File jarFile = new File(PETCLINIC_JAR);
-        Assertions.assertTrue(jarFile.exists());
-        SpringService springService = appPlatformManager.springServices().getByResourceGroup(resourceGroup, service);
-        SpringApp app = springService.apps().define(appName)
-            .defineActiveDeployment("deploymentName")
-            .withJarFile(jarFile)
-            .withInstance(2)
-            .withCpu(2)
-            .withMemory(4)
-            .withRuntime(RuntimeVersion.JAVA_11)
-            .attach()
-            .withDefaultPublicEndpoint()
-            .create();
     }
 
     private void extraTarGzSource(File folder, URL url) throws IOException {

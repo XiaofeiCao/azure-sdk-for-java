@@ -7,13 +7,8 @@ package com.azure.resourcemanager.appplatform.models;
 import com.azure.resourcemanager.appplatform.AppPlatformManager;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasManager;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasParent;
-import reactor.core.publisher.Mono;
 
 public interface SpringConfigurationServices
     extends HasManager<AppPlatformManager>,
         HasParent<SpringService> {
-
-    SpringConfigurationService getDefault();
-
-    Mono<SpringConfigurationService> getDefaultAsync();
 }

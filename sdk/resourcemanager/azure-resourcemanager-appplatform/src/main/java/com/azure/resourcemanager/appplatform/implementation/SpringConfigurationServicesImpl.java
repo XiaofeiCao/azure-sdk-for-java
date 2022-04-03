@@ -13,7 +13,6 @@ import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationServices;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
-import reactor.core.publisher.Mono;
 
 public class SpringConfigurationServicesImpl
     extends ExternalChildResourcesNonCachedImpl
@@ -48,17 +47,5 @@ public class SpringConfigurationServicesImpl
     @Override
     public SpringServiceImpl parent() {
         return getParent();
-    }
-
-    @Override
-    public SpringConfigurationService getDefault() {
-        return getDefaultAsync().block();
-    }
-
-    @Override
-    public Mono<SpringConfigurationService> getDefaultAsync() {
-        return manager().serviceClient().getConfigurationServices().getAsync(parent().resourceGroupName(), parent().name(), Constants.DEFAULT_TANZU_COMPONENT_NAME)
-            .switchIfEmpty(Mono.empty())
-            .map(inner -> new SpringConfigurationServiceImpl(inner.name(), parent(), inner));
     }
 }

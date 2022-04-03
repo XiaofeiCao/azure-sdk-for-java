@@ -22,6 +22,7 @@ import com.azure.resourcemanager.appplatform.models.RegenerateTestKeyRequestPayl
 import com.azure.resourcemanager.appplatform.models.Sku;
 import com.azure.resourcemanager.appplatform.models.SkuName;
 import com.azure.resourcemanager.appplatform.models.SpringApps;
+import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationServices;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appplatform.models.SpringServiceCertificates;
@@ -134,6 +135,14 @@ public class SpringServiceImpl
     @Override
     public Mono<TestKeys> enableTestEndpointAsync() {
         return manager().serviceClient().getServices().enableTestEndpointAsync(resourceGroupName(), name());
+    }
+
+    @Override
+    public SpringConfigurationService getDefaultConfigurationService() {
+        return manager().serviceClient().getConfigurationServices().getAsync(resourceGroupName(), name(), Constants.DEFAULT_TANZU_COMPONENT_NAME)
+            .switchIfEmpty(Mono.empty())
+            .map(inner -> new SpringConfigurationServiceImpl(inner.name(), this, inner))
+            .block();
     }
 
     @Override
