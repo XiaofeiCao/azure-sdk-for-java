@@ -43,7 +43,6 @@ public class SpringServiceImpl
     private final SpringServiceCertificatesImpl certificates = new SpringServiceCertificatesImpl(this);
     private final SpringAppsImpl apps = new SpringAppsImpl(this);
     private final SpringConfigurationServicesImpl configurationServices = new SpringConfigurationServicesImpl(this);
-    private final SpringServiceRegistriesImpl serviceRegistries = new SpringServiceRegistriesImpl(this);
     private FunctionalTaskItem configServerTask = null;
     private FunctionalTaskItem monitoringSettingTask = null;
     private boolean updateConfigurationServiceTask = true;

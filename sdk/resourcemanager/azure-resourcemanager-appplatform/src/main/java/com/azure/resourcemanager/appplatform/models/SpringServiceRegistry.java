@@ -22,5 +22,5 @@ public interface SpringServiceRegistry
     /** @return memory for the Service Registry */
     String memory();
 
-    List<SpringApp> getRegisteredApps();
+    List<SpringApp> getBindingApps();
 }

@@ -120,7 +120,7 @@ public interface SpringAppDeployment
              */
             T withExistingSource(UserSourceType type, String relativePath);
 
-            Update withArtifact(File artifact, List<String> configFilePatterns);
+            T withArtifact(File artifact, List<String> configFilePatterns);
         }
 
         /** The stage of a deployment definition allowing to specify the module of the source code. */

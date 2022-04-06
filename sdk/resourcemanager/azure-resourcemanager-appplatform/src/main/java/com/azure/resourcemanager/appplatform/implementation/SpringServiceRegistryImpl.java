@@ -34,7 +34,7 @@ public class SpringServiceRegistryImpl
     }
 
     @Override
-    public List<SpringApp> getRegisteredApps() {
+    public List<SpringApp> getBindingApps() {
         //TODO
         return new ArrayList<>();
     }

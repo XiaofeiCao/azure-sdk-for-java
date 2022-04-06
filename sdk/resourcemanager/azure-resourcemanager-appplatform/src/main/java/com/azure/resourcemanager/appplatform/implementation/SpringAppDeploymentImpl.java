@@ -12,8 +12,6 @@ import com.azure.core.util.polling.PollingContext;
 import com.azure.resourcemanager.appplatform.AppPlatformManager;
 import com.azure.resourcemanager.appplatform.fluent.models.BuildInner;
 import com.azure.resourcemanager.appplatform.fluent.models.BuildResultInner;
-import com.azure.resourcemanager.appplatform.fluent.models.BuildServiceAgentPoolResourceInner;
-import com.azure.resourcemanager.appplatform.fluent.models.BuilderResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.DeploymentResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.LogFileUrlResponseInner;
 import com.azure.resourcemanager.appplatform.models.BuildProperties;
@@ -254,7 +252,8 @@ public class SpringAppDeploymentImpl
             .getBuildResultAsync(
                 service().resourceGroupName(),
                 service().name(),
-                Constants.DEFAULT_TANZU_COMPONENT_NAME, parent().name(),
+                Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                parent().name(),
                 ResourceUtils.nameFromResourceId(context.getData("buildId")));
     }
 
@@ -275,18 +274,6 @@ public class SpringAppDeploymentImpl
     }
 
     private Mono<PollResult<BuildInner>> enqueueBuild(ResourceUploadDefinition option, PollingContext<PollResult<BuildInner>> context) {
-        BuildServiceAgentPoolResourceInner agentPool = manager().serviceClient()
-            .getBuildServiceAgentPools()
-            .get(service().resourceGroupName(),
-                service().name(),
-                Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                Constants.DEFAULT_TANZU_COMPONENT_NAME);
-        BuilderResourceInner builder = manager().serviceClient()
-            .getBuildServiceBuilders()
-            .get(service().resourceGroupName(),
-                service().name(),
-                Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                app().name());
         return manager().serviceClient().getBuildServices()
             // This method enqueues the build request, response with provision state "Succeeded" only means the build is enqueued.
             // Attempting to continue deploying without waiting for the build to complete will result in failure.
@@ -297,8 +284,8 @@ public class SpringAppDeploymentImpl
                 app().name(),
                 new BuildInner().withProperties(
                     new BuildProperties()
-                        .withBuilder(builder.id())
-                        .withAgentPool(agentPool.id())
+                        .withBuilder(String.format("%s/buildservices/default/builders/%s", service().id(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
+                        .withAgentPool(String.format("%s/buildservices/default/agentPools/default", service().id()))
                         .withRelativePath(option.relativePath())
                 ))
             .map(inner -> {
