@@ -231,7 +231,7 @@ public class SpringAppDeploymentImpl
         AppPlatformManagementClientImpl client = (AppPlatformManagementClientImpl) manager().serviceClient();
         return uploadToStorage(source, option)
             .then(
-                // manually create lro
+                // the operation does not meet lro specification, manual polling of result is required
                 new PollerFlux<>(
                     manager().serviceClient().getDefaultPollInterval(),
                     context -> enqueueBuild(option, context),
@@ -363,7 +363,7 @@ public class SpringAppDeploymentImpl
                             // set config file patterns
                             ensureAddonConfigs();
                             Map<String, Map<String, Object>> addonConfigs = innerModel().properties().deploymentSettings().addonConfigs();
-                            addonConfigs.computeIfAbsent("applicationConfigurationService", s -> {
+                            addonConfigs.computeIfAbsent(Constants.APPLICATION_CONFIGURATION_SERVICE_KEY, s -> {
                                 Map<String, Object> config = new HashMap<>();
                                 config.put(
                                     "configFilePatterns",
