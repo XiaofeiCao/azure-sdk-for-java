@@ -169,7 +169,7 @@ public interface SpringApp
 
         /**
          * (Enterprise Tier feature)
-         * The stage of spring app definition allowing to specify the configuration service binding.
+         * The stage of spring app definition allowing to bind it to default configuration service.
          */
         interface WithConfigurationServiceBinding {
             /**
@@ -308,7 +308,7 @@ public interface SpringApp
             Update withoutServiceBinding(String name);
         }
 
-        /** The stage of a spring app update allowing to specify the configuration service binding. */
+        /** The stage of a spring app update allowing to bind it to the default configuration service. */
         interface WithConfigurationServiceBinding {
             /**
              * Specifies a binding to the default configuration service.

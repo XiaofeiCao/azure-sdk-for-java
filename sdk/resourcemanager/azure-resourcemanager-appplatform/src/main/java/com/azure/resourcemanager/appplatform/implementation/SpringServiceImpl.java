@@ -23,7 +23,6 @@ import com.azure.resourcemanager.appplatform.models.Sku;
 import com.azure.resourcemanager.appplatform.models.SkuName;
 import com.azure.resourcemanager.appplatform.models.SpringApps;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
-import com.azure.resourcemanager.appplatform.models.SpringConfigurationServices;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appplatform.models.SpringServiceCertificates;
 import com.azure.resourcemanager.appplatform.models.TestKeyType;
@@ -142,11 +141,6 @@ public class SpringServiceImpl
             .switchIfEmpty(Mono.empty())
             .map(inner -> new SpringConfigurationServiceImpl(inner.name(), this, inner))
             .block();
-    }
-
-    @Override
-    public SpringConfigurationServices configurationServices() {
-        return this.configurationServices;
     }
 
     @Override
