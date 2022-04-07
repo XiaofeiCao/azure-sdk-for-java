@@ -18,6 +18,7 @@ import com.azure.resourcemanager.appplatform.models.SpringAppDeployment;
 import com.azure.resourcemanager.appplatform.models.SpringAppDeployments;
 import com.azure.resourcemanager.appplatform.models.SpringAppDomains;
 import com.azure.resourcemanager.appplatform.models.SpringAppServiceBindings;
+import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appplatform.models.TemporaryDisk;
 import com.azure.resourcemanager.appplatform.models.UserSourceType;
@@ -29,6 +30,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class SpringAppImpl
@@ -147,8 +149,15 @@ public class SpringAppImpl
         if (addonConfigs == null) {
             return false;
         }
+        SpringConfigurationService configurationService = parent().getDefaultConfigurationService();
+        if (configurationService == null) {
+            return false;
+        }
         return addonConfigs.get(Constants.APPLICATION_CONFIGURATION_SERVICE_KEY) != null
-            && addonConfigs.get(Constants.APPLICATION_CONFIGURATION_SERVICE_KEY).get(Constants.BINDING_RESOURCE_ID) != null;
+            && Objects.equals(
+            addonConfigs.get(Constants.APPLICATION_CONFIGURATION_SERVICE_KEY).get(Constants.BINDING_RESOURCE_ID),
+            configurationService.id()
+        );
     }
 
     private void ensureProperty() {
@@ -346,7 +355,7 @@ public class SpringAppImpl
         if (configurationServiceConfigs == null) {
             return this;
         }
-        configurationServiceConfigs.remove(Constants.BINDING_RESOURCE_ID);
+        configurationServiceConfigs.put(Constants.BINDING_RESOURCE_ID, "");
         return this;
     }
 }
