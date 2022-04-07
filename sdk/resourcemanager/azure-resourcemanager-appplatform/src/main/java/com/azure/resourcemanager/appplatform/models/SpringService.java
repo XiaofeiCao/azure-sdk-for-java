@@ -193,14 +193,29 @@ public interface SpringService
             /**
              * Specifies the default git repository for the spring service.
              * @param uri the uri of the git repository
-             * @param branch branch of the git repository to look configuration files for
+             * @param branch branch of the git repository
              * @param filePatterns patterns for configuration files to be selected from the git repository
              * @return the next stage of spring service definition
              */
             WithEnterpriseTierCreate withGitConfig(String uri, String branch, List<String> filePatterns);
 
+            /**
+             * Specifies additional git repository for the spring service.
+             * New repository configurations will override the old with the same name.
+             * @param name  the name of the git repository
+             * @param uri   the uri of the git repository
+             * @param branch    branch of the git repository
+             * @param filePatterns  patterns for configuration files to be selected from the git repository
+             * @return  the next stage of spring service definition
+             */
             WithEnterpriseTierCreate withGitConfigRepository(String name, String uri, String branch, List<String> filePatterns);
 
+            /**
+             * Specifies additional git repository for the spring service.
+             * New repository configurations will override the old with the same name.
+             * @param gitConfig git repository configuration
+             * @return
+             */
             WithEnterpriseTierCreate withGitConfig(ConfigurationServiceGitProperty gitConfig);
         }
 
