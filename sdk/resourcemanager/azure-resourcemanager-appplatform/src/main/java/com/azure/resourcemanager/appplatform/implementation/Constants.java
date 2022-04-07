@@ -8,4 +8,6 @@ package com.azure.resourcemanager.appplatform.implementation;
 class Constants {
     public static final String DEFAULT_TANZU_COMPONENT_NAME = "default";
     public static final String BUILD_RESULT_SOURCE_TYPE = "BuildResult";
+    public static final String APPLICATION_CONFIGURATION_SERVICE_KEY = "applicationConfigurationService";
+    public static final String BINDING_RESOURCE_ID = "resourceId";
 }

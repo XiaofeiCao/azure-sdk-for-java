@@ -65,6 +65,7 @@ public class EnterpriseTierTest extends AppPlatformTest {
         SpringApp app = springService.apps()
             .define(appName)
             .withDefaultActiveDeployment()
+            .withConfigurationServiceBinding()
             .withHttpsOnly()
             .withDefaultPublicEndpoint()
             .create();
@@ -72,13 +73,18 @@ public class EnterpriseTierTest extends AppPlatformTest {
         Assertions.assertNotNull(app.url());
         Assertions.assertTrue(app.isHttpsOnly());
         Assertions.assertTrue(app.isPublic());
+        Assertions.assertTrue(app.hasConfigurationServiceBinding());
+        Assertions.assertTrue(springService.getDefaultConfigurationService().getAppBindings().stream().anyMatch(SpringApp::hasConfigurationServiceBinding));
 
         app.update()
             .withoutHttpsOnly()
+            .withoutConfigurationServiceBinding()
             .withoutDefaultPublicEndpoint()
             .apply();
 
         Assertions.assertFalse(app.isHttpsOnly());
         Assertions.assertFalse(app.isPublic());
+        Assertions.assertFalse(app.hasConfigurationServiceBinding());
+        Assertions.assertFalse(springService.getDefaultConfigurationService().getAppBindings().stream().anyMatch(SpringApp::hasConfigurationServiceBinding));
     }
 }

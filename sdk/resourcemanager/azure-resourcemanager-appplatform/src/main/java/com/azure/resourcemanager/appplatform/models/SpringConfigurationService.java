@@ -16,7 +16,6 @@ import java.util.List;
 public interface SpringConfigurationService
     extends ExternalChildResource<SpringConfigurationService, SpringService>,
         HasInnerModel<ConfigurationServiceResourceInner> {
-
     /** @return cpu for the Configuration Service */
     String cpu();
 
@@ -28,4 +27,7 @@ public interface SpringConfigurationService
 
     /** @return default file patterns in the Configuration Service */
     List<String> filePatterns();
+
+    /** @return apps that have bindings to this Configuration Service */
+    List<SpringApp> getAppBindings();
 }
