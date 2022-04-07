@@ -96,9 +96,6 @@ public interface SpringService
     /** @return default Configuration Service for Enterprise Tier */
     SpringConfigurationService getDefaultConfigurationService();
 
-    /** @return the entry point of Tanzu Configuration Service for Enterprise Tier */
-    SpringConfigurationServices configurationServices();
-
     /** Container interface for all the definitions that need to be implemented. */
     interface Definition
         extends DefinitionStages.Blank,
