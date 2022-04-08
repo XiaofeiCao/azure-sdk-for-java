@@ -73,6 +73,7 @@ public class EnterpriseTierTest extends AppPlatformTest {
             .define(appName)
             .withDefaultActiveDeployment()
             .withConfigurationServiceBinding()
+            .withServiceRegistryBinding()
             .withHttpsOnly()
             .withDefaultPublicEndpoint()
             .create();
@@ -81,17 +82,22 @@ public class EnterpriseTierTest extends AppPlatformTest {
         Assertions.assertTrue(app.isHttpsOnly());
         Assertions.assertTrue(app.isPublic());
         Assertions.assertTrue(app.hasConfigurationServiceBinding());
+        Assertions.assertTrue(app.hasServiceRegistryBinding());
         Assertions.assertTrue(springService.getDefaultConfigurationService().getAppBindings().stream().anyMatch(SpringApp::hasConfigurationServiceBinding));
+        Assertions.assertTrue(springService.getDefaultServiceRegistry().getAppBindings().stream().anyMatch(SpringApp::hasServiceRegistryBinding));
 
         app.update()
             .withoutHttpsOnly()
             .withoutConfigurationServiceBinding()
+            .withoutServiceRegistryBinding()
             .withoutDefaultPublicEndpoint()
             .apply();
 
         Assertions.assertFalse(app.isHttpsOnly());
         Assertions.assertFalse(app.isPublic());
         Assertions.assertFalse(app.hasConfigurationServiceBinding());
+        Assertions.assertFalse(app.hasServiceRegistryBinding());
         Assertions.assertFalse(springService.getDefaultConfigurationService().getAppBindings().stream().anyMatch(SpringApp::hasConfigurationServiceBinding));
+        Assertions.assertFalse(springService.getDefaultServiceRegistry().getAppBindings().stream().anyMatch(SpringApp::hasServiceRegistryBinding));
     }
 }

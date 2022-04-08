@@ -69,6 +69,9 @@ public interface SpringApp
     /** @return whether this app has binding to the default Configuration Service (Enterprise Tier) */
     boolean hasConfigurationServiceBinding();
 
+    /** @return whether this app has binding to the default Service Registry (Enterprise Tier) */
+    boolean hasServiceRegistryBinding();
+
     /** Container interface for all the definitions that need to be implemented. */
     interface Definition
         extends DefinitionStages.Blank,
@@ -168,8 +171,8 @@ public interface SpringApp
         }
 
         /**
-         * (Enterprise Tier feature)
-         * The stage of spring app definition allowing to bind it to default configuration service.
+         * (Enterprise Tier)
+         * The stage of spring app definition allowing to bind it to configuration service.
          */
         interface WithConfigurationServiceBinding {
             /**
@@ -186,6 +189,24 @@ public interface SpringApp
         }
 
         /**
+         * (Enterprise Tier)
+         * The stage of spring app definition allowing to bind it to service registry.
+         */
+        interface WithServiceRegistryBinding {
+            /**
+             * Specifies a binding to the default service registry.
+             * @return the next stage of spring app definition
+             */
+            WithCreate withServiceRegistryBinding();
+
+            /**
+             * Removes a binding to the default service registry.
+             * @return the next stage of spring app definition
+             */
+            WithCreate withoutServiceRegistryBinding();
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created,
          * but also allows for any other optional settings to be specified.
          */
@@ -195,7 +216,8 @@ public interface SpringApp
                 DefinitionStages.WithDisk,
                 DefinitionStages.WithDeployment,
                 DefinitionStages.WithServiceBinding,
-                DefinitionStages.WithConfigurationServiceBinding { }
+                DefinitionStages.WithConfigurationServiceBinding,
+                DefinitionStages.WithServiceRegistryBinding { }
     }
 
     /** The template for an update operation, containing all the settings that can be modified. */
@@ -205,7 +227,8 @@ public interface SpringApp
         UpdateStages.WithDisk,
         UpdateStages.WithDeployment,
         UpdateStages.WithServiceBinding,
-        UpdateStages.WithConfigurationServiceBinding { }
+        UpdateStages.WithConfigurationServiceBinding,
+        UpdateStages.WithServiceRegistryBinding { }
 
     /** Grouping of spring app update stages. */
     interface UpdateStages {
@@ -321,6 +344,24 @@ public interface SpringApp
              * @return the next stage of spring app update
              */
             Update withoutConfigurationServiceBinding();
+        }
+
+        /**
+         * (Enterprise Tier)
+         * The stage of spring app update allowing to bind it to service registry.
+         */
+        interface WithServiceRegistryBinding {
+            /**
+             * Specifies a binding to the default service registry.
+             * @return the next stage of spring app update
+             */
+            Update withServiceRegistryBinding();
+
+            /**
+             * Removes a binding to the default service registry.
+             * @return the next stage of spring app update
+             */
+            Update withoutServiceRegistryBinding();
         }
     }
 }

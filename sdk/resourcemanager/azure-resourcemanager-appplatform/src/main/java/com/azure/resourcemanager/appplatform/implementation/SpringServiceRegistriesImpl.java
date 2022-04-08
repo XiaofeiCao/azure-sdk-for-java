@@ -16,4 +16,12 @@ public class SpringServiceRegistriesImpl
     public SpringServiceRegistriesImpl(SpringServiceImpl parentImpl) {
         super(parentImpl, parentImpl.taskGroup(), "SpringServiceRegistry");
     }
+
+    public void prepareCreate() {
+        prepareInlineDefine(new SpringServiceRegistryImpl(
+            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+            getParent(),
+            new ServiceRegistryResourceInner()
+        ));
+    }
 }
