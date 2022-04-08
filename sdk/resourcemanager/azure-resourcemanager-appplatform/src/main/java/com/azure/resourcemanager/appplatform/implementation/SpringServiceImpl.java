@@ -25,6 +25,7 @@ import com.azure.resourcemanager.appplatform.models.SpringApps;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appplatform.models.SpringServiceCertificates;
+import com.azure.resourcemanager.appplatform.models.SpringServiceRegistry;
 import com.azure.resourcemanager.appplatform.models.TestKeyType;
 import com.azure.resourcemanager.appplatform.models.TestKeys;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -34,6 +35,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SpringServiceImpl
@@ -42,6 +44,7 @@ public class SpringServiceImpl
     private final SpringServiceCertificatesImpl certificates = new SpringServiceCertificatesImpl(this);
     private final SpringAppsImpl apps = new SpringAppsImpl(this);
     private final SpringConfigurationServicesImpl configurationServices = new SpringConfigurationServicesImpl(this);
+    private final SpringServiceRegistriesImpl serviceRegistries = new SpringServiceRegistriesImpl(this);
     private FunctionalTaskItem configServerTask = null;
     private FunctionalTaskItem monitoringSettingTask = null;
     private boolean updateConfigurationServiceTask = true;
@@ -137,10 +140,22 @@ public class SpringServiceImpl
 
     @Override
     public SpringConfigurationService getDefaultConfigurationService() {
-        return manager().serviceClient().getConfigurationServices().getAsync(resourceGroupName(), name(), Constants.DEFAULT_TANZU_COMPONENT_NAME)
-            .switchIfEmpty(Mono.empty())
+        return manager().serviceClient().getConfigurationServices().list(resourceGroupName(), name())
+            .stream()
+            .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
             .map(inner -> new SpringConfigurationServiceImpl(inner.name(), this, inner))
-            .block();
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public SpringServiceRegistry getDefaultServiceRegistry() {
+        return manager().serviceClient().getServiceRegistries().list(resourceGroupName(), name())
+            .stream()
+            .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
+            .map(inner -> new SpringServiceRegistryImpl(inner.name(), this, inner))
+            .findFirst()
+            .orElse(null);
     }
 
     @Override
@@ -259,12 +274,15 @@ public class SpringServiceImpl
         if (monitoringSettingTask != null) {
             this.addPostRunDependent(monitoringSettingTask);
         }
-        if (updateConfigurationServiceTask) {
-            prepareCreateOrUpdateConfigurationService();
+        if (isEnterpriseTier()) {
+            if (updateConfigurationServiceTask) {
+                prepareCreateOrUpdateConfigurationService();
+                updateConfigurationServiceTask = false;
+            }
+            prepareCreateServiceRegistry();
         }
         configServerTask = null;
         monitoringSettingTask = null;
-        updateConfigurationServiceTask = false;
     }
 
     @Override
@@ -386,6 +404,10 @@ public class SpringServiceImpl
         this.configurationServices.prepareCreateOrUpdate(new ConfigurationServiceGitProperty().withRepositories(repositories));
     }
 
+    private void prepareCreateServiceRegistry() {
+        this.serviceRegistries.prepareCreate();
+    }
+
     private boolean isInUpdateMode() {
         return !isInCreateMode();
     }
@@ -397,5 +419,6 @@ public class SpringServiceImpl
     private void clearCache() {
         this.gitRepositoryMap.clear();
         this.configurationServices.clear();
+        this.serviceRegistries.clear();
     }
 }

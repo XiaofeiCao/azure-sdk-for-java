@@ -10,4 +10,5 @@ class Constants {
     public static final String BUILD_RESULT_SOURCE_TYPE = "BuildResult";
     public static final String APPLICATION_CONFIGURATION_SERVICE_KEY = "applicationConfigurationService";
     public static final String BINDING_RESOURCE_ID = "resourceId";
+    public static final String SERVICE_REGISTRY_KEY = "serviceRegistry";
 }

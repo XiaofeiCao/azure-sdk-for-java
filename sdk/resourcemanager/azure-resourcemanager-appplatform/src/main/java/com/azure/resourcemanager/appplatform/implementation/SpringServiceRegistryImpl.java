@@ -12,8 +12,8 @@ import com.azure.resourcemanager.appplatform.models.SpringServiceRegistry;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SpringServiceRegistryImpl
     extends ExternalChildResourceImpl<SpringServiceRegistry, ServiceRegistryResourceInner, SpringServiceImpl, SpringService>
@@ -34,9 +34,11 @@ public class SpringServiceRegistryImpl
     }
 
     @Override
-    public List<SpringApp> getBindingApps() {
-        //TODO
-        return new ArrayList<>();
+    public List<SpringApp> getAppBindings() {
+        return parent().apps().list()
+            .stream()
+            .filter(SpringApp::hasServiceRegistryBinding)
+            .collect(Collectors.toList());
     }
 
     @Override
