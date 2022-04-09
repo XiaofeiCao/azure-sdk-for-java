@@ -63,7 +63,7 @@ public class SpringConfigurationServiceImpl
         if (property != null && property.repositories() != null) {
             return property.repositories()
                 .stream()
-                .filter(repository -> "default".equals(repository.name()))
+                .filter(repository -> Constants.DEFAULT_TANZU_COMPONENT_NAME.equals(repository.name()))
                 .findFirst();
         } else {
             return Optional.empty();

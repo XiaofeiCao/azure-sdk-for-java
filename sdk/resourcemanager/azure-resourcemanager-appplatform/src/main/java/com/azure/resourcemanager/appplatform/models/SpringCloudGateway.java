@@ -5,9 +5,14 @@
 package com.azure.resourcemanager.appplatform.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.appplatform.fluent.models.GatewayResourceInner;
+import com.azure.resourcemanager.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 
 @Fluent
-public interface SpringCloudGateway {
+public interface SpringCloudGateway
+    extends ExternalChildResource<SpringCloudGateway, SpringService>,
+    HasInnerModel<GatewayResourceInner> {
 
     /** @return cpu for the Spring Cloud Gateway */
     String cpu();
