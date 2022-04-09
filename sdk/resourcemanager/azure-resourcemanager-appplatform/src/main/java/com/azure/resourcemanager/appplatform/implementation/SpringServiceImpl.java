@@ -22,6 +22,7 @@ import com.azure.resourcemanager.appplatform.models.RegenerateTestKeyRequestPayl
 import com.azure.resourcemanager.appplatform.models.Sku;
 import com.azure.resourcemanager.appplatform.models.SkuName;
 import com.azure.resourcemanager.appplatform.models.SpringApps;
+import com.azure.resourcemanager.appplatform.models.SpringCloudGateway;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
 import com.azure.resourcemanager.appplatform.models.SpringService;
 import com.azure.resourcemanager.appplatform.models.SpringServiceCertificates;
@@ -45,6 +46,7 @@ public class SpringServiceImpl
     private final SpringAppsImpl apps = new SpringAppsImpl(this);
     private final SpringConfigurationServicesImpl configurationServices = new SpringConfigurationServicesImpl(this);
     private final SpringServiceRegistriesImpl serviceRegistries = new SpringServiceRegistriesImpl(this);
+    private final SpringCloudGatewaysImpl gateways = new SpringCloudGatewaysImpl(this);
     private FunctionalTaskItem configServerTask = null;
     private FunctionalTaskItem monitoringSettingTask = null;
     private boolean updateConfigurationServiceTask = true;
@@ -154,6 +156,16 @@ public class SpringServiceImpl
             .stream()
             .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
             .map(inner -> new SpringServiceRegistryImpl(inner.name(), this, inner))
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public SpringCloudGateway getDefaultGateway() {
+        return manager().serviceClient().getGateways().list(resourceGroupName(), name())
+            .stream()
+            .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
+            .map(inner -> new SpringCloudGatewayImpl(inner.name(), this, inner))
             .findFirst()
             .orElse(null);
     }
@@ -280,6 +292,7 @@ public class SpringServiceImpl
                 updateConfigurationServiceTask = false;
             }
             prepareCreateServiceRegistry();
+            prepareCreateGateway();
         }
         configServerTask = null;
         monitoringSettingTask = null;
@@ -406,6 +419,10 @@ public class SpringServiceImpl
 
     private void prepareCreateServiceRegistry() {
         this.serviceRegistries.prepareCreate();
+    }
+
+    private void prepareCreateGateway() {
+        this.gateways.prepareCreate();
     }
 
     private boolean isInUpdateMode() {
