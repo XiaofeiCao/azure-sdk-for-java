@@ -301,19 +301,22 @@ public class SpringServiceImpl
         Mono<ServiceResourceInner> createOrUpdate;
         if (isInCreateMode()) {
             createOrUpdate = manager().serviceClient().getServices()
-                .createOrUpdateAsync(resourceGroupName(), name(), innerModel())
-                // update agent pool size
-                .flatMap(inner ->
-                    manager().serviceClient().getBuildServiceAgentPools().updatePutAsync(
-                        resourceGroupName(),
-                        name(),
-                        Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                        Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                        new BuildServiceAgentPoolResourceInner()
-                            .withProperties(
-                                new BuildServiceAgentPoolProperties()
-                                    .withPoolSize(new BuildServiceAgentPoolSizeProperties().withName("S1")))
-                    ).then(Mono.just(inner)));
+                .createOrUpdateAsync(resourceGroupName(), name(), innerModel());
+            if (isEnterpriseTier()) {
+                createOrUpdate = createOrUpdate
+                    // update agent pool size
+                    .flatMap(inner ->
+                        manager().serviceClient().getBuildServiceAgentPools().updatePutAsync(
+                            resourceGroupName(),
+                            name(),
+                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                            new BuildServiceAgentPoolResourceInner()
+                                .withProperties(
+                                    new BuildServiceAgentPoolProperties()
+                                        .withPoolSize(new BuildServiceAgentPoolSizeProperties().withName("S1")))
+                        ).then(Mono.just(inner)));
+            }
         } else if (patchToUpdate != null) {
             createOrUpdate = manager().serviceClient().getServices().updateAsync(
                 resourceGroupName(), name(), patchToUpdate);
