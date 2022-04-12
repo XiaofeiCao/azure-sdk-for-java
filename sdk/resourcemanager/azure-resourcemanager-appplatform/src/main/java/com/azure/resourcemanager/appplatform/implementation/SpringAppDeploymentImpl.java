@@ -6,6 +6,7 @@ package com.azure.resourcemanager.appplatform.implementation;
 import com.azure.resourcemanager.appplatform.AppPlatformManager;
 import com.azure.resourcemanager.appplatform.fluent.models.DeploymentResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.LogFileUrlResponseInner;
+import com.azure.resourcemanager.appplatform.models.BuildResultUserSourceInfo;
 import com.azure.resourcemanager.appplatform.models.DeploymentInstance;
 import com.azure.resourcemanager.appplatform.models.DeploymentResourceProperties;
 import com.azure.resourcemanager.appplatform.models.DeploymentResourceStatus;
@@ -155,6 +156,9 @@ public class SpringAppDeploymentImpl
                 case "NetCoreZip":
                     innerModel().properties().withSource(new NetCoreZipUploadedUserSourceInfo());
                     break;
+                case Constants.BUILD_RESULT_SOURCE_TYPE:
+                    innerModel().properties().withSource(new BuildResultUserSourceInfo());
+                    break;
                 default:
                     innerModel().properties().withSource(new UserSourceInfo());
                     break;
@@ -214,12 +218,20 @@ public class SpringAppDeploymentImpl
 
     @Override
     public SpringAppDeploymentImpl withJarFile(File jar) {
-        ensureSource(UserSourceType.JAR);
-        this.addDependency(
-            context -> parent().getResourceUploadUrlAsync()
-                .flatMap(option -> uploadToStorage(jar, option)
-                    .then(context.voidMono()))
-        );
+        if (service().isEnterpriseTier()) {
+            throw new UnsupportedOperationException("Enterprise tier artifact deployment not supported yet.");
+        } else {
+            ensureSource(UserSourceType.JAR);
+            this.addDependency(
+                context -> parent().getResourceUploadUrlAsync()
+                    .flatMap(option -> {
+                        UploadedUserSourceInfo uploadedUserSourceInfo = (UploadedUserSourceInfo) innerModel().properties().source();
+                        uploadedUserSourceInfo.withRelativePath(option.relativePath());
+                        return uploadToStorage(jar, option)
+                            .then(context.voidMono());
+                    })
+            );
+        }
         return this;
     }
 
@@ -243,13 +255,23 @@ public class SpringAppDeploymentImpl
 
     @Override
     public SpringAppDeploymentImpl withExistingSource(UserSourceType type, String relativePath) {
-        ensureSource(type);
-        UserSourceInfo userSourceInfo = innerModel().properties().source();
-        if (userSourceInfo instanceof UploadedUserSourceInfo) {
-            UploadedUserSourceInfo uploadedUserSourceInfo = (UploadedUserSourceInfo) userSourceInfo;
-            uploadedUserSourceInfo.withRelativePath(relativePath);
+        if (isEnterpriseTier()) {
+            ensureSource(UserSourceType.fromString(Constants.BUILD_RESULT_SOURCE_TYPE));
+            BuildResultUserSourceInfo userSourceInfo = (BuildResultUserSourceInfo) innerModel().properties().source();
+            userSourceInfo.withBuildResultId(String.format("<%s>", Constants.DEFAULT_TANZU_COMPONENT_NAME));
+        } else {
+            ensureSource(type);
+            UserSourceInfo userSourceInfo = innerModel().properties().source();
+            if (userSourceInfo instanceof UploadedUserSourceInfo) {
+                UploadedUserSourceInfo uploadedUserSourceInfo = (UploadedUserSourceInfo) userSourceInfo;
+                uploadedUserSourceInfo.withRelativePath(relativePath);
+            }
         }
         return this;
+    }
+
+    private boolean isEnterpriseTier() {
+        return service().isEnterpriseTier();
     }
 
     @Override
@@ -437,5 +459,9 @@ public class SpringAppDeploymentImpl
     @Override
     public SpringAppImpl attach() {
         return parent().addActiveDeployment(this);
+    }
+
+    private SpringServiceImpl service() {
+        return parent().parent();
     }
 }
