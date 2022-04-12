@@ -120,6 +120,13 @@ public interface SpringAppDeployment
              */
             T withExistingSource(UserSourceType type, String relativePath);
 
+            /**
+             * (Enterprise Tier)
+             * Specifies the artifact for the deployment.
+             * @param artifact
+             * @param configFilePatterns
+             * @return
+             */
             T withArtifact(File artifact, List<String> configFilePatterns);
         }
 
