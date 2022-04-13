@@ -5,9 +5,15 @@
 package com.azure.resourcemanager.appplatform.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.resourcemanager.appplatform.fluent.models.ApiPortalResourceInner;
+import com.azure.resourcemanager.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 
+/** An immutable client-side representation of an Azure Spring App. */
 @Fluent
-public interface SpringApiPortal {
+public interface SpringApiPortal
+    extends ExternalChildResource<SpringApiPortal, SpringService>,
+    HasInnerModel<ApiPortalResourceInner> {
     /** @return cpu for Spring API Portal */
     String cpu();
 

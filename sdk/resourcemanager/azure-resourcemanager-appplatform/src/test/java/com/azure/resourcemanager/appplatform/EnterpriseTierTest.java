@@ -80,6 +80,7 @@ public class EnterpriseTierTest extends AppPlatformTest {
         Assertions.assertTrue(springService.getDefaultServiceRegistry().getAppBindings().stream().anyMatch(SpringApp::hasServiceRegistryBinding));
         Assertions.assertNotNull(springService.getDefaultServiceRegistry().cpu());
         Assertions.assertNotNull(springService.getDefaultGateway().cpu());
+        Assertions.assertNotNull(springService.getDefaultApiPortal().cpu());
 
         app.update()
             .withoutHttpsOnly()

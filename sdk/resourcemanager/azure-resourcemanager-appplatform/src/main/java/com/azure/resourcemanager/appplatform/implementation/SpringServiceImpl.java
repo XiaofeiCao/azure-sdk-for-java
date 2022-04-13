@@ -21,6 +21,7 @@ import com.azure.resourcemanager.appplatform.models.MonitoringSettingProperties;
 import com.azure.resourcemanager.appplatform.models.RegenerateTestKeyRequestPayload;
 import com.azure.resourcemanager.appplatform.models.Sku;
 import com.azure.resourcemanager.appplatform.models.SkuName;
+import com.azure.resourcemanager.appplatform.models.SpringApiPortal;
 import com.azure.resourcemanager.appplatform.models.SpringApps;
 import com.azure.resourcemanager.appplatform.models.SpringCloudGateway;
 import com.azure.resourcemanager.appplatform.models.SpringConfigurationService;
@@ -47,6 +48,7 @@ public class SpringServiceImpl
     private final SpringConfigurationServicesImpl configurationServices = new SpringConfigurationServicesImpl(this);
     private final SpringServiceRegistriesImpl serviceRegistries = new SpringServiceRegistriesImpl(this);
     private final SpringCloudGatewaysImpl gateways = new SpringCloudGatewaysImpl(this);
+    private final SpringApiPortalsImpl apiPortals = new SpringApiPortalsImpl(this);
     private FunctionalTaskItem configServerTask = null;
     private FunctionalTaskItem monitoringSettingTask = null;
     private boolean updateConfigurationServiceTask = true;
@@ -166,6 +168,16 @@ public class SpringServiceImpl
             .stream()
             .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
             .map(inner -> new SpringCloudGatewayImpl(inner.name(), this, inner))
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public SpringApiPortal getDefaultApiPortal() {
+        return manager().serviceClient().getApiPortals().list(resourceGroupName(), name())
+            .stream()
+            .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
+            .map(inner -> new SpringApiPortalImpl(inner.name(), this, inner))
             .findFirst()
             .orElse(null);
     }
@@ -293,6 +305,7 @@ public class SpringServiceImpl
             }
             prepareCreateServiceRegistry();
             prepareCreateGateway();
+            prepareCreateApiPortal();
         }
         configServerTask = null;
         monitoringSettingTask = null;
@@ -423,6 +436,10 @@ public class SpringServiceImpl
 
     private void prepareCreateGateway() {
         this.gateways.prepareCreate();
+    }
+
+    private void prepareCreateApiPortal() {
+        this.apiPortals.prepareCreate();
     }
 
     private boolean isInUpdateMode() {

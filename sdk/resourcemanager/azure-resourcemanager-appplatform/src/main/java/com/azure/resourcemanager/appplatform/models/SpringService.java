@@ -102,6 +102,9 @@ public interface SpringService
     /** @return default Spring Cloud Gateway for Enterprise Tier. */
     SpringCloudGateway getDefaultGateway();
 
+    /** @return default Spring API Portal for Enterprise Tier. */
+    SpringApiPortal getDefaultApiPortal();
+
     /** Container interface for all the definitions that need to be implemented. */
     interface Definition
         extends DefinitionStages.Blank,
