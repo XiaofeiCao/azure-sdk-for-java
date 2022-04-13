@@ -6,10 +6,14 @@ package com.azure.resourcemanager.appplatform.implementation;
 
 import com.azure.resourcemanager.appplatform.AppPlatformManager;
 import com.azure.resourcemanager.appplatform.fluent.models.ApiPortalResourceInner;
+import com.azure.resourcemanager.appplatform.models.ApiPortalProperties;
 import com.azure.resourcemanager.appplatform.models.SpringApiPortal;
 import com.azure.resourcemanager.appplatform.models.SpringApiPortals;
 import com.azure.resourcemanager.appplatform.models.SpringService;
+import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
 import com.azure.resourcemanager.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+
+import java.util.Arrays;
 
 public class SpringApiPortalsImpl
     extends ExternalChildResourcesNonCachedImpl<SpringApiPortalImpl, SpringApiPortal, ApiPortalResourceInner, SpringServiceImpl, SpringService>
@@ -30,8 +34,22 @@ public class SpringApiPortalsImpl
     }
 
     public void prepareCreate() {
+        // bind default gateway to it
+        String gatewayId = ResourceUtils.constructResourceId(
+            ResourceUtils.subscriptionFromResourceId(parent().id()),
+            parent().resourceGroupName(),
+            "Microsoft.AppPlatform",
+            "gateways",
+            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+            String.format("Spring/%s/", parent().name())
+        );
         prepareInlineDefine(
-            new SpringApiPortalImpl(Constants.DEFAULT_TANZU_COMPONENT_NAME, getParent(), new ApiPortalResourceInner())
+            new SpringApiPortalImpl(
+                Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                getParent(),
+                new ApiPortalResourceInner()
+                    .withProperties(new ApiPortalProperties().withGatewayIds(Arrays.asList(gatewayId)))
+            )
         );
     }
 }
