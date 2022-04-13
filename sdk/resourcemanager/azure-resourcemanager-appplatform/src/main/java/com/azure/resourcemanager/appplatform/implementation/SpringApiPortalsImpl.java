@@ -36,12 +36,12 @@ public class SpringApiPortalsImpl
     public void prepareCreate() {
         // bind default gateway to it
         String gatewayId = ResourceUtils.constructResourceId(
-            ResourceUtils.subscriptionFromResourceId(parent().id()),
+            manager().subscriptionId(),
             parent().resourceGroupName(),
             "Microsoft.AppPlatform",
             "gateways",
             Constants.DEFAULT_TANZU_COMPONENT_NAME,
-            String.format("Spring/%s/", parent().name())
+            String.format("Spring/%s", parent().name())
         );
         prepareInlineDefine(
             new SpringApiPortalImpl(
