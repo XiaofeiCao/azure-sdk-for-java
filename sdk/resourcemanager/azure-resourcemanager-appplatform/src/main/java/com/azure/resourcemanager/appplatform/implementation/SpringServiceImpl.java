@@ -6,11 +6,15 @@ package com.azure.resourcemanager.appplatform.implementation;
 import com.azure.core.util.CoreUtils;
 import com.azure.resourcemanager.appplatform.AppPlatformManager;
 import com.azure.resourcemanager.appplatform.fluent.models.BuildServiceAgentPoolResourceInner;
+import com.azure.resourcemanager.appplatform.fluent.models.BuildpackBindingResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.ConfigServerResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.MonitoringSettingResourceInner;
 import com.azure.resourcemanager.appplatform.fluent.models.ServiceResourceInner;
+import com.azure.resourcemanager.appplatform.models.BindingType;
 import com.azure.resourcemanager.appplatform.models.BuildServiceAgentPoolProperties;
 import com.azure.resourcemanager.appplatform.models.BuildServiceAgentPoolSizeProperties;
+import com.azure.resourcemanager.appplatform.models.BuildpackBindingLaunchProperties;
+import com.azure.resourcemanager.appplatform.models.BuildpackBindingProperties;
 import com.azure.resourcemanager.appplatform.models.ConfigServerGitProperty;
 import com.azure.resourcemanager.appplatform.models.ConfigServerProperties;
 import com.azure.resourcemanager.appplatform.models.ConfigServerSettings;
@@ -35,6 +39,7 @@ import com.azure.resourcemanager.resources.fluentcore.dag.FunctionalTaskItem;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -51,6 +56,7 @@ public class SpringServiceImpl
     private final SpringApiPortalsImpl apiPortals = new SpringApiPortalsImpl(this);
     private FunctionalTaskItem configServerTask = null;
     private FunctionalTaskItem monitoringSettingTask = null;
+    private FunctionalTaskItem appInsightsBindingTask = null;
     private boolean updateConfigurationServiceTask = true;
     private ServiceResourceInner patchToUpdate;
     private final Map<String, ConfigurationServiceGitRepository> gitRepositoryMap = new ConcurrentHashMap<>();
@@ -216,25 +222,63 @@ public class SpringServiceImpl
 
     @Override
     public SpringServiceImpl withTracing(String appInsightInstrumentationKey) {
-        monitoringSettingTask =
-            context -> manager().serviceClient().getMonitoringSettings()
-                .updatePatchAsync(resourceGroupName(), name(), new MonitoringSettingResourceInner().withProperties(
-                    new MonitoringSettingProperties()
-                        .withAppInsightsInstrumentationKey(appInsightInstrumentationKey)
-                        .withTraceEnabled(true)))
-                .then(context.voidMono());
+        if (isEnterpriseTier()) {
+            Map<String, String> launchProperties = new HashMap<>();
+            launchProperties.put("connection-string", appInsightInstrumentationKey);
+            appInsightsBindingTask =
+                context -> manager().serviceClient().getBuildpackBindings()
+                .listAsync(resourceGroupName(), name(), Constants.DEFAULT_TANZU_COMPONENT_NAME, Constants.DEFAULT_TANZU_COMPONENT_NAME)
+                .switchIfEmpty(
+                    this.manager().serviceClient().getBuildpackBindings().createOrUpdateAsync(
+                        resourceGroupName(),
+                        name(),
+                        Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                        Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                        Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                        new BuildpackBindingResourceInner()
+                            .withProperties(
+                                new BuildpackBindingProperties()
+                                    .withBindingType(BindingType.APPLICATION_INSIGHTS)
+                                    .withLaunchProperties(
+                                        new BuildpackBindingLaunchProperties()
+                                            .withProperties(launchProperties)))))
+                    .then(context.voidMono());
+        } else {
+            monitoringSettingTask =
+                context -> manager().serviceClient().getMonitoringSettings()
+                    .updatePatchAsync(resourceGroupName(), name(), new MonitoringSettingResourceInner().withProperties(
+                        new MonitoringSettingProperties()
+                            .withAppInsightsInstrumentationKey(appInsightInstrumentationKey)
+                            .withTraceEnabled(true)))
+                    .then(context.voidMono());
+        }
         return this;
     }
 
     @Override
     public SpringServiceImpl withoutTracing() {
-        monitoringSettingTask =
-            context -> manager().serviceClient().getMonitoringSettings()
-                .updatePatchAsync(
-                    resourceGroupName(), name(), new MonitoringSettingResourceInner().withProperties(
-                        new MonitoringSettingProperties().withTraceEnabled(false)
-                    ))
-                .then(context.voidMono());
+        if (isEnterpriseTier()) {
+            appInsightsBindingTask =
+                context -> manager().serviceClient().getBuildpackBindings()
+                    .listAsync(resourceGroupName(), name(), Constants.DEFAULT_TANZU_COMPONENT_NAME, Constants.DEFAULT_TANZU_COMPONENT_NAME)
+                    .filter(inner -> Objects.equals(inner.name(), Constants.DEFAULT_TANZU_COMPONENT_NAME))
+                    .switchOnFirst((signal, flux) ->
+                        manager().serviceClient().getBuildpackBindings().deleteAsync(
+                            resourceGroupName(),
+                            name(),
+                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                            Constants.DEFAULT_TANZU_COMPONENT_NAME))
+                    .then(context.voidMono());
+        } else {
+            monitoringSettingTask =
+                context -> manager().serviceClient().getMonitoringSettings()
+                    .updatePatchAsync(
+                        resourceGroupName(), name(), new MonitoringSettingResourceInner().withProperties(
+                            new MonitoringSettingProperties().withTraceEnabled(false)
+                        ))
+                    .then(context.voidMono());
+        }
         return this;
     }
 
@@ -303,9 +347,15 @@ public class SpringServiceImpl
                 prepareCreateOrUpdateConfigurationService();
                 updateConfigurationServiceTask = false;
             }
-            prepareCreateServiceRegistry();
-            prepareCreateGateway();
-            prepareCreateApiPortal();
+            if (appInsightsBindingTask != null) {
+                this.addPostRunDependent(appInsightsBindingTask);
+                appInsightsBindingTask = null;
+            }
+            if (isInCreateMode()) {
+                prepareCreateServiceRegistry();
+                prepareCreateGateway();
+                prepareCreateApiPortal();
+            }
         }
         configServerTask = null;
         monitoringSettingTask = null;
@@ -318,19 +368,7 @@ public class SpringServiceImpl
             createOrUpdate = manager().serviceClient().getServices()
                 .createOrUpdateAsync(resourceGroupName(), name(), innerModel());
             if (isEnterpriseTier()) {
-                createOrUpdate = createOrUpdate
-                    // update agent pool size
-                    .flatMap(inner ->
-                        manager().serviceClient().getBuildServiceAgentPools().updatePutAsync(
-                            resourceGroupName(),
-                            name(),
-                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                            Constants.DEFAULT_TANZU_COMPONENT_NAME,
-                            new BuildServiceAgentPoolResourceInner()
-                                .withProperties(
-                                    new BuildServiceAgentPoolProperties()
-                                        .withPoolSize(new BuildServiceAgentPoolSizeProperties().withName("S1")))
-                        ).then(Mono.just(inner)));
+                createOrUpdate = defineAgentPool(createOrUpdate);
             }
         } else if (patchToUpdate != null) {
             createOrUpdate = manager().serviceClient().getServices().updateAsync(
@@ -344,6 +382,22 @@ public class SpringServiceImpl
                 this.setInner(inner);
                 return this;
             });
+    }
+
+    private Mono<ServiceResourceInner> defineAgentPool(Mono<ServiceResourceInner> createOrUpdate) {
+        return createOrUpdate
+            // update agent pool size
+            .flatMap(inner ->
+                manager().serviceClient().getBuildServiceAgentPools().updatePutAsync(
+                    resourceGroupName(),
+                    name(),
+                    Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                    Constants.DEFAULT_TANZU_COMPONENT_NAME,
+                    new BuildServiceAgentPoolResourceInner()
+                        .withProperties(
+                            new BuildServiceAgentPoolProperties()
+                                .withPoolSize(new BuildServiceAgentPoolSizeProperties().withName("S1")))
+                ).then(Mono.just(inner)));
     }
 
     @Override
@@ -454,5 +508,6 @@ public class SpringServiceImpl
         this.gitRepositoryMap.clear();
         this.configurationServices.clear();
         this.serviceRegistries.clear();
+        this.gateways.clear();
     }
 }
