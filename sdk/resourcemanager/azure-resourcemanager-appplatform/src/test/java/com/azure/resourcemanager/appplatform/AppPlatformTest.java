@@ -135,6 +135,6 @@ public class AppPlatformTest extends ResourceManagerTestBase {
         SSLContext sslContext = SSLContext.getInstance("SSL");
         sslContext.init(null, trustAllCerts, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-        HttpsURLConnection.setDefaultHostnameVerifier((urlHostName, session) -> true);
+        HttpsURLConnection.setDefaultHostnameVerifier((urlHostName, session) -> false);
     }
 }
