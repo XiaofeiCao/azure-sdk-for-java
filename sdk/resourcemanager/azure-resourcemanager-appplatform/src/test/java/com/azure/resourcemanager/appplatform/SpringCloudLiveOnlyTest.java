@@ -255,18 +255,6 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
 
         String deploymentName = generateRandomResourceName("deploy", 15);
 
-        String appName2 = "customers-service";
-        String module = "spring-petclinic-customers-service";
-        List<String> customerServiceConfigFilePatterns = Arrays.asList("customers-service");
-        SpringApp app2 = service.apps().define(appName2)
-            .defineActiveDeployment(deploymentName)
-            .withSourceCodeTarGzFile(tarGzFile, customerServiceConfigFilePatterns)
-            .withTargetModule(module)
-            .attach()
-            .create();
-
-        Assertions.assertNotNull(app2.url());
-
         List<String> apiGatewayConfigFilePatterns = Arrays.asList("api-gateway");
         String appName = "api-gateway";
         SpringApp app = service.apps().define(appName)
@@ -282,6 +270,19 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
         Assertions.assertNotNull(app.url());
         Assertions.assertNotNull(app.activeDeploymentName());
         Assertions.assertEquals(1, app.deployments().list().stream().count());
+
+        String appName2 = "customers-service";
+        String module = "spring-petclinic-customers-service";
+        List<String> customerServiceConfigFilePatterns = Arrays.asList("customers-service");
+        SpringApp app2 = service.apps().define(appName2)
+            .defineActiveDeployment(deploymentName)
+            .withSourceCodeTarGzFile(tarGzFile, customerServiceConfigFilePatterns)
+            .withTargetModule(module)
+            .attach()
+            .create();
+
+        // no public endpoint
+        Assertions.assertNull(app2.url());
     }
 
     private File downloadFile(String remoteFileUrl) throws Exception {

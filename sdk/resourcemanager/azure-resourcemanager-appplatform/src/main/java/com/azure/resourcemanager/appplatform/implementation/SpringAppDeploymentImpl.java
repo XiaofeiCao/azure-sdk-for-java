@@ -581,6 +581,7 @@ public class SpringAppDeploymentImpl
                     service().name(),
                     Constants.DEFAULT_TANZU_COMPONENT_NAME,
                     parent().name(),
+                    // get "buildId" from context set in "enqueueBuild" step
                     ResourceUtils.nameFromResourceId(context.getData("buildId")));
         }
 
@@ -588,15 +589,16 @@ public class SpringAppDeploymentImpl
             return getBuildResult(context)
                 .flatMap((Function<BuildResultInner, Mono<PollResponse<PollResult<BuildInner>>>>) buildResultInner -> {
                     BuildResultProvisioningState state = buildResultInner.properties().provisioningState();
-                    PollResult<BuildInner> result = new PollResult<>(new BuildInner().withProperties(new BuildProperties()));
+                    // construct empty result, "buildId" from context is the real result
+                    PollResult<BuildInner> emptyResult = new PollResult<>(new BuildInner().withProperties(new BuildProperties()));
                     if (state == BuildResultProvisioningState.SUCCEEDED) {
-                        return Mono.just(new PollResponse<>(LongRunningOperationStatus.SUCCESSFULLY_COMPLETED, result));
+                        return Mono.just(new PollResponse<>(LongRunningOperationStatus.SUCCESSFULLY_COMPLETED, emptyResult));
                     } else if (state == BuildResultProvisioningState.FAILED || state == BuildResultProvisioningState.DELETING) {
                         return Mono.error(new RuntimeException("build failed"));
                     } else if (state == BuildResultProvisioningState.QUEUING) {
-                        return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, result));
+                        return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, emptyResult));
                     }
-                    return Mono.just(new PollResponse<>(LongRunningOperationStatus.IN_PROGRESS, result));
+                    return Mono.just(new PollResponse<>(LongRunningOperationStatus.IN_PROGRESS, emptyResult));
                 });
         }
 
@@ -624,6 +626,7 @@ public class SpringAppDeploymentImpl
                     app().name(),
                     new BuildInner().withProperties(buildProperties))
                 .map(inner -> {
+                    // set "buildId" for reference afterwards
                     context.setData("buildId", inner.properties().triggeredBuildResult().id());
                     return new PollResult<>(inner);
                 });
