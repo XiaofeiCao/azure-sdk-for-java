@@ -262,7 +262,6 @@ public class SpringCloudLiveOnlyTest extends AppPlatformTest {
             .defineActiveDeployment(deploymentName)
             .withSourceCodeTarGzFile(tarGzFile, customerServiceConfigFilePatterns)
             .withTargetModule(module)
-            .withActivation()
             .attach()
             .create();
 
