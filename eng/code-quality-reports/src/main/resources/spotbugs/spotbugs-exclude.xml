@@ -2357,6 +2357,7 @@
   <!-- UPM_UNCALLED_PRIVATE_METHOD - Known issue in autorest to generate method that might not be called -->
   <!-- SKIPPED_CLASS_TOO_BIG - Nothing we can do about this -->
   <!-- PZLA_PREFER_ZERO_LENGTH_ARRAYS - byte array will return null by generator -->
+  <!-- RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE - Known issue in autorest to do redundant null check -->
   <Match>
     <Or>
       <Class name="~com\.azure\.resourcemanager(\.[^.]+)*\.fluent\.([^.]+)Client"/>
@@ -2381,6 +2382,10 @@
       </Or>
     </And>
     <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD"/>
+  </Match>
+  <Match>
+    <Class name="~com\.azure\.resourcemanager(\.[^.]+)*\.implementation\.([^.]+)Impl([^.]*)"/>
+    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/>
   </Match>
 
   <!-- Exception needs to be caught here.-->
