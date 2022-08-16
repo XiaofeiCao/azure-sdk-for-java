@@ -23,6 +23,7 @@ import com.azure.resourcemanager.containerservice.models.OSDiskType;
 import com.azure.resourcemanager.containerservice.models.OrchestratorVersionProfile;
 import com.azure.resourcemanager.containerservice.models.ScaleSetEvictionPolicy;
 import com.azure.resourcemanager.containerservice.models.ScaleSetPriority;
+import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -423,5 +424,39 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .stream().collect(Collectors.toList());
         Assertions.assertFalse(profiles.isEmpty());
         Assertions.assertEquals("Kubernetes", profiles.iterator().next().orchestratorType());
+    }
+
+    @Test
+    public void canBeginCreateAgentPool() {
+        final String aksName = generateRandomResourceName("aks", 15);
+        final String dnsPrefix = generateRandomResourceName("dns", 10);
+        final String agentPoolName = generateRandomResourceName("ap0", 10);
+
+        // Azure AD integration with Azure RBAC
+        KubernetesCluster kubernetesCluster = containerServiceManager
+            .kubernetesClusters()
+            .define(aksName)
+            .withRegion(Region.US_WEST3)
+            .withExistingResourceGroup(rgName)
+            .withDefaultVersion()
+            .withSystemAssignedManagedServiceIdentity()
+            .enableAzureRbac()
+            .disableLocalAccounts()
+                .defineAgentPool(agentPoolName)
+                .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V3)
+                .withAgentPoolVirtualMachineCount(1)
+                .withAgentPoolMode(AgentPoolMode.SYSTEM)
+                .withOSDiskSizeInGB(30)
+                .attach()
+            .withDnsPrefix("mp1" + dnsPrefix)
+            .create();
+
+        Accepted<KubernetesClusterAgentPool> accepted = kubernetesCluster
+            .defineAgentPool(agentPoolName + 1)
+            .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V3)
+            .withAgentPoolVirtualMachineCount(1)
+            .withAgentPoolMode(AgentPoolMode.SYSTEM)
+            .withOSDiskSizeInGB(30)
+            .beginCreate();
     }
 }
