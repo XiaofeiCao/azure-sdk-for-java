@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 package com.azure.resourcemanager.containerservice.implementation;
 
+import com.azure.core.util.Context;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.containerservice.fluent.models.AgentPoolInner;
 import com.azure.resourcemanager.containerservice.models.AgentPoolMode;
 import com.azure.resourcemanager.containerservice.models.AgentPoolType;
@@ -17,6 +19,8 @@ import com.azure.resourcemanager.containerservice.models.ScaleSetEvictionPolicy;
 import com.azure.resourcemanager.containerservice.models.ScaleSetPriority;
 import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
+import com.azure.resourcemanager.resources.fluentcore.model.implementation.AcceptedImpl;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
 
 import java.util.Arrays;
@@ -30,9 +34,9 @@ import java.util.stream.Collectors;
 public class KubernetesClusterAgentPoolImpl
     extends ChildResourceImpl<ManagedClusterAgentPoolProfile, KubernetesClusterImpl, KubernetesCluster>
     implements KubernetesClusterAgentPool,
-    KubernetesClusterAgentPool.Definition<KubernetesClusterImpl>,
-    KubernetesClusterAgentPool.Update<KubernetesClusterImpl> {
-
+    KubernetesClusterAgentPool.Definition<KubernetesClusterImpl, KubernetesClusterAgentPoolImpl>,
+    KubernetesClusterAgentPool.Update<KubernetesClusterImpl, KubernetesClusterAgentPoolImpl> {
+    private final ClientLogger logger = new ClientLogger(getClass());
     private String subnetName;
 
     KubernetesClusterAgentPoolImpl(ManagedClusterAgentPoolProfile inner, KubernetesClusterImpl parent) {
@@ -330,7 +334,7 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public Update<KubernetesClusterImpl> withoutAutoScaling() {
+    public KubernetesClusterAgentPoolImpl withoutAutoScaling() {
         innerModel().withEnableAutoScaling(false);
         innerModel().withMinCount(null);
         innerModel().withMaxCount(null);
@@ -413,5 +417,24 @@ public class KubernetesClusterAgentPoolImpl
             innerModel().tags().remove(key);
         }
         return this;
+    }
+
+    @Override
+    public Accepted<KubernetesClusterAgentPool> beginCreate() {
+        return AcceptedImpl.newAccepted(
+            logger,
+            this.parent().manager().serviceClient().getHttpPipeline(),
+            this.parent().manager().serviceClient().getDefaultPollInterval(),
+            () -> this.parent().manager().serviceClient().getAgentPools()
+                .createOrUpdateWithResponseAsync(parent().resourceGroupName(), parent().name(), name(), getAgentPoolInner())
+                .block(),
+
+            model -> new KubernetesClusterAgentPoolImpl(
+                innerModel(), // need to convert AgentPoolInner to ManagedClusterAgentPoolProfile, including some write-only properties like "provisioningState", unhandled here
+                parent()),
+            AgentPoolInner.class,
+            null,
+            Context.NONE
+        );
     }
 }

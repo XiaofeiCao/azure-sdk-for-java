@@ -10,6 +10,7 @@ import com.azure.resourcemanager.resources.fluentcore.arm.models.GroupableResour
 import com.azure.resourcemanager.resources.fluentcore.arm.models.Resource;
 import com.azure.resourcemanager.resources.fluentcore.collection.SupportsListingPrivateEndpointConnection;
 import com.azure.resourcemanager.resources.fluentcore.collection.SupportsListingPrivateLinkResource;
+import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
 import com.azure.resourcemanager.resources.fluentcore.model.Appliable;
 import com.azure.resourcemanager.resources.fluentcore.model.Attachable;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
@@ -139,6 +140,9 @@ public interface KubernetesCluster
      */
     Mono<Void> stopAsync();
 
+    <T extends KubernetesClusterAgentPool.DefinitionStages.WithBeginCreate<T>> KubernetesClusterAgentPool.DefinitionStages.Blank<T>
+    defineAgentPool(String poolName);
+
     // Fluent interfaces
 
     /** Interface for all the definitions related to a Kubernetes cluster. */
@@ -254,7 +258,8 @@ public interface KubernetesCluster
              * @param name the name for the agent pool profile
              * @return the stage representing configuration for the agent pool profile
              */
-            KubernetesClusterAgentPool.DefinitionStages.Blank<? extends WithCreate> defineAgentPool(String name);
+            <T extends KubernetesClusterAgentPool.DefinitionStages.WithAttach<? extends WithCreate, T>>
+            KubernetesClusterAgentPool.DefinitionStages.Blank<T> defineAgentPool(String name);
         }
 
         /**
@@ -577,7 +582,8 @@ public interface KubernetesCluster
              * @param name the name for the agent pool profile
              * @return the stage representing configuration for the agent pool profile
              */
-            KubernetesClusterAgentPool.DefinitionStages.Blank<? extends Update> defineAgentPool(String name);
+            <T extends KubernetesClusterAgentPool.DefinitionStages.WithAttach<? extends Update, T>>
+            KubernetesClusterAgentPool.DefinitionStages.Blank<T> defineAgentPool(String name);
 
             /**
              * Begins the definition of an agent pool profile to be attached to the Kubernetes cluster.
@@ -585,7 +591,8 @@ public interface KubernetesCluster
              * @param name the name for the agent pool profile
              * @return the stage representing configuration for the agent pool profile
              */
-            KubernetesClusterAgentPool.Update<? extends Update> updateAgentPool(String name);
+            <T extends KubernetesClusterAgentPool.Update<? extends Update, T>>
+            KubernetesClusterAgentPool.Update<? extends Update, T> updateAgentPool(String name);
 
             /**
              * Removes an agent pool profile from the Kubernetes cluster.

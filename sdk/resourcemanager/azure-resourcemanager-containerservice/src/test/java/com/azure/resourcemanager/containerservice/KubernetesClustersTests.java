@@ -24,6 +24,7 @@ import com.azure.resourcemanager.containerservice.models.OrchestratorVersionProf
 import com.azure.resourcemanager.containerservice.models.ScaleSetEvictionPolicy;
 import com.azure.resourcemanager.containerservice.models.ScaleSetPriority;
 import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
+import com.azure.resourcemanager.resources.fluentcore.rest.ActivationResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -440,9 +441,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withExistingResourceGroup(rgName)
             .withDefaultVersion()
             .withSystemAssignedManagedServiceIdentity()
-            .enableAzureRbac()
-            .disableLocalAccounts()
-                .defineAgentPool(agentPoolName)
+            .defineAgentPool(agentPoolName)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V3)
                 .withAgentPoolVirtualMachineCount(1)
                 .withAgentPoolMode(AgentPoolMode.SYSTEM)
@@ -451,12 +450,32 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withDnsPrefix("mp1" + dnsPrefix)
             .create();
 
-        Accepted<KubernetesClusterAgentPool> accepted = kubernetesCluster
-            .defineAgentPool(agentPoolName + 1)
-            .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V3)
+        final String agentPoolName1 = generateRandomResourceName("ap1", 10);
+
+        Accepted<KubernetesClusterAgentPool> acceptedAgentPool = kubernetesCluster
+            .defineAgentPool(agentPoolName1)
+            .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_A2_V2)
             .withAgentPoolVirtualMachineCount(1)
-            .withAgentPoolMode(AgentPoolMode.SYSTEM)
+            .withAgentPoolMode(AgentPoolMode.USER)
             .withOSDiskSizeInGB(30)
             .beginCreate();
+
+        ActivationResponse<KubernetesClusterAgentPool> activationResponse = acceptedAgentPool.getActivationResponse();
+        Assertions.assertEquals("Creating", activationResponse.getStatus().toString());
+        // Response model is not used in implementation, so null here, this is a read-only property
+//        Assertions.assertEquals("Creating", activationResponse.getValue().provisioningState());
+
+        Assertions.assertEquals(agentPoolName1, activationResponse.getValue().name());
+        // Response model is not used in implementation, so null here
+//        Assertions.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, activationResponse.getValue().type());
+        Assertions.assertEquals(AgentPoolMode.USER, activationResponse.getValue().mode());
+        Assertions.assertEquals(ContainerServiceVMSizeTypes.STANDARD_A2_V2, activationResponse.getValue().vmSize());
+        Assertions.assertEquals(1, activationResponse.getValue().count());
+
+        KubernetesClusterAgentPool agentPool = acceptedAgentPool.getFinalResult();
+
+        // Response model is not used in implementation, so null here
+//        Assertions.assertEquals("Succeeded", agentPool.provisioningState());
+        Assertions.assertEquals(agentPoolName1, agentPool.name());
     }
 }

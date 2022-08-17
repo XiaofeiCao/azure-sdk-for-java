@@ -5,6 +5,7 @@ package com.azure.resourcemanager.containerservice.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.ChildResource;
+import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
 import com.azure.resourcemanager.resources.fluentcore.model.Attachable;
 import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 import com.azure.resourcemanager.resources.fluentcore.model.Settable;
@@ -127,15 +128,16 @@ public interface KubernetesClusterAgentPool
      *
      * @param <ParentT> the stage of the container service definition to return to after attaching this definition
      */
-    interface Definition<ParentT>
-        extends DefinitionStages.Blank<ParentT>,
-            DefinitionStages.WithOSType<ParentT>,
-            DefinitionStages.WithOSDiskSize<ParentT>,
-            DefinitionStages.WithAgentPoolType<ParentT>,
-            DefinitionStages.WithAgentPoolVirtualMachineCount<ParentT>,
-            DefinitionStages.WithMaxPodsCount<ParentT>,
-            DefinitionStages.WithVirtualNetwork<ParentT>,
-            DefinitionStages.WithAttach<ParentT> {
+    interface Definition<ParentT, T>
+        extends DefinitionStages.Blank<T>,
+            DefinitionStages.WithOSType<T>,
+            DefinitionStages.WithOSDiskSize<T>,
+            DefinitionStages.WithAgentPoolType<T>,
+            DefinitionStages.WithAgentPoolVirtualMachineCount<T>,
+            DefinitionStages.WithMaxPodsCount<T>,
+            DefinitionStages.WithVirtualNetwork<T>,
+            DefinitionStages.WithAttach<ParentT, T>,
+            DefinitionStages.WithBeginCreate<T> {
     }
 
     /** Grouping of container service agent pool definition stages as a part of parent container service definition. */
@@ -145,24 +147,24 @@ public interface KubernetesClusterAgentPool
          * The first stage of a container service agent pool definition allowing to specify the agent virtual machine
          * size.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface Blank<ParentT> {
+        interface Blank<T> {
             /**
              * Specifies the size of the virtual machines to be used as agents.
              *
              * @param vmSize the size of each virtual machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAgentPoolVirtualMachineCount<ParentT> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
+            WithAgentPoolVirtualMachineCount<T> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the agent pool OS type.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithOSType<ParentT> {
+        interface WithOSType<T> {
             /**
              * OS type to be used for each virtual machine in the agent pool.
              *
@@ -171,38 +173,38 @@ public interface KubernetesClusterAgentPool
              * @param osType OS type to be used for each virtual machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withOSType(OSType osType);
+            T withOSType(OSType osType);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the agent pool OS disk size.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithOSDiskSize<ParentT> {
+        interface WithOSDiskSize<T> {
             /**
              * OS disk size in GB to be used for each virtual machine in the agent pool.
              *
              * @param osDiskSizeInGB OS Disk Size in GB to be used for every machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withOSDiskSizeInGB(int osDiskSizeInGB);
+            T withOSDiskSizeInGB(int osDiskSizeInGB);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the type of agent pool. Allowed
          * values could be seen in AgentPoolType Class.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAgentPoolType<ParentT> {
+        interface WithAgentPoolType<T> {
             /**
              * Set agent pool type to every virtual machine in the agent pool.
              *
              * @param agentPoolType the agent pool type for every machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAgentPoolType(AgentPoolType agentPoolType);
+            T withAgentPoolType(AgentPoolType agentPoolType);
 
             /**
              * Set agent pool type by type name.
@@ -210,7 +212,7 @@ public interface KubernetesClusterAgentPool
              * @param agentPoolTypeName the agent pool type name in string format
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAgentPoolTypeName(String agentPoolTypeName);
+            T withAgentPoolTypeName(String agentPoolTypeName);
         }
 
         /**
@@ -219,9 +221,9 @@ public interface KubernetesClusterAgentPool
          *
          * <p>Allowed values must be in the range of 1 to 100 (inclusive); the default value is 1.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAgentPoolVirtualMachineCount<ParentT> {
+        interface WithAgentPoolVirtualMachineCount<T> {
             /**
              * Specifies the number of agents (Virtual Machines) to host docker containers.
              *
@@ -229,31 +231,31 @@ public interface KubernetesClusterAgentPool
              *     1 to 100 (inclusive); the default value is 1.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAgentPoolVirtualMachineCount(int count);
+            T withAgentPoolVirtualMachineCount(int count);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the maximum number of pods that
          * can run on a node.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithMaxPodsCount<ParentT> {
+        interface WithMaxPodsCount<T> {
             /**
              * Specifies the maximum number of pods that can run on a node.
              *
              * @param podsCount the maximum number of pods that can run on a node
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withMaxPodsCount(int podsCount);
+            T withMaxPodsCount(int podsCount);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify auto-scaling.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAutoScaling<ParentT> {
+        interface WithAutoScaling<T> {
             /**
              * Enables the auto-scaling with maximum/minimum number of nodes.
              *
@@ -261,37 +263,37 @@ public interface KubernetesClusterAgentPool
              * @param maximumNodeSize the maximum number of nodes for auto-scaling.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAutoScaling(int minimumNodeSize, int maximumNodeSize);
+            T withAutoScaling(int minimumNodeSize, int maximumNodeSize);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify availability zones.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAvailabilityZones<ParentT> {
+        interface WithAvailabilityZones<T> {
             /**
              * Specifies the availability zones.
              *
              * @param zones the availability zones, can be 1, 2, 3.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAvailabilityZones(Integer... zones);
+            T withAvailabilityZones(Integer... zones);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify node labels and taints.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithNodeLabelsTaints<ParentT> {
+        interface WithNodeLabelsTaints<T> {
             /**
              * Specifies the node labels for all nodes.
              *
              * @param nodeLabels the node labels.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withNodeLabels(Map<String, String> nodeLabels);
+            T withNodeLabels(Map<String, String> nodeLabels);
 
             /**
              * Specifies the node labels.
@@ -299,22 +301,22 @@ public interface KubernetesClusterAgentPool
              * @param nodeTaints the node taints for new nodes.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withNodeTaints(List<String> nodeTaints);
+            T withNodeTaints(List<String> nodeTaints);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify tags.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithTags<ParentT> {
+        interface WithTags<T> {
             /**
              * Specifies tags for the agents.
              *
              * @param tags the tags to associate
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withTags(Map<String, String> tags);
+            T withTags(Map<String, String> tags);
 
             /**
              * Adds a tag to the agents.
@@ -323,16 +325,16 @@ public interface KubernetesClusterAgentPool
              * @param value the value for the tag
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withTag(String key, String value);
+            T withTag(String key, String value);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify a virtual network to be used for
          * the agents.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithVirtualNetwork<ParentT> {
+        interface WithVirtualNetwork<T> {
             /**
              * Specifies the virtual network to be used for the agents.
              *
@@ -341,45 +343,45 @@ public interface KubernetesClusterAgentPool
              *     endpoints enabled for 'Microsoft.ContainerService'.
              * @return the next stage
              */
-            WithAttach<ParentT> withVirtualNetwork(String virtualNetworkId, String subnetName);
+            T withVirtualNetwork(String virtualNetworkId, String subnetName);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the agent pool mode.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAgentPoolMode<ParentT> {
+        interface WithAgentPoolMode<T> {
             /**
              * Specifies the agent pool mode for the agents.
              *
              * @param agentPoolMode the agent pool mode
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withAgentPoolMode(AgentPoolMode agentPoolMode);
+            T withAgentPoolMode(AgentPoolMode agentPoolMode);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the priority of the virtual
          * machine.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithVMPriority<ParentT> {
+        interface WithVMPriority<T> {
             /**
              * Specifies the priority of the virtual machines.
              *
              * @param priority the priority
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withVirtualMachinePriority(ScaleSetPriority priority);
+            T withVirtualMachinePriority(ScaleSetPriority priority);
 
             /**
              * Specify that virtual machines should be spot priority VMs.
              *
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withSpotPriorityVirtualMachine();
+            T withSpotPriorityVirtualMachine();
 
             /**
              * Specify that virtual machines should be spot priority VMs with provided eviction policy.
@@ -387,15 +389,15 @@ public interface KubernetesClusterAgentPool
              * @param policy eviction policy for the virtual machines.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withSpotPriorityVirtualMachine(ScaleSetEvictionPolicy policy);
+            T withSpotPriorityVirtualMachine(ScaleSetEvictionPolicy policy);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the agent pool mode.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithBillingProfile<ParentT> {
+        interface WithBillingProfile<T> {
             /**
              * Sets the maximum price for virtual machine in agent pool. This price is in US Dollars.
              *
@@ -404,15 +406,15 @@ public interface KubernetesClusterAgentPool
              * @param maxPriceInUsDollars the maximum price in US Dollars
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withVirtualMachineMaximumPrice(Double maxPriceInUsDollars);
+            T withVirtualMachineMaximumPrice(Double maxPriceInUsDollars);
         }
 
         /**
          * The stage of a container service agent pool definition allowing to specify the agent pool disk type.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithDiskType<ParentT> {
+        interface WithDiskType<T> {
             /**
              * The OS disk type to be used for machines in the agent pool.
              *
@@ -422,7 +424,7 @@ public interface KubernetesClusterAgentPool
              * @param osDiskType the OS disk type to be used for machines in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withOSDiskType(OSDiskType osDiskType);
+            T withOSDiskType(OSDiskType osDiskType);
 
             /**
              * The disk type for the placement of emptyDir volumes, container runtime data root,
@@ -432,7 +434,12 @@ public interface KubernetesClusterAgentPool
              *                        and Kubelet ephemeral storage.
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withKubeletDiskType(KubeletDiskType kubeletDiskType);
+            T withKubeletDiskType(KubeletDiskType kubeletDiskType);
+        }
+
+        interface WithAttach<ParentT, T> extends
+            Final<T>,
+            Attachable.InDefinition<ParentT> {
         }
 
         /**
@@ -440,35 +447,38 @@ public interface KubernetesClusterAgentPool
          * can be specified, or the container service agent pool can be attached to the parent container service
          * definition.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAttach<ParentT>
-            extends WithOSType<ParentT>,
-                WithOSDiskSize<ParentT>,
-                WithAgentPoolType<ParentT>,
-                WithAgentPoolVirtualMachineCount<ParentT>,
-                WithMaxPodsCount<ParentT>,
-                WithVirtualNetwork<ParentT>,
-                WithAgentPoolMode<ParentT>,
-                WithAutoScaling<ParentT>,
-                WithAvailabilityZones<ParentT>,
-                WithNodeLabelsTaints<ParentT>,
-                WithVMPriority<ParentT>,
-                WithBillingProfile<ParentT>,
-                WithDiskType<ParentT>,
-                WithTags<ParentT>,
-                Attachable.InDefinition<ParentT> {
+        interface Final<T> extends
+            WithOSType<T>,
+            WithOSDiskSize<T>,
+            WithAgentPoolType<T>,
+            WithAgentPoolVirtualMachineCount<T>,
+            WithMaxPodsCount<T>,
+            WithVirtualNetwork<T>,
+            WithAgentPoolMode<T>,
+            WithAutoScaling<T>,
+            WithAvailabilityZones<T>,
+            WithNodeLabelsTaints<T>,
+            WithVMPriority<T>,
+            WithBillingProfile<T>,
+            WithDiskType<T>,
+            WithTags<T> {
+        }
+
+        interface WithBeginCreate<T> extends Final<T> {
+            Accepted<KubernetesClusterAgentPool> beginCreate();
         }
     }
 
     /** The template for an update operation, containing all the settings that can be modified. */
-    interface Update<ParentT>
+    interface Update<ParentT, T>
         extends Settable<ParentT>,
-            UpdateStages.WithAgentPoolVirtualMachineCount<ParentT>,
-            UpdateStages.WithAutoScaling<ParentT>,
-            UpdateStages.WithAgentPoolMode<ParentT>,
-            UpdateStages.WithDiskType<ParentT>,
-            UpdateStages.WithTags<ParentT> {
+            UpdateStages.WithAgentPoolVirtualMachineCount<T>,
+            UpdateStages.WithAutoScaling<T>,
+            UpdateStages.WithAgentPoolMode<T>,
+            UpdateStages.WithDiskType<T>,
+            UpdateStages.WithTags<T> {
     }
 
     /** Grouping of agent pool update stages. */
@@ -479,9 +489,9 @@ public interface KubernetesClusterAgentPool
          *
          * <p>Allowed values must be in the range of 1 to 100 (inclusive); the default value is 1.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAgentPoolVirtualMachineCount<ParentT> {
+        interface WithAgentPoolVirtualMachineCount<T> {
             /**
              * Specifies the number of agents (Virtual Machines) to host docker containers.
              *
@@ -489,37 +499,37 @@ public interface KubernetesClusterAgentPool
              *     1 to 100 (inclusive); the default value is 1.
              * @return the next stage of the update
              */
-            Update<ParentT> withAgentPoolVirtualMachineCount(int count);
+            T withAgentPoolVirtualMachineCount(int count);
         }
 
         /**
          * The stage of a container service agent pool update allowing to specify the agent pool mode.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAgentPoolMode<ParentT> {
+        interface WithAgentPoolMode<T> {
             /**
              * Specifies the agent pool mode for the agents.
              *
              * @param agentPoolMode the agent pool mode
              * @return the next stage of the update
              */
-            Update<ParentT> withAgentPoolMode(AgentPoolMode agentPoolMode);
+            T withAgentPoolMode(AgentPoolMode agentPoolMode);
         }
 
         /**
          * The stage of a container service agent pool update allowing to specify tags.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithTags<ParentT> {
+        interface WithTags<T> {
             /**
              * Specifies tags for the agents.
              *
              * @param tags tags indexed by name
              * @return the next stage of the update
              */
-            Update<ParentT> withTags(Map<String, String> tags);
+            T withTags(Map<String, String> tags);
 
             /**
              * Adds a tag to the agents.
@@ -528,7 +538,7 @@ public interface KubernetesClusterAgentPool
              * @param value the value for the tag
              * @return the next stage of the update
              */
-            Update<ParentT> withTag(String key, String value);
+            T withTag(String key, String value);
 
             /**
              * Removes a tag from the agents.
@@ -536,15 +546,15 @@ public interface KubernetesClusterAgentPool
              * @param key the key of the tag to remove
              * @return the next stage of the update
              */
-            Update<ParentT> withoutTag(String key);
+             T withoutTag(String key);
         }
 
         /**
          * The stage of a container service agent pool update allowing to specify auto-scaling.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithAutoScaling<ParentT> {
+        interface WithAutoScaling<T> {
             /**
              * Enables the auto-scaling with maximum/minimum number of nodes.
              *
@@ -552,22 +562,22 @@ public interface KubernetesClusterAgentPool
              * @param maximumNodeCount the maximum number of nodes for auto-scaling.
              * @return the next stage of the update
              */
-            Update<ParentT> withAutoScaling(int minimumNodeCount, int maximumNodeCount);
+            T withAutoScaling(int minimumNodeCount, int maximumNodeCount);
 
             /**
              * Disables the auto-scaling with maximum/minimum number of nodes.
              *
              * @return the next stage of the update
              */
-            Update<ParentT> withoutAutoScaling();
+            T withoutAutoScaling();
         }
 
         /**
          * The stage of a container service agent pool update allowing to specify the agent pool disk type.
          *
-         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         * @param <T> the stage of the container service definition to return to after attaching this definition
          */
-        interface WithDiskType<ParentT> {
+        interface WithDiskType<T> {
             /**
              * The disk type for the placement of emptyDir volumes, container runtime data root,
              * and Kubelet ephemeral storage.
@@ -576,7 +586,7 @@ public interface KubernetesClusterAgentPool
              *                        and Kubelet ephemeral storage.
              * @return the next stage of the update
              */
-            Update<ParentT> withKubeletDiskType(KubeletDiskType kubeletDiskType);
+            T withKubeletDiskType(KubeletDiskType kubeletDiskType);
         }
     }
 }
