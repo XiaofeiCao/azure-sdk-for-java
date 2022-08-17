@@ -5,6 +5,8 @@ package com.azure.resourcemanager.containerservice.implementation;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.containerservice.fluent.models.AgentPoolInner;
+import com.azure.resourcemanager.containerservice.models.AgentPool;
+import com.azure.resourcemanager.containerservice.models.AgentPoolData;
 import com.azure.resourcemanager.containerservice.models.AgentPoolMode;
 import com.azure.resourcemanager.containerservice.models.AgentPoolType;
 import com.azure.resourcemanager.containerservice.models.ContainerServiceVMSizeTypes;
@@ -28,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /** The implementation for KubernetesClusterAgentPool and its create and update interfaces. */
@@ -420,7 +423,7 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public Accepted<KubernetesClusterAgentPool> beginCreate() {
+    public Accepted<AgentPool> beginCreate() {
         return AcceptedImpl.newAccepted(
             logger,
             this.parent().manager().serviceClient().getHttpPipeline(),
@@ -428,10 +431,7 @@ public class KubernetesClusterAgentPoolImpl
             () -> this.parent().manager().serviceClient().getAgentPools()
                 .createOrUpdateWithResponseAsync(parent().resourceGroupName(), parent().name(), name(), getAgentPoolInner())
                 .block(),
-
-            model -> new KubernetesClusterAgentPoolImpl(
-                innerModel(), // need to convert AgentPoolInner to ManagedClusterAgentPoolProfile, including some write-only properties like "provisioningState", unhandled here
-                parent()),
+            (Function<AgentPoolInner, AgentPool>) AgentPoolData::new,
             AgentPoolInner.class,
             null,
             Context.NONE

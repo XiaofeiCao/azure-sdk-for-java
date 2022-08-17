@@ -5,8 +5,10 @@ package com.azure.resourcemanager.containerservice;
 
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.policy.AddHeadersFromContextPolicy;
+import com.azure.core.management.Region;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
+import com.azure.resourcemanager.containerservice.models.AgentPool;
 import com.azure.resourcemanager.containerservice.models.AgentPoolMode;
 import com.azure.resourcemanager.containerservice.models.AgentPoolType;
 import com.azure.resourcemanager.containerservice.models.Code;
@@ -17,7 +19,6 @@ import com.azure.resourcemanager.containerservice.models.Format;
 import com.azure.resourcemanager.containerservice.models.KubeletDiskType;
 import com.azure.resourcemanager.containerservice.models.KubernetesCluster;
 import com.azure.resourcemanager.containerservice.models.KubernetesClusterAgentPool;
-import com.azure.core.management.Region;
 import com.azure.resourcemanager.containerservice.models.ManagedClusterPropertiesAutoScalerProfile;
 import com.azure.resourcemanager.containerservice.models.OSDiskType;
 import com.azure.resourcemanager.containerservice.models.OrchestratorVersionProfile;
@@ -29,8 +30,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -452,7 +453,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
 
         final String agentPoolName1 = generateRandomResourceName("ap1", 10);
 
-        Accepted<KubernetesClusterAgentPool> acceptedAgentPool = kubernetesCluster
+        Accepted<AgentPool> acceptedAgentPool = kubernetesCluster
             .defineAgentPool(agentPoolName1)
             .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_A2_V2)
             .withAgentPoolVirtualMachineCount(1)
@@ -460,22 +461,19 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withOSDiskSizeInGB(30)
             .beginCreate();
 
-        ActivationResponse<KubernetesClusterAgentPool> activationResponse = acceptedAgentPool.getActivationResponse();
+        ActivationResponse<AgentPool> activationResponse = acceptedAgentPool.getActivationResponse();
         Assertions.assertEquals("Creating", activationResponse.getStatus().toString());
-        // Response model is not used in implementation, so null here, this is a read-only property
-//        Assertions.assertEquals("Creating", activationResponse.getValue().provisioningState());
+        Assertions.assertEquals("Creating", activationResponse.getValue().provisioningState());
 
         Assertions.assertEquals(agentPoolName1, activationResponse.getValue().name());
-        // Response model is not used in implementation, so null here
-//        Assertions.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, activationResponse.getValue().type());
+        Assertions.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, activationResponse.getValue().type());
         Assertions.assertEquals(AgentPoolMode.USER, activationResponse.getValue().mode());
         Assertions.assertEquals(ContainerServiceVMSizeTypes.STANDARD_A2_V2, activationResponse.getValue().vmSize());
         Assertions.assertEquals(1, activationResponse.getValue().count());
 
-        KubernetesClusterAgentPool agentPool = acceptedAgentPool.getFinalResult();
+        AgentPool agentPool = acceptedAgentPool.getFinalResult();
 
-        // Response model is not used in implementation, so null here
-//        Assertions.assertEquals("Succeeded", agentPool.provisioningState());
+        Assertions.assertEquals("Succeeded", agentPool.provisioningState());
         Assertions.assertEquals(agentPoolName1, agentPool.name());
     }
 }

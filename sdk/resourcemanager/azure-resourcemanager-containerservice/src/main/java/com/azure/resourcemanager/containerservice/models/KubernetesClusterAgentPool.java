@@ -467,7 +467,7 @@ public interface KubernetesClusterAgentPool
         }
 
         interface WithBeginCreate<T> extends Final<T> {
-            Accepted<KubernetesClusterAgentPool> beginCreate();
+            Accepted<AgentPool> beginCreate();
         }
     }
 
