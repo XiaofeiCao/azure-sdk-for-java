@@ -7,7 +7,6 @@ import com.azure.core.management.Region;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
 import com.azure.resourcemanager.network.models.NetworkSecurityGroup;
 import com.azure.resourcemanager.network.models.SecurityRuleProtocol;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -113,5 +112,10 @@ public class NetworkSecurityGroupTests extends NetworkManagementTest {
         Assertions.assertEquals(new HashSet<>(Arrays.asList(asg3.id(), asg6.id())), nsg.securityRules().get("rule3").destinationApplicationSecurityGroupIds());
 
         networkManager.networkSecurityGroups().deleteById(nsg.id());
+    }
+
+    @Test
+    public void testCreateWithServiceTag() {
+
     }
 }

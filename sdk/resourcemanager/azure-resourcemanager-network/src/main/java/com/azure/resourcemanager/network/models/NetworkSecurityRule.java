@@ -296,6 +296,8 @@ public interface NetworkSecurityRule extends HasInnerModel<SecurityRuleInner>, C
              * @return the next stage of the definition
              */
             WithSourcePort<ParentT> withSourceApplicationSecurityGroup(String... ids);
+
+            WithSourcePort<ParentT> fromServiceTag()
         }
 
         /**
