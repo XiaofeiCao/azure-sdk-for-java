@@ -9,9 +9,11 @@ import com.azure.core.util.Context;
 import com.azure.resourcemanager.resources.fluentcore.arm.ResourceId;
 import com.azure.resourcemanager.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.resourcemanager.sql.SqlServerManager;
+import com.azure.resourcemanager.sql.fluent.models.LogicalDatabaseTransparentDataEncryptionInner;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryption;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionActivity;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionName;
+import com.azure.resourcemanager.sql.models.TransparentDataEncryptionState;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionStatus;
 import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionActivityInner;
 import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionInner;
@@ -23,7 +25,7 @@ import com.azure.resourcemanager.resources.fluentcore.utils.PagedConverter;
 
 /** Implementation for TransparentDataEncryption. */
 class TransparentDataEncryptionImpl
-    extends RefreshableWrapperImpl<TransparentDataEncryptionInner, TransparentDataEncryption>
+    extends RefreshableWrapperImpl<LogicalDatabaseTransparentDataEncryptionInner, TransparentDataEncryption>
     implements TransparentDataEncryption {
     private final String sqlServerName;
     private final String resourceGroupName;
@@ -33,7 +35,7 @@ class TransparentDataEncryptionImpl
     protected TransparentDataEncryptionImpl(
         String resourceGroupName,
         String sqlServerName,
-        TransparentDataEncryptionInner innerObject,
+        LogicalDatabaseTransparentDataEncryptionInner innerObject,
         SqlServerManager sqlServerManager) {
         super(innerObject);
         this.resourceGroupName = resourceGroupName;
@@ -68,14 +70,14 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    public TransparentDataEncryptionStatus status() {
-        return this.innerModel().status();
+    public TransparentDataEncryptionState status() {
+        return this.innerModel().state();
     }
 
     @Override
-    public TransparentDataEncryption updateStatus(TransparentDataEncryptionStatus transparentDataEncryptionState) {
-        this.innerModel().withStatus(transparentDataEncryptionState);
-        TransparentDataEncryptionInner transparentDataEncryptionInner =
+    public TransparentDataEncryption updateStatus(TransparentDataEncryptionState transparentDataEncryptionState) {
+        this.innerModel().withState(transparentDataEncryptionState);
+        LogicalDatabaseTransparentDataEncryptionInner transparentDataEncryptionInner =
             this
                 .sqlServerManager
                 .serviceClient()
@@ -85,7 +87,7 @@ class TransparentDataEncryptionImpl
                     this.sqlServerName,
                     this.databaseName(),
                     TransparentDataEncryptionName.CURRENT,
-                    new TransparentDataEncryptionInner().withStatus(transparentDataEncryptionState),
+                    new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState),
                     Context.NONE)
                 .getValue();
         this.setInner(transparentDataEncryptionInner);
@@ -95,7 +97,7 @@ class TransparentDataEncryptionImpl
 
     @Override
     public Mono<TransparentDataEncryption> updateStatusAsync(
-        TransparentDataEncryptionStatus transparentDataEncryptionState) {
+        TransparentDataEncryptionState transparentDataEncryptionState) {
         final TransparentDataEncryptionImpl self = this;
         return this
             .sqlServerManager
@@ -106,7 +108,7 @@ class TransparentDataEncryptionImpl
                 self.sqlServerName,
                 self.databaseName(),
                 TransparentDataEncryptionName.CURRENT,
-                new TransparentDataEncryptionInner().withStatus(transparentDataEncryptionState))
+                new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState))
             .map(
                 transparentDataEncryptionInner -> {
                     self.setInner(transparentDataEncryptionInner);

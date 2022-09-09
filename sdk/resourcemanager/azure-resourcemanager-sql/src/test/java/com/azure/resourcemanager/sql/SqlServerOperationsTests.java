@@ -53,6 +53,7 @@ import com.azure.resourcemanager.sql.models.SyncDirection;
 import com.azure.resourcemanager.sql.models.SyncMemberDbType;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryption;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionActivity;
+import com.azure.resourcemanager.sql.models.TransparentDataEncryptionState;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionStatus;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import org.junit.jupiter.api.Assertions;
@@ -1000,18 +1001,18 @@ public class SqlServerOperationsTests extends SqlServerTest {
             transparentDataEncryption.listActivities();
         Assertions.assertNotNull(transparentDataEncryptionActivities);
 
-        transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionStatus.ENABLED);
+        transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionState.ENABLED);
         Assertions.assertNotNull(transparentDataEncryption);
-        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.ENABLED);
+        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionState.ENABLED);
 
         transparentDataEncryptionActivities = transparentDataEncryption.listActivities();
         Assertions.assertNotNull(transparentDataEncryptionActivities);
 
         ResourceManagerUtils.sleep(Duration.ofSeconds(10));
         transparentDataEncryption =
-            sqlDatabase.getTransparentDataEncryption().updateStatus(TransparentDataEncryptionStatus.DISABLED);
+            sqlDatabase.getTransparentDataEncryption().updateStatus(TransparentDataEncryptionState.DISABLED);
         Assertions.assertNotNull(transparentDataEncryption);
-        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.DISABLED);
+        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionState.DISABLED);
         Assertions.assertEquals(transparentDataEncryption.sqlServerName(), sqlServerName);
         Assertions.assertEquals(transparentDataEncryption.databaseName(), SQL_DATABASE_NAME);
         Assertions.assertNotNull(transparentDataEncryption.name());

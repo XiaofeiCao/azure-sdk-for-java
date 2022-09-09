@@ -10,6 +10,7 @@ import com.azure.resourcemanager.resources.fluentcore.arm.models.HasName;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 import com.azure.resourcemanager.resources.fluentcore.model.Refreshable;
+import com.azure.resourcemanager.sql.fluent.models.LogicalDatabaseTransparentDataEncryptionInner;
 import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionInner;
 import java.util.List;
 import reactor.core.publisher.Mono;
@@ -18,7 +19,7 @@ import reactor.core.publisher.Mono;
 @Fluent
 public interface TransparentDataEncryption
     extends Refreshable<TransparentDataEncryption>,
-        HasInnerModel<TransparentDataEncryptionInner>,
+        HasInnerModel<LogicalDatabaseTransparentDataEncryptionInner>,
         HasResourceGroup,
         HasName,
         HasId {
@@ -29,7 +30,7 @@ public interface TransparentDataEncryption
     String databaseName();
 
     /** @return the status of the Azure SQL Database Transparent Data Encryption */
-    TransparentDataEncryptionStatus status();
+    TransparentDataEncryptionState status();
 
     /**
      * Updates the state of the transparent data encryption status.
@@ -37,7 +38,7 @@ public interface TransparentDataEncryption
      * @param transparentDataEncryptionState state of the data encryption to set
      * @return the new encryption settings after the update operation
      */
-    TransparentDataEncryption updateStatus(TransparentDataEncryptionStatus transparentDataEncryptionState);
+    TransparentDataEncryption updateStatus(TransparentDataEncryptionState transparentDataEncryptionState);
 
     /**
      * Updates the state of the transparent data encryption status.
@@ -45,7 +46,7 @@ public interface TransparentDataEncryption
      * @param transparentDataEncryptionState state of the data encryption to set
      * @return a representation of the deferred computation of the new encryption settings after the update operation
      */
-    Mono<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState);
+    Mono<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionState transparentDataEncryptionState);
 
     /** @return an Azure SQL Database Transparent Data Encryption Activities */
     List<TransparentDataEncryptionActivity> listActivities();
