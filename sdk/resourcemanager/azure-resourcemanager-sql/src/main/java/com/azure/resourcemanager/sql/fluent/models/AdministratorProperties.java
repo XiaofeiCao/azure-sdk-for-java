@@ -40,7 +40,7 @@ public final class AdministratorProperties {
     /*
      * Azure Active Directory only Authentication enabled.
      */
-    @JsonProperty(value = "azureADOnlyAuthentication")
+    @JsonProperty(value = "azureADOnlyAuthentication", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean azureADOnlyAuthentication;
 
     /**
@@ -130,17 +130,6 @@ public final class AdministratorProperties {
      */
     public Boolean azureADOnlyAuthentication() {
         return this.azureADOnlyAuthentication;
-    }
-
-    /**
-     * Set the azureADOnlyAuthentication property: Azure Active Directory only Authentication enabled.
-     *
-     * @param azureADOnlyAuthentication the azureADOnlyAuthentication value to set.
-     * @return the AdministratorProperties object itself.
-     */
-    public AdministratorProperties withAzureADOnlyAuthentication(Boolean azureADOnlyAuthentication) {
-        this.azureADOnlyAuthentication = azureADOnlyAuthentication;
-        return this;
     }
 
     /**

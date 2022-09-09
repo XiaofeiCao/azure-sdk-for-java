@@ -56,7 +56,7 @@ public final class ManagedDatabaseSecurityAlertPolicyInner extends ProxyResource
 
     /**
      * Get the disabledAlerts property: Specifies an array of alerts that are disabled. Allowed values are:
-     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action.
+     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force.
      *
      * @return the disabledAlerts value.
      */
@@ -66,7 +66,7 @@ public final class ManagedDatabaseSecurityAlertPolicyInner extends ProxyResource
 
     /**
      * Set the disabledAlerts property: Specifies an array of alerts that are disabled. Allowed values are:
-     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action.
+     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force.
      *
      * @param disabledAlerts the disabledAlerts value to set.
      * @return the ManagedDatabaseSecurityAlertPolicyInner object itself.

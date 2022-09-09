@@ -4,12 +4,12 @@
 
 package com.azure.resourcemanager.sql.fluent.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.core.management.ProxyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** A recoverable managed database resource. */
-@Fluent
+@Immutable
 public final class RecoverableManagedDatabaseInner extends ProxyResource {
     /*
      * Resource properties.

@@ -130,20 +130,6 @@ public final class ServerAzureADAdministratorInner extends ProxyResource {
     }
 
     /**
-     * Set the azureADOnlyAuthentication property: Azure Active Directory only Authentication enabled.
-     *
-     * @param azureADOnlyAuthentication the azureADOnlyAuthentication value to set.
-     * @return the ServerAzureADAdministratorInner object itself.
-     */
-    public ServerAzureADAdministratorInner withAzureADOnlyAuthentication(Boolean azureADOnlyAuthentication) {
-        if (this.innerProperties() == null) {
-            this.innerProperties = new AdministratorProperties();
-        }
-        this.innerProperties().withAzureADOnlyAuthentication(azureADOnlyAuthentication);
-        return this;
-    }
-
-    /**
      * Validates the instance.
      *
      * @throws IllegalArgumentException thrown if the instance is not valid.

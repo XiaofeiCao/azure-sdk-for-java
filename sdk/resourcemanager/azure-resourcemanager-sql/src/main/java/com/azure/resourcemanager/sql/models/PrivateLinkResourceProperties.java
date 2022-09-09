@@ -23,6 +23,12 @@ public final class PrivateLinkResourceProperties {
     @JsonProperty(value = "requiredMembers", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> requiredMembers;
 
+    /*
+     * The private link resource required zone names.
+     */
+    @JsonProperty(value = "requiredZoneNames", access = JsonProperty.Access.WRITE_ONLY)
+    private List<String> requiredZoneNames;
+
     /**
      * Get the groupId property: The private link resource group id.
      *
@@ -39,6 +45,15 @@ public final class PrivateLinkResourceProperties {
      */
     public List<String> requiredMembers() {
         return this.requiredMembers;
+    }
+
+    /**
+     * Get the requiredZoneNames property: The private link resource required zone names.
+     *
+     * @return the requiredZoneNames value.
+     */
+    public List<String> requiredZoneNames() {
+        return this.requiredZoneNames;
     }
 
     /**

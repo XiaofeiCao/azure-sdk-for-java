@@ -24,15 +24,13 @@ public final class CheckNameAvailabilityResponseInner {
     private Boolean available;
 
     /*
-     * The reason code explaining why the name is unavailable. Will be
-     * undefined if the name is available.
+     * The reason code explaining why the name is unavailable. Will be undefined if the name is available.
      */
     @JsonProperty(value = "reason", access = JsonProperty.Access.WRITE_ONLY)
     private CheckNameAvailabilityReason reason;
 
     /*
-     * A message explaining why the name is unavailable. Will be undefined if
-     * the name is available.
+     * A message explaining why the name is unavailable. Will be undefined if the name is available.
      */
     @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;

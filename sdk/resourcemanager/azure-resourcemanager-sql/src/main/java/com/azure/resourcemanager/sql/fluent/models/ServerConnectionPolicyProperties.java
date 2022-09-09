@@ -9,7 +9,7 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.sql.models.ServerConnectionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/** The properties of a server secure connection policy. */
+/** The properties of a server connection policy. */
 @Fluent
 public final class ServerConnectionPolicyProperties {
     /*

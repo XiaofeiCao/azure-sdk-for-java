@@ -30,8 +30,7 @@ public final class Sku {
     private String size;
 
     /*
-     * If the service has different generations of hardware, for the same SKU,
-     * then that can be captured here.
+     * If the service has different generations of hardware, for the same SKU, then that can be captured here.
      */
     @JsonProperty(value = "family")
     private String family;

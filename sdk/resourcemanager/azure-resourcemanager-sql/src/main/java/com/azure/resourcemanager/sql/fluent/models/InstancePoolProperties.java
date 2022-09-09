@@ -25,8 +25,8 @@ public final class InstancePoolProperties {
     private int vCores;
 
     /*
-     * The license type. Possible values are 'LicenseIncluded' (price for SQL
-     * license is included) and 'BasePrice' (without SQL license price).
+     * The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice'
+     * (without SQL license price).
      */
     @JsonProperty(value = "licenseType", required = true)
     private InstancePoolLicenseType licenseType;

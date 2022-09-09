@@ -76,8 +76,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
             @QueryParam("endTimeMin") OffsetDateTime endTimeMin,
             @QueryParam("endTimeMax") OffsetDateTime endTimeMax,
             @QueryParam("isActive") Boolean isActive,
-            @QueryParam("$skip") Integer skip,
-            @QueryParam("$top") Integer top,
+            @QueryParam("$skip") Long skip,
+            @QueryParam("$top") Long top,
             @PathParam("subscriptionId") String subscriptionId,
             @QueryParam("api-version") String apiVersion,
             @HeaderParam("Accept") String accept,
@@ -146,8 +146,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         OffsetDateTime endTimeMin,
         OffsetDateTime endTimeMax,
         Boolean isActive,
-        Integer skip,
-        Integer top) {
+        Long skip,
+        Long top) {
         if (this.client.getEndpoint() == null) {
             return Mono
                 .error(
@@ -176,7 +176,6 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2017-03-01-preview";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -197,7 +196,7 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                             skip,
                             top,
                             this.client.getSubscriptionId(),
-                            apiVersion,
+                            this.client.getApiVersion(),
                             accept,
                             context))
             .<PagedResponse<JobExecutionInner>>map(
@@ -246,8 +245,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         OffsetDateTime endTimeMin,
         OffsetDateTime endTimeMax,
         Boolean isActive,
-        Integer skip,
-        Integer top,
+        Long skip,
+        Long top,
         Context context) {
         if (this.client.getEndpoint() == null) {
             return Mono
@@ -277,7 +276,6 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2017-03-01-preview";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -296,7 +294,7 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                 skip,
                 top,
                 this.client.getSubscriptionId(),
-                apiVersion,
+                this.client.getApiVersion(),
                 accept,
                 context)
             .map(
@@ -343,8 +341,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         OffsetDateTime endTimeMin,
         OffsetDateTime endTimeMax,
         Boolean isActive,
-        Integer skip,
-        Integer top) {
+        Long skip,
+        Long top) {
         return new PagedFlux<>(
             () ->
                 listByJobExecutionSinglePageAsync(
@@ -385,8 +383,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         final OffsetDateTime endTimeMin = null;
         final OffsetDateTime endTimeMax = null;
         final Boolean isActive = null;
-        final Integer skip = null;
-        final Integer top = null;
+        final Long skip = null;
+        final Long top = null;
         return new PagedFlux<>(
             () ->
                 listByJobExecutionSinglePageAsync(
@@ -439,8 +437,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         OffsetDateTime endTimeMin,
         OffsetDateTime endTimeMax,
         Boolean isActive,
-        Integer skip,
-        Integer top,
+        Long skip,
+        Long top,
         Context context) {
         return new PagedFlux<>(
             () ->
@@ -483,8 +481,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         final OffsetDateTime endTimeMin = null;
         final OffsetDateTime endTimeMax = null;
         final Boolean isActive = null;
-        final Integer skip = null;
-        final Integer top = null;
+        final Long skip = null;
+        final Long top = null;
         return new PagedIterable<>(
             listByJobExecutionAsync(
                 resourceGroupName,
@@ -535,8 +533,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         OffsetDateTime endTimeMin,
         OffsetDateTime endTimeMax,
         Boolean isActive,
-        Integer skip,
-        Integer top,
+        Long skip,
+        Long top,
         Context context) {
         return new PagedIterable<>(
             listByJobExecutionAsync(
@@ -609,7 +607,6 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2017-03-01-preview";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -624,7 +621,7 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                             jobExecutionId,
                             stepName,
                             this.client.getSubscriptionId(),
-                            apiVersion,
+                            this.client.getApiVersion(),
                             accept,
                             context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
@@ -686,7 +683,6 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2017-03-01-preview";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -699,7 +695,7 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
                 jobExecutionId,
                 stepName,
                 this.client.getSubscriptionId(),
-                apiVersion,
+                this.client.getApiVersion(),
                 accept,
                 context);
     }
@@ -790,7 +786,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
     /**
      * Get the next page of items.
      *
-     * @param nextLink The nextLink parameter.
+     * @param nextLink The URL to get the next list of items
+     *     <p>The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -826,7 +823,8 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
     /**
      * Get the next page of items.
      *
-     * @param nextLink The nextLink parameter.
+     * @param nextLink The URL to get the next list of items
+     *     <p>The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

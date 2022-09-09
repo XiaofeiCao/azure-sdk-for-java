@@ -4,14 +4,14 @@
 
 package com.azure.resourcemanager.sql.fluent.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.core.management.ProxyResource;
 import com.azure.resourcemanager.sql.models.ManagementOperationState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
 /** A database operation. */
-@Fluent
+@Immutable
 public final class DatabaseOperationInner extends ProxyResource {
     /*
      * Resource properties.

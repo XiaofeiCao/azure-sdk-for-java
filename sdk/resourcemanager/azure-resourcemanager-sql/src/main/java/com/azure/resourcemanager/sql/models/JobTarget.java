@@ -48,9 +48,8 @@ public final class JobTarget {
     private String shardMapName;
 
     /*
-     * The resource ID of the credential that is used during job execution to
-     * connect to the target and determine the list of databases inside the
-     * target.
+     * The resource ID of the credential that is used during job execution to connect to the target and determine the
+     * list of databases inside the target.
      */
     @JsonProperty(value = "refreshCredential")
     private String refreshCredential;

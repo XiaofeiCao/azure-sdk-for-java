@@ -4,22 +4,28 @@
 
 package com.azure.resourcemanager.sql.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.resourcemanager.sql.fluent.models.FirewallRuleInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Represents the response to a List Firewall Rules request. */
-@Fluent
+/** The response to a list firewall rules request. */
+@Immutable
 public final class FirewallRuleListResult {
     /*
-     * The list of server firewall rules.
+     * Array of results.
      */
-    @JsonProperty(value = "value")
+    @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private List<FirewallRuleInner> value;
 
+    /*
+     * Link to retrieve next page of results.
+     */
+    @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
+    private String nextLink;
+
     /**
-     * Get the value property: The list of server firewall rules.
+     * Get the value property: Array of results.
      *
      * @return the value value.
      */
@@ -28,14 +34,12 @@ public final class FirewallRuleListResult {
     }
 
     /**
-     * Set the value property: The list of server firewall rules.
+     * Get the nextLink property: Link to retrieve next page of results.
      *
-     * @param value the value value to set.
-     * @return the FirewallRuleListResult object itself.
+     * @return the nextLink value.
      */
-    public FirewallRuleListResult withValue(List<FirewallRuleInner> value) {
-        this.value = value;
-        return this;
+    public String nextLink() {
+        return this.nextLink;
     }
 
     /**

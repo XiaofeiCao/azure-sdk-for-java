@@ -19,8 +19,7 @@ public final class VirtualNetworkRuleProperties {
     private String virtualNetworkSubnetId;
 
     /*
-     * Create firewall rule before the virtual network has vnet service
-     * endpoint enabled.
+     * Create firewall rule before the virtual network has vnet service endpoint enabled.
      */
     @JsonProperty(value = "ignoreMissingVnetServiceEndpoint")
     private Boolean ignoreMissingVnetServiceEndpoint;

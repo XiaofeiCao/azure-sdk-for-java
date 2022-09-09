@@ -17,8 +17,7 @@ public final class JobStepExecutionOptions {
     private Integer timeoutSeconds;
 
     /*
-     * Maximum number of times the job step will be reattempted if the first
-     * attempt fails.
+     * Maximum number of times the job step will be reattempted if the first attempt fails.
      */
     @JsonProperty(value = "retryAttempts")
     private Integer retryAttempts;
@@ -30,8 +29,7 @@ public final class JobStepExecutionOptions {
     private Integer initialRetryIntervalSeconds;
 
     /*
-     * The maximum amount of time to wait between retries for job step
-     * execution.
+     * The maximum amount of time to wait between retries for job step execution.
      */
     @JsonProperty(value = "maximumRetryIntervalSeconds")
     private Integer maximumRetryIntervalSeconds;

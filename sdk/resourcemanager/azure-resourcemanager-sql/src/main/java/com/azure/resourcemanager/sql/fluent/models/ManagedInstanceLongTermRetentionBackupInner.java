@@ -4,13 +4,14 @@
 
 package com.azure.resourcemanager.sql.fluent.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.core.management.ProxyResource;
+import com.azure.resourcemanager.sql.models.BackupStorageRedundancy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
 /** A long term retention backup for a managed database. */
-@Fluent
+@Immutable
 public final class ManagedInstanceLongTermRetentionBackupInner extends ProxyResource {
     /*
      * Resource properties.
@@ -79,6 +80,15 @@ public final class ManagedInstanceLongTermRetentionBackupInner extends ProxyReso
      */
     public OffsetDateTime backupExpirationTime() {
         return this.innerProperties() == null ? null : this.innerProperties().backupExpirationTime();
+    }
+
+    /**
+     * Get the backupStorageRedundancy property: The storage redundancy type of the backup.
+     *
+     * @return the backupStorageRedundancy value.
+     */
+    public BackupStorageRedundancy backupStorageRedundancy() {
+        return this.innerProperties() == null ? null : this.innerProperties().backupStorageRedundancy();
     }
 
     /**

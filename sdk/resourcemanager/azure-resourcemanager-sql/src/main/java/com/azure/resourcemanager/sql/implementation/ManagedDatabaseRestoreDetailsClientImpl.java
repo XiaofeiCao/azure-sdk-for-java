@@ -121,7 +121,6 @@ public final class ManagedDatabaseRestoreDetailsClientImpl implements ManagedDat
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2019-06-01-preview";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -134,7 +133,7 @@ public final class ManagedDatabaseRestoreDetailsClientImpl implements ManagedDat
                             databaseName,
                             restoreDetailsName,
                             this.client.getSubscriptionId(),
-                            apiVersion,
+                            this.client.getApiVersion(),
                             accept,
                             context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
@@ -188,7 +187,6 @@ public final class ManagedDatabaseRestoreDetailsClientImpl implements ManagedDat
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2019-06-01-preview";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -199,7 +197,7 @@ public final class ManagedDatabaseRestoreDetailsClientImpl implements ManagedDat
                 databaseName,
                 restoreDetailsName,
                 this.client.getSubscriptionId(),
-                apiVersion,
+                this.client.getApiVersion(),
                 accept,
                 context);
     }

@@ -125,7 +125,6 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2015-05-01-preview";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -137,7 +136,7 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                             serverName,
                             databaseName,
                             this.client.getSubscriptionId(),
-                            apiVersion,
+                            this.client.getApiVersion(),
                             accept,
                             context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
@@ -181,7 +180,6 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2015-05-01-preview";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -191,7 +189,7 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                 serverName,
                 databaseName,
                 this.client.getSubscriptionId(),
-                apiVersion,
+                this.client.getApiVersion(),
                 accept,
                 context);
     }
@@ -294,7 +292,6 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2015-05-01-preview";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -306,7 +303,7 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                             serverName,
                             databaseName,
                             this.client.getSubscriptionId(),
-                            apiVersion,
+                            this.client.getApiVersion(),
                             parameters,
                             accept,
                             context))
@@ -361,7 +358,6 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2015-05-01-preview";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -371,7 +367,7 @@ public final class DatabaseAutomaticTuningsClientImpl implements DatabaseAutomat
                 serverName,
                 databaseName,
                 this.client.getSubscriptionId(),
-                apiVersion,
+                this.client.getApiVersion(),
                 parameters,
                 accept,
                 context);

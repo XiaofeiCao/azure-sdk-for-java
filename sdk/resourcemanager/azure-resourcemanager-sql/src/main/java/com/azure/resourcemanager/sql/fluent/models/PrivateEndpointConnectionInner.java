@@ -7,8 +7,10 @@ package com.azure.resourcemanager.sql.fluent.models;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.ProxyResource;
 import com.azure.resourcemanager.sql.models.PrivateEndpointProperty;
+import com.azure.resourcemanager.sql.models.PrivateEndpointProvisioningState;
 import com.azure.resourcemanager.sql.models.PrivateLinkServiceConnectionStateProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /** A private endpoint connection. */
 @Fluent
@@ -52,6 +54,15 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
     }
 
     /**
+     * Get the groupIds property: Group IDs.
+     *
+     * @return the groupIds value.
+     */
+    public List<String> groupIds() {
+        return this.innerProperties() == null ? null : this.innerProperties().groupIds();
+    }
+
+    /**
      * Get the privateLinkServiceConnectionState property: Connection state of the private endpoint connection.
      *
      * @return the privateLinkServiceConnectionState value.
@@ -80,7 +91,7 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
      *
      * @return the provisioningState value.
      */
-    public String provisioningState() {
+    public PrivateEndpointProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
     }
 

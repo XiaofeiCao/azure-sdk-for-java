@@ -23,8 +23,7 @@ public final class AutoPauseDelayTimeRange {
     private Integer maxValue;
 
     /*
-     * Step value for discrete values between the minimum value and the maximum
-     * value.
+     * Step value for discrete values between the minimum value and the maximum value.
      */
     @JsonProperty(value = "stepSize", access = JsonProperty.Access.WRITE_ONLY)
     private Integer stepSize;

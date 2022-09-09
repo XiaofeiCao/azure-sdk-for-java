@@ -4,13 +4,13 @@
 
 package com.azure.resourcemanager.sql.fluent.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.core.management.ProxyResource;
 import com.azure.resourcemanager.sql.models.SyncMemberDbType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** An Azure SQL Database sync agent linked database. */
-@Fluent
+@Immutable
 public final class SyncAgentLinkedDatabaseInner extends ProxyResource {
     /*
      * Resource properties.

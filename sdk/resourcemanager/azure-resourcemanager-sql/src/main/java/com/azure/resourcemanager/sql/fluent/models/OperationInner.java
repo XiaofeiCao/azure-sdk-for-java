@@ -21,8 +21,7 @@ public final class OperationInner {
     private String name;
 
     /*
-     * The localized display information for this particular operation /
-     * action.
+     * The localized display information for this particular operation / action.
      */
     @JsonProperty(value = "display", access = JsonProperty.Access.WRITE_ONLY)
     private OperationDisplay display;

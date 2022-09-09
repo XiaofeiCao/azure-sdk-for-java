@@ -17,8 +17,7 @@ public final class OperationDisplay {
     private String provider;
 
     /*
-     * The localized friendly form of the resource type related to this
-     * action/operation.
+     * The localized friendly form of the resource type related to this action/operation.
      */
     @JsonProperty(value = "resource", access = JsonProperty.Access.WRITE_ONLY)
     private String resource;
