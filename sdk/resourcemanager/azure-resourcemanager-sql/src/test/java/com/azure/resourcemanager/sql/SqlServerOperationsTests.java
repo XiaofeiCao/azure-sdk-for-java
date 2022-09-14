@@ -20,7 +20,6 @@ import com.azure.resourcemanager.sql.models.CheckNameAvailabilityResult;
 import com.azure.resourcemanager.sql.models.CreateMode;
 import com.azure.resourcemanager.sql.models.DatabaseEdition;
 import com.azure.resourcemanager.sql.models.DatabaseSku;
-import com.azure.resourcemanager.sql.models.ElasticPoolEdition;
 import com.azure.resourcemanager.sql.models.ElasticPoolSku;
 import com.azure.resourcemanager.sql.models.FailoverGroupReplicationRole;
 import com.azure.resourcemanager.sql.models.ReadOnlyEndpointFailoverPolicy;
@@ -54,7 +53,6 @@ import com.azure.resourcemanager.sql.models.SyncMemberDbType;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryption;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionActivity;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionState;
-import com.azure.resourcemanager.sql.models.TransparentDataEncryptionStatus;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -439,7 +437,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertEquals("BASIC", dbFromSample.edition());
 
         SqlServerAutomaticTuning serverAutomaticTuning = sqlServer.getServerAutomaticTuning();
         Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
@@ -611,7 +609,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertEquals("BASIC", dbFromSample.edition());
 
         Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
         Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
@@ -660,7 +658,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withTag("tag1", "value1")
                 .create();
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertEquals("BASIC", dbFromSample.edition());
 
         SqlDatabaseImportExportResponse exportedDB;
         StorageAccount storageAccount = null;
@@ -1175,7 +1173,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         Assertions.assertNotNull(dataWarehouse);
         Assertions.assertEquals(dataWarehouse.name(), SQL_DATABASE_NAME);
-        Assertions.assertEquals(dataWarehouse.edition(), DatabaseEdition.DATA_WAREHOUSE);
+        Assertions.assertEquals(dataWarehouse.edition(), "DATA_WAREHOUSE");
 
         // List Restore points.
         Assertions.assertNotNull(dataWarehouse.listRestorePoints());
@@ -1469,7 +1467,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlElasticPool ep2 = sqlServer.elasticPools().get(elasticPool2Name);
 
         Assertions.assertNotNull(ep2);
-        Assertions.assertEquals(ep2.edition(), ElasticPoolEdition.PREMIUM);
+        Assertions.assertEquals(ep2.edition(), "PREMIUM");
         Assertions.assertEquals(ep2.listDatabases().size(), 2);
         Assertions.assertNotNull(ep2.getDatabase(database1InEPName));
         Assertions.assertNotNull(ep2.getDatabase(database2InEPName));
@@ -1477,7 +1475,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlElasticPool ep3 = sqlServer.elasticPools().get(elasticPool3Name);
 
         Assertions.assertNotNull(ep3);
-        Assertions.assertEquals(ep3.edition(), ElasticPoolEdition.STANDARD);
+        Assertions.assertEquals(ep3.edition(), "STANDARD");
 
         if (!deleteUsingUpdate) {
             sqlServer.databases().delete(database2Name);
@@ -1612,7 +1610,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(rgName, sqlElasticPool.resourceGroupName());
         Assertions.assertEquals(elasticPoolName, sqlElasticPool.name());
         Assertions.assertEquals(sqlServerName, sqlElasticPool.sqlServerName());
-        Assertions.assertEquals(ElasticPoolEdition.STANDARD, sqlElasticPool.edition());
+        Assertions.assertEquals("STANDARD", sqlElasticPool.edition());
         Assertions.assertNotNull(sqlElasticPool.creationDate());
         Assertions.assertNotEquals(0, sqlElasticPool.databaseDtuMax());
         Assertions.assertNotEquals(0, sqlElasticPool.dtu());
@@ -1641,7 +1639,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(sqlDatabase.name(), databaseName);
         Assertions.assertEquals(sqlServerName, sqlDatabase.sqlServerName());
         Assertions.assertEquals(sqlDatabase.collation(), COLLATION);
-        Assertions.assertEquals(sqlDatabase.edition(), DatabaseEdition.STANDARD);
+        Assertions.assertEquals(sqlDatabase.edition(), "STANDARD");
     }
 
     private void validateSqlDatabaseWithElasticPool(SqlDatabase sqlDatabase, String databaseName) {

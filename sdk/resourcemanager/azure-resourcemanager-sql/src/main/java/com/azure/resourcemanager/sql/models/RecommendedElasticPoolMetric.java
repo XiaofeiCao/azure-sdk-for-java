@@ -5,12 +5,12 @@ package com.azure.resourcemanager.sql.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
-import com.azure.resourcemanager.sql.fluent.models.RecommendedElasticPoolMetricInner;
+import com.azure.resourcemanager.sql.fluent.models.ElasticPoolInner;
 import java.time.OffsetDateTime;
 
 /** An immutable client-side representation of an Azure SQL Replication link. */
 @Fluent
-public interface RecommendedElasticPoolMetric extends HasInnerModel<RecommendedElasticPoolMetricInner> {
+public interface RecommendedElasticPoolMetric extends HasInnerModel<ElasticPoolInner> {
     /** @return the time of metric (ISO8601 format). */
     OffsetDateTime dateTime();
 

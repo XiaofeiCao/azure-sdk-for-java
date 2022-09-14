@@ -39,7 +39,7 @@ public interface SqlElasticPool
     ElasticPoolState state();
 
     /** @return the edition of Azure SQL Elastic Pool */
-    ElasticPoolEdition edition();
+    String edition();
 
     /** @return The total shared DTU for the SQL Azure Database Elastic Pool */
     int dtu();

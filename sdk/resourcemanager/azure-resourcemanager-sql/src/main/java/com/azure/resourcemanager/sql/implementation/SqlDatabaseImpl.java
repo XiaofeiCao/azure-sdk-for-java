@@ -248,7 +248,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
 
     @Override
     public boolean isDataWarehouse() {
-        return this.edition().toString().equalsIgnoreCase(DatabaseEdition.DATA_WAREHOUSE.toString());
+        return this.edition().toString().equalsIgnoreCase("DATA_WAREHOUSE");
     }
 
     @Override
