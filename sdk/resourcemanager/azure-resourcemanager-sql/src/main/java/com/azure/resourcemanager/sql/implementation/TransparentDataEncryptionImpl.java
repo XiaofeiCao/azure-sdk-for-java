@@ -123,8 +123,8 @@ class TransparentDataEncryptionImpl
             this
                 .sqlServerManager
                 .serviceClient()
-                .getTransparentDataEncryptionActivities()
-                .listByConfiguration(
+                .getManagedDatabaseTransparentDataEncryptions()
+                .listByDatabase(
                     this.resourceGroupName,
                     this.sqlServerName,
                     this.databaseName(),

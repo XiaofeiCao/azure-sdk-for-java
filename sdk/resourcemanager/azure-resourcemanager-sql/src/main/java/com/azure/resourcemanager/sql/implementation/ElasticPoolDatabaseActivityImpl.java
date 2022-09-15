@@ -6,16 +6,17 @@ package com.azure.resourcemanager.sql.implementation;
 import com.azure.resourcemanager.resources.fluentcore.arm.ResourceId;
 import com.azure.resourcemanager.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
+import com.azure.resourcemanager.sql.fluent.models.ElasticPoolOperationInner;
 import com.azure.resourcemanager.sql.models.ElasticPoolDatabaseActivity;
 import com.azure.resourcemanager.sql.fluent.models.ElasticPoolDatabaseActivityInner;
 import java.time.OffsetDateTime;
 
 /** Implementation for Elastic Pool Database Activity interface. */
-class ElasticPoolDatabaseActivityImpl extends WrapperImpl<ElasticPoolDatabaseActivityInner>
+class ElasticPoolDatabaseActivityImpl extends WrapperImpl<ElasticPoolOperationInner>
     implements ElasticPoolDatabaseActivity {
     private final ResourceId resourceId;
 
-    protected ElasticPoolDatabaseActivityImpl(ElasticPoolDatabaseActivityInner innerObject) {
+    protected ElasticPoolDatabaseActivityImpl(ElasticPoolOperationInner innerObject) {
         super(innerObject);
         this.resourceId = ResourceId.fromString(this.innerModel().id());
     }
@@ -52,7 +53,7 @@ class ElasticPoolDatabaseActivityImpl extends WrapperImpl<ElasticPoolDatabaseAct
 
     @Override
     public String errorMessage() {
-        return this.innerModel().errorMessage();
+        return this.innerModel().errorDescription();
     }
 
     @Override
@@ -67,7 +68,7 @@ class ElasticPoolDatabaseActivityImpl extends WrapperImpl<ElasticPoolDatabaseAct
 
     @Override
     public String operationId() {
-        return this.innerModel().operationId().toString();
+        return this.innerModel().operation();
     }
 
     @Override

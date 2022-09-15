@@ -11,14 +11,26 @@ import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.resourcemanager.resources.fluentcore.dag.TaskGroup;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
+import com.azure.resourcemanager.resources.fluentcore.utils.PagedConverter;
 import com.azure.resourcemanager.sql.SqlServerManager;
+import com.azure.resourcemanager.sql.fluent.models.DatabaseAutomaticTuningInner;
+import com.azure.resourcemanager.sql.fluent.models.DatabaseInner;
+import com.azure.resourcemanager.sql.fluent.models.DatabaseSecurityAlertPolicyInner;
+import com.azure.resourcemanager.sql.fluent.models.DatabaseUsageInner;
+import com.azure.resourcemanager.sql.fluent.models.LogicalDatabaseTransparentDataEncryptionInner;
+import com.azure.resourcemanager.sql.fluent.models.MetricDefinitionInner;
+import com.azure.resourcemanager.sql.fluent.models.MetricInner;
+import com.azure.resourcemanager.sql.fluent.models.ReplicationLinkInner;
+import com.azure.resourcemanager.sql.fluent.models.RestorePointInner;
+import com.azure.resourcemanager.sql.fluent.models.ServiceTierAdvisorInner;
+import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionInner;
 import com.azure.resourcemanager.sql.models.AuthenticationType;
 import com.azure.resourcemanager.sql.models.CreateMode;
 import com.azure.resourcemanager.sql.models.DatabaseEdition;
 import com.azure.resourcemanager.sql.models.DatabaseSku;
 import com.azure.resourcemanager.sql.models.DatabaseStatus;
 import com.azure.resourcemanager.sql.models.DatabaseUpdate;
-import com.azure.resourcemanager.sql.models.ImportRequest;
+import com.azure.resourcemanager.sql.models.ImportExistingDatabaseDefinition;
 import com.azure.resourcemanager.sql.models.ReplicationLink;
 import com.azure.resourcemanager.sql.models.ResourceMoveDefinition;
 import com.azure.resourcemanager.sql.models.RestorePoint;
@@ -46,16 +58,6 @@ import com.azure.resourcemanager.sql.models.SqlSyncGroupOperations;
 import com.azure.resourcemanager.sql.models.SqlWarehouse;
 import com.azure.resourcemanager.sql.models.StorageKeyType;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryption;
-import com.azure.resourcemanager.sql.fluent.models.DatabaseAutomaticTuningInner;
-import com.azure.resourcemanager.sql.fluent.models.DatabaseInner;
-import com.azure.resourcemanager.sql.fluent.models.DatabaseSecurityAlertPolicyInner;
-import com.azure.resourcemanager.sql.fluent.models.DatabaseUsageInner;
-import com.azure.resourcemanager.sql.fluent.models.MetricDefinitionInner;
-import com.azure.resourcemanager.sql.fluent.models.MetricInner;
-import com.azure.resourcemanager.sql.fluent.models.ReplicationLinkInner;
-import com.azure.resourcemanager.sql.fluent.models.RestorePointInner;
-import com.azure.resourcemanager.sql.fluent.models.ServiceTierAdvisorInner;
-import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionInner;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionName;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import reactor.core.publisher.Mono;
@@ -67,7 +69,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import com.azure.resourcemanager.resources.fluentcore.utils.PagedConverter;
 
 /** Implementation for SqlDatabase and its parent interfaces. */
 class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInner, SqlServerImpl, SqlServer>
@@ -92,7 +93,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportRequest importRequestInner;
+    private ImportExistingDatabaseDefinition importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -373,7 +374,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
             this
                 .sqlServerManager
                 .serviceClient()
-                .getDatabaseThreatDetectionPolicies()
+                .getDatabaseSecurityAlertPolicies()
                 .get(this.resourceGroupName, this.sqlServerName, this.name(), SecurityAlertPolicyName.DEFAULT);
         return policyInner != null
             ? new SqlDatabaseThreatDetectionPolicyImpl(policyInner.name(), this, policyInner, this.sqlServerManager)
@@ -508,7 +509,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
 
     @Override
     public TransparentDataEncryption getTransparentDataEncryption() {
-        TransparentDataEncryptionInner transparentDataEncryptionInner =
+        LogicalDatabaseTransparentDataEncryptionInner transparentDataEncryptionInner =
             this
                 .sqlServerManager
                 .serviceClient()
@@ -631,33 +632,24 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
         final SqlDatabaseImpl self = this;
         this.innerModel().withLocation(this.sqlServerLocation);
         if (this.importRequestInner != null) {
-            this.importRequestInner.withDatabaseName(this.name());
-            if (this.importRequestInner.edition() == null) {
-                this.importRequestInner.withEdition(this.edition());
-            }
-            if (this.importRequestInner.serviceObjectiveName() == null && this.innerModel().sku() != null) {
-                this
-                    .importRequestInner
-                    .withServiceObjectiveName(ServiceObjectiveName.fromString(this.innerModel().sku().name()));
-            }
-            if (this.importRequestInner.maxSizeBytes() == null) {
-                this.importRequestInner.withMaxSizeBytes(String.valueOf(this.innerModel().maxSizeBytes()));
-            }
 
             return this
                 .sqlServerManager
                 .serviceClient()
                 .getDatabases()
-                .importMethodAsync(this.resourceGroupName, this.sqlServerName, this.importRequestInner)
+                .importMethodAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.importRequestInner)
                 .then(
                     Mono
                         .defer(
                             () -> {
                                 if (self.elasticPoolId() != null) {
                                     self.importRequestInner = null;
-                                    return self
-                                        .withExistingElasticPoolId(self.elasticPoolId())
-                                        .withPatchUpdate()
+                                    SqlDatabaseImpl database = self.withExistingElasticPool(self.elasticPoolId())
+                                        .withPatchUpdate();
+                                    if (this.innerModel().maxSizeBytes() != null) {
+                                        database.withMaxSizeBytes(innerModel().maxSizeBytes());
+                                    }
+                                    return database
                                         .updateResourceAsync();
                                 } else {
                                     return self.refreshAsync();
@@ -856,7 +848,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     }
 
     private void initializeImportRequestInner() {
-        this.importRequestInner = new ImportRequest();
+        this.importRequestInner = new ImportExistingDatabaseDefinition();
         if (this.elasticPoolId() != null) {
             this.importRequestInner.withEdition(DatabaseEdition.BASIC);
             this.importRequestInner.withServiceObjectiveName(ServiceObjectiveName.BASIC);
@@ -918,7 +910,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     @Override
     public SqlDatabaseImpl withSqlAdministratorLoginAndPassword(
         String administratorLogin, String administratorPassword) {
-        this.importRequestInner.withAuthenticationType(AuthenticationType.SQL);
+        this.importRequestInner.withAuthenticationType(AuthenticationType.SQL.toString());
         this.importRequestInner.withAdministratorLogin(administratorLogin);
         this.importRequestInner.withAdministratorLoginPassword(administratorPassword);
         return this;
@@ -927,7 +919,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     @Override
     public SqlDatabaseImpl withActiveDirectoryLoginAndPassword(
         String administratorLogin, String administratorPassword) {
-        this.importRequestInner.withAuthenticationType(AuthenticationType.ADPASSWORD);
+        this.importRequestInner.withAuthenticationType(AuthenticationType.ADPASSWORD.toString());
         this.importRequestInner.withAdministratorLogin(administratorLogin);
         this.importRequestInner.withAdministratorLoginPassword(administratorPassword);
         return this;

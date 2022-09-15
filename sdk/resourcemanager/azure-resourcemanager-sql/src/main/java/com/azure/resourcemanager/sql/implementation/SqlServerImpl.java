@@ -238,6 +238,8 @@ public class SqlServerImpl extends GroupableResourceImpl<SqlServer, ServerInner,
             this
                 .manager()
                 .serviceClient()
+                .getServerAdvisors()
+                .listByServer()
                 .getRecommendedElasticPools()
                 .listByServer(this.resourceGroupName(), this.name());
         for (RecommendedElasticPoolInner inner : recommendedElasticPoolInners) {

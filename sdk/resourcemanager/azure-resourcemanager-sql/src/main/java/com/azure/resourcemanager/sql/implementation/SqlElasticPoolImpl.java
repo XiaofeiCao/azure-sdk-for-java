@@ -13,6 +13,7 @@ import com.azure.resourcemanager.sql.fluent.models.DatabaseInner;
 import com.azure.resourcemanager.sql.fluent.models.ElasticPoolActivityInner;
 import com.azure.resourcemanager.sql.fluent.models.ElasticPoolDatabaseActivityInner;
 import com.azure.resourcemanager.sql.fluent.models.ElasticPoolInner;
+import com.azure.resourcemanager.sql.fluent.models.ElasticPoolOperationInner;
 import com.azure.resourcemanager.sql.fluent.models.MetricDefinitionInner;
 import com.azure.resourcemanager.sql.fluent.models.MetricInner;
 import com.azure.resourcemanager.sql.models.ElasticPoolActivity;
@@ -226,13 +227,13 @@ public class SqlElasticPoolImpl
     @Override
     public List<ElasticPoolDatabaseActivity> listDatabaseActivities() {
         List<ElasticPoolDatabaseActivity> elasticPoolDatabaseActivities = new ArrayList<>();
-        PagedIterable<ElasticPoolDatabaseActivityInner> elasticPoolDatabaseActivityInners =
+        PagedIterable<ElasticPoolOperationInner> elasticPoolDatabaseActivityInners =
             this
                 .sqlServerManager
                 .serviceClient()
-                .getElasticPoolDatabaseActivities()
+                .getElasticPoolOperations()
                 .listByElasticPool(this.resourceGroupName, this.sqlServerName, this.name());
-        for (ElasticPoolDatabaseActivityInner inner : elasticPoolDatabaseActivityInners) {
+        for (ElasticPoolOperationInner inner : elasticPoolDatabaseActivityInners) {
             elasticPoolDatabaseActivities.add(new ElasticPoolDatabaseActivityImpl(inner));
         }
         return Collections.unmodifiableList(elasticPoolDatabaseActivities);
@@ -243,7 +244,7 @@ public class SqlElasticPoolImpl
         return PagedConverter.mapPage(this
             .sqlServerManager
             .serviceClient()
-            .getElasticPoolDatabaseActivities()
+            .getElasticPoolOperations()
             .listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name()),
             ElasticPoolDatabaseActivityImpl::new);
     }
@@ -269,6 +270,7 @@ public class SqlElasticPoolImpl
         return PagedConverter.mapPage(this
             .sqlServerManager
             .serviceClient()
+            .getUsages()
             .getElasticPools()
             .listMetricsAsync(this.resourceGroupName, this.sqlServerName, this.name(), filter),
             SqlDatabaseMetricImpl::new);
