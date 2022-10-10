@@ -4,15 +4,12 @@
 package com.azure.resourcemanager.sql.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.http.rest.PagedFlux;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasId;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasName;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 import com.azure.resourcemanager.resources.fluentcore.model.Refreshable;
 import com.azure.resourcemanager.sql.fluent.models.LogicalDatabaseTransparentDataEncryptionInner;
-import com.azure.resourcemanager.sql.fluent.models.TransparentDataEncryptionInner;
-import java.util.List;
 import reactor.core.publisher.Mono;
 
 /** An immutable client-side representation of an Azure SQL database's TransparentDataEncryption. */
@@ -47,10 +44,4 @@ public interface TransparentDataEncryption
      * @return a representation of the deferred computation of the new encryption settings after the update operation
      */
     Mono<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionState transparentDataEncryptionState);
-
-    /** @return an Azure SQL Database Transparent Data Encryption Activities */
-    List<TransparentDataEncryptionActivity> listActivities();
-
-    /** @return an Azure SQL Database Transparent Data Encryption Activities */
-    PagedFlux<TransparentDataEncryptionActivity> listActivitiesAsync();
 }

@@ -51,7 +51,6 @@ import com.azure.resourcemanager.sql.models.SqlWarehouse;
 import com.azure.resourcemanager.sql.models.SyncDirection;
 import com.azure.resourcemanager.sql.models.SyncMemberDbType;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryption;
-import com.azure.resourcemanager.sql.models.TransparentDataEncryptionActivity;
 import com.azure.resourcemanager.sql.models.TransparentDataEncryptionState;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import org.junit.jupiter.api.Assertions;
@@ -822,23 +821,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
         firewallRule.delete();
     }
 
-    @Disabled("Depends on the existing SQL server")
-    @Test
-    public void canListRecommendedElasticPools() throws Exception {
-        SqlServer sqlServer = sqlServerManager.sqlServers().getByResourceGroup("ans", "ans-secondary");
-        sqlServer
-            .databases()
-            .list()
-            .get(0)
-            .listServiceTierAdvisors()
-            .values()
-            .iterator()
-            .next()
-            .serviceLevelObjectiveUsageMetric();
-        Map<String, RecommendedElasticPool> recommendedElasticPools = sqlServer.listRecommendedElasticPools();
-        Assertions.assertNotNull(recommendedElasticPools);
-    }
-
     @Test
     public void canCRUDSqlServer() throws Exception {
 
@@ -858,12 +840,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions
             .assertEquals(
                 CheckNameAvailabilityReason.ALREADY_EXISTS.toString(), checkNameResult.unavailabilityReason());
-
-        List<ServiceObjective> serviceObjectives = sqlServer.listServiceObjectives();
-
-        Assertions.assertNotEquals(serviceObjectives.size(), 0);
-        Assertions.assertNotNull(serviceObjectives.get(0).refresh());
-        Assertions.assertNotNull(sqlServer.getServiceObjective("d1737d22-a8ea-4de7-9bd0-33395d2a7419"));
 
         sqlServer.update().withAdministratorPassword("P@ssword~2").apply();
 
@@ -995,16 +971,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
         TransparentDataEncryption transparentDataEncryption = sqlDatabase.getTransparentDataEncryption();
         Assertions.assertNotNull(transparentDataEncryption.status());
 
-        List<TransparentDataEncryptionActivity> transparentDataEncryptionActivities =
-            transparentDataEncryption.listActivities();
-        Assertions.assertNotNull(transparentDataEncryptionActivities);
-
         transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionState.ENABLED);
         Assertions.assertNotNull(transparentDataEncryption);
         Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionState.ENABLED);
-
-        transparentDataEncryptionActivities = transparentDataEncryption.listActivities();
-        Assertions.assertNotNull(transparentDataEncryptionActivities);
 
         ResourceManagerUtils.sleep(Duration.ofSeconds(10));
         transparentDataEncryption =
@@ -1018,16 +987,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Done testing with encryption settings.
 
         // Assertions.assertNotNull(sqlDatabase.getUpgradeHint()); // This property is null
-
-        // Test Service tier advisors.
-        Map<String, ServiceTierAdvisor> serviceTierAdvisors = sqlDatabase.listServiceTierAdvisors();
-        Assertions.assertNotNull(serviceTierAdvisors);
-        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetric());
-        Assertions.assertNotEquals(serviceTierAdvisors.size(), 0);
-
-        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().refresh());
-        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetric());
-        // End of testing service tier advisors.
 
         sqlServer = sqlServerManager.sqlServers().getByResourceGroup(rgName, sqlServerName);
         validateSqlServer(sqlServer);
@@ -1264,9 +1223,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // List Activity in elastic pool
         Assertions.assertNotNull(elasticPool.listActivities());
-
-        // List Database activity in elastic pool.
-        Assertions.assertNotNull(elasticPool.listDatabaseActivities());
 
         // List databases in elastic pool.
         List<SqlDatabase> databasesInElasticPool = elasticPool.listDatabases();
