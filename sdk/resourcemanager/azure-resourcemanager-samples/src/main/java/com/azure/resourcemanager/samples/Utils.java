@@ -2012,10 +2012,7 @@ public final class Utils {
                 .append("\n\tError message of activity: ").append(elasticPoolActivity.errorMessage())
                 .append("\n\tError severity of activity: ").append(elasticPoolActivity.errorSeverity())
                 .append("\n\tOperation: ").append(elasticPoolActivity.operation())
-                .append("\n\tCompleted percentage of activity: ").append(elasticPoolActivity.percentComplete())
-                .append("\n\tRequested DTU max limit in activity: ").append(elasticPoolActivity.requestedDatabaseDtuMax())
-                .append("\n\tRequested DTU min limit in activity: ").append(elasticPoolActivity.requestedDatabaseDtuMin())
-                .append("\n\tRequested DTU limit in activity: ").append(elasticPoolActivity.requestedDtu());
+                .append("\n\tCompleted percentage of activity: ").append(elasticPoolActivity.percentComplete());
 
         System.out.println(builder.toString());
 
