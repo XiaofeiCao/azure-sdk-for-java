@@ -8,7 +8,6 @@ import com.azure.resourcemanager.sql.SqlServerManager;
 import com.azure.resourcemanager.sql.fluent.models.DatabaseSecurityAlertPolicyInner;
 import com.azure.resourcemanager.sql.models.SecurityAlertPolicyName;
 import com.azure.resourcemanager.sql.models.SecurityAlertPolicyState;
-import com.azure.resourcemanager.sql.models.SecurityAlertPolicyUseServerDefault;
 import com.azure.resourcemanager.sql.models.SecurityAlertsPolicyState;
 import com.azure.resourcemanager.sql.models.SqlDatabase;
 import com.azure.resourcemanager.sql.models.SqlDatabaseThreatDetectionPolicy;
@@ -16,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,12 +66,12 @@ public class SqlDatabaseThreatDetectionPolicyImpl
 
     @Override
     public String kind() {
-        return this.innerModel().kind();
+        return parent().parent().kind();
     }
 
     @Override
     public SecurityAlertPolicyState currentState() {
-        return this.innerModel().state();
+        return this.innerModel().state() == null ? null : SecurityAlertPolicyState.fromString(this.innerModel().state().toString());
     }
 
     @Override
@@ -115,7 +115,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl
 
     @Override
     public boolean isDefaultSecurityAlertPolicy() {
-        return this.innerModel().useServerDefault() == SecurityAlertPolicyUseServerDefault.ENABLED;
+        return true;
     }
 
     @Override
@@ -166,28 +166,25 @@ public class SqlDatabaseThreatDetectionPolicyImpl
 
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withPolicyEnabled() {
-        this.innerModel().withUseServerDefault(SecurityAlertPolicyUseServerDefault.DISABLED);
         this.innerModel().withState(SecurityAlertsPolicyState.ENABLED);
         return this;
     }
 
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withPolicyDisabled() {
-        this.innerModel().withUseServerDefault(SecurityAlertPolicyUseServerDefault.DISABLED);
         this.innerModel().withState(SecurityAlertsPolicyState.DISABLED);
         return this;
     }
 
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withPolicyNew() {
-        this.innerModel().withUseServerDefault(SecurityAlertPolicyUseServerDefault.DISABLED);
-        this.innerModel().withState(SecurityAlertsPolicyState.NEW);
+        // todo (xiaofeicao) Is NEW removed from possible states?
+//        this.innerModel().withState(SecurityAlertsPolicyState.NEW);
         return this;
     }
 
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withDefaultSecurityAlertPolicy() {
-        this.innerModel().withUseServerDefault(SecurityAlertPolicyUseServerDefault.ENABLED);
         return this;
     }
 
@@ -206,7 +203,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withAlertsFilter(String alertsFilter) {
         if (alertsFilter != null) {
-            this.innerModel().withDisabledAlerts(Stream.of(alertsFilter.split(";")).collect(Collectors.toList()));
+            this.innerModel().withDisabledAlerts(Stream.of(alertsFilter.split(Pattern.quote(";"))).collect(Collectors.toList()));
         }
         return this;
     }
@@ -214,7 +211,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl
     @Override
     public SqlDatabaseThreatDetectionPolicyImpl withEmailAddresses(String addresses) {
         if (addresses != null) {
-            this.innerModel().withEmailAddresses(Stream.of(addresses.split(";")).collect(Collectors.toList()));
+            this.innerModel().withEmailAddresses(Stream.of(addresses.split(Pattern.quote(";"))).collect(Collectors.toList()));
         }
         return this;
     }

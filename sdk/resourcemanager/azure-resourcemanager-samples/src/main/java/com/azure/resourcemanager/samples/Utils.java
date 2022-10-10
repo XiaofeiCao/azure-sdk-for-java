@@ -183,8 +183,6 @@ import com.azure.resourcemanager.sql.models.ElasticPoolActivity;
 import com.azure.resourcemanager.sql.models.ElasticPoolDatabaseActivity;
 import com.azure.resourcemanager.sql.models.PartnerInfo;
 import com.azure.resourcemanager.sql.models.SqlDatabase;
-import com.azure.resourcemanager.sql.models.SqlDatabaseMetric;
-import com.azure.resourcemanager.sql.models.SqlDatabaseMetricValue;
 import com.azure.resourcemanager.sql.models.SqlDatabaseUsageMetric;
 import com.azure.resourcemanager.sql.models.SqlElasticPool;
 import com.azure.resourcemanager.sql.models.SqlFailoverGroup;
@@ -1887,39 +1885,11 @@ public final class Utils {
      */
     public static void print(SqlDatabaseUsageMetric dbUsageMetric) {
         StringBuilder builder = new StringBuilder().append("SQL Database Usage Metric")
-                .append("Name: ").append(dbUsageMetric.name())
-                .append("\n\tResource Name: ").append(dbUsageMetric.resourceName())
-                .append("\n\tDisplay Name: ").append(dbUsageMetric.displayName())
-                .append("\n\tCurrent Value: ").append(dbUsageMetric.currentValue())
-                .append("\n\tLimit: ").append(dbUsageMetric.limit())
-                .append("\n\tUnit: ").append(dbUsageMetric.unit())
-                .append("\n\tNext Reset Time: ").append(dbUsageMetric.nextResetTime());
-
-        System.out.println(builder.toString());
-    }
-
-    /**
-     * Prints information for the passed SQL database metric.
-     *
-     * @param dbMetric metric to be printed.
-     */
-    public static void print(SqlDatabaseMetric dbMetric) {
-        StringBuilder builder = new StringBuilder().append("SQL Database Metric")
-                .append("Name: ").append(dbMetric.name())
-                .append("\n\tStart Time: ").append(dbMetric.startTime())
-                .append("\n\tEnd Time: ").append(dbMetric.endTime())
-                .append("\n\tTime Grain: ").append(dbMetric.timeGrain())
-                .append("\n\tUnit: ").append(dbMetric.unit());
-        for (SqlDatabaseMetricValue metricValue : dbMetric.metricValues()) {
-            builder
-                    .append("\n\tMetric Value: ")
-                    .append("\n\t\tCount: ").append(metricValue.count())
-                    .append("\n\t\tAverage: ").append(metricValue.average())
-                    .append("\n\t\tMaximum: ").append(metricValue.maximum())
-                    .append("\n\t\tMinimum: ").append(metricValue.minimum())
-                    .append("\n\t\tTimestamp: ").append(metricValue.timestamp())
-                    .append("\n\t\tTotal: ").append(metricValue.total());
-        }
+            .append("Name: ").append(dbUsageMetric.name())
+            .append("\n\tDisplay Name: ").append(dbUsageMetric.displayName())
+            .append("\n\tCurrent Value: ").append(dbUsageMetric.currentValue())
+            .append("\n\tLimit: ").append(dbUsageMetric.limit())
+            .append("\n\tUnit: ").append(dbUsageMetric.unit());
 
         System.out.println(builder.toString());
     }

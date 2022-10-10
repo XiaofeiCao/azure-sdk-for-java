@@ -124,7 +124,7 @@ public class SqlFirewallRuleImpl
 
     @Override
     public String kind() {
-        return this.innerModel().kind();
+        return parent().kind();
     }
 
     @Override
