@@ -8,8 +8,6 @@ import com.azure.resourcemanager.resources.fluentcore.model.implementation.Execu
 import com.azure.resourcemanager.sql.SqlServerManager;
 import com.azure.resourcemanager.sql.models.AuthenticationType;
 import com.azure.resourcemanager.sql.models.ImportExistingDatabaseDefinition;
-import com.azure.resourcemanager.sql.models.ImportExtensionRequest;
-import com.azure.resourcemanager.sql.models.ImportOperationMode;
 import com.azure.resourcemanager.sql.models.SqlDatabase;
 import com.azure.resourcemanager.sql.models.SqlDatabaseImportExportResponse;
 import com.azure.resourcemanager.sql.models.SqlDatabaseImportRequest;
@@ -127,14 +125,14 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     @Override
     public SqlDatabaseImportRequestImpl withSqlAdministratorLoginAndPassword(
         String administratorLogin, String administratorPassword) {
-        this.inner.withAuthenticationType(AuthenticationType.SQL);
+        this.inner.withAuthenticationType(AuthenticationType.SQL.toString());
         return this.withLoginAndPassword(administratorLogin, administratorPassword);
     }
 
     @Override
     public SqlDatabaseImportRequestImpl withActiveDirectoryLoginAndPassword(
         String administratorLogin, String administratorPassword) {
-        this.inner.withAuthenticationType(AuthenticationType.ADPASSWORD);
+        this.inner.withAuthenticationType(AuthenticationType.ADPASSWORD.toString());
         return this.withLoginAndPassword(administratorLogin, administratorPassword);
     }
 
