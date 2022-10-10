@@ -42,8 +42,6 @@ public class SqlDatabaseThreatDetectionPolicyImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = parent.resourceGroupName();
         this.sqlServerName = parent.sqlServerName();
-
-        this.innerModel().withLocation(parent.regionName());
     }
 
     @Override
@@ -63,7 +61,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl
 
     @Override
     public Region region() {
-        return Region.fromName(this.innerModel().location());
+        return Region.fromName(parent().regionName());
     }
 
     @Override

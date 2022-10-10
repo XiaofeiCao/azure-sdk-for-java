@@ -129,7 +129,7 @@ public class SqlFirewallRuleImpl
 
     @Override
     public Region region() {
-        return Region.fromName(this.innerModel().location());
+        return Region.fromName(parent().regionName());
     }
 
     @Override
