@@ -31,6 +31,10 @@ public final class InstancePoolProperties {
     @JsonProperty(value = "licenseType", required = true)
     private InstancePoolLicenseType licenseType;
 
+    /** Creates an instance of InstancePoolProperties class. */
+    public InstancePoolProperties() {
+    }
+
     /**
      * Get the subnetId property: Resource ID of the subnet to place this instance pool in.
      *

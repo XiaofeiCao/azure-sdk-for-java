@@ -17,6 +17,10 @@ public final class UpdateLongTermRetentionBackupParametersProperties {
     @JsonProperty(value = "requestedBackupStorageRedundancy")
     private BackupStorageRedundancy requestedBackupStorageRedundancy;
 
+    /** Creates an instance of UpdateLongTermRetentionBackupParametersProperties class. */
+    public UpdateLongTermRetentionBackupParametersProperties() {
+    }
+
     /**
      * Get the requestedBackupStorageRedundancy property: The storage redundancy type of the copied backup.
      *

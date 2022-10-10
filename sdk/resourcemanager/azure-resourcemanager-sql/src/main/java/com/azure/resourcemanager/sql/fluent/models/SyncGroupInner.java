@@ -28,6 +28,10 @@ public final class SyncGroupInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SyncGroupProperties innerProperties;
 
+    /** Creates an instance of SyncGroupInner class. */
+    public SyncGroupInner() {
+    }
+
     /**
      * Get the sku property: The name and capacity of the SKU.
      *

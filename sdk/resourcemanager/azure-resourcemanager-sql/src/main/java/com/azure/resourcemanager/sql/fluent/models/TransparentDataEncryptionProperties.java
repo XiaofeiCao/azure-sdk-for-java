@@ -18,6 +18,10 @@ public final class TransparentDataEncryptionProperties {
     @JsonProperty(value = "state", required = true)
     private TransparentDataEncryptionState state;
 
+    /** Creates an instance of TransparentDataEncryptionProperties class. */
+    public TransparentDataEncryptionProperties() {
+    }
+
     /**
      * Get the state property: Specifies the state of the transparent data encryption.
      *

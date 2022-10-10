@@ -44,6 +44,10 @@ public final class RecommendedActionMetricInfo {
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private Double value;
 
+    /** Creates an instance of RecommendedActionMetricInfo class. */
+    public RecommendedActionMetricInfo() {
+    }
+
     /**
      * Get the metricName property: Gets the name of the metric. e.g., CPU, Number of Queries.
      *

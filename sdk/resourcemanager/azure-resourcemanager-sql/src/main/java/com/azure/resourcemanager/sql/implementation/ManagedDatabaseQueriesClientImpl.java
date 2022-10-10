@@ -253,25 +253,6 @@ public final class ManagedDatabaseQueriesClientImpl implements ManagedDatabaseQu
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param queryId The queryId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return query by query id.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceQueryInner get(
-        String resourceGroupName, String managedInstanceName, String databaseName, String queryId) {
-        return getAsync(resourceGroupName, managedInstanceName, databaseName, queryId).block();
-    }
-
-    /**
-     * Get query by query id.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param queryId The queryId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -282,6 +263,25 @@ public final class ManagedDatabaseQueriesClientImpl implements ManagedDatabaseQu
     public Response<ManagedInstanceQueryInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String databaseName, String queryId, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, databaseName, queryId, context).block();
+    }
+
+    /**
+     * Get query by query id.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param queryId The queryId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return query by query id.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceQueryInner get(
+        String resourceGroupName, String managedInstanceName, String databaseName, String queryId) {
+        return getWithResponse(resourceGroupName, managedInstanceName, databaseName, queryId, Context.NONE).getValue();
     }
 
     /**

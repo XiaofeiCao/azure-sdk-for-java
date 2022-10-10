@@ -29,6 +29,10 @@ public final class ManagedInstanceOperationSteps {
     @JsonProperty(value = "stepsList", access = JsonProperty.Access.WRITE_ONLY)
     private List<UpsertManagedServerOperationStepWithEstimatesAndDuration> stepsList;
 
+    /** Creates an instance of ManagedInstanceOperationSteps class. */
+    public ManagedInstanceOperationSteps() {
+    }
+
     /**
      * Get the totalSteps property: The total number of operation steps.
      *

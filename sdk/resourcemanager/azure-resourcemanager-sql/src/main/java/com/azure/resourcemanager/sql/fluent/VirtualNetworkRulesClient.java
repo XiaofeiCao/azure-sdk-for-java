@@ -101,21 +101,6 @@ public interface VirtualNetworkRulesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param virtualNetworkRuleName The name of the virtual network rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a virtual network rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    VirtualNetworkRuleInner get(String resourceGroupName, String serverName, String virtualNetworkRuleName);
-
-    /**
-     * Gets a virtual network rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param virtualNetworkRuleName The name of the virtual network rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -125,6 +110,21 @@ public interface VirtualNetworkRulesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<VirtualNetworkRuleInner> getWithResponse(
         String resourceGroupName, String serverName, String virtualNetworkRuleName, Context context);
+
+    /**
+     * Gets a virtual network rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param virtualNetworkRuleName The name of the virtual network rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a virtual network rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    VirtualNetworkRuleInner get(String resourceGroupName, String serverName, String virtualNetworkRuleName);
 
     /**
      * Creates or updates an existing virtual network rule.

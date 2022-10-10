@@ -47,6 +47,10 @@ public final class CopyLongTermRetentionBackupParametersProperties {
     @JsonProperty(value = "targetBackupStorageRedundancy")
     private BackupStorageRedundancy targetBackupStorageRedundancy;
 
+    /** Creates an instance of CopyLongTermRetentionBackupParametersProperties class. */
+    public CopyLongTermRetentionBackupParametersProperties() {
+    }
+
     /**
      * Get the targetSubscriptionId property: The subscription that owns the target server.
      *

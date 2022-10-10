@@ -46,6 +46,10 @@ public final class MaxSizeRangeCapability {
     @JsonProperty(value = "reason")
     private String reason;
 
+    /** Creates an instance of MaxSizeRangeCapability class. */
+    public MaxSizeRangeCapability() {
+    }
+
     /**
      * Get the minValue property: Minimum value.
      *

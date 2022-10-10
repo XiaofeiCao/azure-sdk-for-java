@@ -737,32 +737,6 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
      * @param jobName The name of the job to get.
      * @param jobExecutionId The unique id of the job execution.
      * @param stepName The name of the step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a step execution of a job execution.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobExecutionInner get(
-        String resourceGroupName,
-        String serverName,
-        String jobAgentName,
-        String jobName,
-        UUID jobExecutionId,
-        String stepName) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName).block();
-    }
-
-    /**
-     * Gets a step execution of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution.
-     * @param stepName The name of the step.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -781,6 +755,34 @@ public final class JobStepExecutionsClientImpl implements JobStepExecutionsClien
         return getWithResponseAsync(
                 resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, context)
             .block();
+    }
+
+    /**
+     * Gets a step execution of a job execution.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @param jobExecutionId The unique id of the job execution.
+     * @param stepName The name of the step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a step execution of a job execution.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobExecutionInner get(
+        String resourceGroupName,
+        String serverName,
+        String jobAgentName,
+        String jobName,
+        UUID jobExecutionId,
+        String stepName) {
+        return getWithResponse(
+                resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, Context.NONE)
+            .getValue();
     }
 
     /**

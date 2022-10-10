@@ -34,6 +34,10 @@ public final class MaintenanceConfigurationCapability {
     @JsonProperty(value = "reason")
     private String reason;
 
+    /** Creates an instance of MaintenanceConfigurationCapability class. */
+    public MaintenanceConfigurationCapability() {
+    }
+
     /**
      * Get the name property: Maintenance configuration name.
      *

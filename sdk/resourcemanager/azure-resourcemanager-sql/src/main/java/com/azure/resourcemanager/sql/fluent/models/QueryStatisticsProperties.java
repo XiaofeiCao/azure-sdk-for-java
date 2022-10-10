@@ -42,6 +42,10 @@ public final class QueryStatisticsProperties {
     @JsonProperty(value = "intervals")
     private List<QueryMetricInterval> intervals;
 
+    /** Creates an instance of QueryStatisticsProperties class. */
+    public QueryStatisticsProperties() {
+    }
+
     /**
      * Get the databaseName property: Database name of the database in which this query was executed.
      *

@@ -22,6 +22,10 @@ public final class ManagedInstanceOperationParametersPair {
     @JsonProperty(value = "requestedParameters", access = JsonProperty.Access.WRITE_ONLY)
     private UpsertManagedServerOperationParameters requestedParameters;
 
+    /** Creates an instance of ManagedInstanceOperationParametersPair class. */
+    public ManagedInstanceOperationParametersPair() {
+    }
+
     /**
      * Get the currentParameters property: The current parameters.
      *

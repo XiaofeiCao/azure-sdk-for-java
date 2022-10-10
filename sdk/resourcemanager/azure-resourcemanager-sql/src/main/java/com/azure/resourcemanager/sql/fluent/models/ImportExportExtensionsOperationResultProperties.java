@@ -73,6 +73,10 @@ public final class ImportExportExtensionsOperationResultProperties {
     @JsonProperty(value = "privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<PrivateEndpointConnectionRequestStatus> privateEndpointConnections;
 
+    /** Creates an instance of ImportExportExtensionsOperationResultProperties class. */
+    public ImportExportExtensionsOperationResultProperties() {
+    }
+
     /**
      * Get the requestId property: Request Id.
      *

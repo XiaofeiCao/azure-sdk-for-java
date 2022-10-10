@@ -17,6 +17,10 @@ public final class ManagedServerDnsAliasAcquisition {
     @JsonProperty(value = "oldManagedServerDnsAliasResourceId", required = true)
     private String oldManagedServerDnsAliasResourceId;
 
+    /** Creates an instance of ManagedServerDnsAliasAcquisition class. */
+    public ManagedServerDnsAliasAcquisition() {
+    }
+
     /**
      * Get the oldManagedServerDnsAliasResourceId property: The resource ID of the managed server DNS alias that will be
      * acquired to point to this managed server instead.

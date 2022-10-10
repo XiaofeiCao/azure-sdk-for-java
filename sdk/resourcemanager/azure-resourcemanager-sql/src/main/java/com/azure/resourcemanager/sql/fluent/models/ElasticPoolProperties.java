@@ -71,6 +71,10 @@ public final class ElasticPoolProperties {
     @JsonProperty(value = "highAvailabilityReplicaCount")
     private Integer highAvailabilityReplicaCount;
 
+    /** Creates an instance of ElasticPoolProperties class. */
+    public ElasticPoolProperties() {
+    }
+
     /**
      * Get the state property: The state of the elastic pool.
      *

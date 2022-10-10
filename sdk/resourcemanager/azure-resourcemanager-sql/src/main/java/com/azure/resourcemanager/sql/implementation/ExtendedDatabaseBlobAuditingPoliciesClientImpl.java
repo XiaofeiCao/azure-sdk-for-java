@@ -470,24 +470,6 @@ public final class ExtendedDatabaseBlobAuditingPoliciesClientImpl
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an extended database's blob auditing policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExtendedDatabaseBlobAuditingPolicyInner get(
-        String resourceGroupName, String serverName, String databaseName) {
-        return getAsync(resourceGroupName, serverName, databaseName).block();
-    }
-
-    /**
-     * Gets an extended database's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -498,6 +480,24 @@ public final class ExtendedDatabaseBlobAuditingPoliciesClientImpl
     public Response<ExtendedDatabaseBlobAuditingPolicyInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, context).block();
+    }
+
+    /**
+     * Gets an extended database's blob auditing policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an extended database's blob auditing policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ExtendedDatabaseBlobAuditingPolicyInner get(
+        String resourceGroupName, String serverName, String databaseName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, Context.NONE).getValue();
     }
 
     /**
@@ -664,28 +664,6 @@ public final class ExtendedDatabaseBlobAuditingPoliciesClientImpl
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param parameters The extended database blob auditing policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an extended database blob auditing policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExtendedDatabaseBlobAuditingPolicyInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        ExtendedDatabaseBlobAuditingPolicyInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, parameters).block();
-    }
-
-    /**
-     * Creates or updates an extended database's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param parameters The extended database blob auditing policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -701,6 +679,29 @@ public final class ExtendedDatabaseBlobAuditingPoliciesClientImpl
         Context context) {
         return createOrUpdateWithResponseAsync(resourceGroupName, serverName, databaseName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates an extended database's blob auditing policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param parameters The extended database blob auditing policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an extended database blob auditing policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ExtendedDatabaseBlobAuditingPolicyInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        ExtendedDatabaseBlobAuditingPolicyInner parameters) {
+        return createOrUpdateWithResponse(resourceGroupName, serverName, databaseName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**

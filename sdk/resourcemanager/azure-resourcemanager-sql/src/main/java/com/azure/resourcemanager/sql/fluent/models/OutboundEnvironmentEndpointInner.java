@@ -24,6 +24,10 @@ public final class OutboundEnvironmentEndpointInner {
     @JsonProperty(value = "endpoints", access = JsonProperty.Access.WRITE_ONLY)
     private List<EndpointDependency> endpoints;
 
+    /** Creates an instance of OutboundEnvironmentEndpointInner class. */
+    public OutboundEnvironmentEndpointInner() {
+    }
+
     /**
      * Get the category property: The type of service accessed by the managed instance service, e.g., Azure Storage,
      * Azure Active Directory, etc.

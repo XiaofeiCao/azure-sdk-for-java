@@ -18,6 +18,10 @@ public final class ManagedInstancePrivateLinkInner extends ProxyResource {
     @JsonProperty(value = "properties", access = JsonProperty.Access.WRITE_ONLY)
     private ManagedInstancePrivateLinkProperties properties;
 
+    /** Creates an instance of ManagedInstancePrivateLinkInner class. */
+    public ManagedInstancePrivateLinkInner() {
+    }
+
     /**
      * Get the properties property: The private link resource group id.
      *

@@ -497,28 +497,6 @@ public final class DatabaseAdvancedThreatProtectionSettingsClientImpl
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database's Advanced Threat Protection state.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DatabaseAdvancedThreatProtectionInner get(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        AdvancedThreatProtectionName advancedThreatProtectionName) {
-        return getAsync(resourceGroupName, serverName, databaseName, advancedThreatProtectionName).block();
-    }
-
-    /**
-     * Gets a database's Advanced Threat Protection state.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -534,6 +512,29 @@ public final class DatabaseAdvancedThreatProtectionSettingsClientImpl
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, advancedThreatProtectionName, context)
             .block();
+    }
+
+    /**
+     * Gets a database's Advanced Threat Protection state.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database's Advanced Threat Protection state.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DatabaseAdvancedThreatProtectionInner get(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        AdvancedThreatProtectionName advancedThreatProtectionName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, advancedThreatProtectionName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -718,32 +719,6 @@ public final class DatabaseAdvancedThreatProtectionSettingsClientImpl
      * @param databaseName The name of the database.
      * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
      * @param parameters The database Advanced Threat Protection state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database Advanced Threat Protection.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DatabaseAdvancedThreatProtectionInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        AdvancedThreatProtectionName advancedThreatProtectionName,
-        DatabaseAdvancedThreatProtectionInner parameters) {
-        return createOrUpdateAsync(
-                resourceGroupName, serverName, databaseName, advancedThreatProtectionName, parameters)
-            .block();
-    }
-
-    /**
-     * Creates or updates a database's Advanced Threat Protection state.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
-     * @param parameters The database Advanced Threat Protection state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -761,6 +736,32 @@ public final class DatabaseAdvancedThreatProtectionSettingsClientImpl
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, databaseName, advancedThreatProtectionName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a database's Advanced Threat Protection state.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advancedThreatProtectionName The name of the Advanced Threat Protection state.
+     * @param parameters The database Advanced Threat Protection state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database Advanced Threat Protection.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DatabaseAdvancedThreatProtectionInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        AdvancedThreatProtectionName advancedThreatProtectionName,
+        DatabaseAdvancedThreatProtectionInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, serverName, databaseName, advancedThreatProtectionName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**

@@ -17,6 +17,10 @@ public final class ServerInfo {
     @JsonProperty(value = "serverId", required = true)
     private String serverId;
 
+    /** Creates an instance of ServerInfo class. */
+    public ServerInfo() {
+    }
+
     /**
      * Get the serverId property: Server Id.
      *

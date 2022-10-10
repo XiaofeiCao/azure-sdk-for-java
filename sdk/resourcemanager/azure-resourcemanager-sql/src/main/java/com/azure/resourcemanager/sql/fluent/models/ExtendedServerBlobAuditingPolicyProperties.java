@@ -193,6 +193,10 @@ public final class ExtendedServerBlobAuditingPolicyProperties {
     @JsonProperty(value = "storageAccountSubscriptionId")
     private UUID storageAccountSubscriptionId;
 
+    /** Creates an instance of ExtendedServerBlobAuditingPolicyProperties class. */
+    public ExtendedServerBlobAuditingPolicyProperties() {
+    }
+
     /**
      * Get the isDevopsAuditEnabled property: Specifies the state of devops audit. If state is Enabled, devops logs will
      * be sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'State' as 'Enabled',

@@ -50,6 +50,10 @@ public final class ServerKeyProperties {
     @JsonProperty(value = "autoRotationEnabled", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean autoRotationEnabled;
 
+    /** Creates an instance of ServerKeyProperties class. */
+    public ServerKeyProperties() {
+    }
+
     /**
      * Get the subregion property: Subregion of the server key.
      *

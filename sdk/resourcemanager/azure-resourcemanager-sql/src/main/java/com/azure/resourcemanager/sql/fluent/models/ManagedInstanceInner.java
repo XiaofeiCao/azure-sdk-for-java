@@ -42,6 +42,10 @@ public final class ManagedInstanceInner extends Resource {
     @JsonProperty(value = "properties")
     private ManagedInstanceProperties innerProperties;
 
+    /** Creates an instance of ManagedInstanceInner class. */
+    public ManagedInstanceInner() {
+    }
+
     /**
      * Get the identity property: The Azure Active Directory identity of the managed instance.
      *

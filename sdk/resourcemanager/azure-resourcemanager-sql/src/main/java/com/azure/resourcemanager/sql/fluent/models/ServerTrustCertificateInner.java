@@ -17,6 +17,10 @@ public final class ServerTrustCertificateInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerTrustCertificateProperties innerProperties;
 
+    /** Creates an instance of ServerTrustCertificateInner class. */
+    public ServerTrustCertificateInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

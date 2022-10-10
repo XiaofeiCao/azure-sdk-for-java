@@ -19,6 +19,10 @@ public final class LongTermRetentionBackupOperationResultInner extends ProxyReso
     @JsonProperty(value = "properties")
     private LongTermRetentionOperationResultProperties innerProperties;
 
+    /** Creates an instance of LongTermRetentionBackupOperationResultInner class. */
+    public LongTermRetentionBackupOperationResultInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

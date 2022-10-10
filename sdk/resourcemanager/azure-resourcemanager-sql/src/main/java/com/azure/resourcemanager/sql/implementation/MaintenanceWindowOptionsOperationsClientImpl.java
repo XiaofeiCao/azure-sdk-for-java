@@ -231,25 +231,6 @@ public final class MaintenanceWindowOptionsOperationsClientImpl implements Maint
      * @param serverName The name of the server.
      * @param databaseName The name of the database to get maintenance windows options for.
      * @param maintenanceWindowOptionsName Maintenance window options name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a list of available maintenance windows.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public MaintenanceWindowOptionsInner get(
-        String resourceGroupName, String serverName, String databaseName, String maintenanceWindowOptionsName) {
-        return getAsync(resourceGroupName, serverName, databaseName, maintenanceWindowOptionsName).block();
-    }
-
-    /**
-     * Gets a list of available maintenance windows.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database to get maintenance windows options for.
-     * @param maintenanceWindowOptionsName Maintenance window options name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -265,5 +246,25 @@ public final class MaintenanceWindowOptionsOperationsClientImpl implements Maint
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, maintenanceWindowOptionsName, context)
             .block();
+    }
+
+    /**
+     * Gets a list of available maintenance windows.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to get maintenance windows options for.
+     * @param maintenanceWindowOptionsName Maintenance window options name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a list of available maintenance windows.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MaintenanceWindowOptionsInner get(
+        String resourceGroupName, String serverName, String databaseName, String maintenanceWindowOptionsName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, maintenanceWindowOptionsName, Context.NONE)
+            .getValue();
     }
 }

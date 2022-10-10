@@ -130,30 +130,6 @@ public interface DataMaskingRulesClient {
      * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
      * @param dataMaskingRuleName The name of the data masking rule.
      * @param parameters The required parameters for creating or updating a data masking rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database data masking rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    DataMaskingRuleInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        DataMaskingPolicyName dataMaskingPolicyName,
-        String dataMaskingRuleName,
-        DataMaskingRuleInner parameters);
-
-    /**
-     * Creates or updates a database data masking rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
-     * @param dataMaskingRuleName The name of the data masking rule.
-     * @param parameters The required parameters for creating or updating a data masking rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -169,4 +145,28 @@ public interface DataMaskingRulesClient {
         String dataMaskingRuleName,
         DataMaskingRuleInner parameters,
         Context context);
+
+    /**
+     * Creates or updates a database data masking rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
+     * @param dataMaskingRuleName The name of the data masking rule.
+     * @param parameters The required parameters for creating or updating a data masking rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database data masking rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    DataMaskingRuleInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        DataMaskingPolicyName dataMaskingPolicyName,
+        String dataMaskingRuleName,
+        DataMaskingRuleInner parameters);
 }

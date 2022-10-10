@@ -18,6 +18,10 @@ public final class LogicalDatabaseTransparentDataEncryptionInner extends ProxyRe
     @JsonProperty(value = "properties")
     private TransparentDataEncryptionProperties innerProperties;
 
+    /** Creates an instance of LogicalDatabaseTransparentDataEncryptionInner class. */
+    public LogicalDatabaseTransparentDataEncryptionInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

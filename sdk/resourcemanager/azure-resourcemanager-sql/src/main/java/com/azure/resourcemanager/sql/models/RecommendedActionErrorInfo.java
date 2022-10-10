@@ -22,6 +22,10 @@ public final class RecommendedActionErrorInfo {
     @JsonProperty(value = "isRetryable", access = JsonProperty.Access.WRITE_ONLY)
     private IsRetryable isRetryable;
 
+    /** Creates an instance of RecommendedActionErrorInfo class. */
+    public RecommendedActionErrorInfo() {
+    }
+
     /**
      * Get the errorCode property: Gets the reason why the recommended action was put to error state. e.g.,
      * DatabaseHasQdsOff, IndexAlreadyExists.

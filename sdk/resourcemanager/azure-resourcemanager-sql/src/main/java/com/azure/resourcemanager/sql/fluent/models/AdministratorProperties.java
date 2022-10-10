@@ -43,6 +43,10 @@ public final class AdministratorProperties {
     @JsonProperty(value = "azureADOnlyAuthentication", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean azureADOnlyAuthentication;
 
+    /** Creates an instance of AdministratorProperties class. */
+    public AdministratorProperties() {
+    }
+
     /**
      * Get the administratorType property: Type of the sever administrator.
      *

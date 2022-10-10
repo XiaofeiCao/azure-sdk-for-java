@@ -487,23 +487,6 @@ public final class ManagedServerDnsAliasesClientImpl implements ManagedServerDns
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param dnsAliasName The dnsAliasName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server DNS alias.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedServerDnsAliasInner get(String resourceGroupName, String managedInstanceName, String dnsAliasName) {
-        return getAsync(resourceGroupName, managedInstanceName, dnsAliasName).block();
-    }
-
-    /**
-     * Gets a server DNS alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param dnsAliasName The dnsAliasName parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -514,6 +497,23 @@ public final class ManagedServerDnsAliasesClientImpl implements ManagedServerDns
     public Response<ManagedServerDnsAliasInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String dnsAliasName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, dnsAliasName, context).block();
+    }
+
+    /**
+     * Gets a server DNS alias.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param dnsAliasName The dnsAliasName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server DNS alias.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedServerDnsAliasInner get(String resourceGroupName, String managedInstanceName, String dnsAliasName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, dnsAliasName, Context.NONE).getValue();
     }
 
     /**

@@ -17,6 +17,10 @@ public final class ServerDnsAliasAcquisition {
     @JsonProperty(value = "oldServerDnsAliasId", required = true)
     private String oldServerDnsAliasId;
 
+    /** Creates an instance of ServerDnsAliasAcquisition class. */
+    public ServerDnsAliasAcquisition() {
+    }
+
     /**
      * Get the oldServerDnsAliasId property: The id of the server alias that will be acquired to point to this server
      * instead.

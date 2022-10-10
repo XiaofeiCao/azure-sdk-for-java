@@ -827,35 +827,6 @@ public final class JobTargetExecutionsClientImpl implements JobTargetExecutionsC
      * @param jobExecutionId The unique id of the job execution.
      * @param stepName The name of the step.
      * @param targetId The target id.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a target execution.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobExecutionInner get(
-        String resourceGroupName,
-        String serverName,
-        String jobAgentName,
-        String jobName,
-        UUID jobExecutionId,
-        String stepName,
-        UUID targetId) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, targetId)
-            .block();
-    }
-
-    /**
-     * Gets a target execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job to get.
-     * @param jobExecutionId The unique id of the job execution.
-     * @param stepName The name of the step.
-     * @param targetId The target id.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -875,6 +846,36 @@ public final class JobTargetExecutionsClientImpl implements JobTargetExecutionsC
         return getWithResponseAsync(
                 resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, targetId, context)
             .block();
+    }
+
+    /**
+     * Gets a target execution.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job to get.
+     * @param jobExecutionId The unique id of the job execution.
+     * @param stepName The name of the step.
+     * @param targetId The target id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a target execution.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobExecutionInner get(
+        String resourceGroupName,
+        String serverName,
+        String jobAgentName,
+        String jobName,
+        UUID jobExecutionId,
+        String stepName,
+        UUID targetId) {
+        return getWithResponse(
+                resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, stepName, targetId, Context.NONE)
+            .getValue();
     }
 
     /**

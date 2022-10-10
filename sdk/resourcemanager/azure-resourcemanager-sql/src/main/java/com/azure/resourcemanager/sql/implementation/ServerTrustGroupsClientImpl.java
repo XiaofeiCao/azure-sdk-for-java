@@ -483,23 +483,6 @@ public final class ServerTrustGroupsClientImpl implements ServerTrustGroupsClien
      *     from the Azure Resource Manager API or the portal.
      * @param locationName The name of the region where the resource is located.
      * @param serverTrustGroupName The name of the server trust group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server trust group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerTrustGroupInner get(String resourceGroupName, String locationName, String serverTrustGroupName) {
-        return getAsync(resourceGroupName, locationName, serverTrustGroupName).block();
-    }
-
-    /**
-     * Gets a server trust group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param locationName The name of the region where the resource is located.
-     * @param serverTrustGroupName The name of the server trust group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -510,6 +493,23 @@ public final class ServerTrustGroupsClientImpl implements ServerTrustGroupsClien
     public Response<ServerTrustGroupInner> getWithResponse(
         String resourceGroupName, String locationName, String serverTrustGroupName, Context context) {
         return getWithResponseAsync(resourceGroupName, locationName, serverTrustGroupName, context).block();
+    }
+
+    /**
+     * Gets a server trust group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param locationName The name of the region where the resource is located.
+     * @param serverTrustGroupName The name of the server trust group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server trust group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerTrustGroupInner get(String resourceGroupName, String locationName, String serverTrustGroupName) {
+        return getWithResponse(resourceGroupName, locationName, serverTrustGroupName, Context.NONE).getValue();
     }
 
     /**

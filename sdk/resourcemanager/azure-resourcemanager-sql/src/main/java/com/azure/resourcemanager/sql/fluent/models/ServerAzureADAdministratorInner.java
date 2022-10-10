@@ -19,6 +19,10 @@ public final class ServerAzureADAdministratorInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private AdministratorProperties innerProperties;
 
+    /** Creates an instance of ServerAzureADAdministratorInner class. */
+    public ServerAzureADAdministratorInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

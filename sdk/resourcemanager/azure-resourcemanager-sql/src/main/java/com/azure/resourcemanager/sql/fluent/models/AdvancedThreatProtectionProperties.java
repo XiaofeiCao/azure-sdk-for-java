@@ -26,6 +26,10 @@ public final class AdvancedThreatProtectionProperties {
     @JsonProperty(value = "creationTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime creationTime;
 
+    /** Creates an instance of AdvancedThreatProtectionProperties class. */
+    public AdvancedThreatProtectionProperties() {
+    }
+
     /**
      * Get the state property: Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled
      * or a state has not been applied yet on the specific database or server.

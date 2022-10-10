@@ -101,21 +101,6 @@ public interface OutboundFirewallRulesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param outboundRuleFqdn The outboundRuleFqdn parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an outbound firewall rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    OutboundFirewallRuleInner get(String resourceGroupName, String serverName, String outboundRuleFqdn);
-
-    /**
-     * Gets an outbound firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param outboundRuleFqdn The outboundRuleFqdn parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -125,6 +110,21 @@ public interface OutboundFirewallRulesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<OutboundFirewallRuleInner> getWithResponse(
         String resourceGroupName, String serverName, String outboundRuleFqdn, Context context);
+
+    /**
+     * Gets an outbound firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param outboundRuleFqdn The outboundRuleFqdn parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an outbound firewall rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    OutboundFirewallRuleInner get(String resourceGroupName, String serverName, String outboundRuleFqdn);
 
     /**
      * Create a outbound firewall rule with a given name.

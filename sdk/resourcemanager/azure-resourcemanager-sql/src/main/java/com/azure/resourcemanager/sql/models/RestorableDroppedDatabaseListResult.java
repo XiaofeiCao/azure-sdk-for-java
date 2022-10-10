@@ -24,6 +24,10 @@ public final class RestorableDroppedDatabaseListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of RestorableDroppedDatabaseListResult class. */
+    public RestorableDroppedDatabaseListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

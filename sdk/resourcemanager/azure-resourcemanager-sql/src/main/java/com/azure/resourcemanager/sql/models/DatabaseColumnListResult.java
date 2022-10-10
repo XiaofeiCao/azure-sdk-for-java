@@ -24,6 +24,10 @@ public final class DatabaseColumnListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of DatabaseColumnListResult class. */
+    public DatabaseColumnListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

@@ -17,6 +17,10 @@ public final class ManagedInstanceAzureADOnlyAuthenticationInner extends ProxyRe
     @JsonProperty(value = "properties")
     private ManagedInstanceAzureADOnlyAuthProperties innerProperties;
 
+    /** Creates an instance of ManagedInstanceAzureADOnlyAuthenticationInner class. */
+    public ManagedInstanceAzureADOnlyAuthenticationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

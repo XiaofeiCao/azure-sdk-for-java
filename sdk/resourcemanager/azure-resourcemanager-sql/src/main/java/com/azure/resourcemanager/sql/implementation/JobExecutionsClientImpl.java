@@ -1169,26 +1169,6 @@ public final class JobExecutionsClientImpl implements JobExecutionsClient {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param jobExecutionId The id of the job execution.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a job execution.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobExecutionInner get(
-        String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId).block();
-    }
-
-    /**
-     * Gets a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param jobExecutionId The id of the job execution.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1205,6 +1185,27 @@ public final class JobExecutionsClientImpl implements JobExecutionsClient {
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, context)
             .block();
+    }
+
+    /**
+     * Gets a job execution.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param jobExecutionId The id of the job execution.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a job execution.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobExecutionInner get(
+        String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId) {
+        return getWithResponse(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -1702,25 +1703,6 @@ public final class JobExecutionsClientImpl implements JobExecutionsClient {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param jobExecutionId The id of the job execution to cancel.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void cancel(
-        String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId) {
-        cancelAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId).block();
-    }
-
-    /**
-     * Requests cancellation of a job execution.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param jobExecutionId The id of the job execution to cancel.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1737,6 +1719,25 @@ public final class JobExecutionsClientImpl implements JobExecutionsClient {
         Context context) {
         return cancelWithResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, context)
             .block();
+    }
+
+    /**
+     * Requests cancellation of a job execution.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param jobExecutionId The id of the job execution to cancel.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void cancel(
+        String resourceGroupName, String serverName, String jobAgentName, String jobName, UUID jobExecutionId) {
+        cancelWithResponse(resourceGroupName, serverName, jobAgentName, jobName, jobExecutionId, Context.NONE);
     }
 
     /**

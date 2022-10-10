@@ -34,6 +34,10 @@ public final class ServerUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of ServerUpdate class. */
+    public ServerUpdate() {
+    }
+
     /**
      * Get the identity property: Server identity.
      *

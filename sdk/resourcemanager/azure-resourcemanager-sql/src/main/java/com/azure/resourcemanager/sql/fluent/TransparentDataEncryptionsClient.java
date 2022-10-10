@@ -111,23 +111,6 @@ public interface TransparentDataEncryptionsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the logical database for which the transparent data encryption is defined.
      * @param tdeName The name of the transparent data encryption configuration.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a logical database's transparent data encryption.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    LogicalDatabaseTransparentDataEncryptionInner get(
-        String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionName tdeName);
-
-    /**
-     * Gets a logical database's transparent data encryption.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the logical database for which the transparent data encryption is defined.
-     * @param tdeName The name of the transparent data encryption configuration.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -141,6 +124,23 @@ public interface TransparentDataEncryptionsClient {
         String databaseName,
         TransparentDataEncryptionName tdeName,
         Context context);
+
+    /**
+     * Gets a logical database's transparent data encryption.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the logical database for which the transparent data encryption is defined.
+     * @param tdeName The name of the transparent data encryption configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a logical database's transparent data encryption.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    LogicalDatabaseTransparentDataEncryptionInner get(
+        String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionName tdeName);
 
     /**
      * Updates a logical database's transparent data encryption configuration.
@@ -196,28 +196,6 @@ public interface TransparentDataEncryptionsClient {
      * @param databaseName The name of the logical database for which the security alert policy is defined.
      * @param tdeName The name of the transparent data encryption configuration.
      * @param parameters The database transparent data encryption.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a logical database transparent data encryption state.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    LogicalDatabaseTransparentDataEncryptionInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        TransparentDataEncryptionName tdeName,
-        LogicalDatabaseTransparentDataEncryptionInner parameters);
-
-    /**
-     * Updates a logical database's transparent data encryption configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the logical database for which the security alert policy is defined.
-     * @param tdeName The name of the transparent data encryption configuration.
-     * @param parameters The database transparent data encryption.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -232,4 +210,26 @@ public interface TransparentDataEncryptionsClient {
         TransparentDataEncryptionName tdeName,
         LogicalDatabaseTransparentDataEncryptionInner parameters,
         Context context);
+
+    /**
+     * Updates a logical database's transparent data encryption configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the logical database for which the security alert policy is defined.
+     * @param tdeName The name of the transparent data encryption configuration.
+     * @param parameters The database transparent data encryption.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a logical database transparent data encryption state.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    LogicalDatabaseTransparentDataEncryptionInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        TransparentDataEncryptionName tdeName,
+        LogicalDatabaseTransparentDataEncryptionInner parameters);
 }

@@ -106,21 +106,6 @@ public interface DatabaseOperationsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    void cancel(String resourceGroupName, String serverName, String databaseName, UUID operationId);
-
-    /**
-     * Cancels the asynchronous operation on the database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param operationId The operation identifier.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -130,4 +115,19 @@ public interface DatabaseOperationsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<Void> cancelWithResponse(
         String resourceGroupName, String serverName, String databaseName, UUID operationId, Context context);
+
+    /**
+     * Cancels the asynchronous operation on the database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param operationId The operation identifier.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    void cancel(String resourceGroupName, String serverName, String databaseName, UUID operationId);
 }

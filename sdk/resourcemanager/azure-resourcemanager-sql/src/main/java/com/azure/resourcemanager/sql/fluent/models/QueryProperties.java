@@ -16,6 +16,10 @@ public final class QueryProperties {
     @JsonProperty(value = "queryText")
     private String queryText;
 
+    /** Creates an instance of QueryProperties class. */
+    public QueryProperties() {
+    }
+
     /**
      * Get the queryText property: Query text.
      *

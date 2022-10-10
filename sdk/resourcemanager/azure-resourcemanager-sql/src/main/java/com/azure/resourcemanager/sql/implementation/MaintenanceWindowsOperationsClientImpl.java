@@ -242,25 +242,6 @@ public final class MaintenanceWindowsOperationsClientImpl implements Maintenance
      * @param serverName The name of the server.
      * @param databaseName The name of the database to get maintenance windows for.
      * @param maintenanceWindowName Maintenance window name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return maintenance windows settings for a database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public MaintenanceWindowsInner get(
-        String resourceGroupName, String serverName, String databaseName, String maintenanceWindowName) {
-        return getAsync(resourceGroupName, serverName, databaseName, maintenanceWindowName).block();
-    }
-
-    /**
-     * Gets maintenance windows settings for a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database to get maintenance windows for.
-     * @param maintenanceWindowName Maintenance window name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -276,6 +257,26 @@ public final class MaintenanceWindowsOperationsClientImpl implements Maintenance
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, maintenanceWindowName, context)
             .block();
+    }
+
+    /**
+     * Gets maintenance windows settings for a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to get maintenance windows for.
+     * @param maintenanceWindowName Maintenance window name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return maintenance windows settings for a database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public MaintenanceWindowsInner get(
+        String resourceGroupName, String serverName, String databaseName, String maintenanceWindowName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, maintenanceWindowName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -450,29 +451,6 @@ public final class MaintenanceWindowsOperationsClientImpl implements Maintenance
      * @param databaseName The name of the database to set maintenance windows for.
      * @param maintenanceWindowName Maintenance window name.
      * @param parameters Maintenance windows.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String maintenanceWindowName,
-        MaintenanceWindowsInner parameters) {
-        createOrUpdateAsync(resourceGroupName, serverName, databaseName, maintenanceWindowName, parameters).block();
-    }
-
-    /**
-     * Sets maintenance windows settings for a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database to set maintenance windows for.
-     * @param maintenanceWindowName Maintenance window name.
-     * @param parameters Maintenance windows.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -490,5 +468,29 @@ public final class MaintenanceWindowsOperationsClientImpl implements Maintenance
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, databaseName, maintenanceWindowName, parameters, context)
             .block();
+    }
+
+    /**
+     * Sets maintenance windows settings for a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to set maintenance windows for.
+     * @param maintenanceWindowName Maintenance window name.
+     * @param parameters Maintenance windows.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String maintenanceWindowName,
+        MaintenanceWindowsInner parameters) {
+        createOrUpdateWithResponse(
+            resourceGroupName, serverName, databaseName, maintenanceWindowName, parameters, Context.NONE);
     }
 }

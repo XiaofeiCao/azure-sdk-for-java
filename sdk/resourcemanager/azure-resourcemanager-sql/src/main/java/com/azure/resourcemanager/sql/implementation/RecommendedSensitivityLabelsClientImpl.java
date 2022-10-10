@@ -224,27 +224,6 @@ public final class RecommendedSensitivityLabelsClientImpl implements Recommended
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param parameters A list of recommended sensitivity label update operations.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void update(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        RecommendedSensitivityLabelUpdateList parameters) {
-        updateAsync(resourceGroupName, serverName, databaseName, parameters).block();
-    }
-
-    /**
-     * Update recommended sensitivity labels states of a given database using an operations batch.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param parameters A list of recommended sensitivity label update operations.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -259,5 +238,26 @@ public final class RecommendedSensitivityLabelsClientImpl implements Recommended
         RecommendedSensitivityLabelUpdateList parameters,
         Context context) {
         return updateWithResponseAsync(resourceGroupName, serverName, databaseName, parameters, context).block();
+    }
+
+    /**
+     * Update recommended sensitivity labels states of a given database using an operations batch.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param parameters A list of recommended sensitivity label update operations.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void update(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        RecommendedSensitivityLabelUpdateList parameters) {
+        updateWithResponse(resourceGroupName, serverName, databaseName, parameters, Context.NONE);
     }
 }

@@ -16,6 +16,10 @@ public final class OutboundFirewallRuleProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
+    /** Creates an instance of OutboundFirewallRuleProperties class. */
+    public OutboundFirewallRuleProperties() {
+    }
+
     /**
      * Get the provisioningState property: The state of the outbound rule.
      *

@@ -109,22 +109,6 @@ public interface ManagedInstanceEncryptionProtectorsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param encryptionProtectorName The name of the encryption protector to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance encryption protector.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ManagedInstanceEncryptionProtectorInner get(
-        String resourceGroupName, String managedInstanceName, EncryptionProtectorName encryptionProtectorName);
-
-    /**
-     * Gets a managed instance encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -137,6 +121,22 @@ public interface ManagedInstanceEncryptionProtectorsClient {
         String managedInstanceName,
         EncryptionProtectorName encryptionProtectorName,
         Context context);
+
+    /**
+     * Gets a managed instance encryption protector.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance encryption protector.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ManagedInstanceEncryptionProtectorInner get(
+        String resourceGroupName, String managedInstanceName, EncryptionProtectorName encryptionProtectorName);
 
     /**
      * Updates an existing encryption protector.

@@ -34,6 +34,10 @@ public final class AdvisorInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private AdvisorProperties innerProperties;
 
+    /** Creates an instance of AdvisorInner class. */
+    public AdvisorInner() {
+    }
+
     /**
      * Get the kind property: Resource kind.
      *

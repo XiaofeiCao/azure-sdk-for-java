@@ -430,24 +430,6 @@ public final class RecoverableManagedDatabasesClientImpl implements RecoverableM
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param recoverableDatabaseName The recoverableDatabaseName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a recoverable managed database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RecoverableManagedDatabaseInner get(
-        String resourceGroupName, String managedInstanceName, String recoverableDatabaseName) {
-        return getAsync(resourceGroupName, managedInstanceName, recoverableDatabaseName).block();
-    }
-
-    /**
-     * Gets a recoverable managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param recoverableDatabaseName The recoverableDatabaseName parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -458,6 +440,25 @@ public final class RecoverableManagedDatabasesClientImpl implements RecoverableM
     public Response<RecoverableManagedDatabaseInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String recoverableDatabaseName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, recoverableDatabaseName, context).block();
+    }
+
+    /**
+     * Gets a recoverable managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param recoverableDatabaseName The recoverableDatabaseName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a recoverable managed database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RecoverableManagedDatabaseInner get(
+        String resourceGroupName, String managedInstanceName, String recoverableDatabaseName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, recoverableDatabaseName, Context.NONE)
+            .getValue();
     }
 
     /**

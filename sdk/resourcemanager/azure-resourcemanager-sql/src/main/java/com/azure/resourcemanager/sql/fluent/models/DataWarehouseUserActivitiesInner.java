@@ -17,6 +17,10 @@ public final class DataWarehouseUserActivitiesInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DataWarehouseUserActivitiesProperties innerProperties;
 
+    /** Creates an instance of DataWarehouseUserActivitiesInner class. */
+    public DataWarehouseUserActivitiesInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

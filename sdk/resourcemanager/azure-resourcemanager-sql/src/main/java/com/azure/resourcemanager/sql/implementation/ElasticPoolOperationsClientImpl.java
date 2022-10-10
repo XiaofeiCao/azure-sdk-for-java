@@ -450,23 +450,6 @@ public final class ElasticPoolOperationsClientImpl implements ElasticPoolOperati
      * @param serverName The name of the server.
      * @param elasticPoolName The elasticPoolName parameter.
      * @param operationId The operation identifier.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void cancel(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId) {
-        cancelAsync(resourceGroupName, serverName, elasticPoolName, operationId).block();
-    }
-
-    /**
-     * Cancels the asynchronous operation on the elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The elasticPoolName parameter.
-     * @param operationId The operation identifier.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -477,6 +460,23 @@ public final class ElasticPoolOperationsClientImpl implements ElasticPoolOperati
     public Response<Void> cancelWithResponse(
         String resourceGroupName, String serverName, String elasticPoolName, UUID operationId, Context context) {
         return cancelWithResponseAsync(resourceGroupName, serverName, elasticPoolName, operationId, context).block();
+    }
+
+    /**
+     * Cancels the asynchronous operation on the elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The elasticPoolName parameter.
+     * @param operationId The operation identifier.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void cancel(String resourceGroupName, String serverName, String elasticPoolName, UUID operationId) {
+        cancelWithResponse(resourceGroupName, serverName, elasticPoolName, operationId, Context.NONE);
     }
 
     /**

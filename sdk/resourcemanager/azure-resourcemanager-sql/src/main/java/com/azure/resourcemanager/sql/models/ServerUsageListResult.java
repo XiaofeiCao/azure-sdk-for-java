@@ -24,6 +24,10 @@ public final class ServerUsageListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ServerUsageListResult class. */
+    public ServerUsageListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

@@ -526,26 +526,6 @@ public final class DatabaseTablesClientImpl implements DatabaseTablesClient {
      * @param databaseName The name of the database.
      * @param schemaName The name of the schema.
      * @param tableName The name of the table.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database table.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DatabaseTableInner get(
-        String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName) {
-        return getAsync(resourceGroupName, serverName, databaseName, schemaName, tableName).block();
-    }
-
-    /**
-     * Get database table.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -562,6 +542,27 @@ public final class DatabaseTablesClientImpl implements DatabaseTablesClient {
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, context)
             .block();
+    }
+
+    /**
+     * Get database table.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database table.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DatabaseTableInner get(
+        String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, schemaName, tableName, Context.NONE)
+            .getValue();
     }
 
     /**

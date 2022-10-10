@@ -28,6 +28,10 @@ public final class ServerTrustCertificateProperties {
     @JsonProperty(value = "certificateName", access = JsonProperty.Access.WRITE_ONLY)
     private String certificateName;
 
+    /** Creates an instance of ServerTrustCertificateProperties class. */
+    public ServerTrustCertificateProperties() {
+    }
+
     /**
      * Get the publicBlob property: The certificate public blob.
      *

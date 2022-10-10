@@ -40,6 +40,10 @@ public final class RecommendedActionStateInfo {
     @JsonProperty(value = "lastModified", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime lastModified;
 
+    /** Creates an instance of RecommendedActionStateInfo class. */
+    public RecommendedActionStateInfo() {
+    }
+
     /**
      * Get the currentValue property: Current state the recommended action is in. Some commonly used states are: Active
      * -&gt; recommended action is active and no action has been taken yet. Pending -&gt; recommended action is approved

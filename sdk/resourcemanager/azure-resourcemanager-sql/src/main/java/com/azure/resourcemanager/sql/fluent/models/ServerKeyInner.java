@@ -31,6 +31,10 @@ public final class ServerKeyInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerKeyProperties innerProperties;
 
+    /** Creates an instance of ServerKeyInner class. */
+    public ServerKeyInner() {
+    }
+
     /**
      * Get the kind property: Kind of encryption protector. This is metadata used for the Azure portal experience.
      *

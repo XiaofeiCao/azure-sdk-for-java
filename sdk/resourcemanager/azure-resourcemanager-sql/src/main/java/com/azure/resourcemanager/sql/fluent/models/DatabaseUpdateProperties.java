@@ -285,6 +285,10 @@ public final class DatabaseUpdateProperties {
     @JsonProperty(value = "federatedClientId")
     private UUID federatedClientId;
 
+    /** Creates an instance of DatabaseUpdateProperties class. */
+    public DatabaseUpdateProperties() {
+    }
+
     /**
      * Get the createMode property: Specifies the mode of database creation.
      *

@@ -24,6 +24,10 @@ public final class LedgerDigestUploadsProperties {
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private LedgerDigestUploadsState state;
 
+    /** Creates an instance of LedgerDigestUploadsProperties class. */
+    public LedgerDigestUploadsProperties() {
+    }
+
     /**
      * Get the digestStorageEndpoint property: The digest storage endpoint, which must be either an Azure blob storage
      * endpoint or an URI for Azure Confidential Ledger.

@@ -432,23 +432,6 @@ public final class ManagedInstancePrivateLinkResourcesClientImpl implements Mana
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param groupName The name of the private link resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a private link resource for SQL server.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstancePrivateLinkInner get(String resourceGroupName, String managedInstanceName, String groupName) {
-        return getAsync(resourceGroupName, managedInstanceName, groupName).block();
-    }
-
-    /**
-     * Gets a private link resource for SQL server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param groupName The name of the private link resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -459,6 +442,23 @@ public final class ManagedInstancePrivateLinkResourcesClientImpl implements Mana
     public Response<ManagedInstancePrivateLinkInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String groupName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, groupName, context).block();
+    }
+
+    /**
+     * Gets a private link resource for SQL server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param groupName The name of the private link resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a private link resource for SQL server.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstancePrivateLinkInner get(String resourceGroupName, String managedInstanceName, String groupName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, groupName, Context.NONE).getValue();
     }
 
     /**

@@ -23,6 +23,10 @@ public final class DatabaseTableProperties {
     @JsonProperty(value = "memoryOptimized")
     private Boolean memoryOptimized;
 
+    /** Creates an instance of DatabaseTableProperties class. */
+    public DatabaseTableProperties() {
+    }
+
     /**
      * Get the temporalType property: The table temporal type.
      *

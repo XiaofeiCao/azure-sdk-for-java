@@ -54,6 +54,10 @@ public final class LongTermRetentionOperationResultProperties {
     @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
+    /** Creates an instance of LongTermRetentionOperationResultProperties class. */
+    public LongTermRetentionOperationResultProperties() {
+    }
+
     /**
      * Get the requestId property: Request Id.
      *

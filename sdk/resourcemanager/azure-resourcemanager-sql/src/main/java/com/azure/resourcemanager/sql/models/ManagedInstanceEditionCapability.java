@@ -47,6 +47,10 @@ public final class ManagedInstanceEditionCapability {
     @JsonProperty(value = "reason")
     private String reason;
 
+    /** Creates an instance of ManagedInstanceEditionCapability class. */
+    public ManagedInstanceEditionCapability() {
+    }
+
     /**
      * Get the name property: The managed server version name.
      *

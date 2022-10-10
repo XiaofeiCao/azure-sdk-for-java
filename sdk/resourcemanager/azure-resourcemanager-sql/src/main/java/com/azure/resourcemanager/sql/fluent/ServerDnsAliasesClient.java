@@ -102,21 +102,6 @@ public interface ServerDnsAliasesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server that the alias is pointing to.
      * @param dnsAliasName The name of the server dns alias.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server DNS alias.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ServerDnsAliasInner get(String resourceGroupName, String serverName, String dnsAliasName);
-
-    /**
-     * Gets a server DNS alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server that the alias is pointing to.
-     * @param dnsAliasName The name of the server dns alias.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -126,6 +111,21 @@ public interface ServerDnsAliasesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ServerDnsAliasInner> getWithResponse(
         String resourceGroupName, String serverName, String dnsAliasName, Context context);
+
+    /**
+     * Gets a server DNS alias.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server that the alias is pointing to.
+     * @param dnsAliasName The name of the server dns alias.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server DNS alias.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ServerDnsAliasInner get(String resourceGroupName, String serverName, String dnsAliasName);
 
     /**
      * Creates a server DNS alias.

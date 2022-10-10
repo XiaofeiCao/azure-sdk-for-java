@@ -53,6 +53,10 @@ public final class ExportDatabaseDefinition {
     @JsonProperty(value = "networkIsolation")
     private NetworkIsolationSettings networkIsolation;
 
+    /** Creates an instance of ExportDatabaseDefinition class. */
+    public ExportDatabaseDefinition() {
+    }
+
     /**
      * Get the storageKeyType property: Storage key type.
      *

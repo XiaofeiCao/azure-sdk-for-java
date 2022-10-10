@@ -67,6 +67,10 @@ public final class SecurityEventProperties {
     @JsonProperty(value = "securityEventSqlInjectionAdditionalProperties", access = JsonProperty.Access.WRITE_ONLY)
     private SecurityEventSqlInjectionAdditionalProperties securityEventSqlInjectionAdditionalProperties;
 
+    /** Creates an instance of SecurityEventProperties class. */
+    public SecurityEventProperties() {
+    }
+
     /**
      * Get the eventTime property: The time when the security event occurred.
      *

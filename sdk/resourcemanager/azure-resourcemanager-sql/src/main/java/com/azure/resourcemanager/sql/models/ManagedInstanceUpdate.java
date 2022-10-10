@@ -40,6 +40,10 @@ public final class ManagedInstanceUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of ManagedInstanceUpdate class. */
+    public ManagedInstanceUpdate() {
+    }
+
     /**
      * Get the sku property: Managed instance sku.
      *

@@ -499,23 +499,6 @@ public final class SyncAgentsClientImpl implements SyncAgentsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server on which the sync agent is hosted.
      * @param syncAgentName The name of the sync agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a sync agent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SyncAgentInner get(String resourceGroupName, String serverName, String syncAgentName) {
-        return getAsync(resourceGroupName, serverName, syncAgentName).block();
-    }
-
-    /**
-     * Gets a sync agent.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server on which the sync agent is hosted.
-     * @param syncAgentName The name of the sync agent.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -526,6 +509,23 @@ public final class SyncAgentsClientImpl implements SyncAgentsClient {
     public Response<SyncAgentInner> getWithResponse(
         String resourceGroupName, String serverName, String syncAgentName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, syncAgentName, context).block();
+    }
+
+    /**
+     * Gets a sync agent.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server on which the sync agent is hosted.
+     * @param syncAgentName The name of the sync agent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a sync agent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SyncAgentInner get(String resourceGroupName, String serverName, String syncAgentName) {
+        return getWithResponse(resourceGroupName, serverName, syncAgentName, Context.NONE).getValue();
     }
 
     /**
@@ -1215,23 +1215,6 @@ public final class SyncAgentsClientImpl implements SyncAgentsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server on which the sync agent is hosted.
      * @param syncAgentName The name of the sync agent.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return properties of an Azure SQL Database sync agent key.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SyncAgentKeyPropertiesInner generateKey(String resourceGroupName, String serverName, String syncAgentName) {
-        return generateKeyAsync(resourceGroupName, serverName, syncAgentName).block();
-    }
-
-    /**
-     * Generates a sync agent key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server on which the sync agent is hosted.
-     * @param syncAgentName The name of the sync agent.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1242,6 +1225,23 @@ public final class SyncAgentsClientImpl implements SyncAgentsClient {
     public Response<SyncAgentKeyPropertiesInner> generateKeyWithResponse(
         String resourceGroupName, String serverName, String syncAgentName, Context context) {
         return generateKeyWithResponseAsync(resourceGroupName, serverName, syncAgentName, context).block();
+    }
+
+    /**
+     * Generates a sync agent key.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server on which the sync agent is hosted.
+     * @param syncAgentName The name of the sync agent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return properties of an Azure SQL Database sync agent key.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SyncAgentKeyPropertiesInner generateKey(String resourceGroupName, String serverName, String syncAgentName) {
+        return generateKeyWithResponse(resourceGroupName, serverName, syncAgentName, Context.NONE).getValue();
     }
 
     /**

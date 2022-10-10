@@ -475,24 +475,6 @@ public final class ServerAzureADOnlyAuthenticationsClientImpl implements ServerA
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param authenticationName The name of server azure active directory only authentication.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a specific Azure Active Directory only authentication property.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerAzureADOnlyAuthenticationInner get(
-        String resourceGroupName, String serverName, AuthenticationName authenticationName) {
-        return getAsync(resourceGroupName, serverName, authenticationName).block();
-    }
-
-    /**
-     * Gets a specific Azure Active Directory only authentication property.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param authenticationName The name of server azure active directory only authentication.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -503,6 +485,24 @@ public final class ServerAzureADOnlyAuthenticationsClientImpl implements ServerA
     public Response<ServerAzureADOnlyAuthenticationInner> getWithResponse(
         String resourceGroupName, String serverName, AuthenticationName authenticationName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, authenticationName, context).block();
+    }
+
+    /**
+     * Gets a specific Azure Active Directory only authentication property.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param authenticationName The name of server azure active directory only authentication.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a specific Azure Active Directory only authentication property.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerAzureADOnlyAuthenticationInner get(
+        String resourceGroupName, String serverName, AuthenticationName authenticationName) {
+        return getWithResponse(resourceGroupName, serverName, authenticationName, Context.NONE).getValue();
     }
 
     /**

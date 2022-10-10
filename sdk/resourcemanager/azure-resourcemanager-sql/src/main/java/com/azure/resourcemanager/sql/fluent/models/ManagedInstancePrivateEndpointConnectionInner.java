@@ -19,6 +19,10 @@ public final class ManagedInstancePrivateEndpointConnectionInner extends ProxyRe
     @JsonProperty(value = "properties")
     private ManagedInstancePrivateEndpointConnectionProperties innerProperties;
 
+    /** Creates an instance of ManagedInstancePrivateEndpointConnectionInner class. */
+    public ManagedInstancePrivateEndpointConnectionInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

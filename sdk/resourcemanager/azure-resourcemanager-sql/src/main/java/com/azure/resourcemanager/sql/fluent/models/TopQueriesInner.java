@@ -54,6 +54,10 @@ public final class TopQueriesInner {
     @JsonProperty(value = "queries")
     private List<QueryStatisticsProperties> queries;
 
+    /** Creates an instance of TopQueriesInner class. */
+    public TopQueriesInner() {
+    }
+
     /**
      * Get the numberOfQueries property: Requested number of top queries.
      *

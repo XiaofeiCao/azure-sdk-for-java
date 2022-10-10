@@ -310,6 +310,10 @@ public final class DatabaseProperties {
     @JsonProperty(value = "sourceResourceId")
     private String sourceResourceId;
 
+    /** Creates an instance of DatabaseProperties class. */
+    public DatabaseProperties() {
+    }
+
     /**
      * Get the createMode property: Specifies the mode of database creation.
      *

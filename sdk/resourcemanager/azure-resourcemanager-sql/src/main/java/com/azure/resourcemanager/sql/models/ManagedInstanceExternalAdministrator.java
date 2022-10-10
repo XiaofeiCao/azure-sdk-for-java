@@ -47,6 +47,10 @@ public final class ManagedInstanceExternalAdministrator {
     @JsonProperty(value = "azureADOnlyAuthentication")
     private Boolean azureADOnlyAuthentication;
 
+    /** Creates an instance of ManagedInstanceExternalAdministrator class. */
+    public ManagedInstanceExternalAdministrator() {
+    }
+
     /**
      * Get the administratorType property: Type of the sever administrator.
      *

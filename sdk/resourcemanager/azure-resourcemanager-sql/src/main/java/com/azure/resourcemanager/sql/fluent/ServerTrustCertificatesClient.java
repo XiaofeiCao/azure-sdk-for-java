@@ -108,21 +108,6 @@ public interface ServerTrustCertificatesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param certificateName Name of of the certificate to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server trust certificate that was uploaded from box to Sql Managed Instance.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ServerTrustCertificateInner get(String resourceGroupName, String managedInstanceName, String certificateName);
-
-    /**
-     * Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param certificateName Name of of the certificate to get.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -133,6 +118,21 @@ public interface ServerTrustCertificatesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ServerTrustCertificateInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String certificateName, Context context);
+
+    /**
+     * Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param certificateName Name of of the certificate to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server trust certificate that was uploaded from box to Sql Managed Instance.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ServerTrustCertificateInner get(String resourceGroupName, String managedInstanceName, String certificateName);
 
     /**
      * Uploads a server trust certificate from box to Sql Managed Instance.

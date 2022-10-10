@@ -25,6 +25,10 @@ public final class RestorePointInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private RestorePointProperties innerProperties;
 
+    /** Creates an instance of RestorePointInner class. */
+    public RestorePointInner() {
+    }
+
     /**
      * Get the location property: Resource location.
      *

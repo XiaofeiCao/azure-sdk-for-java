@@ -29,6 +29,10 @@ public final class ManagedInstancePrivateLinkProperties {
     @JsonProperty(value = "requiredZoneNames", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> requiredZoneNames;
 
+    /** Creates an instance of ManagedInstancePrivateLinkProperties class. */
+    public ManagedInstancePrivateLinkProperties() {
+    }
+
     /**
      * Get the groupId property: The private link resource group id.
      *

@@ -174,6 +174,10 @@ public final class ExtendedDatabaseBlobAuditingPolicyProperties {
     @JsonProperty(value = "storageAccountSubscriptionId")
     private UUID storageAccountSubscriptionId;
 
+    /** Creates an instance of ExtendedDatabaseBlobAuditingPolicyProperties class. */
+    public ExtendedDatabaseBlobAuditingPolicyProperties() {
+    }
+
     /**
      * Get the predicateExpression property: Specifies condition of where clause when creating an audit.
      *

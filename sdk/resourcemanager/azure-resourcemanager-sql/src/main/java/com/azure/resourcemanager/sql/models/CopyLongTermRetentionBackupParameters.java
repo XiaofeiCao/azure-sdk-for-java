@@ -17,6 +17,10 @@ public final class CopyLongTermRetentionBackupParameters {
     @JsonProperty(value = "properties")
     private CopyLongTermRetentionBackupParametersProperties innerProperties;
 
+    /** Creates an instance of CopyLongTermRetentionBackupParameters class. */
+    public CopyLongTermRetentionBackupParameters() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

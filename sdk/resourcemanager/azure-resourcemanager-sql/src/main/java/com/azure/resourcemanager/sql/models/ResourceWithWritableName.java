@@ -17,6 +17,10 @@ public class ResourceWithWritableName extends ProxyResource {
     @JsonProperty(value = "name")
     private String name;
 
+    /** Creates an instance of ResourceWithWritableName class. */
+    public ResourceWithWritableName() {
+    }
+
     /**
      * Get the name property: Resource name.
      *

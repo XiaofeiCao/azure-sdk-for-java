@@ -72,6 +72,10 @@ public final class DistributedAvailabilityGroupProperties {
     @JsonProperty(value = "lastHardenedLsn", access = JsonProperty.Access.WRITE_ONLY)
     private String lastHardenedLsn;
 
+    /** Creates an instance of DistributedAvailabilityGroupProperties class. */
+    public DistributedAvailabilityGroupProperties() {
+    }
+
     /**
      * Get the targetDatabase property: The name of the target database.
      *

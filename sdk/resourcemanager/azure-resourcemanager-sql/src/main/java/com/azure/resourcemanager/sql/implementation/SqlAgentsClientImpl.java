@@ -208,22 +208,6 @@ public final class SqlAgentsClientImpl implements SqlAgentsClient {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return current instance sql agent configuration.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SqlAgentConfigurationInner get(String resourceGroupName, String managedInstanceName) {
-        return getAsync(resourceGroupName, managedInstanceName).block();
-    }
-
-    /**
-     * Gets current instance sql agent configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -234,6 +218,22 @@ public final class SqlAgentsClientImpl implements SqlAgentsClient {
     public Response<SqlAgentConfigurationInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, context).block();
+    }
+
+    /**
+     * Gets current instance sql agent configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return current instance sql agent configuration.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SqlAgentConfigurationInner get(String resourceGroupName, String managedInstanceName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, Context.NONE).getValue();
     }
 
     /**
@@ -376,24 +376,6 @@ public final class SqlAgentsClientImpl implements SqlAgentsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param parameters A recoverable managed database resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a recoverable managed database resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SqlAgentConfigurationInner createOrUpdate(
-        String resourceGroupName, String managedInstanceName, SqlAgentConfigurationInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, managedInstanceName, parameters).block();
-    }
-
-    /**
-     * Puts new sql agent configuration to instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param parameters A recoverable managed database resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -404,5 +386,23 @@ public final class SqlAgentsClientImpl implements SqlAgentsClient {
     public Response<SqlAgentConfigurationInner> createOrUpdateWithResponse(
         String resourceGroupName, String managedInstanceName, SqlAgentConfigurationInner parameters, Context context) {
         return createOrUpdateWithResponseAsync(resourceGroupName, managedInstanceName, parameters, context).block();
+    }
+
+    /**
+     * Puts new sql agent configuration to instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param parameters A recoverable managed database resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a recoverable managed database resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SqlAgentConfigurationInner createOrUpdate(
+        String resourceGroupName, String managedInstanceName, SqlAgentConfigurationInner parameters) {
+        return createOrUpdateWithResponse(resourceGroupName, managedInstanceName, parameters, Context.NONE).getValue();
     }
 }

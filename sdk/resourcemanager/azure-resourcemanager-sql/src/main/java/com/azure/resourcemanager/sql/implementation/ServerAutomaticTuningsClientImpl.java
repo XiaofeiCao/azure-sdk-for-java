@@ -204,22 +204,6 @@ public final class ServerAutomaticTuningsClientImpl implements ServerAutomaticTu
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return server-level Automatic Tuning.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerAutomaticTuningInner get(String resourceGroupName, String serverName) {
-        return getAsync(resourceGroupName, serverName).block();
-    }
-
-    /**
-     * Retrieves server automatic tuning options.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -230,6 +214,22 @@ public final class ServerAutomaticTuningsClientImpl implements ServerAutomaticTu
     public Response<ServerAutomaticTuningInner> getWithResponse(
         String resourceGroupName, String serverName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, context).block();
+    }
+
+    /**
+     * Retrieves server automatic tuning options.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return server-level Automatic Tuning.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerAutomaticTuningInner get(String resourceGroupName, String serverName) {
+        return getWithResponse(resourceGroupName, serverName, Context.NONE).getValue();
     }
 
     /**
@@ -368,24 +368,6 @@ public final class ServerAutomaticTuningsClientImpl implements ServerAutomaticTu
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters The requested automatic tuning resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return server-level Automatic Tuning.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerAutomaticTuningInner update(
-        String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters) {
-        return updateAsync(resourceGroupName, serverName, parameters).block();
-    }
-
-    /**
-     * Update automatic tuning options on server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters The requested automatic tuning resource state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -396,5 +378,23 @@ public final class ServerAutomaticTuningsClientImpl implements ServerAutomaticTu
     public Response<ServerAutomaticTuningInner> updateWithResponse(
         String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters, Context context) {
         return updateWithResponseAsync(resourceGroupName, serverName, parameters, context).block();
+    }
+
+    /**
+     * Update automatic tuning options on server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters The requested automatic tuning resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return server-level Automatic Tuning.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerAutomaticTuningInner update(
+        String resourceGroupName, String serverName, ServerAutomaticTuningInner parameters) {
+        return updateWithResponse(resourceGroupName, serverName, parameters, Context.NONE).getValue();
     }
 }

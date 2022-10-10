@@ -553,21 +553,6 @@ public final class DeletedServersClientImpl implements DeletedServersClient {
      *
      * @param locationName The name of the region where the resource is located.
      * @param deletedServerName The name of the deleted server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a deleted server.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DeletedServerInner get(String locationName, String deletedServerName) {
-        return getAsync(locationName, deletedServerName).block();
-    }
-
-    /**
-     * Gets a deleted server.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param deletedServerName The name of the deleted server.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -578,6 +563,21 @@ public final class DeletedServersClientImpl implements DeletedServersClient {
     public Response<DeletedServerInner> getWithResponse(
         String locationName, String deletedServerName, Context context) {
         return getWithResponseAsync(locationName, deletedServerName, context).block();
+    }
+
+    /**
+     * Gets a deleted server.
+     *
+     * @param locationName The name of the region where the resource is located.
+     * @param deletedServerName The name of the deleted server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a deleted server.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeletedServerInner get(String locationName, String deletedServerName) {
+        return getWithResponse(locationName, deletedServerName, Context.NONE).getValue();
     }
 
     /**

@@ -101,21 +101,6 @@ public interface ServerTrustGroupsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param locationName The name of the region where the resource is located.
      * @param serverTrustGroupName The name of the server trust group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server trust group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ServerTrustGroupInner get(String resourceGroupName, String locationName, String serverTrustGroupName);
-
-    /**
-     * Gets a server trust group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param locationName The name of the region where the resource is located.
-     * @param serverTrustGroupName The name of the server trust group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -125,6 +110,21 @@ public interface ServerTrustGroupsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ServerTrustGroupInner> getWithResponse(
         String resourceGroupName, String locationName, String serverTrustGroupName, Context context);
+
+    /**
+     * Gets a server trust group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param locationName The name of the region where the resource is located.
+     * @param serverTrustGroupName The name of the server trust group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server trust group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ServerTrustGroupInner get(String resourceGroupName, String locationName, String serverTrustGroupName);
 
     /**
      * Creates or updates a server trust group.

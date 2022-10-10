@@ -17,6 +17,10 @@ public final class ServerDnsAliasInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerDnsAliasProperties innerProperties;
 
+    /** Creates an instance of ServerDnsAliasInner class. */
+    public ServerDnsAliasInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

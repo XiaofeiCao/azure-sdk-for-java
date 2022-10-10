@@ -17,6 +17,10 @@ public final class OutboundFirewallRuleInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private OutboundFirewallRuleProperties innerProperties;
 
+    /** Creates an instance of OutboundFirewallRuleInner class. */
+    public OutboundFirewallRuleInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

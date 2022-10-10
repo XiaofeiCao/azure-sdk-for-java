@@ -60,6 +60,10 @@ public final class LongTermRetentionBackupProperties {
     @JsonProperty(value = "requestedBackupStorageRedundancy")
     private BackupStorageRedundancy requestedBackupStorageRedundancy;
 
+    /** Creates an instance of LongTermRetentionBackupProperties class. */
+    public LongTermRetentionBackupProperties() {
+    }
+
     /**
      * Get the serverName property: The server name that the backup database belong to.
      *

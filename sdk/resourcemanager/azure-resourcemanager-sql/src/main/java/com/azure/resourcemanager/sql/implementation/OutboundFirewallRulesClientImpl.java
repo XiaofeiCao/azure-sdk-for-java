@@ -459,23 +459,6 @@ public final class OutboundFirewallRulesClientImpl implements OutboundFirewallRu
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param outboundRuleFqdn The outboundRuleFqdn parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an outbound firewall rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public OutboundFirewallRuleInner get(String resourceGroupName, String serverName, String outboundRuleFqdn) {
-        return getAsync(resourceGroupName, serverName, outboundRuleFqdn).block();
-    }
-
-    /**
-     * Gets an outbound firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param outboundRuleFqdn The outboundRuleFqdn parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -486,6 +469,23 @@ public final class OutboundFirewallRulesClientImpl implements OutboundFirewallRu
     public Response<OutboundFirewallRuleInner> getWithResponse(
         String resourceGroupName, String serverName, String outboundRuleFqdn, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, outboundRuleFqdn, context).block();
+    }
+
+    /**
+     * Gets an outbound firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param outboundRuleFqdn The outboundRuleFqdn parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an outbound firewall rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public OutboundFirewallRuleInner get(String resourceGroupName, String serverName, String outboundRuleFqdn) {
+        return getWithResponse(resourceGroupName, serverName, outboundRuleFqdn, Context.NONE).getValue();
     }
 
     /**

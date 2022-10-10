@@ -35,6 +35,10 @@ public final class QueryMetricInterval {
     @JsonProperty(value = "metrics")
     private List<QueryMetricProperties> metrics;
 
+    /** Creates an instance of QueryMetricInterval class. */
+    public QueryMetricInterval() {
+    }
+
     /**
      * Get the intervalStartTime property: The start time for the metric interval (ISO-8601 format).
      *

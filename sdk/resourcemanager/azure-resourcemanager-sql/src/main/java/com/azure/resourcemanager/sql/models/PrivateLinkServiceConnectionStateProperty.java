@@ -29,6 +29,10 @@ public final class PrivateLinkServiceConnectionStateProperty {
     @JsonProperty(value = "actionsRequired", access = JsonProperty.Access.WRITE_ONLY)
     private PrivateLinkServiceConnectionStateActionsRequire actionsRequired;
 
+    /** Creates an instance of PrivateLinkServiceConnectionStateProperty class. */
+    public PrivateLinkServiceConnectionStateProperty() {
+    }
+
     /**
      * Get the status property: The private link service connection status.
      *

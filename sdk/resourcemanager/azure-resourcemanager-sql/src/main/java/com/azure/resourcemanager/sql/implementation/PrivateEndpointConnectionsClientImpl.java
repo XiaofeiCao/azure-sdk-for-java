@@ -466,24 +466,6 @@ public final class PrivateEndpointConnectionsClientImpl implements PrivateEndpoi
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param privateEndpointConnectionName The name of the private endpoint connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a private endpoint connection.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PrivateEndpointConnectionInner get(
-        String resourceGroupName, String serverName, String privateEndpointConnectionName) {
-        return getAsync(resourceGroupName, serverName, privateEndpointConnectionName).block();
-    }
-
-    /**
-     * Gets a private endpoint connection.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param privateEndpointConnectionName The name of the private endpoint connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -494,6 +476,24 @@ public final class PrivateEndpointConnectionsClientImpl implements PrivateEndpoi
     public Response<PrivateEndpointConnectionInner> getWithResponse(
         String resourceGroupName, String serverName, String privateEndpointConnectionName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, privateEndpointConnectionName, context).block();
+    }
+
+    /**
+     * Gets a private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param privateEndpointConnectionName The name of the private endpoint connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a private endpoint connection.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PrivateEndpointConnectionInner get(
+        String resourceGroupName, String serverName, String privateEndpointConnectionName) {
+        return getWithResponse(resourceGroupName, serverName, privateEndpointConnectionName, Context.NONE).getValue();
     }
 
     /**

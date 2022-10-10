@@ -240,25 +240,6 @@ public final class DataMaskingPoliciesClientImpl implements DataMaskingPoliciesC
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the database data masking policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DataMaskingPolicyInner get(
-        String resourceGroupName, String serverName, String databaseName, DataMaskingPolicyName dataMaskingPolicyName) {
-        return getAsync(resourceGroupName, serverName, databaseName, dataMaskingPolicyName).block();
-    }
-
-    /**
-     * Gets the database data masking policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -274,6 +255,26 @@ public final class DataMaskingPoliciesClientImpl implements DataMaskingPoliciesC
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, dataMaskingPolicyName, context)
             .block();
+    }
+
+    /**
+     * Gets the database data masking policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the database data masking policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DataMaskingPolicyInner get(
+        String resourceGroupName, String serverName, String databaseName, DataMaskingPolicyName dataMaskingPolicyName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, dataMaskingPolicyName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -452,31 +453,6 @@ public final class DataMaskingPoliciesClientImpl implements DataMaskingPoliciesC
      * @param databaseName The name of the database.
      * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
      * @param parameters Parameters for creating or updating a data masking policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database data masking policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DataMaskingPolicyInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        DataMaskingPolicyName dataMaskingPolicyName,
-        DataMaskingPolicyInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, dataMaskingPolicyName, parameters)
-            .block();
-    }
-
-    /**
-     * Creates or updates a database data masking policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
-     * @param parameters Parameters for creating or updating a data masking policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -494,5 +470,31 @@ public final class DataMaskingPoliciesClientImpl implements DataMaskingPoliciesC
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, databaseName, dataMaskingPolicyName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a database data masking policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
+     * @param parameters Parameters for creating or updating a data masking policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database data masking policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DataMaskingPolicyInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        DataMaskingPolicyName dataMaskingPolicyName,
+        DataMaskingPolicyInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, serverName, databaseName, dataMaskingPolicyName, parameters, Context.NONE)
+            .getValue();
     }
 }

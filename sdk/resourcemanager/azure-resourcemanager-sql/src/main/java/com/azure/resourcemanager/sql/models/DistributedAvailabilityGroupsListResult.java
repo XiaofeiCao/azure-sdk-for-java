@@ -24,6 +24,10 @@ public final class DistributedAvailabilityGroupsListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of DistributedAvailabilityGroupsListResult class. */
+    public DistributedAvailabilityGroupsListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

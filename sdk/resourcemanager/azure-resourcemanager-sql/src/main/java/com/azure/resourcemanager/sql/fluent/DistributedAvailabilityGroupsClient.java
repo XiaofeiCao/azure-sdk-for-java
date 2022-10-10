@@ -106,22 +106,6 @@ public interface DistributedAvailabilityGroupsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param distributedAvailabilityGroupName The distributed availability group name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a distributed availability group info.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    DistributedAvailabilityGroupInner get(
-        String resourceGroupName, String managedInstanceName, String distributedAvailabilityGroupName);
-
-    /**
-     * Gets a distributed availability group info.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param distributedAvailabilityGroupName The distributed availability group name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -131,6 +115,22 @@ public interface DistributedAvailabilityGroupsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<DistributedAvailabilityGroupInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String distributedAvailabilityGroupName, Context context);
+
+    /**
+     * Gets a distributed availability group info.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param distributedAvailabilityGroupName The distributed availability group name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a distributed availability group info.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    DistributedAvailabilityGroupInner get(
+        String resourceGroupName, String managedInstanceName, String distributedAvailabilityGroupName);
 
     /**
      * Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.

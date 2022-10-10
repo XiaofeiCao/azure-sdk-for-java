@@ -471,23 +471,6 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param parameters A list of server firewall rules.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server firewall rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public FirewallRuleInner replace(String resourceGroupName, String serverName, FirewallRuleList parameters) {
-        return replaceAsync(resourceGroupName, serverName, parameters).block();
-    }
-
-    /**
-     * Replaces all firewall rules on the server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param parameters A list of server firewall rules.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -498,6 +481,23 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
     public Response<FirewallRuleInner> replaceWithResponse(
         String resourceGroupName, String serverName, FirewallRuleList parameters, Context context) {
         return replaceWithResponseAsync(resourceGroupName, serverName, parameters, context).block();
+    }
+
+    /**
+     * Replaces all firewall rules on the server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param parameters A list of server firewall rules.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server firewall rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FirewallRuleInner replace(String resourceGroupName, String serverName, FirewallRuleList parameters) {
+        return replaceWithResponse(resourceGroupName, serverName, parameters, Context.NONE).getValue();
     }
 
     /**
@@ -633,23 +633,6 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a firewall rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public FirewallRuleInner get(String resourceGroupName, String serverName, String firewallRuleName) {
-        return getAsync(resourceGroupName, serverName, firewallRuleName).block();
-    }
-
-    /**
-     * Gets a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -660,6 +643,23 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
     public Response<FirewallRuleInner> getWithResponse(
         String resourceGroupName, String serverName, String firewallRuleName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, firewallRuleName, context).block();
+    }
+
+    /**
+     * Gets a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a firewall rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FirewallRuleInner get(String resourceGroupName, String serverName, String firewallRuleName) {
+        return getWithResponse(resourceGroupName, serverName, firewallRuleName, Context.NONE).getValue();
     }
 
     /**
@@ -816,25 +816,6 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
      * @param parameters The required parameters for creating or updating a firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server firewall rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public FirewallRuleInner createOrUpdate(
-        String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, firewallRuleName, parameters).block();
-    }
-
-    /**
-     * Creates or updates a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
-     * @param parameters The required parameters for creating or updating a firewall rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -850,6 +831,26 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
         Context context) {
         return createOrUpdateWithResponseAsync(resourceGroupName, serverName, firewallRuleName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @param parameters The required parameters for creating or updating a firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server firewall rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FirewallRuleInner createOrUpdate(
+        String resourceGroupName, String serverName, String firewallRuleName, FirewallRuleInner parameters) {
+        return createOrUpdateWithResponse(resourceGroupName, serverName, firewallRuleName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -981,22 +982,6 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param firewallRuleName The name of the firewall rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(String resourceGroupName, String serverName, String firewallRuleName) {
-        deleteAsync(resourceGroupName, serverName, firewallRuleName).block();
-    }
-
-    /**
-     * Deletes a firewall rule.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param firewallRuleName The name of the firewall rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1007,6 +992,22 @@ public final class FirewallRulesClientImpl implements FirewallRulesClient {
     public Response<Void> deleteWithResponse(
         String resourceGroupName, String serverName, String firewallRuleName, Context context) {
         return deleteWithResponseAsync(resourceGroupName, serverName, firewallRuleName, context).block();
+    }
+
+    /**
+     * Deletes a firewall rule.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param firewallRuleName The name of the firewall rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(String resourceGroupName, String serverName, String firewallRuleName) {
+        deleteWithResponse(resourceGroupName, serverName, firewallRuleName, Context.NONE);
     }
 
     /**

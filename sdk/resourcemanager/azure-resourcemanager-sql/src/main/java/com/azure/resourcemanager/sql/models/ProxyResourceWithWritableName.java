@@ -9,6 +9,10 @@ import com.azure.core.annotation.Fluent;
 /** ARM proxy resource. */
 @Fluent
 public class ProxyResourceWithWritableName extends ResourceWithWritableName {
+    /** Creates an instance of ProxyResourceWithWritableName class. */
+    public ProxyResourceWithWritableName() {
+    }
+
     /** {@inheritDoc} */
     @Override
     public ProxyResourceWithWritableName withName(String name) {

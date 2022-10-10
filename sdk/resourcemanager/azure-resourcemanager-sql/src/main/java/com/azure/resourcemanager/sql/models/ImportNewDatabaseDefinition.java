@@ -77,6 +77,10 @@ public final class ImportNewDatabaseDefinition {
     @JsonProperty(value = "networkIsolation")
     private NetworkIsolationSettings networkIsolation;
 
+    /** Creates an instance of ImportNewDatabaseDefinition class. */
+    public ImportNewDatabaseDefinition() {
+    }
+
     /**
      * Get the databaseName property: Name of the import database.
      *

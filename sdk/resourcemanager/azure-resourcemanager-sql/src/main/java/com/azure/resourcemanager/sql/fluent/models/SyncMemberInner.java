@@ -21,6 +21,10 @@ public final class SyncMemberInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SyncMemberProperties innerProperties;
 
+    /** Creates an instance of SyncMemberInner class. */
+    public SyncMemberInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

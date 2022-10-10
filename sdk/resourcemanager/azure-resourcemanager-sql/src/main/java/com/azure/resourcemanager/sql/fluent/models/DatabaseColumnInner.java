@@ -19,6 +19,10 @@ public final class DatabaseColumnInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DatabaseColumnProperties innerProperties;
 
+    /** Creates an instance of DatabaseColumnInner class. */
+    public DatabaseColumnInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

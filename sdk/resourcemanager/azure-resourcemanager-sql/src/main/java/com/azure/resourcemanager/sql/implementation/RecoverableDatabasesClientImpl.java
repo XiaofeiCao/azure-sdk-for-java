@@ -418,23 +418,6 @@ public final class RecoverableDatabasesClientImpl implements RecoverableDatabase
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a recoverable database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RecoverableDatabaseInner get(String resourceGroupName, String serverName, String databaseName) {
-        return getAsync(resourceGroupName, serverName, databaseName).block();
-    }
-
-    /**
-     * Gets a recoverable database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -445,6 +428,23 @@ public final class RecoverableDatabasesClientImpl implements RecoverableDatabase
     public Response<RecoverableDatabaseInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, context).block();
+    }
+
+    /**
+     * Gets a recoverable database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a recoverable database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RecoverableDatabaseInner get(String resourceGroupName, String serverName, String databaseName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, Context.NONE).getValue();
     }
 
     /**

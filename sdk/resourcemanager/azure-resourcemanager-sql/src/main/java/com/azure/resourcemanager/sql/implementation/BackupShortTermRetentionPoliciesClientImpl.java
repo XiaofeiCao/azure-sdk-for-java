@@ -505,25 +505,6 @@ public final class BackupShortTermRetentionPoliciesClientImpl implements BackupS
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param policyName The policy name. Should always be "default".
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database's short term retention policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public BackupShortTermRetentionPolicyInner get(
-        String resourceGroupName, String serverName, String databaseName, ShortTermRetentionPolicyName policyName) {
-        return getAsync(resourceGroupName, serverName, databaseName, policyName).block();
-    }
-
-    /**
-     * Gets a database's short term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param policyName The policy name. Should always be "default".
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -538,6 +519,25 @@ public final class BackupShortTermRetentionPoliciesClientImpl implements BackupS
         ShortTermRetentionPolicyName policyName,
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, policyName, context).block();
+    }
+
+    /**
+     * Gets a database's short term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param policyName The policy name. Should always be "default".
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database's short term retention policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public BackupShortTermRetentionPolicyInner get(
+        String resourceGroupName, String serverName, String databaseName, ShortTermRetentionPolicyName policyName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, policyName, Context.NONE).getValue();
     }
 
     /**

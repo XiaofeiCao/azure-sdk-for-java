@@ -30,6 +30,10 @@ public final class ServerConnectionPolicyInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerConnectionPolicyProperties innerProperties;
 
+    /** Creates an instance of ServerConnectionPolicyInner class. */
+    public ServerConnectionPolicyInner() {
+    }
+
     /**
      * Get the location property: Resource location.
      *

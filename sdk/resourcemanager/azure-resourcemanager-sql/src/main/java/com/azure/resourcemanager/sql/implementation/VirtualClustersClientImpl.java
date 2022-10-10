@@ -614,22 +614,6 @@ public final class VirtualClustersClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param virtualClusterName The name of the virtual cluster.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a virtual cluster.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualClusterInner getByResourceGroup(String resourceGroupName, String virtualClusterName) {
-        return getByResourceGroupAsync(resourceGroupName, virtualClusterName).block();
-    }
-
-    /**
-     * Gets a virtual cluster.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param virtualClusterName The name of the virtual cluster.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -640,6 +624,22 @@ public final class VirtualClustersClientImpl
     public Response<VirtualClusterInner> getByResourceGroupWithResponse(
         String resourceGroupName, String virtualClusterName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, virtualClusterName, context).block();
+    }
+
+    /**
+     * Gets a virtual cluster.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param virtualClusterName The name of the virtual cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a virtual cluster.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VirtualClusterInner getByResourceGroup(String resourceGroupName, String virtualClusterName) {
+        return getByResourceGroupWithResponse(resourceGroupName, virtualClusterName, Context.NONE).getValue();
     }
 
     /**
@@ -1283,23 +1283,6 @@ public final class VirtualClustersClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param virtualClusterName The name of the virtual cluster.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a recoverable managed database resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public UpdateManagedInstanceDnsServersOperationInner updateDnsServers(
-        String resourceGroupName, String virtualClusterName) {
-        return updateDnsServersAsync(resourceGroupName, virtualClusterName).block();
-    }
-
-    /**
-     * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param virtualClusterName The name of the virtual cluster.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1310,6 +1293,23 @@ public final class VirtualClustersClientImpl
     public Response<UpdateManagedInstanceDnsServersOperationInner> updateDnsServersWithResponse(
         String resourceGroupName, String virtualClusterName, Context context) {
         return updateDnsServersWithResponseAsync(resourceGroupName, virtualClusterName, context).block();
+    }
+
+    /**
+     * Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param virtualClusterName The name of the virtual cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a recoverable managed database resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public UpdateManagedInstanceDnsServersOperationInner updateDnsServers(
+        String resourceGroupName, String virtualClusterName) {
+        return updateDnsServersWithResponse(resourceGroupName, virtualClusterName, Context.NONE).getValue();
     }
 
     /**

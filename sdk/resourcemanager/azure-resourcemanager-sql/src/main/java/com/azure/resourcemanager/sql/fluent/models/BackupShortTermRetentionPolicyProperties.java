@@ -24,6 +24,10 @@ public final class BackupShortTermRetentionPolicyProperties {
     @JsonProperty(value = "diffBackupIntervalInHours")
     private DiffBackupIntervalInHours diffBackupIntervalInHours;
 
+    /** Creates an instance of BackupShortTermRetentionPolicyProperties class. */
+    public BackupShortTermRetentionPolicyProperties() {
+    }
+
     /**
      * Get the retentionDays property: The backup retention period in days. This is how many days Point-in-Time Restore
      * will be supported.

@@ -17,6 +17,10 @@ public final class ManagedDatabaseMoveDefinition {
     @JsonProperty(value = "destinationManagedDatabaseId", required = true)
     private String destinationManagedDatabaseId;
 
+    /** Creates an instance of ManagedDatabaseMoveDefinition class. */
+    public ManagedDatabaseMoveDefinition() {
+    }
+
     /**
      * Get the destinationManagedDatabaseId property: The destination managed database ID.
      *

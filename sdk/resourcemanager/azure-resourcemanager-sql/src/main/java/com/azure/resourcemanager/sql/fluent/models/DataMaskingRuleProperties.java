@@ -92,6 +92,10 @@ public final class DataMaskingRuleProperties {
     @JsonProperty(value = "replacementString")
     private String replacementString;
 
+    /** Creates an instance of DataMaskingRuleProperties class. */
+    public DataMaskingRuleProperties() {
+    }
+
     /**
      * Get the id property: The rule Id.
      *

@@ -572,23 +572,6 @@ public final class ManagedDatabasesClientImpl implements ManagedDatabasesClient 
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedDatabaseInner get(String resourceGroupName, String managedInstanceName, String databaseName) {
-        return getAsync(resourceGroupName, managedInstanceName, databaseName).block();
-    }
-
-    /**
-     * Gets a managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -599,6 +582,23 @@ public final class ManagedDatabasesClientImpl implements ManagedDatabasesClient 
     public Response<ManagedDatabaseInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String databaseName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, databaseName, context).block();
+    }
+
+    /**
+     * Gets a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedDatabaseInner get(String resourceGroupName, String managedInstanceName, String databaseName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, databaseName, Context.NONE).getValue();
     }
 
     /**

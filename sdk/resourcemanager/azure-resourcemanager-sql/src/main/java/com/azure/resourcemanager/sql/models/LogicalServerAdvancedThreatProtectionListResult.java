@@ -24,6 +24,10 @@ public final class LogicalServerAdvancedThreatProtectionListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of LogicalServerAdvancedThreatProtectionListResult class. */
+    public LogicalServerAdvancedThreatProtectionListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

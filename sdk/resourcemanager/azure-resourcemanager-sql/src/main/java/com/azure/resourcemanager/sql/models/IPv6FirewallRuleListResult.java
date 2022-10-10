@@ -24,6 +24,10 @@ public final class IPv6FirewallRuleListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of IPv6FirewallRuleListResult class. */
+    public IPv6FirewallRuleListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

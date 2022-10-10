@@ -426,24 +426,6 @@ public final class RestorableDroppedDatabasesClientImpl implements RestorableDro
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a restorable dropped database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RestorableDroppedDatabaseInner get(
-        String resourceGroupName, String serverName, String restorableDroppedDatabaseId) {
-        return getAsync(resourceGroupName, serverName, restorableDroppedDatabaseId).block();
-    }
-
-    /**
-     * Gets a restorable dropped database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -454,6 +436,24 @@ public final class RestorableDroppedDatabasesClientImpl implements RestorableDro
     public Response<RestorableDroppedDatabaseInner> getWithResponse(
         String resourceGroupName, String serverName, String restorableDroppedDatabaseId, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, restorableDroppedDatabaseId, context).block();
+    }
+
+    /**
+     * Gets a restorable dropped database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a restorable dropped database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RestorableDroppedDatabaseInner get(
+        String resourceGroupName, String serverName, String restorableDroppedDatabaseId) {
+        return getWithResponse(resourceGroupName, serverName, restorableDroppedDatabaseId, Context.NONE).getValue();
     }
 
     /**

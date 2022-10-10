@@ -24,6 +24,10 @@ public final class ServerConnectionPolicyListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ServerConnectionPolicyListResult class. */
+    public ServerConnectionPolicyListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

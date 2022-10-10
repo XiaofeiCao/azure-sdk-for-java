@@ -24,6 +24,10 @@ public final class LedgerDigestUploadsListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of LedgerDigestUploadsListResult class. */
+    public LedgerDigestUploadsListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

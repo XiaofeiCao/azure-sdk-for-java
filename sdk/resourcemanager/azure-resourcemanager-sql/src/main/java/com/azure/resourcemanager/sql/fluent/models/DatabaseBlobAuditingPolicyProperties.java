@@ -168,6 +168,10 @@ public final class DatabaseBlobAuditingPolicyProperties {
     @JsonProperty(value = "storageAccountSubscriptionId")
     private UUID storageAccountSubscriptionId;
 
+    /** Creates an instance of DatabaseBlobAuditingPolicyProperties class. */
+    public DatabaseBlobAuditingPolicyProperties() {
+    }
+
     /**
      * Get the retentionDays property: Specifies the number of days to keep in the audit logs in the storage account.
      *

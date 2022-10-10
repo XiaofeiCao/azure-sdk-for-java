@@ -34,6 +34,10 @@ public final class DatabaseUsageProperties {
     @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
     private String unit;
 
+    /** Creates an instance of DatabaseUsageProperties class. */
+    public DatabaseUsageProperties() {
+    }
+
     /**
      * Get the displayName property: User-readable name of the metric.
      *

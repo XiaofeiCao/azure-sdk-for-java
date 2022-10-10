@@ -41,6 +41,10 @@ public final class RestorableDroppedDatabaseInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private RestorableDroppedDatabaseProperties innerProperties;
 
+    /** Creates an instance of RestorableDroppedDatabaseInner class. */
+    public RestorableDroppedDatabaseInner() {
+    }
+
     /**
      * Get the sku property: The name and tier of the SKU.
      *

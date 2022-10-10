@@ -17,6 +17,10 @@ public final class EndpointCertificateInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private EndpointCertificateProperties innerProperties;
 
+    /** Creates an instance of EndpointCertificateInner class. */
+    public EndpointCertificateInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

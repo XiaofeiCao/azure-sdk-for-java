@@ -124,21 +124,6 @@ public interface DatabasesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    DatabaseInner get(String resourceGroupName, String serverName, String databaseName);
-
-    /**
-     * Gets a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -148,6 +133,21 @@ public interface DatabasesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<DatabaseInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, Context context);
+
+    /**
+     * Gets a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    DatabaseInner get(String resourceGroupName, String serverName, String databaseName);
 
     /**
      * Creates a new database or updates an existing database.
@@ -669,15 +669,29 @@ public interface DatabasesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database to failover.
-     * @param replicaType The type of replica to be failed over.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    PollerFlux<PollResult<Void>, Void> beginFailoverAsync(
+        String resourceGroupName, String serverName, String databaseName);
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    SyncPoller<PollResult<Void>, Void> beginFailover(
-        String resourceGroupName, String serverName, String databaseName, ReplicaType replicaType);
+    SyncPoller<PollResult<Void>, Void> beginFailover(String resourceGroupName, String serverName, String databaseName);
 
     /**
      * Failovers a database.
@@ -727,21 +741,6 @@ public interface DatabasesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Void> failoverAsync(String resourceGroupName, String serverName, String databaseName);
-
-    /**
-     * Failovers a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database to failover.
-     * @param replicaType The type of replica to be failed over.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    void failover(String resourceGroupName, String serverName, String databaseName, ReplicaType replicaType);
 
     /**
      * Failovers a database.
@@ -946,21 +945,6 @@ public interface DatabasesClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database to rename.
      * @param parameters The resource move definition for renaming this database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    void rename(String resourceGroupName, String serverName, String databaseName, ResourceMoveDefinition parameters);
-
-    /**
-     * Renames a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database to rename.
-     * @param parameters The resource move definition for renaming this database.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -974,6 +958,21 @@ public interface DatabasesClient {
         String databaseName,
         ResourceMoveDefinition parameters,
         Context context);
+
+    /**
+     * Renames a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to rename.
+     * @param parameters The resource move definition for renaming this database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    void rename(String resourceGroupName, String serverName, String databaseName, ResourceMoveDefinition parameters);
 
     /**
      * Pauses a database.

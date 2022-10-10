@@ -53,6 +53,10 @@ public final class ImportExistingDatabaseDefinition {
     @JsonProperty(value = "networkIsolation")
     private NetworkIsolationSettings networkIsolation;
 
+    /** Creates an instance of ImportExistingDatabaseDefinition class. */
+    public ImportExistingDatabaseDefinition() {
+    }
+
     /**
      * Get the storageKeyType property: Storage key type.
      *

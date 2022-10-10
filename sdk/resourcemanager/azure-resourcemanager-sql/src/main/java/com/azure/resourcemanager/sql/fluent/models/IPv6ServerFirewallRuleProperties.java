@@ -22,6 +22,10 @@ public final class IPv6ServerFirewallRuleProperties {
     @JsonProperty(value = "endIPv6Address")
     private String endIPv6Address;
 
+    /** Creates an instance of IPv6ServerFirewallRuleProperties class. */
+    public IPv6ServerFirewallRuleProperties() {
+    }
+
     /**
      * Get the startIPv6Address property: The start IP address of the firewall rule. Must be IPv6 format.
      *

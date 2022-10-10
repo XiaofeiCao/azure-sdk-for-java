@@ -364,21 +364,6 @@ public final class TimeZonesClientImpl implements TimeZonesClient {
      *
      * @param locationName The locationName parameter.
      * @param timeZoneId The timeZoneId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance time zone.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public TimeZoneInner get(String locationName, String timeZoneId) {
-        return getAsync(locationName, timeZoneId).block();
-    }
-
-    /**
-     * Gets a managed instance time zone.
-     *
-     * @param locationName The locationName parameter.
-     * @param timeZoneId The timeZoneId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -388,6 +373,21 @@ public final class TimeZonesClientImpl implements TimeZonesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<TimeZoneInner> getWithResponse(String locationName, String timeZoneId, Context context) {
         return getWithResponseAsync(locationName, timeZoneId, context).block();
+    }
+
+    /**
+     * Gets a managed instance time zone.
+     *
+     * @param locationName The locationName parameter.
+     * @param timeZoneId The timeZoneId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance time zone.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public TimeZoneInner get(String locationName, String timeZoneId) {
+        return getWithResponse(locationName, timeZoneId, Context.NONE).getValue();
     }
 
     /**

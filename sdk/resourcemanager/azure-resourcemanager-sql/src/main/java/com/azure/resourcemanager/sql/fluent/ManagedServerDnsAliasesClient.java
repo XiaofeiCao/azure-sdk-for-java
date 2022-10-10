@@ -109,21 +109,6 @@ public interface ManagedServerDnsAliasesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param dnsAliasName The dnsAliasName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server DNS alias.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ManagedServerDnsAliasInner get(String resourceGroupName, String managedInstanceName, String dnsAliasName);
-
-    /**
-     * Gets a server DNS alias.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param dnsAliasName The dnsAliasName parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -133,6 +118,21 @@ public interface ManagedServerDnsAliasesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ManagedServerDnsAliasInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String dnsAliasName, Context context);
+
+    /**
+     * Gets a server DNS alias.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param dnsAliasName The dnsAliasName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server DNS alias.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ManagedServerDnsAliasInner get(String resourceGroupName, String managedInstanceName, String dnsAliasName);
 
     /**
      * Creates a managed server DNS alias.

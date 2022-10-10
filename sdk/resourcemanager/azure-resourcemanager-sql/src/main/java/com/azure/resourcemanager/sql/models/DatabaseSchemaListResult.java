@@ -24,6 +24,10 @@ public final class DatabaseSchemaListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of DatabaseSchemaListResult class. */
+    public DatabaseSchemaListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

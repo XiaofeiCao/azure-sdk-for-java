@@ -18,6 +18,10 @@ public final class SqlAgentConfigurationInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SqlAgentConfigurationProperties innerProperties;
 
+    /** Creates an instance of SqlAgentConfigurationInner class. */
+    public SqlAgentConfigurationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

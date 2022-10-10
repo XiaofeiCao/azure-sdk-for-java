@@ -17,6 +17,10 @@ public final class TimeZoneInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private TimeZoneProperties innerProperties;
 
+    /** Creates an instance of TimeZoneInner class. */
+    public TimeZoneInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

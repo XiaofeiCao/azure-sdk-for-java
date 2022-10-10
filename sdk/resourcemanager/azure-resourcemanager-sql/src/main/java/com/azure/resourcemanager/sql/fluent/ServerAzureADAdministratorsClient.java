@@ -107,22 +107,6 @@ public interface ServerAzureADAdministratorsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param administratorName The name of server active directory administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a Azure Active Directory administrator.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ServerAzureADAdministratorInner get(
-        String resourceGroupName, String serverName, AdministratorName administratorName);
-
-    /**
-     * Gets a Azure Active Directory administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param administratorName The name of server active directory administrator.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -132,6 +116,22 @@ public interface ServerAzureADAdministratorsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ServerAzureADAdministratorInner> getWithResponse(
         String resourceGroupName, String serverName, AdministratorName administratorName, Context context);
+
+    /**
+     * Gets a Azure Active Directory administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param administratorName The name of server active directory administrator.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a Azure Active Directory administrator.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ServerAzureADAdministratorInner get(
+        String resourceGroupName, String serverName, AdministratorName administratorName);
 
     /**
      * Creates or updates an existing Azure Active Directory administrator.

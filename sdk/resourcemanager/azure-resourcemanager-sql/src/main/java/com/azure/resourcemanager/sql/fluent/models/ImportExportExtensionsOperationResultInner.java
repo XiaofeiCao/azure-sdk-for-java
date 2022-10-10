@@ -20,6 +20,10 @@ public final class ImportExportExtensionsOperationResultInner extends ProxyResou
     @JsonProperty(value = "properties")
     private ImportExportExtensionsOperationResultProperties innerProperties;
 
+    /** Creates an instance of ImportExportExtensionsOperationResultInner class. */
+    public ImportExportExtensionsOperationResultInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

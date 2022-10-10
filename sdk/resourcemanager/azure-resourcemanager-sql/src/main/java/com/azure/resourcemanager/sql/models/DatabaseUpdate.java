@@ -40,6 +40,10 @@ public final class DatabaseUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of DatabaseUpdate class. */
+    public DatabaseUpdate() {
+    }
+
     /**
      * Get the sku property: The name and tier of the SKU.
      *

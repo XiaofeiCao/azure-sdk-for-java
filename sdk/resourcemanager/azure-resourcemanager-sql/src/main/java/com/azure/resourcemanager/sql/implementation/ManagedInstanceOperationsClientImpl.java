@@ -445,23 +445,6 @@ public final class ManagedInstanceOperationsClientImpl implements ManagedInstanc
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param operationId The operationId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a management operation on a managed instance.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceOperationInner get(String resourceGroupName, String managedInstanceName, UUID operationId) {
-        return getAsync(resourceGroupName, managedInstanceName, operationId).block();
-    }
-
-    /**
-     * Gets a management operation on a managed instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param operationId The operationId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -472,6 +455,23 @@ public final class ManagedInstanceOperationsClientImpl implements ManagedInstanc
     public Response<ManagedInstanceOperationInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, UUID operationId, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, operationId, context).block();
+    }
+
+    /**
+     * Gets a management operation on a managed instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param operationId The operationId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a management operation on a managed instance.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceOperationInner get(String resourceGroupName, String managedInstanceName, UUID operationId) {
+        return getWithResponse(resourceGroupName, managedInstanceName, operationId, Context.NONE).getValue();
     }
 
     /**
@@ -603,22 +603,6 @@ public final class ManagedInstanceOperationsClientImpl implements ManagedInstanc
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param operationId The operationId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void cancel(String resourceGroupName, String managedInstanceName, UUID operationId) {
-        cancelAsync(resourceGroupName, managedInstanceName, operationId).block();
-    }
-
-    /**
-     * Cancels the asynchronous operation on the managed instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param operationId The operationId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -629,6 +613,22 @@ public final class ManagedInstanceOperationsClientImpl implements ManagedInstanc
     public Response<Void> cancelWithResponse(
         String resourceGroupName, String managedInstanceName, UUID operationId, Context context) {
         return cancelWithResponseAsync(resourceGroupName, managedInstanceName, operationId, context).block();
+    }
+
+    /**
+     * Cancels the asynchronous operation on the managed instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param operationId The operationId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void cancel(String resourceGroupName, String managedInstanceName, UUID operationId) {
+        cancelWithResponse(resourceGroupName, managedInstanceName, operationId, Context.NONE);
     }
 
     /**

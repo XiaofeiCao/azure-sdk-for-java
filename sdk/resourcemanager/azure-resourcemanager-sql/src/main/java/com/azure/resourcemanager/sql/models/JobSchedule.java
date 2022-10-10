@@ -41,6 +41,10 @@ public final class JobSchedule {
     @JsonProperty(value = "interval")
     private String interval;
 
+    /** Creates an instance of JobSchedule class. */
+    public JobSchedule() {
+    }
+
     /**
      * Get the startTime property: Schedule start time.
      *

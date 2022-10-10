@@ -30,6 +30,10 @@ public final class VirtualNetworkRuleProperties {
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private VirtualNetworkRuleState state;
 
+    /** Creates an instance of VirtualNetworkRuleProperties class. */
+    public VirtualNetworkRuleProperties() {
+    }
+
     /**
      * Get the virtualNetworkSubnetId property: The ARM resource id of the virtual network subnet.
      *

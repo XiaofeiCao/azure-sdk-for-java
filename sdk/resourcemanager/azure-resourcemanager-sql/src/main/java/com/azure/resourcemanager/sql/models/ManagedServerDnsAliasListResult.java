@@ -24,6 +24,10 @@ public final class ManagedServerDnsAliasListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ManagedServerDnsAliasListResult class. */
+    public ManagedServerDnsAliasListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

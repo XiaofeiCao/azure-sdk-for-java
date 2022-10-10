@@ -17,6 +17,10 @@ public final class FirewallRuleInner extends ProxyResourceWithWritableName {
     @JsonProperty(value = "properties")
     private ServerFirewallRuleProperties innerProperties;
 
+    /** Creates an instance of FirewallRuleInner class. */
+    public FirewallRuleInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

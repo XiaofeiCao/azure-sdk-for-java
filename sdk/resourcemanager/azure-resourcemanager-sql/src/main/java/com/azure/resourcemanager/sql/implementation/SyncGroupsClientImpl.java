@@ -806,24 +806,6 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a sync group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SyncGroupInner get(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        return getAsync(resourceGroupName, serverName, databaseName, syncGroupName).block();
-    }
-
-    /**
-     * Gets a sync group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -834,6 +816,24 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
     public Response<SyncGroupInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String syncGroupName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, context).block();
+    }
+
+    /**
+     * Gets a sync group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a sync group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SyncGroupInner get(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, syncGroupName, Context.NONE).getValue();
     }
 
     /**
@@ -1976,23 +1976,6 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void cancelSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        cancelSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName).block();
-    }
-
-    /**
-     * Cancels a sync group synchronization.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2003,6 +1986,23 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
     public Response<Void> cancelSyncWithResponse(
         String resourceGroupName, String serverName, String databaseName, String syncGroupName, Context context) {
         return cancelSyncWithResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, context).block();
+    }
+
+    /**
+     * Cancels a sync group synchronization.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void cancelSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+        cancelSyncWithResponse(resourceGroupName, serverName, databaseName, syncGroupName, Context.NONE);
     }
 
     /**
@@ -3035,23 +3035,6 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database on which the sync group is hosted.
      * @param syncGroupName The name of the sync group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void triggerSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
-        triggerSyncAsync(resourceGroupName, serverName, databaseName, syncGroupName).block();
-    }
-
-    /**
-     * Triggers a sync group synchronization.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database on which the sync group is hosted.
-     * @param syncGroupName The name of the sync group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -3063,6 +3046,23 @@ public final class SyncGroupsClientImpl implements SyncGroupsClient {
         String resourceGroupName, String serverName, String databaseName, String syncGroupName, Context context) {
         return triggerSyncWithResponseAsync(resourceGroupName, serverName, databaseName, syncGroupName, context)
             .block();
+    }
+
+    /**
+     * Triggers a sync group synchronization.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database on which the sync group is hosted.
+     * @param syncGroupName The name of the sync group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void triggerSync(String resourceGroupName, String serverName, String databaseName, String syncGroupName) {
+        triggerSyncWithResponse(resourceGroupName, serverName, databaseName, syncGroupName, Context.NONE);
     }
 
     /**

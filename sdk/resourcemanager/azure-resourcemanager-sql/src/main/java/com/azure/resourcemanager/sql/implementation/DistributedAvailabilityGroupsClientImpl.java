@@ -501,24 +501,6 @@ public final class DistributedAvailabilityGroupsClientImpl implements Distribute
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param distributedAvailabilityGroupName The distributed availability group name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a distributed availability group info.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DistributedAvailabilityGroupInner get(
-        String resourceGroupName, String managedInstanceName, String distributedAvailabilityGroupName) {
-        return getAsync(resourceGroupName, managedInstanceName, distributedAvailabilityGroupName).block();
-    }
-
-    /**
-     * Gets a distributed availability group info.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param distributedAvailabilityGroupName The distributed availability group name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -533,6 +515,25 @@ public final class DistributedAvailabilityGroupsClientImpl implements Distribute
         Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, distributedAvailabilityGroupName, context)
             .block();
+    }
+
+    /**
+     * Gets a distributed availability group info.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param distributedAvailabilityGroupName The distributed availability group name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a distributed availability group info.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DistributedAvailabilityGroupInner get(
+        String resourceGroupName, String managedInstanceName, String distributedAvailabilityGroupName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, distributedAvailabilityGroupName, Context.NONE)
+            .getValue();
     }
 
     /**

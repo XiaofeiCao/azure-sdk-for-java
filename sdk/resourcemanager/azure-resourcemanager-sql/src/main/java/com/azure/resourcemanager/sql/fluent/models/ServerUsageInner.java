@@ -17,6 +17,10 @@ public final class ServerUsageInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerUsageProperties innerProperties;
 
+    /** Creates an instance of ServerUsageInner class. */
+    public ServerUsageInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

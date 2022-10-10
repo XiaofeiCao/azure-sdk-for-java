@@ -18,6 +18,10 @@ public final class ServerConnectionPolicyProperties {
     @JsonProperty(value = "connectionType", required = true)
     private ServerConnectionType connectionType;
 
+    /** Creates an instance of ServerConnectionPolicyProperties class. */
+    public ServerConnectionPolicyProperties() {
+    }
+
     /**
      * Get the connectionType property: The server connection type.
      *

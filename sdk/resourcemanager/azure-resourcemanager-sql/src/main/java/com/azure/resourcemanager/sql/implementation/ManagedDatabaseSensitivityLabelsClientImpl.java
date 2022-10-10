@@ -720,27 +720,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the database.
      * @param parameters A list of sensitivity label update operations.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void update(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        SensitivityLabelUpdateList parameters) {
-        updateAsync(resourceGroupName, managedInstanceName, databaseName, parameters).block();
-    }
-
-    /**
-     * Update sensitivity labels of a given database using an operations batch.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param parameters A list of sensitivity label update operations.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -756,6 +735,27 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
         Context context) {
         return updateWithResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters, context)
             .block();
+    }
+
+    /**
+     * Update sensitivity labels of a given database using an operations batch.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param parameters A list of sensitivity label update operations.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void update(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        SensitivityLabelUpdateList parameters) {
+        updateWithResponse(resourceGroupName, managedInstanceName, databaseName, parameters, Context.NONE);
     }
 
     /**
@@ -1290,42 +1290,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param tableName The name of the table.
      * @param columnName The name of the column.
      * @param sensitivityLabelSource The source of the sensitivity label.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the sensitivity label of a given column.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SensitivityLabelInner get(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName,
-        SensitivityLabelSource sensitivityLabelSource) {
-        return getAsync(
-                resourceGroupName,
-                managedInstanceName,
-                databaseName,
-                schemaName,
-                tableName,
-                columnName,
-                sensitivityLabelSource)
-            .block();
-    }
-
-    /**
-     * Gets the sensitivity label of a given column.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
-     * @param sensitivityLabelSource The source of the sensitivity label.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1352,6 +1316,43 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
                 sensitivityLabelSource,
                 context)
             .block();
+    }
+
+    /**
+     * Gets the sensitivity label of a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @param sensitivityLabelSource The source of the sensitivity label.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the sensitivity label of a given column.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SensitivityLabelInner get(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName,
+        SensitivityLabelSource sensitivityLabelSource) {
+        return getWithResponse(
+                resourceGroupName,
+                managedInstanceName,
+                databaseName,
+                schemaName,
+                tableName,
+                columnName,
+                sensitivityLabelSource,
+                Context.NONE)
+            .getValue();
     }
 
     /**
@@ -1564,36 +1565,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param tableName The name of the table.
      * @param columnName The name of the column.
      * @param parameters The column sensitivity label resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a sensitivity label.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SensitivityLabelInner createOrUpdate(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName,
-        SensitivityLabelInner parameters) {
-        return createOrUpdateAsync(
-                resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, parameters)
-            .block();
-    }
-
-    /**
-     * Creates or updates the sensitivity label of a given column.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
-     * @param parameters The column sensitivity label resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1620,6 +1591,43 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
                 parameters,
                 context)
             .block();
+    }
+
+    /**
+     * Creates or updates the sensitivity label of a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @param parameters The column sensitivity label resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a sensitivity label.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SensitivityLabelInner createOrUpdate(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName,
+        SensitivityLabelInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName,
+                managedInstanceName,
+                databaseName,
+                schemaName,
+                tableName,
+                columnName,
+                parameters,
+                Context.NONE)
+            .getValue();
     }
 
     /**
@@ -1809,31 +1817,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param schemaName The name of the schema.
      * @param tableName The name of the table.
      * @param columnName The name of the column.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName) {
-        deleteAsync(resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName).block();
-    }
-
-    /**
-     * Deletes the sensitivity label of a given column.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1852,6 +1835,32 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
         return deleteWithResponseAsync(
                 resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, context)
             .block();
+    }
+
+    /**
+     * Deletes the sensitivity label of a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName) {
+        deleteWithResponse(
+            resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, Context.NONE);
     }
 
     /**
@@ -2041,33 +2050,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param schemaName The name of the schema.
      * @param tableName The name of the table.
      * @param columnName The name of the column.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void disableRecommendation(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName) {
-        disableRecommendationAsync(
-                resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName)
-            .block();
-    }
-
-    /**
-     * Disables sensitivity recommendations on a given column.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2086,6 +2068,32 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
         return disableRecommendationWithResponseAsync(
                 resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, context)
             .block();
+    }
+
+    /**
+     * Disables sensitivity recommendations on a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void disableRecommendation(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName) {
+        disableRecommendationWithResponse(
+            resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, Context.NONE);
     }
 
     /**
@@ -2275,33 +2283,6 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
      * @param schemaName The name of the schema.
      * @param tableName The name of the table.
      * @param columnName The name of the column.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void enableRecommendation(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName) {
-        enableRecommendationAsync(
-                resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName)
-            .block();
-    }
-
-    /**
-     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2320,6 +2301,32 @@ public final class ManagedDatabaseSensitivityLabelsClientImpl implements Managed
         return enableRecommendationWithResponseAsync(
                 resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, context)
             .block();
+    }
+
+    /**
+     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void enableRecommendation(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName) {
+        enableRecommendationWithResponse(
+            resourceGroupName, managedInstanceName, databaseName, schemaName, tableName, columnName, Context.NONE);
     }
 
     /**

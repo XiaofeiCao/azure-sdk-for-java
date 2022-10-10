@@ -64,6 +64,10 @@ public final class QueryMetricProperties {
     @JsonProperty(value = "stdev", access = JsonProperty.Access.WRITE_ONLY)
     private Double stdev;
 
+    /** Creates an instance of QueryMetricProperties class. */
+    public QueryMetricProperties() {
+    }
+
     /**
      * Get the name property: The name information for the metric.
      *

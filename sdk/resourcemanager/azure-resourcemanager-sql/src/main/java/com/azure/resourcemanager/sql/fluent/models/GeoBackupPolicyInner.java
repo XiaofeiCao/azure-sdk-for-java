@@ -30,6 +30,10 @@ public final class GeoBackupPolicyInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private GeoBackupPolicyProperties innerProperties;
 
+    /** Creates an instance of GeoBackupPolicyInner class. */
+    public GeoBackupPolicyInner() {
+    }
+
     /**
      * Get the location property: Backup policy location.
      *

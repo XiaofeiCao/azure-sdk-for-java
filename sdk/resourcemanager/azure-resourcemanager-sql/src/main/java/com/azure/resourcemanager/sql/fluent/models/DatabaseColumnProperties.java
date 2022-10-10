@@ -36,6 +36,10 @@ public final class DatabaseColumnProperties {
     @JsonProperty(value = "isComputed")
     private Boolean isComputed;
 
+    /** Creates an instance of DatabaseColumnProperties class. */
+    public DatabaseColumnProperties() {
+    }
+
     /**
      * Get the columnType property: The column data type.
      *

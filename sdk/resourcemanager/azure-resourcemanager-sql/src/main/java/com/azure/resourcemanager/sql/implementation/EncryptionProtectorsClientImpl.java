@@ -464,24 +464,6 @@ public final class EncryptionProtectorsClientImpl implements EncryptionProtector
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param encryptionProtectorName The name of the encryption protector to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server encryption protector.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public EncryptionProtectorInner get(
-        String resourceGroupName, String serverName, EncryptionProtectorName encryptionProtectorName) {
-        return getAsync(resourceGroupName, serverName, encryptionProtectorName).block();
-    }
-
-    /**
-     * Gets a server encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -492,6 +474,24 @@ public final class EncryptionProtectorsClientImpl implements EncryptionProtector
     public Response<EncryptionProtectorInner> getWithResponse(
         String resourceGroupName, String serverName, EncryptionProtectorName encryptionProtectorName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, encryptionProtectorName, context).block();
+    }
+
+    /**
+     * Gets a server encryption protector.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server encryption protector.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public EncryptionProtectorInner get(
+        String resourceGroupName, String serverName, EncryptionProtectorName encryptionProtectorName) {
+        return getWithResponse(resourceGroupName, serverName, encryptionProtectorName, Context.NONE).getValue();
     }
 
     /**

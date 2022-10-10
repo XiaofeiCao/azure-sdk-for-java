@@ -480,24 +480,6 @@ public final class ManagedInstanceEncryptionProtectorsClientImpl implements Mana
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param encryptionProtectorName The name of the encryption protector to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance encryption protector.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceEncryptionProtectorInner get(
-        String resourceGroupName, String managedInstanceName, EncryptionProtectorName encryptionProtectorName) {
-        return getAsync(resourceGroupName, managedInstanceName, encryptionProtectorName).block();
-    }
-
-    /**
-     * Gets a managed instance encryption protector.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -511,6 +493,25 @@ public final class ManagedInstanceEncryptionProtectorsClientImpl implements Mana
         EncryptionProtectorName encryptionProtectorName,
         Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, encryptionProtectorName, context).block();
+    }
+
+    /**
+     * Gets a managed instance encryption protector.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param encryptionProtectorName The name of the encryption protector to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance encryption protector.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceEncryptionProtectorInner get(
+        String resourceGroupName, String managedInstanceName, EncryptionProtectorName encryptionProtectorName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, encryptionProtectorName, Context.NONE)
+            .getValue();
     }
 
     /**

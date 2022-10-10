@@ -67,6 +67,10 @@ public final class DatabaseInner extends Resource {
     @JsonProperty(value = "properties")
     private DatabaseProperties innerProperties;
 
+    /** Creates an instance of DatabaseInner class. */
+    public DatabaseInner() {
+    }
+
     /**
      * Get the sku property: The database SKU.
      *

@@ -18,6 +18,10 @@ public final class UpdateManagedInstanceDnsServersOperationInner extends ProxyRe
     @JsonProperty(value = "properties")
     private DnsRefreshConfigurationProperties innerProperties;
 
+    /** Creates an instance of UpdateManagedInstanceDnsServersOperationInner class. */
+    public UpdateManagedInstanceDnsServersOperationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

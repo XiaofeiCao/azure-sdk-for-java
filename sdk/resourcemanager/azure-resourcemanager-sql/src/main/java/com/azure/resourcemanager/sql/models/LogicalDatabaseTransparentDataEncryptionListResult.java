@@ -24,6 +24,10 @@ public final class LogicalDatabaseTransparentDataEncryptionListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of LogicalDatabaseTransparentDataEncryptionListResult class. */
+    public LogicalDatabaseTransparentDataEncryptionListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

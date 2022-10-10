@@ -453,23 +453,6 @@ public final class ServerKeysClientImpl implements ServerKeysClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param keyName The name of the server key to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server key.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerKeyInner get(String resourceGroupName, String serverName, String keyName) {
-        return getAsync(resourceGroupName, serverName, keyName).block();
-    }
-
-    /**
-     * Gets a server key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param keyName The name of the server key to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -480,6 +463,23 @@ public final class ServerKeysClientImpl implements ServerKeysClient {
     public Response<ServerKeyInner> getWithResponse(
         String resourceGroupName, String serverName, String keyName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, keyName, context).block();
+    }
+
+    /**
+     * Gets a server key.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param keyName The name of the server key to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server key.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerKeyInner get(String resourceGroupName, String serverName, String keyName) {
+        return getWithResponse(resourceGroupName, serverName, keyName, Context.NONE).getValue();
     }
 
     /**

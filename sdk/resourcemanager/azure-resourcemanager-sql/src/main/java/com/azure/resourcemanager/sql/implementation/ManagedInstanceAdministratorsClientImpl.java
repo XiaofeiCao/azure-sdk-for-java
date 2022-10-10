@@ -471,24 +471,6 @@ public final class ManagedInstanceAdministratorsClientImpl implements ManagedIns
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param administratorName The administratorName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance administrator.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceAdministratorInner get(
-        String resourceGroupName, String managedInstanceName, AdministratorName administratorName) {
-        return getAsync(resourceGroupName, managedInstanceName, administratorName).block();
-    }
-
-    /**
-     * Gets a managed instance administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param administratorName The administratorName parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -499,6 +481,24 @@ public final class ManagedInstanceAdministratorsClientImpl implements ManagedIns
     public Response<ManagedInstanceAdministratorInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, AdministratorName administratorName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, administratorName, context).block();
+    }
+
+    /**
+     * Gets a managed instance administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param administratorName The administratorName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance administrator.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceAdministratorInner get(
+        String resourceGroupName, String managedInstanceName, AdministratorName administratorName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, administratorName, Context.NONE).getValue();
     }
 
     /**

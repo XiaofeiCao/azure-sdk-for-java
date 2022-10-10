@@ -43,6 +43,10 @@ public final class ManagedInstanceKeyProperties {
     @JsonProperty(value = "autoRotationEnabled", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean autoRotationEnabled;
 
+    /** Creates an instance of ManagedInstanceKeyProperties class. */
+    public ManagedInstanceKeyProperties() {
+    }
+
     /**
      * Get the serverKeyType property: The key type like 'ServiceManaged', 'AzureKeyVault'.
      *

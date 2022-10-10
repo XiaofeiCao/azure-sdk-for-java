@@ -438,24 +438,6 @@ public final class RestorableDroppedManagedDatabasesClientImpl implements Restor
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a restorable dropped managed database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RestorableDroppedManagedDatabaseInner get(
-        String resourceGroupName, String managedInstanceName, String restorableDroppedDatabaseId) {
-        return getAsync(resourceGroupName, managedInstanceName, restorableDroppedDatabaseId).block();
-    }
-
-    /**
-     * Gets a restorable dropped managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -467,6 +449,25 @@ public final class RestorableDroppedManagedDatabasesClientImpl implements Restor
         String resourceGroupName, String managedInstanceName, String restorableDroppedDatabaseId, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, context)
             .block();
+    }
+
+    /**
+     * Gets a restorable dropped managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param restorableDroppedDatabaseId The restorableDroppedDatabaseId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a restorable dropped managed database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RestorableDroppedManagedDatabaseInner get(
+        String resourceGroupName, String managedInstanceName, String restorableDroppedDatabaseId) {
+        return getWithResponse(resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, Context.NONE)
+            .getValue();
     }
 
     /**

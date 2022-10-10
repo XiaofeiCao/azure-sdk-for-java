@@ -249,30 +249,6 @@ public interface DatabaseColumnsClient {
      * @param schemaName The name of the schema.
      * @param tableName The name of the table.
      * @param columnName The name of the column.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database column.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    DatabaseColumnInner get(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String schemaName,
-        String tableName,
-        String columnName);
-
-    /**
-     * Get database column.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param schemaName The name of the schema.
-     * @param tableName The name of the table.
-     * @param columnName The name of the column.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -288,4 +264,28 @@ public interface DatabaseColumnsClient {
         String tableName,
         String columnName,
         Context context);
+
+    /**
+     * Get database column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database column.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    DatabaseColumnInner get(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String schemaName,
+        String tableName,
+        String columnName);
 }

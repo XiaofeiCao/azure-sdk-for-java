@@ -109,23 +109,6 @@ public interface GeoBackupPoliciesClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a Geo backup policy for the given database resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    GeoBackupPolicyInner get(
-        String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyName geoBackupPolicyName);
-
-    /**
-     * Gets a Geo backup policy for the given database resource.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -139,6 +122,23 @@ public interface GeoBackupPoliciesClient {
         String databaseName,
         GeoBackupPolicyName geoBackupPolicyName,
         Context context);
+
+    /**
+     * Gets a Geo backup policy for the given database resource.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a Geo backup policy for the given database resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    GeoBackupPolicyInner get(
+        String resourceGroupName, String serverName, String databaseName, GeoBackupPolicyName geoBackupPolicyName);
 
     /**
      * Create or update a database default Geo backup policy.
@@ -193,28 +193,6 @@ public interface GeoBackupPoliciesClient {
      * @param databaseName The name of the database.
      * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
      * @param parameters The required parameters for creating or updating the geo backup policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a Geo backup policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    GeoBackupPolicyInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        GeoBackupPolicyName geoBackupPolicyName,
-        GeoBackupPolicyInner parameters);
-
-    /**
-     * Create or update a database default Geo backup policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
-     * @param parameters The required parameters for creating or updating the geo backup policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -229,4 +207,26 @@ public interface GeoBackupPoliciesClient {
         GeoBackupPolicyName geoBackupPolicyName,
         GeoBackupPolicyInner parameters,
         Context context);
+
+    /**
+     * Create or update a database default Geo backup policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param geoBackupPolicyName The name of the Geo backup policy. This should always be 'Default'.
+     * @param parameters The required parameters for creating or updating the geo backup policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a Geo backup policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    GeoBackupPolicyInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        GeoBackupPolicyName geoBackupPolicyName,
+        GeoBackupPolicyInner parameters);
 }

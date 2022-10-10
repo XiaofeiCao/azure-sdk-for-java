@@ -54,6 +54,10 @@ public final class MaintenanceWindowOptionsProperties {
     @JsonProperty(value = "allowMultipleMaintenanceWindowsPerCycle")
     private Boolean allowMultipleMaintenanceWindowsPerCycle;
 
+    /** Creates an instance of MaintenanceWindowOptionsProperties class. */
+    public MaintenanceWindowOptionsProperties() {
+    }
+
     /**
      * Get the isEnabled property: Whether maintenance windows are enabled for the database.
      *

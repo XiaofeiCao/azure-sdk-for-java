@@ -16,6 +16,10 @@ public final class ManagedInstancePrivateEndpointProperty {
     @JsonProperty(value = "id")
     private String id;
 
+    /** Creates an instance of ManagedInstancePrivateEndpointProperty class. */
+    public ManagedInstancePrivateEndpointProperty() {
+    }
+
     /**
      * Get the id property: Resource id of the private endpoint.
      *

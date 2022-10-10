@@ -212,6 +212,10 @@ public final class ManagedInstanceProperties {
     @JsonProperty(value = "servicePrincipal")
     private ServicePrincipal servicePrincipal;
 
+    /** Creates an instance of ManagedInstanceProperties class. */
+    public ManagedInstanceProperties() {
+    }
+
     /**
      * Get the provisioningState property: The provisioningState property.
      *

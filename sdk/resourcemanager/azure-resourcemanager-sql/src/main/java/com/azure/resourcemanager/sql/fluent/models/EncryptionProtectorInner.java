@@ -30,6 +30,10 @@ public final class EncryptionProtectorInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private EncryptionProtectorProperties innerProperties;
 
+    /** Creates an instance of EncryptionProtectorInner class. */
+    public EncryptionProtectorInner() {
+    }
+
     /**
      * Get the kind property: Kind of encryption protector. This is metadata used for the Azure portal experience.
      *

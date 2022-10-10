@@ -981,25 +981,6 @@ public final class ManagedInstancesClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
-     * @param expand The child resources to include in the response.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ManagedInstanceInner> getByResourceGroupAsync(
-        String resourceGroupName, String managedInstanceName, String expand) {
-        return getByResourceGroupWithResponseAsync(resourceGroupName, managedInstanceName, expand)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a managed instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1010,23 +991,6 @@ public final class ManagedInstancesClientImpl
         final String expand = null;
         return getByResourceGroupWithResponseAsync(resourceGroupName, managedInstanceName, expand)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a managed instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceInner getByResourceGroup(String resourceGroupName, String managedInstanceName) {
-        final String expand = null;
-        return getByResourceGroupAsync(resourceGroupName, managedInstanceName, expand).block();
     }
 
     /**
@@ -1046,6 +1010,23 @@ public final class ManagedInstancesClientImpl
     public Response<ManagedInstanceInner> getByResourceGroupWithResponse(
         String resourceGroupName, String managedInstanceName, String expand, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, managedInstanceName, expand, context).block();
+    }
+
+    /**
+     * Gets a managed instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceInner getByResourceGroup(String resourceGroupName, String managedInstanceName) {
+        final String expand = null;
+        return getByResourceGroupWithResponse(resourceGroupName, managedInstanceName, expand, Context.NONE).getValue();
     }
 
     /**
@@ -1972,6 +1953,28 @@ public final class ManagedInstancesClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public PollerFlux<PollResult<Void>, Void> beginFailoverAsync(String resourceGroupName, String managedInstanceName) {
+        final ReplicaType replicaType = null;
+        Mono<Response<Flux<ByteBuffer>>> mono =
+            failoverWithResponseAsync(resourceGroupName, managedInstanceName, replicaType);
+        return this
+            .client
+            .<Void, Void>getLroResult(
+                mono, this.client.getHttpPipeline(), Void.class, Void.class, this.client.getContext());
+    }
+
+    /**
+     * Failovers a managed instance.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance to failover.
      * @param replicaType The type of replica to be failed over.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1996,15 +1999,14 @@ public final class ManagedInstancesClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance to failover.
-     * @param replicaType The type of replica to be failed over.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of long-running operation.
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginFailover(
-        String resourceGroupName, String managedInstanceName, ReplicaType replicaType) {
+    public SyncPoller<PollResult<Void>, Void> beginFailover(String resourceGroupName, String managedInstanceName) {
+        final ReplicaType replicaType = null;
         return beginFailoverAsync(resourceGroupName, managedInstanceName, replicaType).getSyncPoller();
     }
 
@@ -2084,22 +2086,6 @@ public final class ManagedInstancesClientImpl
         return beginFailoverAsync(resourceGroupName, managedInstanceName, replicaType, context)
             .last()
             .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Failovers a managed instance.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance to failover.
-     * @param replicaType The type of replica to be failed over.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void failover(String resourceGroupName, String managedInstanceName, ReplicaType replicaType) {
-        failoverAsync(resourceGroupName, managedInstanceName, replicaType).block();
     }
 
     /**

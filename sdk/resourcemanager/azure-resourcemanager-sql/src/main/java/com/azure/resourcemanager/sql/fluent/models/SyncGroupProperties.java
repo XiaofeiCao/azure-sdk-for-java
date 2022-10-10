@@ -86,6 +86,10 @@ public final class SyncGroupProperties {
     @JsonProperty(value = "privateEndpointName", access = JsonProperty.Access.WRITE_ONLY)
     private String privateEndpointName;
 
+    /** Creates an instance of SyncGroupProperties class. */
+    public SyncGroupProperties() {
+    }
+
     /**
      * Get the interval property: Sync interval of the sync group.
      *

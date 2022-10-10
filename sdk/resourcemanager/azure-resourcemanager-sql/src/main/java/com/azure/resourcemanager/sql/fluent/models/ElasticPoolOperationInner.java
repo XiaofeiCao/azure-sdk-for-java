@@ -18,6 +18,10 @@ public final class ElasticPoolOperationInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ElasticPoolOperationProperties innerProperties;
 
+    /** Creates an instance of ElasticPoolOperationInner class. */
+    public ElasticPoolOperationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

@@ -16,6 +16,10 @@ public final class EndpointCertificateProperties {
     @JsonProperty(value = "publicBlob")
     private String publicBlob;
 
+    /** Creates an instance of EndpointCertificateProperties class. */
+    public EndpointCertificateProperties() {
+    }
+
     /**
      * Get the publicBlob property: The certificate public blob.
      *

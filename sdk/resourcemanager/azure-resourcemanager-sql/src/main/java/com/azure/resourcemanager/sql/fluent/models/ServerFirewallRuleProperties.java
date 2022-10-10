@@ -24,6 +24,10 @@ public final class ServerFirewallRuleProperties {
     @JsonProperty(value = "endIpAddress")
     private String endIpAddress;
 
+    /** Creates an instance of ServerFirewallRuleProperties class. */
+    public ServerFirewallRuleProperties() {
+    }
+
     /**
      * Get the startIpAddress property: The start IP address of the firewall rule. Must be IPv4 format. Use value
      * '0.0.0.0' for all Azure-internal IP addresses.

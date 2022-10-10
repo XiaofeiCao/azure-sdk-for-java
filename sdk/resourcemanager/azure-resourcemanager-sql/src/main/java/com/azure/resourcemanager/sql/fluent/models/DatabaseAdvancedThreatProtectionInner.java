@@ -26,6 +26,10 @@ public final class DatabaseAdvancedThreatProtectionInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private AdvancedThreatProtectionProperties innerProperties;
 
+    /** Creates an instance of DatabaseAdvancedThreatProtectionInner class. */
+    public DatabaseAdvancedThreatProtectionInner() {
+    }
+
     /**
      * Get the systemData property: SystemData of AdvancedThreatProtectionResource.
      *

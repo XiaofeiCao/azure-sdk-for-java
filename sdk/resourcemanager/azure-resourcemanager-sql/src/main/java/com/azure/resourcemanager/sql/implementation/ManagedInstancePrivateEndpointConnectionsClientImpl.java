@@ -478,24 +478,6 @@ public final class ManagedInstancePrivateEndpointConnectionsClientImpl
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param privateEndpointConnectionName The name of the private endpoint connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a private endpoint connection.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstancePrivateEndpointConnectionInner get(
-        String resourceGroupName, String managedInstanceName, String privateEndpointConnectionName) {
-        return getAsync(resourceGroupName, managedInstanceName, privateEndpointConnectionName).block();
-    }
-
-    /**
-     * Gets a private endpoint connection.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param privateEndpointConnectionName The name of the private endpoint connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -507,6 +489,25 @@ public final class ManagedInstancePrivateEndpointConnectionsClientImpl
         String resourceGroupName, String managedInstanceName, String privateEndpointConnectionName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, privateEndpointConnectionName, context)
             .block();
+    }
+
+    /**
+     * Gets a private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param privateEndpointConnectionName The name of the private endpoint connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a private endpoint connection.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstancePrivateEndpointConnectionInner get(
+        String resourceGroupName, String managedInstanceName, String privateEndpointConnectionName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, privateEndpointConnectionName, Context.NONE)
+            .getValue();
     }
 
     /**

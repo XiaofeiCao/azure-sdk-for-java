@@ -90,6 +90,10 @@ public final class ServerOperationProperties {
     @JsonProperty(value = "isCancellable", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean isCancellable;
 
+    /** Creates an instance of ServerOperationProperties class. */
+    public ServerOperationProperties() {
+    }
+
     /**
      * Get the operation property: The name of operation.
      *

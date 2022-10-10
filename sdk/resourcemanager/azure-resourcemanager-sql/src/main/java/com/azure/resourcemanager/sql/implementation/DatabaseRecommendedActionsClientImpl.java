@@ -259,25 +259,6 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of Database Recommended Actions.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public List<RecommendedActionInner> listByDatabaseAdvisor(
-        String resourceGroupName, String serverName, String databaseName, String advisorName) {
-        return listByDatabaseAdvisorAsync(resourceGroupName, serverName, databaseName, advisorName).block();
-    }
-
-    /**
-     * Gets list of Database Recommended Actions.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -289,6 +270,26 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
         String resourceGroupName, String serverName, String databaseName, String advisorName, Context context) {
         return listByDatabaseAdvisorWithResponseAsync(resourceGroupName, serverName, databaseName, advisorName, context)
             .block();
+    }
+
+    /**
+     * Gets list of Database Recommended Actions.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return list of Database Recommended Actions.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public List<RecommendedActionInner> listByDatabaseAdvisor(
+        String resourceGroupName, String serverName, String databaseName, String advisorName) {
+        return listByDatabaseAdvisorWithResponse(resourceGroupName, serverName, databaseName, advisorName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -462,30 +463,6 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
      * @param recommendedActionName The name of Database Recommended Action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database recommended action.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RecommendedActionInner get(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String advisorName,
-        String recommendedActionName) {
-        return getAsync(resourceGroupName, serverName, databaseName, advisorName, recommendedActionName).block();
-    }
-
-    /**
-     * Gets a database recommended action.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
-     * @param recommendedActionName The name of Database Recommended Action.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -503,6 +480,32 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
         return getWithResponseAsync(
                 resourceGroupName, serverName, databaseName, advisorName, recommendedActionName, context)
             .block();
+    }
+
+    /**
+     * Gets a database recommended action.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @param recommendedActionName The name of Database Recommended Action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database recommended action.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RecommendedActionInner get(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String advisorName,
+        String recommendedActionName) {
+        return getWithResponse(
+                resourceGroupName, serverName, databaseName, advisorName, recommendedActionName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -698,33 +701,6 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
      * @param advisorName The name of the Database Advisor.
      * @param recommendedActionName The name of Database Recommended Action.
      * @param parameters The requested recommended action resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database, Server or Elastic Pool Recommended Action.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RecommendedActionInner update(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String advisorName,
-        String recommendedActionName,
-        RecommendedActionInner parameters) {
-        return updateAsync(resourceGroupName, serverName, databaseName, advisorName, recommendedActionName, parameters)
-            .block();
-    }
-
-    /**
-     * Updates a database recommended action.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
-     * @param recommendedActionName The name of Database Recommended Action.
-     * @param parameters The requested recommended action resource state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -743,5 +719,39 @@ public final class DatabaseRecommendedActionsClientImpl implements DatabaseRecom
         return updateWithResponseAsync(
                 resourceGroupName, serverName, databaseName, advisorName, recommendedActionName, parameters, context)
             .block();
+    }
+
+    /**
+     * Updates a database recommended action.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @param recommendedActionName The name of Database Recommended Action.
+     * @param parameters The requested recommended action resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database, Server or Elastic Pool Recommended Action.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RecommendedActionInner update(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String advisorName,
+        String recommendedActionName,
+        RecommendedActionInner parameters) {
+        return updateWithResponse(
+                resourceGroupName,
+                serverName,
+                databaseName,
+                advisorName,
+                recommendedActionName,
+                parameters,
+                Context.NONE)
+            .getValue();
     }
 }

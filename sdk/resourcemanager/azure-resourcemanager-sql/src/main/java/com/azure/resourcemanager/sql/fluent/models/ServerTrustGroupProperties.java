@@ -26,6 +26,10 @@ public final class ServerTrustGroupProperties {
     @JsonProperty(value = "trustScopes", required = true)
     private List<ServerTrustGroupPropertiesTrustScopesItem> trustScopes;
 
+    /** Creates an instance of ServerTrustGroupProperties class. */
+    public ServerTrustGroupProperties() {
+    }
+
     /**
      * Get the groupMembers property: Group members information for the server trust group.
      *

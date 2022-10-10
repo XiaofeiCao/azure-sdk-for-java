@@ -39,6 +39,10 @@ public class ResourceIdentity {
     @JsonProperty(value = "tenantId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID tenantId;
 
+    /** Creates an instance of ResourceIdentity class. */
+    public ResourceIdentity() {
+    }
+
     /**
      * Get the userAssignedIdentities property: The resource ids of the user assigned identities to use.
      *

@@ -17,6 +17,10 @@ public final class IPv6FirewallRuleInner extends ProxyResourceWithWritableName {
     @JsonProperty(value = "properties")
     private IPv6ServerFirewallRuleProperties innerProperties;
 
+    /** Creates an instance of IPv6FirewallRuleInner class. */
+    public IPv6FirewallRuleInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

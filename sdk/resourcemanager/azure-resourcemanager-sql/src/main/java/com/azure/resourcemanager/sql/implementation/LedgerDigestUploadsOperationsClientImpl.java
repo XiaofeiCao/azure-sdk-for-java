@@ -504,25 +504,6 @@ public final class LedgerDigestUploadsOperationsClientImpl implements LedgerDige
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param ledgerDigestUploads The ledgerDigestUploads parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the current ledger digest upload configuration for a database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LedgerDigestUploadsInner get(
-        String resourceGroupName, String serverName, String databaseName, LedgerDigestUploadsName ledgerDigestUploads) {
-        return getAsync(resourceGroupName, serverName, databaseName, ledgerDigestUploads).block();
-    }
-
-    /**
-     * Gets the current ledger digest upload configuration for a database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param ledgerDigestUploads The ledgerDigestUploads parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -537,6 +518,26 @@ public final class LedgerDigestUploadsOperationsClientImpl implements LedgerDige
         LedgerDigestUploadsName ledgerDigestUploads,
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, ledgerDigestUploads, context).block();
+    }
+
+    /**
+     * Gets the current ledger digest upload configuration for a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param ledgerDigestUploads The ledgerDigestUploads parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the current ledger digest upload configuration for a database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LedgerDigestUploadsInner get(
+        String resourceGroupName, String serverName, String databaseName, LedgerDigestUploadsName ledgerDigestUploads) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, ledgerDigestUploads, Context.NONE)
+            .getValue();
     }
 
     /**

@@ -102,6 +102,10 @@ public final class ServerProperties {
     @JsonProperty(value = "restrictOutboundNetworkAccess")
     private ServerNetworkAccessFlag restrictOutboundNetworkAccess;
 
+    /** Creates an instance of ServerProperties class. */
+    public ServerProperties() {
+    }
+
     /**
      * Get the administratorLogin property: Administrator username for the server. Once created it cannot be changed.
      *

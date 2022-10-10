@@ -224,26 +224,6 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @param expand The child resources to include in the response.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a list of database advisors on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<List<AdvisorInner>> listByDatabaseAsync(
-        String resourceGroupName, String serverName, String databaseName, String expand) {
-        return listByDatabaseWithResponseAsync(resourceGroupName, serverName, databaseName, expand)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a list of database advisors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -264,24 +244,6 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a list of database advisors.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public List<AdvisorInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
-        final String expand = null;
-        return listByDatabaseAsync(resourceGroupName, serverName, databaseName, expand).block();
-    }
-
-    /**
-     * Gets a list of database advisors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
      * @param expand The child resources to include in the response.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -293,6 +255,24 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
     public Response<List<AdvisorInner>> listByDatabaseWithResponse(
         String resourceGroupName, String serverName, String databaseName, String expand, Context context) {
         return listByDatabaseWithResponseAsync(resourceGroupName, serverName, databaseName, expand, context).block();
+    }
+
+    /**
+     * Gets a list of database advisors.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a list of database advisors.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public List<AdvisorInner> listByDatabase(String resourceGroupName, String serverName, String databaseName) {
+        final String expand = null;
+        return listByDatabaseWithResponse(resourceGroupName, serverName, databaseName, expand, Context.NONE).getValue();
     }
 
     /**
@@ -439,24 +419,6 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database advisor.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AdvisorInner get(String resourceGroupName, String serverName, String databaseName, String advisorName) {
-        return getAsync(resourceGroupName, serverName, databaseName, advisorName).block();
-    }
-
-    /**
-     * Gets a database advisor.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -467,6 +429,24 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
     public Response<AdvisorInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String advisorName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, advisorName, context).block();
+    }
+
+    /**
+     * Gets a database advisor.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database advisor.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AdvisorInner get(String resourceGroupName, String serverName, String databaseName, String advisorName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, advisorName, Context.NONE).getValue();
     }
 
     /**
@@ -636,26 +616,6 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
      * @param parameters The requested advisor resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database, Server or Elastic Pool Advisor.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AdvisorInner update(
-        String resourceGroupName, String serverName, String databaseName, String advisorName, AdvisorInner parameters) {
-        return updateAsync(resourceGroupName, serverName, databaseName, advisorName, parameters).block();
-    }
-
-    /**
-     * Updates a database advisor.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
-     * @param parameters The requested advisor resource state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -672,5 +632,26 @@ public final class DatabaseAdvisorsClientImpl implements DatabaseAdvisorsClient 
         Context context) {
         return updateWithResponseAsync(resourceGroupName, serverName, databaseName, advisorName, parameters, context)
             .block();
+    }
+
+    /**
+     * Updates a database advisor.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @param parameters The requested advisor resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database, Server or Elastic Pool Advisor.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AdvisorInner update(
+        String resourceGroupName, String serverName, String databaseName, String advisorName, AdvisorInner parameters) {
+        return updateWithResponse(resourceGroupName, serverName, databaseName, advisorName, parameters, Context.NONE)
+            .getValue();
     }
 }

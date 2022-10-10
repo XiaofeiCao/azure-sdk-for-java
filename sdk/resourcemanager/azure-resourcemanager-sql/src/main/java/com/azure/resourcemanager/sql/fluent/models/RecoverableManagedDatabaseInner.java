@@ -17,6 +17,10 @@ public final class RecoverableManagedDatabaseInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private RecoverableManagedDatabaseProperties innerProperties;
 
+    /** Creates an instance of RecoverableManagedDatabaseInner class. */
+    public RecoverableManagedDatabaseInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

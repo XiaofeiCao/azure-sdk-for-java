@@ -30,6 +30,10 @@ public final class DataMaskingPolicyInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DataMaskingPolicyProperties innerProperties;
 
+    /** Creates an instance of DataMaskingPolicyInner class. */
+    public DataMaskingPolicyInner() {
+    }
+
     /**
      * Get the location property: The location of the data masking policy.
      *

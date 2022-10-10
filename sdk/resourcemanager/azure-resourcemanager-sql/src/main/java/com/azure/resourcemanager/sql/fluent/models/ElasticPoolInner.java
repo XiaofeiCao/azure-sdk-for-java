@@ -44,6 +44,10 @@ public final class ElasticPoolInner extends Resource {
     @JsonProperty(value = "properties")
     private ElasticPoolProperties innerProperties;
 
+    /** Creates an instance of ElasticPoolInner class. */
+    public ElasticPoolInner() {
+    }
+
     /**
      * Get the sku property: The elastic pool SKU.
      *

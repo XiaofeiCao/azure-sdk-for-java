@@ -66,6 +66,10 @@ public final class SensitivityLabelProperties {
     @JsonProperty(value = "rank")
     private SensitivityLabelRank rank;
 
+    /** Creates an instance of SensitivityLabelProperties class. */
+    public SensitivityLabelProperties() {
+    }
+
     /**
      * Get the schemaName property: The schema name.
      *

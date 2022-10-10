@@ -492,23 +492,6 @@ public final class ManagedInstanceKeysClientImpl implements ManagedInstanceKeysC
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param keyName The name of the managed instance key to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance key.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceKeyInner get(String resourceGroupName, String managedInstanceName, String keyName) {
-        return getAsync(resourceGroupName, managedInstanceName, keyName).block();
-    }
-
-    /**
-     * Gets a managed instance key.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param keyName The name of the managed instance key to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -519,6 +502,23 @@ public final class ManagedInstanceKeysClientImpl implements ManagedInstanceKeysC
     public Response<ManagedInstanceKeyInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String keyName, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, keyName, context).block();
+    }
+
+    /**
+     * Gets a managed instance key.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param keyName The name of the managed instance key to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance key.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceKeyInner get(String resourceGroupName, String managedInstanceName, String keyName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, keyName, Context.NONE).getValue();
     }
 
     /**

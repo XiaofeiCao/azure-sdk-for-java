@@ -35,6 +35,10 @@ public final class VirtualClusterProperties {
     @JsonProperty(value = "maintenanceConfigurationId")
     private String maintenanceConfigurationId;
 
+    /** Creates an instance of VirtualClusterProperties class. */
+    public VirtualClusterProperties() {
+    }
+
     /**
      * Get the subnetId property: Subnet resource ID for the virtual cluster.
      *

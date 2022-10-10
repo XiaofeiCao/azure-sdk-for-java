@@ -57,23 +57,6 @@ public interface DatabaseRecommendedActionsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return list of Database Recommended Actions.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    List<RecommendedActionInner> listByDatabaseAdvisor(
-        String resourceGroupName, String serverName, String databaseName, String advisorName);
-
-    /**
-     * Gets list of Database Recommended Actions.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -83,6 +66,23 @@ public interface DatabaseRecommendedActionsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<List<RecommendedActionInner>> listByDatabaseAdvisorWithResponse(
         String resourceGroupName, String serverName, String databaseName, String advisorName, Context context);
+
+    /**
+     * Gets list of Database Recommended Actions.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return list of Database Recommended Actions.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    List<RecommendedActionInner> listByDatabaseAdvisor(
+        String resourceGroupName, String serverName, String databaseName, String advisorName);
 
     /**
      * Gets a database recommended action.
@@ -137,28 +137,6 @@ public interface DatabaseRecommendedActionsClient {
      * @param databaseName The name of the database.
      * @param advisorName The name of the Database Advisor.
      * @param recommendedActionName The name of Database Recommended Action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database recommended action.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    RecommendedActionInner get(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String advisorName,
-        String recommendedActionName);
-
-    /**
-     * Gets a database recommended action.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
-     * @param recommendedActionName The name of Database Recommended Action.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -173,6 +151,28 @@ public interface DatabaseRecommendedActionsClient {
         String advisorName,
         String recommendedActionName,
         Context context);
+
+    /**
+     * Gets a database recommended action.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @param recommendedActionName The name of Database Recommended Action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database recommended action.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    RecommendedActionInner get(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String advisorName,
+        String recommendedActionName);
 
     /**
      * Updates a database recommended action.
@@ -233,30 +233,6 @@ public interface DatabaseRecommendedActionsClient {
      * @param advisorName The name of the Database Advisor.
      * @param recommendedActionName The name of Database Recommended Action.
      * @param parameters The requested recommended action resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database, Server or Elastic Pool Recommended Action.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    RecommendedActionInner update(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        String advisorName,
-        String recommendedActionName,
-        RecommendedActionInner parameters);
-
-    /**
-     * Updates a database recommended action.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param advisorName The name of the Database Advisor.
-     * @param recommendedActionName The name of Database Recommended Action.
-     * @param parameters The requested recommended action resource state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -272,4 +248,28 @@ public interface DatabaseRecommendedActionsClient {
         String recommendedActionName,
         RecommendedActionInner parameters,
         Context context);
+
+    /**
+     * Updates a database recommended action.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param advisorName The name of the Database Advisor.
+     * @param recommendedActionName The name of Database Recommended Action.
+     * @param parameters The requested recommended action resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database, Server or Elastic Pool Recommended Action.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    RecommendedActionInner update(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        String advisorName,
+        String recommendedActionName,
+        RecommendedActionInner parameters);
 }

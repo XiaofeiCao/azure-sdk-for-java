@@ -24,6 +24,10 @@ public final class ManagedInstanceEncryptionProtectorInner extends ProxyResource
     @JsonProperty(value = "properties")
     private ManagedInstanceEncryptionProtectorProperties innerProperties;
 
+    /** Creates an instance of ManagedInstanceEncryptionProtectorInner class. */
+    public ManagedInstanceEncryptionProtectorInner() {
+    }
+
     /**
      * Get the kind property: Kind of encryption protector. This is metadata used for the Azure portal experience.
      *

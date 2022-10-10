@@ -125,6 +125,10 @@ public final class ManagedDatabaseProperties {
     @JsonProperty(value = "lastBackupName")
     private String lastBackupName;
 
+    /** Creates an instance of ManagedDatabaseProperties class. */
+    public ManagedDatabaseProperties() {
+    }
+
     /**
      * Get the collation property: Collation of the managed database.
      *

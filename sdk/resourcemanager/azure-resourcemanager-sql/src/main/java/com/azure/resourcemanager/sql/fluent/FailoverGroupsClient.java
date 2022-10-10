@@ -102,21 +102,6 @@ public interface FailoverGroupsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server containing the failover group.
      * @param failoverGroupName The name of the failover group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a failover group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    FailoverGroupInner get(String resourceGroupName, String serverName, String failoverGroupName);
-
-    /**
-     * Gets a failover group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server containing the failover group.
-     * @param failoverGroupName The name of the failover group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -126,6 +111,21 @@ public interface FailoverGroupsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<FailoverGroupInner> getWithResponse(
         String resourceGroupName, String serverName, String failoverGroupName, Context context);
+
+    /**
+     * Gets a failover group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server containing the failover group.
+     * @param failoverGroupName The name of the failover group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a failover group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    FailoverGroupInner get(String resourceGroupName, String serverName, String failoverGroupName);
 
     /**
      * Creates or updates a failover group.

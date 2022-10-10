@@ -34,6 +34,10 @@ public final class ServerUsageProperties {
     @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
     private String unit;
 
+    /** Creates an instance of ServerUsageProperties class. */
+    public ServerUsageProperties() {
+    }
+
     /**
      * Get the displayName property: User-readable name of the metric.
      *

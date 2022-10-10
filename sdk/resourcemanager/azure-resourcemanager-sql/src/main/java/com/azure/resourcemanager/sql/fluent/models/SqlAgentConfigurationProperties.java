@@ -17,6 +17,10 @@ public final class SqlAgentConfigurationProperties {
     @JsonProperty(value = "state")
     private SqlAgentConfigurationPropertiesState state;
 
+    /** Creates an instance of SqlAgentConfigurationProperties class. */
+    public SqlAgentConfigurationProperties() {
+    }
+
     /**
      * Get the state property: The state of Sql Agent.
      *

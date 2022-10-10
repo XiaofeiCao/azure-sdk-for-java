@@ -18,6 +18,10 @@ public final class DatabaseExtensions extends ProxyResource {
     @JsonProperty(value = "properties")
     private DatabaseExtensionsProperties innerProperties;
 
+    /** Creates an instance of DatabaseExtensions class. */
+    public DatabaseExtensions() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

@@ -51,6 +51,10 @@ public final class JobStepProperties {
     @JsonProperty(value = "executionOptions")
     private JobStepExecutionOptions executionOptions;
 
+    /** Creates an instance of JobStepProperties class. */
+    public JobStepProperties() {
+    }
+
     /**
      * Get the stepId property: The job step's index within the job. If not specified when creating the job step, it
      * will be created as the last step. If not specified when updating the job step, the step id is not modified.

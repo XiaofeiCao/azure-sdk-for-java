@@ -18,6 +18,10 @@ public final class ManagedTransparentDataEncryptionInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ManagedTransparentDataEncryptionProperties innerProperties;
 
+    /** Creates an instance of ManagedTransparentDataEncryptionInner class. */
+    public ManagedTransparentDataEncryptionInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

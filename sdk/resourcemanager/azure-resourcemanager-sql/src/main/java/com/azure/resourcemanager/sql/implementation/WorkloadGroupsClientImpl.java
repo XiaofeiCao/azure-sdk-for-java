@@ -490,25 +490,6 @@ public final class WorkloadGroupsClientImpl implements WorkloadGroupsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param workloadGroupName The name of the workload group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a workload group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public WorkloadGroupInner get(
-        String resourceGroupName, String serverName, String databaseName, String workloadGroupName) {
-        return getAsync(resourceGroupName, serverName, databaseName, workloadGroupName).block();
-    }
-
-    /**
-     * Gets a workload group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param workloadGroupName The name of the workload group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -519,6 +500,25 @@ public final class WorkloadGroupsClientImpl implements WorkloadGroupsClient {
     public Response<WorkloadGroupInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String workloadGroupName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, workloadGroupName, context).block();
+    }
+
+    /**
+     * Gets a workload group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param workloadGroupName The name of the workload group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a workload group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public WorkloadGroupInner get(
+        String resourceGroupName, String serverName, String databaseName, String workloadGroupName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, workloadGroupName, Context.NONE).getValue();
     }
 
     /**

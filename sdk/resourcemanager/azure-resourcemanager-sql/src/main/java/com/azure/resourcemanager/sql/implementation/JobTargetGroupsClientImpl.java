@@ -485,25 +485,6 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a target group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobTargetGroupInner get(
-        String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).block();
-    }
-
-    /**
-     * Gets a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -514,6 +495,25 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
     public Response<JobTargetGroupInner> getWithResponse(
         String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, context).block();
+    }
+
+    /**
+     * Gets a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a target group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobTargetGroupInner get(
+        String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
+        return getWithResponse(resourceGroupName, serverName, jobAgentName, targetGroupName, Context.NONE).getValue();
     }
 
     /**
@@ -691,30 +691,6 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
      * @param parameters The requested state of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a group of job targets.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobTargetGroupInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String jobAgentName,
-        String targetGroupName,
-        JobTargetGroupInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, parameters).block();
-    }
-
-    /**
-     * Creates or updates a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
-     * @param parameters The requested state of the target group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -732,6 +708,32 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, jobAgentName, targetGroupName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @param parameters The requested state of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a group of job targets.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobTargetGroupInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String jobAgentName,
+        String targetGroupName,
+        JobTargetGroupInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, serverName, jobAgentName, targetGroupName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -876,23 +878,6 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
      * @param serverName The name of the server.
      * @param jobAgentName The name of the job agent.
      * @param targetGroupName The name of the target group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
-        deleteAsync(resourceGroupName, serverName, jobAgentName, targetGroupName).block();
-    }
-
-    /**
-     * Deletes a target group.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param targetGroupName The name of the target group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -903,6 +888,23 @@ public final class JobTargetGroupsClientImpl implements JobTargetGroupsClient {
     public Response<Void> deleteWithResponse(
         String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, Context context) {
         return deleteWithResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, context).block();
+    }
+
+    /**
+     * Deletes a target group.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param targetGroupName The name of the target group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName) {
+        deleteWithResponse(resourceGroupName, serverName, jobAgentName, targetGroupName, Context.NONE);
     }
 
     /**

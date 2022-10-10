@@ -18,6 +18,10 @@ public final class DeletedServerInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DeletedServerProperties innerProperties;
 
+    /** Creates an instance of DeletedServerInner class. */
+    public DeletedServerInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

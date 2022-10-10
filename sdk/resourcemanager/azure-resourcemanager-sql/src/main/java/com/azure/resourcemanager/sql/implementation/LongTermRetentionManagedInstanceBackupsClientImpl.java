@@ -932,24 +932,6 @@ public final class LongTermRetentionManagedInstanceBackupsClientImpl
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the managed database.
      * @param backupName The backup name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a long term retention backup for a managed database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceLongTermRetentionBackupInner get(
-        String locationName, String managedInstanceName, String databaseName, String backupName) {
-        return getAsync(locationName, managedInstanceName, databaseName, backupName).block();
-    }
-
-    /**
-     * Gets a long term retention backup for a managed database.
-     *
-     * @param locationName The location of the database.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the managed database.
-     * @param backupName The backup name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -960,6 +942,24 @@ public final class LongTermRetentionManagedInstanceBackupsClientImpl
     public Response<ManagedInstanceLongTermRetentionBackupInner> getWithResponse(
         String locationName, String managedInstanceName, String databaseName, String backupName, Context context) {
         return getWithResponseAsync(locationName, managedInstanceName, databaseName, backupName, context).block();
+    }
+
+    /**
+     * Gets a long term retention backup for a managed database.
+     *
+     * @param locationName The location of the database.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the managed database.
+     * @param backupName The backup name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a long term retention backup for a managed database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceLongTermRetentionBackupInner get(
+        String locationName, String managedInstanceName, String databaseName, String backupName) {
+        return getWithResponse(locationName, managedInstanceName, databaseName, backupName, Context.NONE).getValue();
     }
 
     /**
@@ -2230,31 +2230,6 @@ public final class LongTermRetentionManagedInstanceBackupsClientImpl
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the managed database.
      * @param backupName The backup name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a long term retention backup for a managed database.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedInstanceLongTermRetentionBackupInner getByResourceGroup(
-        String resourceGroupName,
-        String locationName,
-        String managedInstanceName,
-        String databaseName,
-        String backupName) {
-        return getByResourceGroupAsync(resourceGroupName, locationName, managedInstanceName, databaseName, backupName)
-            .block();
-    }
-
-    /**
-     * Gets a long term retention backup for a managed database.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param locationName The location of the database.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the managed database.
-     * @param backupName The backup name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2272,6 +2247,32 @@ public final class LongTermRetentionManagedInstanceBackupsClientImpl
         return getByResourceGroupWithResponseAsync(
                 resourceGroupName, locationName, managedInstanceName, databaseName, backupName, context)
             .block();
+    }
+
+    /**
+     * Gets a long term retention backup for a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param locationName The location of the database.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the managed database.
+     * @param backupName The backup name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a long term retention backup for a managed database.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedInstanceLongTermRetentionBackupInner getByResourceGroup(
+        String resourceGroupName,
+        String locationName,
+        String managedInstanceName,
+        String databaseName,
+        String backupName) {
+        return getByResourceGroupWithResponse(
+                resourceGroupName, locationName, managedInstanceName, databaseName, backupName, Context.NONE)
+            .getValue();
     }
 
     /**

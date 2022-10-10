@@ -58,6 +58,10 @@ public final class AdvisorProperties {
     @JsonProperty(value = "recommendedActions", access = JsonProperty.Access.WRITE_ONLY)
     private List<RecommendedActionInner> recommendedActions;
 
+    /** Creates an instance of AdvisorProperties class. */
+    public AdvisorProperties() {
+    }
+
     /**
      * Get the advisorStatus property: Gets the status of availability of this advisor to customers. Possible values are
      * 'GA', 'PublicPreview', 'LimitedPublicPreview' and 'PrivatePreview'.

@@ -113,23 +113,6 @@ public interface LongTermRetentionPoliciesClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param policyName The policy name. Should always be Default.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database's long term retention policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    LongTermRetentionPolicyInner get(
-        String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyName policyName);
-
-    /**
-     * Gets a database's long term retention policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param policyName The policy name. Should always be Default.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -143,6 +126,23 @@ public interface LongTermRetentionPoliciesClient {
         String databaseName,
         LongTermRetentionPolicyName policyName,
         Context context);
+
+    /**
+     * Gets a database's long term retention policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param policyName The policy name. Should always be Default.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database's long term retention policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    LongTermRetentionPolicyInner get(
+        String resourceGroupName, String serverName, String databaseName, LongTermRetentionPolicyName policyName);
 
     /**
      * Sets a database's long term retention policy.

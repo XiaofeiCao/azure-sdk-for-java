@@ -24,6 +24,10 @@ public final class ManagedInstancePrivateEndpointConnectionListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ManagedInstancePrivateEndpointConnectionListResult class. */
+    public ManagedInstancePrivateEndpointConnectionListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

@@ -20,6 +20,10 @@ public final class SecurityEventInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SecurityEventProperties innerProperties;
 
+    /** Creates an instance of SecurityEventInner class. */
+    public SecurityEventInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

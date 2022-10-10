@@ -83,19 +83,6 @@ public interface TimeZonesClient {
      *
      * @param locationName The locationName parameter.
      * @param timeZoneId The timeZoneId parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance time zone.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    TimeZoneInner get(String locationName, String timeZoneId);
-
-    /**
-     * Gets a managed instance time zone.
-     *
-     * @param locationName The locationName parameter.
-     * @param timeZoneId The timeZoneId parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -104,4 +91,17 @@ public interface TimeZonesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<TimeZoneInner> getWithResponse(String locationName, String timeZoneId, Context context);
+
+    /**
+     * Gets a managed instance time zone.
+     *
+     * @param locationName The locationName parameter.
+     * @param timeZoneId The timeZoneId parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance time zone.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    TimeZoneInner get(String locationName, String timeZoneId);
 }

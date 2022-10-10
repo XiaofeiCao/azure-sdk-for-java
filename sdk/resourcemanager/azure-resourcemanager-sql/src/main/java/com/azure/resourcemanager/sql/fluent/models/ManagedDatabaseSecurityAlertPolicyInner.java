@@ -20,6 +20,10 @@ public final class ManagedDatabaseSecurityAlertPolicyInner extends ProxyResource
     @JsonProperty(value = "properties")
     private SecurityAlertPolicyProperties innerProperties;
 
+    /** Creates an instance of ManagedDatabaseSecurityAlertPolicyInner class. */
+    public ManagedDatabaseSecurityAlertPolicyInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

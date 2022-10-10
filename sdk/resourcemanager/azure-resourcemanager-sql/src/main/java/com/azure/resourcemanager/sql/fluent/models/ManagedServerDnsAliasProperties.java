@@ -22,6 +22,10 @@ public final class ManagedServerDnsAliasProperties {
     @JsonProperty(value = "publicAzureDnsRecord", access = JsonProperty.Access.WRITE_ONLY)
     private String publicAzureDnsRecord;
 
+    /** Creates an instance of ManagedServerDnsAliasProperties class. */
+    public ManagedServerDnsAliasProperties() {
+    }
+
     /**
      * Get the azureDnsRecord property: The fully qualified DNS record for managed server alias.
      *

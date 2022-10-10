@@ -24,6 +24,10 @@ public final class ManagedInstancePrivateLinkListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ManagedInstancePrivateLinkListResult class. */
+    public ManagedInstancePrivateLinkListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

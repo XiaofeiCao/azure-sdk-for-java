@@ -34,6 +34,10 @@ public final class UpsertManagedServerOperationParameters {
     @JsonProperty(value = "storageSizeInGB")
     private Integer storageSizeInGB;
 
+    /** Creates an instance of UpsertManagedServerOperationParameters class. */
+    public UpsertManagedServerOperationParameters() {
+    }
+
     /**
      * Get the family property: The family property.
      *

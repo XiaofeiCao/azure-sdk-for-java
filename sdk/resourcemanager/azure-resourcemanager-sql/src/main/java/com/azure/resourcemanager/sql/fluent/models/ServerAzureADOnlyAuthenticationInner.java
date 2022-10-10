@@ -17,6 +17,10 @@ public final class ServerAzureADOnlyAuthenticationInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private AzureADOnlyAuthProperties innerProperties;
 
+    /** Creates an instance of ServerAzureADOnlyAuthenticationInner class. */
+    public ServerAzureADOnlyAuthenticationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

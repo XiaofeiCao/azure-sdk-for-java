@@ -66,6 +66,10 @@ public final class ServerDevOpsAuditSettingsProperties {
     @JsonProperty(value = "storageAccountSubscriptionId")
     private UUID storageAccountSubscriptionId;
 
+    /** Creates an instance of ServerDevOpsAuditSettingsProperties class. */
+    public ServerDevOpsAuditSettingsProperties() {
+    }
+
     /**
      * Get the isAzureMonitorTargetEnabled property: Specifies whether DevOps audit events are sent to Azure Monitor. In
      * order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as

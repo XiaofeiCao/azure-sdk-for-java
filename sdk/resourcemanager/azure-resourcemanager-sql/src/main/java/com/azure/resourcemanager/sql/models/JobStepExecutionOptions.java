@@ -40,6 +40,10 @@ public final class JobStepExecutionOptions {
     @JsonProperty(value = "retryIntervalBackoffMultiplier")
     private Float retryIntervalBackoffMultiplier;
 
+    /** Creates an instance of JobStepExecutionOptions class. */
+    public JobStepExecutionOptions() {
+    }
+
     /**
      * Get the timeoutSeconds property: Execution timeout for the job step.
      *

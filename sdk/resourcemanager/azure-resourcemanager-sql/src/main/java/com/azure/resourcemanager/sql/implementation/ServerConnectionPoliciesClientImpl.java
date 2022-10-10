@@ -446,24 +446,6 @@ public final class ServerConnectionPoliciesClientImpl implements ServerConnectio
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param connectionPolicyName The name of the connection policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server connection policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerConnectionPolicyInner get(
-        String resourceGroupName, String serverName, ConnectionPolicyName connectionPolicyName) {
-        return getAsync(resourceGroupName, serverName, connectionPolicyName).block();
-    }
-
-    /**
-     * Gets a server connection policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param connectionPolicyName The name of the connection policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -474,6 +456,24 @@ public final class ServerConnectionPoliciesClientImpl implements ServerConnectio
     public Response<ServerConnectionPolicyInner> getWithResponse(
         String resourceGroupName, String serverName, ConnectionPolicyName connectionPolicyName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, connectionPolicyName, context).block();
+    }
+
+    /**
+     * Gets a server connection policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param connectionPolicyName The name of the connection policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server connection policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerConnectionPolicyInner get(
+        String resourceGroupName, String serverName, ConnectionPolicyName connectionPolicyName) {
+        return getWithResponse(resourceGroupName, serverName, connectionPolicyName, Context.NONE).getValue();
     }
 
     /**

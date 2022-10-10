@@ -520,23 +520,6 @@ public final class ElasticPoolsClientImpl implements ElasticPoolsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param elasticPoolName The name of the elastic pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an elastic pool.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ElasticPoolInner get(String resourceGroupName, String serverName, String elasticPoolName) {
-        return getAsync(resourceGroupName, serverName, elasticPoolName).block();
-    }
-
-    /**
-     * Gets an elastic pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param elasticPoolName The name of the elastic pool.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -547,6 +530,23 @@ public final class ElasticPoolsClientImpl implements ElasticPoolsClient {
     public Response<ElasticPoolInner> getWithResponse(
         String resourceGroupName, String serverName, String elasticPoolName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, elasticPoolName, context).block();
+    }
+
+    /**
+     * Gets an elastic pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param elasticPoolName The name of the elastic pool.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an elastic pool.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ElasticPoolInner get(String resourceGroupName, String serverName, String elasticPoolName) {
+        return getWithResponse(resourceGroupName, serverName, elasticPoolName, Context.NONE).getValue();
     }
 
     /**

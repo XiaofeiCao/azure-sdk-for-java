@@ -568,26 +568,6 @@ public final class JobStepsClientImpl implements JobStepsClient {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a job step in a job's current version.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobStepInner get(
-        String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).block();
-    }
-
-    /**
-     * Gets a job step in a job's current version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -603,6 +583,26 @@ public final class JobStepsClientImpl implements JobStepsClient {
         String stepName,
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, context).block();
+    }
+
+    /**
+     * Gets a job step in a job's current version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a job step in a job's current version.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobStepInner get(
+        String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
+        return getWithResponse(resourceGroupName, serverName, jobAgentName, jobName, stepName, Context.NONE).getValue();
     }
 
     /**
@@ -794,32 +794,6 @@ public final class JobStepsClientImpl implements JobStepsClient {
      * @param jobName The name of the job.
      * @param stepName The name of the job step.
      * @param parameters The requested state of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a job step.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobStepInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String jobAgentName,
-        String jobName,
-        String stepName,
-        JobStepInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters).block();
-    }
-
-    /**
-     * Creates or updates a job step. This will implicitly create a new job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step.
-     * @param parameters The requested state of the job step.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -838,6 +812,34 @@ public final class JobStepsClientImpl implements JobStepsClient {
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a job step. This will implicitly create a new job version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step.
+     * @param parameters The requested state of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a job step.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobStepInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String jobAgentName,
+        String jobName,
+        String stepName,
+        JobStepInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, serverName, jobAgentName, jobName, stepName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -997,25 +999,6 @@ public final class JobStepsClientImpl implements JobStepsClient {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param stepName The name of the job step to delete.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(
-        String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
-        deleteAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName).block();
-    }
-
-    /**
-     * Deletes a job step. This will implicitly create a new job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param stepName The name of the job step to delete.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1031,6 +1014,25 @@ public final class JobStepsClientImpl implements JobStepsClient {
         String stepName,
         Context context) {
         return deleteWithResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, stepName, context).block();
+    }
+
+    /**
+     * Deletes a job step. This will implicitly create a new job version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param stepName The name of the job step to delete.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(
+        String resourceGroupName, String serverName, String jobAgentName, String jobName, String stepName) {
+        deleteWithResponse(resourceGroupName, serverName, jobAgentName, jobName, stepName, Context.NONE);
     }
 
     /**
@@ -1455,32 +1457,6 @@ public final class JobStepsClientImpl implements JobStepsClient {
      * @param jobName The name of the job.
      * @param jobVersion The version of the job to get.
      * @param stepName The name of the job step.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified version of a job step.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobStepInner getByVersion(
-        String resourceGroupName,
-        String serverName,
-        String jobAgentName,
-        String jobName,
-        int jobVersion,
-        String stepName) {
-        return getByVersionAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName).block();
-    }
-
-    /**
-     * Gets the specified version of a job step.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param jobVersion The version of the job to get.
-     * @param stepName The name of the job step.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1499,6 +1475,34 @@ public final class JobStepsClientImpl implements JobStepsClient {
         return getByVersionWithResponseAsync(
                 resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName, context)
             .block();
+    }
+
+    /**
+     * Gets the specified version of a job step.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param jobVersion The version of the job to get.
+     * @param stepName The name of the job step.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified version of a job step.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobStepInner getByVersion(
+        String resourceGroupName,
+        String serverName,
+        String jobAgentName,
+        String jobName,
+        int jobVersion,
+        String stepName) {
+        return getByVersionWithResponse(
+                resourceGroupName, serverName, jobAgentName, jobName, jobVersion, stepName, Context.NONE)
+            .getValue();
     }
 
     /**

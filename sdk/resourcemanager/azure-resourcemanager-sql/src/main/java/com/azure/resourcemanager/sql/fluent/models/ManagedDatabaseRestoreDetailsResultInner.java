@@ -19,6 +19,10 @@ public final class ManagedDatabaseRestoreDetailsResultInner extends ProxyResourc
     @JsonProperty(value = "properties")
     private ManagedDatabaseRestoreDetailsProperties innerProperties;
 
+    /** Creates an instance of ManagedDatabaseRestoreDetailsResultInner class. */
+    public ManagedDatabaseRestoreDetailsResultInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

@@ -80,6 +80,10 @@ public final class DatabaseExtensionsProperties {
     @JsonProperty(value = "networkIsolation")
     private NetworkIsolationSettings networkIsolation;
 
+    /** Creates an instance of DatabaseExtensionsProperties class. */
+    public DatabaseExtensionsProperties() {
+    }
+
     /**
      * Get the operationMode property: Operation mode of the operation: Import, Export, or PolybaseImport.
      *

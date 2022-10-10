@@ -1299,27 +1299,6 @@ public final class LongTermRetentionBackupsClientImpl implements LongTermRetenti
      * @param longTermRetentionServerName The name of the server.
      * @param longTermRetentionDatabaseName The name of the database.
      * @param backupName The backup name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a long term retention backup.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LongTermRetentionBackupInner get(
-        String locationName,
-        String longTermRetentionServerName,
-        String longTermRetentionDatabaseName,
-        String backupName) {
-        return getAsync(locationName, longTermRetentionServerName, longTermRetentionDatabaseName, backupName).block();
-    }
-
-    /**
-     * Gets a long term retention backup.
-     *
-     * @param locationName The location of the database.
-     * @param longTermRetentionServerName The name of the server.
-     * @param longTermRetentionDatabaseName The name of the database.
-     * @param backupName The backup name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1336,6 +1315,29 @@ public final class LongTermRetentionBackupsClientImpl implements LongTermRetenti
         return getWithResponseAsync(
                 locationName, longTermRetentionServerName, longTermRetentionDatabaseName, backupName, context)
             .block();
+    }
+
+    /**
+     * Gets a long term retention backup.
+     *
+     * @param locationName The location of the database.
+     * @param longTermRetentionServerName The name of the server.
+     * @param longTermRetentionDatabaseName The name of the database.
+     * @param backupName The backup name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a long term retention backup.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LongTermRetentionBackupInner get(
+        String locationName,
+        String longTermRetentionServerName,
+        String longTermRetentionDatabaseName,
+        String backupName) {
+        return getWithResponse(
+                locationName, longTermRetentionServerName, longTermRetentionDatabaseName, backupName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -3529,32 +3531,6 @@ public final class LongTermRetentionBackupsClientImpl implements LongTermRetenti
      * @param longTermRetentionServerName The name of the server.
      * @param longTermRetentionDatabaseName The name of the database.
      * @param backupName The backup name.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a long term retention backup.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LongTermRetentionBackupInner getByResourceGroup(
-        String resourceGroupName,
-        String locationName,
-        String longTermRetentionServerName,
-        String longTermRetentionDatabaseName,
-        String backupName) {
-        return getByResourceGroupAsync(
-                resourceGroupName, locationName, longTermRetentionServerName, longTermRetentionDatabaseName, backupName)
-            .block();
-    }
-
-    /**
-     * Gets a long term retention backup.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param locationName The location of the database.
-     * @param longTermRetentionServerName The name of the server.
-     * @param longTermRetentionDatabaseName The name of the database.
-     * @param backupName The backup name.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -3577,6 +3553,37 @@ public final class LongTermRetentionBackupsClientImpl implements LongTermRetenti
                 backupName,
                 context)
             .block();
+    }
+
+    /**
+     * Gets a long term retention backup.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param locationName The location of the database.
+     * @param longTermRetentionServerName The name of the server.
+     * @param longTermRetentionDatabaseName The name of the database.
+     * @param backupName The backup name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a long term retention backup.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LongTermRetentionBackupInner getByResourceGroup(
+        String resourceGroupName,
+        String locationName,
+        String longTermRetentionServerName,
+        String longTermRetentionDatabaseName,
+        String backupName) {
+        return getByResourceGroupWithResponse(
+                resourceGroupName,
+                locationName,
+                longTermRetentionServerName,
+                longTermRetentionDatabaseName,
+                backupName,
+                Context.NONE)
+            .getValue();
     }
 
     /**

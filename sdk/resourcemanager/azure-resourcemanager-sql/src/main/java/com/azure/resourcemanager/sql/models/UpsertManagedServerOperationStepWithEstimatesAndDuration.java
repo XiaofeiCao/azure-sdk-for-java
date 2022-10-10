@@ -47,6 +47,10 @@ public final class UpsertManagedServerOperationStepWithEstimatesAndDuration {
     @JsonProperty(value = "status")
     private Status status;
 
+    /** Creates an instance of UpsertManagedServerOperationStepWithEstimatesAndDuration class. */
+    public UpsertManagedServerOperationStepWithEstimatesAndDuration() {
+    }
+
     /**
      * Get the stepStartTime property: The stepStartTime property.
      *

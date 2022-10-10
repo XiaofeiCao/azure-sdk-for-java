@@ -434,22 +434,6 @@ public final class ServerBlobAuditingPoliciesClientImpl implements ServerBlobAud
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server's blob auditing policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerBlobAuditingPolicyInner get(String resourceGroupName, String serverName) {
-        return getAsync(resourceGroupName, serverName).block();
-    }
-
-    /**
-     * Gets a server's blob auditing policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -460,6 +444,22 @@ public final class ServerBlobAuditingPoliciesClientImpl implements ServerBlobAud
     public Response<ServerBlobAuditingPolicyInner> getWithResponse(
         String resourceGroupName, String serverName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, context).block();
+    }
+
+    /**
+     * Gets a server's blob auditing policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server's blob auditing policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerBlobAuditingPolicyInner get(String resourceGroupName, String serverName) {
+        return getWithResponse(resourceGroupName, serverName, Context.NONE).getValue();
     }
 
     /**

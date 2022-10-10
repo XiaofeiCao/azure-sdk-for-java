@@ -24,6 +24,10 @@ public final class ImportExportExtensionsOperationListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ImportExportExtensionsOperationListResult class. */
+    public ImportExportExtensionsOperationListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

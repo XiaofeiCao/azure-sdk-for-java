@@ -10,6 +10,10 @@ import com.azure.core.management.ProxyResource;
 /** A database schema resource. */
 @Immutable
 public final class DatabaseSchemaInner extends ProxyResource {
+    /** Creates an instance of DatabaseSchemaInner class. */
+    public DatabaseSchemaInner() {
+    }
+
     /**
      * Validates the instance.
      *

@@ -80,6 +80,10 @@ public final class ReplicationLinkProperties {
     @JsonProperty(value = "linkType", access = JsonProperty.Access.WRITE_ONLY)
     private ReplicationLinkType linkType;
 
+    /** Creates an instance of ReplicationLinkProperties class. */
+    public ReplicationLinkProperties() {
+    }
+
     /**
      * Get the partnerServer property: Resource partner server.
      *

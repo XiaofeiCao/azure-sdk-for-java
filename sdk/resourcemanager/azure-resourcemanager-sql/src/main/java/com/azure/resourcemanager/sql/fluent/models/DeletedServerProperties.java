@@ -35,6 +35,10 @@ public final class DeletedServerProperties {
     @JsonProperty(value = "fullyQualifiedDomainName", access = JsonProperty.Access.WRITE_ONLY)
     private String fullyQualifiedDomainName;
 
+    /** Creates an instance of DeletedServerProperties class. */
+    public DeletedServerProperties() {
+    }
+
     /**
      * Get the version property: The version of the deleted server.
      *

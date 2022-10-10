@@ -25,6 +25,10 @@ public final class InstanceFailoverGroupReadWriteEndpoint {
     @JsonProperty(value = "failoverWithDataLossGracePeriodMinutes")
     private Integer failoverWithDataLossGracePeriodMinutes;
 
+    /** Creates an instance of InstanceFailoverGroupReadWriteEndpoint class. */
+    public InstanceFailoverGroupReadWriteEndpoint() {
+    }
+
     /**
      * Get the failoverPolicy property: Failover policy of the read-write endpoint for the failover group. If
      * failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.

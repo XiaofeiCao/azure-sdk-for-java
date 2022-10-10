@@ -27,6 +27,10 @@ public final class VirtualClusterUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of VirtualClusterUpdate class. */
+    public VirtualClusterUpdate() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

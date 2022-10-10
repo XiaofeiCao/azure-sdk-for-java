@@ -26,6 +26,10 @@ public final class ServerDevOpsAuditingSettingsInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ServerDevOpsAuditSettingsProperties innerProperties;
 
+    /** Creates an instance of ServerDevOpsAuditingSettingsInner class. */
+    public ServerDevOpsAuditingSettingsInner() {
+    }
+
     /**
      * Get the systemData property: SystemData of ServerDevOpsAuditSettingsResource.
      *

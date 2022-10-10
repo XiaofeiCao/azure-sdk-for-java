@@ -21,6 +21,10 @@ public final class ManagedInstanceOperationInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ManagedInstanceOperationProperties innerProperties;
 
+    /** Creates an instance of ManagedInstanceOperationInner class. */
+    public ManagedInstanceOperationInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

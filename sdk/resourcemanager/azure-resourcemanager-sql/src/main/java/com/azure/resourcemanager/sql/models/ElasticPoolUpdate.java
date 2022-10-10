@@ -32,6 +32,10 @@ public final class ElasticPoolUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of ElasticPoolUpdate class. */
+    public ElasticPoolUpdate() {
+    }
+
     /**
      * Get the sku property: An ARM Resource SKU.
      *

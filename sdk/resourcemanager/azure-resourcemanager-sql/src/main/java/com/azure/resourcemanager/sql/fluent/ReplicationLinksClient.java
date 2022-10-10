@@ -111,22 +111,6 @@ public interface ReplicationLinksClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param linkId The name of the replication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a replication link.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ReplicationLinkInner get(String resourceGroupName, String serverName, String databaseName, String linkId);
-
-    /**
-     * Gets a replication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param linkId The name of the replication link.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -136,6 +120,22 @@ public interface ReplicationLinksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ReplicationLinkInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String linkId, Context context);
+
+    /**
+     * Gets a replication link.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param linkId The name of the replication link.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a replication link.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ReplicationLinkInner get(String resourceGroupName, String serverName, String databaseName, String linkId);
 
     /**
      * Deletes the replication link.

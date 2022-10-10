@@ -473,26 +473,6 @@ public final class JobVersionsClientImpl implements JobVersionsClient {
      * @param jobAgentName The name of the job agent.
      * @param jobName The name of the job.
      * @param jobVersion The version of the job to get.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a job version.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public JobVersionInner get(
-        String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion) {
-        return getAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion).block();
-    }
-
-    /**
-     * Gets a job version.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param jobAgentName The name of the job agent.
-     * @param jobName The name of the job.
-     * @param jobVersion The version of the job to get.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -508,6 +488,27 @@ public final class JobVersionsClientImpl implements JobVersionsClient {
         int jobVersion,
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, context).block();
+    }
+
+    /**
+     * Gets a job version.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param jobAgentName The name of the job agent.
+     * @param jobName The name of the job.
+     * @param jobVersion The version of the job to get.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a job version.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public JobVersionInner get(
+        String resourceGroupName, String serverName, String jobAgentName, String jobName, int jobVersion) {
+        return getWithResponse(resourceGroupName, serverName, jobAgentName, jobName, jobVersion, Context.NONE)
+            .getValue();
     }
 
     /**

@@ -54,6 +54,10 @@ public final class ManagedInstanceLongTermRetentionBackupProperties {
     @JsonProperty(value = "backupStorageRedundancy", access = JsonProperty.Access.WRITE_ONLY)
     private BackupStorageRedundancy backupStorageRedundancy;
 
+    /** Creates an instance of ManagedInstanceLongTermRetentionBackupProperties class. */
+    public ManagedInstanceLongTermRetentionBackupProperties() {
+    }
+
     /**
      * Get the managedInstanceName property: The managed instance that the backup database belongs to.
      *

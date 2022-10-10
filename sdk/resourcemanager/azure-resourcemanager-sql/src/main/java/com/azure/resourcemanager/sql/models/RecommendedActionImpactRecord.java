@@ -43,6 +43,10 @@ public final class RecommendedActionImpactRecord {
     @JsonProperty(value = "changeValueRelative", access = JsonProperty.Access.WRITE_ONLY)
     private Double changeValueRelative;
 
+    /** Creates an instance of RecommendedActionImpactRecord class. */
+    public RecommendedActionImpactRecord() {
+    }
+
     /**
      * Get the dimensionName property: Gets the name of the impact dimension. e.g., CPUChange, DiskSpaceChange,
      * NumberOfQueriesAffected.

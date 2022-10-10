@@ -24,6 +24,10 @@ public final class EndpointCertificateListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of EndpointCertificateListResult class. */
+    public EndpointCertificateListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

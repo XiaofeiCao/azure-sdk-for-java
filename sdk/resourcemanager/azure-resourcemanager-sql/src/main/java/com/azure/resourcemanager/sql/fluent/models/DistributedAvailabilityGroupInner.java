@@ -19,6 +19,10 @@ public final class DistributedAvailabilityGroupInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DistributedAvailabilityGroupProperties innerProperties;
 
+    /** Creates an instance of DistributedAvailabilityGroupInner class. */
+    public DistributedAvailabilityGroupInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

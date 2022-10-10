@@ -22,6 +22,10 @@ public final class TimeZoneProperties {
     @JsonProperty(value = "displayName", access = JsonProperty.Access.WRITE_ONLY)
     private String displayName;
 
+    /** Creates an instance of TimeZoneProperties class. */
+    public TimeZoneProperties() {
+    }
+
     /**
      * Get the timeZoneId property: The time zone id.
      *

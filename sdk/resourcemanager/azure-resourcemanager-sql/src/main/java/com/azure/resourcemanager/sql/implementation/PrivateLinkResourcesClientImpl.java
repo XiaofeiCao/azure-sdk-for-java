@@ -420,23 +420,6 @@ public final class PrivateLinkResourcesClientImpl implements PrivateLinkResource
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param groupName The name of the private link resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a private link resource for SQL server.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PrivateLinkResourceInner get(String resourceGroupName, String serverName, String groupName) {
-        return getAsync(resourceGroupName, serverName, groupName).block();
-    }
-
-    /**
-     * Gets a private link resource for SQL server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param groupName The name of the private link resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -447,6 +430,23 @@ public final class PrivateLinkResourcesClientImpl implements PrivateLinkResource
     public Response<PrivateLinkResourceInner> getWithResponse(
         String resourceGroupName, String serverName, String groupName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, groupName, context).block();
+    }
+
+    /**
+     * Gets a private link resource for SQL server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param groupName The name of the private link resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a private link resource for SQL server.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PrivateLinkResourceInner get(String resourceGroupName, String serverName, String groupName) {
+        return getWithResponse(resourceGroupName, serverName, groupName, Context.NONE).getValue();
     }
 
     /**

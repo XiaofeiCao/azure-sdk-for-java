@@ -16,6 +16,10 @@ public final class ManagedInstanceAzureADOnlyAuthProperties {
     @JsonProperty(value = "azureADOnlyAuthentication", required = true)
     private boolean azureADOnlyAuthentication;
 
+    /** Creates an instance of ManagedInstanceAzureADOnlyAuthProperties class. */
+    public ManagedInstanceAzureADOnlyAuthProperties() {
+    }
+
     /**
      * Get the azureADOnlyAuthentication property: Azure Active Directory only Authentication enabled.
      *

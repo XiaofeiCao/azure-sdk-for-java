@@ -42,6 +42,10 @@ public final class ManagedInstanceEncryptionProtectorProperties {
     @JsonProperty(value = "autoRotationEnabled")
     private Boolean autoRotationEnabled;
 
+    /** Creates an instance of ManagedInstanceEncryptionProtectorProperties class. */
+    public ManagedInstanceEncryptionProtectorProperties() {
+    }
+
     /**
      * Get the serverKeyName property: The name of the managed instance key.
      *

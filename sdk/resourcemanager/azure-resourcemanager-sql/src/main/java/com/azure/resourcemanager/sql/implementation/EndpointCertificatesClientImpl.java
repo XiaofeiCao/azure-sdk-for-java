@@ -427,23 +427,6 @@ public final class EndpointCertificatesClientImpl implements EndpointCertificate
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param endpointType Type of the endpoint whose certificate the customer is looking for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a certificate used on the endpoint with the given id.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public EndpointCertificateInner get(String resourceGroupName, String managedInstanceName, String endpointType) {
-        return getAsync(resourceGroupName, managedInstanceName, endpointType).block();
-    }
-
-    /**
-     * Gets a certificate used on the endpoint with the given id.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param endpointType Type of the endpoint whose certificate the customer is looking for.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -454,6 +437,23 @@ public final class EndpointCertificatesClientImpl implements EndpointCertificate
     public Response<EndpointCertificateInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String endpointType, Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, endpointType, context).block();
+    }
+
+    /**
+     * Gets a certificate used on the endpoint with the given id.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param endpointType Type of the endpoint whose certificate the customer is looking for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a certificate used on the endpoint with the given id.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public EndpointCertificateInner get(String resourceGroupName, String managedInstanceName, String endpointType) {
+        return getWithResponse(resourceGroupName, managedInstanceName, endpointType, Context.NONE).getValue();
     }
 
     /**

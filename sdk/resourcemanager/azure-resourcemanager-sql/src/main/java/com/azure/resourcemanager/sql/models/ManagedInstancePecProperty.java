@@ -23,6 +23,10 @@ public final class ManagedInstancePecProperty {
     @JsonProperty(value = "properties", access = JsonProperty.Access.WRITE_ONLY)
     private ManagedInstancePrivateEndpointConnectionProperties properties;
 
+    /** Creates an instance of ManagedInstancePecProperty class. */
+    public ManagedInstancePecProperty() {
+    }
+
     /**
      * Get the id property: Resource ID.
      *

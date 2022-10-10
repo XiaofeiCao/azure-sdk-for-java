@@ -35,6 +35,10 @@ public final class CheckNameAvailabilityResponseInner {
     @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
     private String message;
 
+    /** Creates an instance of CheckNameAvailabilityResponseInner class. */
+    public CheckNameAvailabilityResponseInner() {
+    }
+
     /**
      * Get the name property: The name whose availability was checked.
      *

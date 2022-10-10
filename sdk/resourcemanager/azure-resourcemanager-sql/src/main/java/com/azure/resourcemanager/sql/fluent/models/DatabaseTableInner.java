@@ -18,6 +18,10 @@ public final class DatabaseTableInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private DatabaseTableProperties innerProperties;
 
+    /** Creates an instance of DatabaseTableInner class. */
+    public DatabaseTableInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

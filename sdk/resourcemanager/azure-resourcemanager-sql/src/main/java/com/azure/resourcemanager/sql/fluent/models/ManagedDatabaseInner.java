@@ -22,6 +22,10 @@ public final class ManagedDatabaseInner extends Resource {
     @JsonProperty(value = "properties")
     private ManagedDatabaseProperties innerProperties;
 
+    /** Creates an instance of ManagedDatabaseInner class. */
+    public ManagedDatabaseInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

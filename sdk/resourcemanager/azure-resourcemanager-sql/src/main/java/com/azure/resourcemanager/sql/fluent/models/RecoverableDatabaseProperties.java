@@ -35,6 +35,10 @@ public final class RecoverableDatabaseProperties {
     @JsonProperty(value = "lastAvailableBackupDate", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime lastAvailableBackupDate;
 
+    /** Creates an instance of RecoverableDatabaseProperties class. */
+    public RecoverableDatabaseProperties() {
+    }
+
     /**
      * Get the edition property: The edition of the database.
      *

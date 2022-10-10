@@ -612,22 +612,6 @@ public final class InstancePoolsClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param instancePoolName The name of the instance pool to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return an instance pool.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public InstancePoolInner getByResourceGroup(String resourceGroupName, String instancePoolName) {
-        return getByResourceGroupAsync(resourceGroupName, instancePoolName).block();
-    }
-
-    /**
-     * Gets an instance pool.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param instancePoolName The name of the instance pool to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -638,6 +622,22 @@ public final class InstancePoolsClientImpl
     public Response<InstancePoolInner> getByResourceGroupWithResponse(
         String resourceGroupName, String instancePoolName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, instancePoolName, context).block();
+    }
+
+    /**
+     * Gets an instance pool.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param instancePoolName The name of the instance pool to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an instance pool.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public InstancePoolInner getByResourceGroup(String resourceGroupName, String instancePoolName) {
+        return getByResourceGroupWithResponse(resourceGroupName, instancePoolName, Context.NONE).getValue();
     }
 
     /**

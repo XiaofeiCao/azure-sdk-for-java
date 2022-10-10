@@ -65,6 +65,10 @@ public final class SecurityAlertPolicyProperties {
     @JsonProperty(value = "creationTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime creationTime;
 
+    /** Creates an instance of SecurityAlertPolicyProperties class. */
+    public SecurityAlertPolicyProperties() {
+    }
+
     /**
      * Get the state property: Specifies the state of the policy, whether it is enabled or disabled or a policy has not
      * been applied yet on the specific database.

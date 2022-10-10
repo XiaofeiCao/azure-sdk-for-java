@@ -23,6 +23,10 @@ public class UserIdentity {
     @JsonProperty(value = "clientId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID clientId;
 
+    /** Creates an instance of UserIdentity class. */
+    public UserIdentity() {
+    }
+
     /**
      * Get the principalId property: The Azure Active Directory principal id.
      *

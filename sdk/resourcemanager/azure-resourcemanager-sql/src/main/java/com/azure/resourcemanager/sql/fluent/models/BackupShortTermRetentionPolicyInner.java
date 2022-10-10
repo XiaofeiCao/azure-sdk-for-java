@@ -18,6 +18,10 @@ public final class BackupShortTermRetentionPolicyInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private BackupShortTermRetentionPolicyProperties innerProperties;
 
+    /** Creates an instance of BackupShortTermRetentionPolicyInner class. */
+    public BackupShortTermRetentionPolicyInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

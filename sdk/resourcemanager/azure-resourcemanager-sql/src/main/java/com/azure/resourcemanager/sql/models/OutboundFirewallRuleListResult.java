@@ -24,6 +24,10 @@ public final class OutboundFirewallRuleListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of OutboundFirewallRuleListResult class. */
+    public OutboundFirewallRuleListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

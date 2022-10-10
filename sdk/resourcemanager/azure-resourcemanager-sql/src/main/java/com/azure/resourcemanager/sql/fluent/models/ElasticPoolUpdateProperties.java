@@ -57,6 +57,10 @@ public final class ElasticPoolUpdateProperties {
     @JsonProperty(value = "highAvailabilityReplicaCount")
     private Integer highAvailabilityReplicaCount;
 
+    /** Creates an instance of ElasticPoolUpdateProperties class. */
+    public ElasticPoolUpdateProperties() {
+    }
+
     /**
      * Get the maxSizeBytes property: The storage limit for the database elastic pool in bytes.
      *

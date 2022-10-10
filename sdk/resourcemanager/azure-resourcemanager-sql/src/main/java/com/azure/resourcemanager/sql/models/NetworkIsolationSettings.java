@@ -24,6 +24,10 @@ public final class NetworkIsolationSettings {
     @JsonProperty(value = "sqlServerResourceId")
     private String sqlServerResourceId;
 
+    /** Creates an instance of NetworkIsolationSettings class. */
+    public NetworkIsolationSettings() {
+    }
+
     /**
      * Get the storageAccountResourceId property: The resource id for the storage account used to store BACPAC file. If
      * set, private endpoint connection will be created for the storage account. Must match storage account used for

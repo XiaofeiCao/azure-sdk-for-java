@@ -467,24 +467,6 @@ public final class ServerAzureADAdministratorsClientImpl implements ServerAzureA
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param administratorName The name of server active directory administrator.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a Azure Active Directory administrator.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerAzureADAdministratorInner get(
-        String resourceGroupName, String serverName, AdministratorName administratorName) {
-        return getAsync(resourceGroupName, serverName, administratorName).block();
-    }
-
-    /**
-     * Gets a Azure Active Directory administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param administratorName The name of server active directory administrator.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -495,6 +477,24 @@ public final class ServerAzureADAdministratorsClientImpl implements ServerAzureA
     public Response<ServerAzureADAdministratorInner> getWithResponse(
         String resourceGroupName, String serverName, AdministratorName administratorName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, administratorName, context).block();
+    }
+
+    /**
+     * Gets a Azure Active Directory administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param administratorName The name of server active directory administrator.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a Azure Active Directory administrator.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerAzureADAdministratorInner get(
+        String resourceGroupName, String serverName, AdministratorName administratorName) {
+        return getWithResponse(resourceGroupName, serverName, administratorName, Context.NONE).getValue();
     }
 
     /**

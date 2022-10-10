@@ -497,28 +497,6 @@ public final class ManagedDatabaseTransparentDataEncryptionsClientImpl
      * @param managedInstanceName The name of the managed instance.
      * @param databaseName The name of the managed database for which the transparent data encryption is defined.
      * @param tdeName The name of the transparent data encryption configuration.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed database's transparent data encryption.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedTransparentDataEncryptionInner get(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        TransparentDataEncryptionName tdeName) {
-        return getAsync(resourceGroupName, managedInstanceName, databaseName, tdeName).block();
-    }
-
-    /**
-     * Gets a managed database's transparent data encryption.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the managed database for which the transparent data encryption is defined.
-     * @param tdeName The name of the transparent data encryption configuration.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -533,6 +511,28 @@ public final class ManagedDatabaseTransparentDataEncryptionsClientImpl
         TransparentDataEncryptionName tdeName,
         Context context) {
         return getWithResponseAsync(resourceGroupName, managedInstanceName, databaseName, tdeName, context).block();
+    }
+
+    /**
+     * Gets a managed database's transparent data encryption.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the managed database for which the transparent data encryption is defined.
+     * @param tdeName The name of the transparent data encryption configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed database's transparent data encryption.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedTransparentDataEncryptionInner get(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        TransparentDataEncryptionName tdeName) {
+        return getWithResponse(resourceGroupName, managedInstanceName, databaseName, tdeName, Context.NONE).getValue();
     }
 
     /**
@@ -713,30 +713,6 @@ public final class ManagedDatabaseTransparentDataEncryptionsClientImpl
      * @param databaseName The name of the managed database for which the security alert policy is defined.
      * @param tdeName The name of the transparent data encryption configuration.
      * @param parameters The database transparent data encryption.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed database transparent data encryption state.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagedTransparentDataEncryptionInner createOrUpdate(
-        String resourceGroupName,
-        String managedInstanceName,
-        String databaseName,
-        TransparentDataEncryptionName tdeName,
-        ManagedTransparentDataEncryptionInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, managedInstanceName, databaseName, tdeName, parameters).block();
-    }
-
-    /**
-     * Updates a database's transparent data encryption configuration.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param databaseName The name of the managed database for which the security alert policy is defined.
-     * @param tdeName The name of the transparent data encryption configuration.
-     * @param parameters The database transparent data encryption.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -754,6 +730,32 @@ public final class ManagedDatabaseTransparentDataEncryptionsClientImpl
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, managedInstanceName, databaseName, tdeName, parameters, context)
             .block();
+    }
+
+    /**
+     * Updates a database's transparent data encryption configuration.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the managed database for which the security alert policy is defined.
+     * @param tdeName The name of the transparent data encryption configuration.
+     * @param parameters The database transparent data encryption.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed database transparent data encryption state.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ManagedTransparentDataEncryptionInner createOrUpdate(
+        String resourceGroupName,
+        String managedInstanceName,
+        String databaseName,
+        TransparentDataEncryptionName tdeName,
+        ManagedTransparentDataEncryptionInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, managedInstanceName, databaseName, tdeName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**

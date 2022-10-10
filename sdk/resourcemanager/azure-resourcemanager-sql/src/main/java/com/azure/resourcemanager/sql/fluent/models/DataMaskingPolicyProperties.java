@@ -38,6 +38,10 @@ public final class DataMaskingPolicyProperties {
     @JsonProperty(value = "maskingLevel", access = JsonProperty.Access.WRITE_ONLY)
     private String maskingLevel;
 
+    /** Creates an instance of DataMaskingPolicyProperties class. */
+    public DataMaskingPolicyProperties() {
+    }
+
     /**
      * Get the dataMaskingState property: The state of the data masking policy.
      *

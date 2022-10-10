@@ -83,6 +83,10 @@ public final class ElasticPoolPerformanceLevelCapability {
     @JsonProperty(value = "reason")
     private String reason;
 
+    /** Creates an instance of ElasticPoolPerformanceLevelCapability class. */
+    public ElasticPoolPerformanceLevelCapability() {
+    }
+
     /**
      * Get the performanceLevel property: The performance level for the pool.
      *

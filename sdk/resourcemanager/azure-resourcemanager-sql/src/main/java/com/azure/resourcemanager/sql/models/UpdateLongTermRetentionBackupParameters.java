@@ -17,6 +17,10 @@ public final class UpdateLongTermRetentionBackupParameters {
     @JsonProperty(value = "properties")
     private UpdateLongTermRetentionBackupParametersProperties innerProperties;
 
+    /** Creates an instance of UpdateLongTermRetentionBackupParameters class. */
+    public UpdateLongTermRetentionBackupParameters() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

@@ -32,6 +32,10 @@ public class DatabaseIdentity {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, DatabaseUserIdentity> userAssignedIdentities;
 
+    /** Creates an instance of DatabaseIdentity class. */
+    public DatabaseIdentity() {
+    }
+
     /**
      * Get the type property: The identity type.
      *

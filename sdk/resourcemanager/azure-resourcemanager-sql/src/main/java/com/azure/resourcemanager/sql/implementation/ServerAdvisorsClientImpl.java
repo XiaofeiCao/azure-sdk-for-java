@@ -210,24 +210,6 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param expand The child resources to include in the response.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a list of server advisors on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<List<AdvisorInner>> listByServerAsync(String resourceGroupName, String serverName, String expand) {
-        return listByServerWithResponseAsync(resourceGroupName, serverName, expand)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a list of server advisors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -238,23 +220,6 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
         final String expand = null;
         return listByServerWithResponseAsync(resourceGroupName, serverName, expand)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a list of server advisors.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a list of server advisors.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public List<AdvisorInner> listByServer(String resourceGroupName, String serverName) {
-        final String expand = null;
-        return listByServerAsync(resourceGroupName, serverName, expand).block();
     }
 
     /**
@@ -274,6 +239,23 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
     public Response<List<AdvisorInner>> listByServerWithResponse(
         String resourceGroupName, String serverName, String expand, Context context) {
         return listByServerWithResponseAsync(resourceGroupName, serverName, expand, context).block();
+    }
+
+    /**
+     * Gets a list of server advisors.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a list of server advisors.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public List<AdvisorInner> listByServer(String resourceGroupName, String serverName) {
+        final String expand = null;
+        return listByServerWithResponse(resourceGroupName, serverName, expand, Context.NONE).getValue();
     }
 
     /**
@@ -407,23 +389,6 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param advisorName The name of the Server Advisor.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server advisor.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AdvisorInner get(String resourceGroupName, String serverName, String advisorName) {
-        return getAsync(resourceGroupName, serverName, advisorName).block();
-    }
-
-    /**
-     * Gets a server advisor.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param advisorName The name of the Server Advisor.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -434,6 +399,23 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
     public Response<AdvisorInner> getWithResponse(
         String resourceGroupName, String serverName, String advisorName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, advisorName, context).block();
+    }
+
+    /**
+     * Gets a server advisor.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param advisorName The name of the Server Advisor.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server advisor.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AdvisorInner get(String resourceGroupName, String serverName, String advisorName) {
+        return getWithResponse(resourceGroupName, serverName, advisorName, Context.NONE).getValue();
     }
 
     /**
@@ -586,25 +568,6 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
      * @param serverName The name of the server.
      * @param advisorName The name of the Server Advisor.
      * @param parameters The requested advisor resource state.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return database, Server or Elastic Pool Advisor.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AdvisorInner update(
-        String resourceGroupName, String serverName, String advisorName, AdvisorInner parameters) {
-        return updateAsync(resourceGroupName, serverName, advisorName, parameters).block();
-    }
-
-    /**
-     * Updates a server advisor.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param advisorName The name of the Server Advisor.
-     * @param parameters The requested advisor resource state.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -615,5 +578,24 @@ public final class ServerAdvisorsClientImpl implements ServerAdvisorsClient {
     public Response<AdvisorInner> updateWithResponse(
         String resourceGroupName, String serverName, String advisorName, AdvisorInner parameters, Context context) {
         return updateWithResponseAsync(resourceGroupName, serverName, advisorName, parameters, context).block();
+    }
+
+    /**
+     * Updates a server advisor.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param advisorName The name of the Server Advisor.
+     * @param parameters The requested advisor resource state.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return database, Server or Elastic Pool Advisor.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AdvisorInner update(
+        String resourceGroupName, String serverName, String advisorName, AdvisorInner parameters) {
+        return updateWithResponse(resourceGroupName, serverName, advisorName, parameters, Context.NONE).getValue();
     }
 }

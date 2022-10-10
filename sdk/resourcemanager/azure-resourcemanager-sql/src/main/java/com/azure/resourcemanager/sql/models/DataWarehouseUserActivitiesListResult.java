@@ -24,6 +24,10 @@ public final class DataWarehouseUserActivitiesListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of DataWarehouseUserActivitiesListResult class. */
+    public DataWarehouseUserActivitiesListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

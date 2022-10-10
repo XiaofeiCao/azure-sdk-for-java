@@ -166,6 +166,10 @@ public final class RecommendedActionProperties {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, Object> details;
 
+    /** Creates an instance of RecommendedActionProperties class. */
+    public RecommendedActionProperties() {
+    }
+
     /**
      * Get the recommendationReason property: Gets the reason for recommending this action. e.g., DuplicateIndex.
      *

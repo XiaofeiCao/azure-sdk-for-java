@@ -96,6 +96,10 @@ public final class ServiceObjectiveCapability {
     @JsonProperty(value = "reason")
     private String reason;
 
+    /** Creates an instance of ServiceObjectiveCapability class. */
+    public ServiceObjectiveCapability() {
+    }
+
     /**
      * Get the id property: The unique ID of the service objective.
      *

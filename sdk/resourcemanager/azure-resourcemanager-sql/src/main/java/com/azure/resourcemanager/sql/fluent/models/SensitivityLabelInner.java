@@ -24,6 +24,10 @@ public final class SensitivityLabelInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SensitivityLabelProperties innerProperties;
 
+    /** Creates an instance of SensitivityLabelInner class. */
+    public SensitivityLabelInner() {
+    }
+
     /**
      * Get the managedBy property: Resource that manages the sensitivity label.
      *

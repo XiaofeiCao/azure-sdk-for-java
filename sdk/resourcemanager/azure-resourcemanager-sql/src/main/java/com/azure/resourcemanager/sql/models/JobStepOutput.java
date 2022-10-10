@@ -60,6 +60,10 @@ public final class JobStepOutput {
     @JsonProperty(value = "credential", required = true)
     private String credential;
 
+    /** Creates an instance of JobStepOutput class. */
+    public JobStepOutput() {
+    }
+
     /**
      * Get the type property: The output destination type.
      *

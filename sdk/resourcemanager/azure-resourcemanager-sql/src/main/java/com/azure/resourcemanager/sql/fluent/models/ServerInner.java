@@ -37,6 +37,10 @@ public final class ServerInner extends Resource {
     @JsonProperty(value = "properties")
     private ServerProperties innerProperties;
 
+    /** Creates an instance of ServerInner class. */
+    public ServerInner() {
+    }
+
     /**
      * Get the identity property: The Azure Active Directory identity of the server.
      *

@@ -106,22 +106,6 @@ public interface ManagedInstanceAdministratorsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param administratorName The administratorName parameter.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a managed instance administrator.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ManagedInstanceAdministratorInner get(
-        String resourceGroupName, String managedInstanceName, AdministratorName administratorName);
-
-    /**
-     * Gets a managed instance administrator.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param administratorName The administratorName parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -131,6 +115,22 @@ public interface ManagedInstanceAdministratorsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ManagedInstanceAdministratorInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, AdministratorName administratorName, Context context);
+
+    /**
+     * Gets a managed instance administrator.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param administratorName The administratorName parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a managed instance administrator.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ManagedInstanceAdministratorInner get(
+        String resourceGroupName, String managedInstanceName, AdministratorName administratorName);
 
     /**
      * Creates or updates a managed instance administrator.

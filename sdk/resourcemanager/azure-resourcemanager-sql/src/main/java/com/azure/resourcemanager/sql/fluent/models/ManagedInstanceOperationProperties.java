@@ -104,6 +104,10 @@ public final class ManagedInstanceOperationProperties {
     @JsonProperty(value = "operationSteps", access = JsonProperty.Access.WRITE_ONLY)
     private ManagedInstanceOperationSteps operationSteps;
 
+    /** Creates an instance of ManagedInstanceOperationProperties class. */
+    public ManagedInstanceOperationProperties() {
+    }
+
     /**
      * Get the managedInstanceName property: The name of the managed instance the operation is being performed on.
      *

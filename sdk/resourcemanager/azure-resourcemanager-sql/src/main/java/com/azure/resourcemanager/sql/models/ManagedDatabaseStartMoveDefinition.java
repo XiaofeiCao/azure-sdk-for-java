@@ -23,6 +23,10 @@ public final class ManagedDatabaseStartMoveDefinition {
     @JsonProperty(value = "operationMode")
     private MoveOperationMode operationMode;
 
+    /** Creates an instance of ManagedDatabaseStartMoveDefinition class. */
+    public ManagedDatabaseStartMoveDefinition() {
+    }
+
     /**
      * Get the destinationManagedDatabaseId property: The destination managed database ID.
      *

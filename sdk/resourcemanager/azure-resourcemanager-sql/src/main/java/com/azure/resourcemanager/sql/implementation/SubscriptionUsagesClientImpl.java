@@ -365,21 +365,6 @@ public final class SubscriptionUsagesClientImpl implements SubscriptionUsagesCli
      *
      * @param locationName The name of the region where the resource is located.
      * @param usageName Name of usage metric to return.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a subscription usage metric.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SubscriptionUsageInner get(String locationName, String usageName) {
-        return getAsync(locationName, usageName).block();
-    }
-
-    /**
-     * Gets a subscription usage metric.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param usageName Name of usage metric to return.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -389,6 +374,21 @@ public final class SubscriptionUsagesClientImpl implements SubscriptionUsagesCli
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<SubscriptionUsageInner> getWithResponse(String locationName, String usageName, Context context) {
         return getWithResponseAsync(locationName, usageName, context).block();
+    }
+
+    /**
+     * Gets a subscription usage metric.
+     *
+     * @param locationName The name of the region where the resource is located.
+     * @param usageName Name of usage metric to return.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a subscription usage metric.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SubscriptionUsageInner get(String locationName, String usageName) {
+        return getWithResponse(locationName, usageName, Context.NONE).getValue();
     }
 
     /**

@@ -24,6 +24,10 @@ public final class DataMaskingRuleListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of DataMaskingRuleListResult class. */
+    public DataMaskingRuleListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

@@ -24,6 +24,10 @@ public final class GeoBackupPolicyListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of GeoBackupPolicyListResult class. */
+    public GeoBackupPolicyListResult() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

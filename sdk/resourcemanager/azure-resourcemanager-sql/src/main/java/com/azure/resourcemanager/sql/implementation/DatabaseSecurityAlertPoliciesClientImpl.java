@@ -487,28 +487,6 @@ public final class DatabaseSecurityAlertPoliciesClientImpl implements DatabaseSe
      * @param serverName The name of the server.
      * @param databaseName The name of the database for which the security alert policy is defined.
      * @param securityAlertPolicyName The name of the security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database's security alert policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DatabaseSecurityAlertPolicyInner get(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        SecurityAlertPolicyName securityAlertPolicyName) {
-        return getAsync(resourceGroupName, serverName, databaseName, securityAlertPolicyName).block();
-    }
-
-    /**
-     * Gets a database's security alert policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database for which the security alert policy is defined.
-     * @param securityAlertPolicyName The name of the security alert policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -524,6 +502,29 @@ public final class DatabaseSecurityAlertPoliciesClientImpl implements DatabaseSe
         Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, securityAlertPolicyName, context)
             .block();
+    }
+
+    /**
+     * Gets a database's security alert policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database for which the security alert policy is defined.
+     * @param securityAlertPolicyName The name of the security alert policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database's security alert policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DatabaseSecurityAlertPolicyInner get(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        SecurityAlertPolicyName securityAlertPolicyName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, securityAlertPolicyName, Context.NONE)
+            .getValue();
     }
 
     /**
@@ -704,31 +705,6 @@ public final class DatabaseSecurityAlertPoliciesClientImpl implements DatabaseSe
      * @param databaseName The name of the database for which the security alert policy is defined.
      * @param securityAlertPolicyName The name of the security alert policy.
      * @param parameters The database security alert policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a database security alert policy.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DatabaseSecurityAlertPolicyInner createOrUpdate(
-        String resourceGroupName,
-        String serverName,
-        String databaseName,
-        SecurityAlertPolicyName securityAlertPolicyName,
-        DatabaseSecurityAlertPolicyInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, serverName, databaseName, securityAlertPolicyName, parameters)
-            .block();
-    }
-
-    /**
-     * Creates or updates a database's security alert policy.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database for which the security alert policy is defined.
-     * @param securityAlertPolicyName The name of the security alert policy.
-     * @param parameters The database security alert policy.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -746,6 +722,32 @@ public final class DatabaseSecurityAlertPoliciesClientImpl implements DatabaseSe
         return createOrUpdateWithResponseAsync(
                 resourceGroupName, serverName, databaseName, securityAlertPolicyName, parameters, context)
             .block();
+    }
+
+    /**
+     * Creates or updates a database's security alert policy.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database for which the security alert policy is defined.
+     * @param securityAlertPolicyName The name of the security alert policy.
+     * @param parameters The database security alert policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a database security alert policy.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DatabaseSecurityAlertPolicyInner createOrUpdate(
+        String resourceGroupName,
+        String serverName,
+        String databaseName,
+        SecurityAlertPolicyName securityAlertPolicyName,
+        DatabaseSecurityAlertPolicyInner parameters) {
+        return createOrUpdateWithResponse(
+                resourceGroupName, serverName, databaseName, securityAlertPolicyName, parameters, Context.NONE)
+            .getValue();
     }
 
     /**

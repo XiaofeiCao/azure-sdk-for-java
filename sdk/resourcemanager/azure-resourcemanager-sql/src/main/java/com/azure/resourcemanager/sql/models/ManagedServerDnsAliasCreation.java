@@ -16,6 +16,10 @@ public final class ManagedServerDnsAliasCreation {
     @JsonProperty(value = "createDnsRecord")
     private Boolean createDnsRecord;
 
+    /** Creates an instance of ManagedServerDnsAliasCreation class. */
+    public ManagedServerDnsAliasCreation() {
+    }
+
     /**
      * Get the createDnsRecord property: Whether or not DNS record should be created for this alias.
      *

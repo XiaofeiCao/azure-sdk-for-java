@@ -320,20 +320,6 @@ public final class ServersClientImpl
      * Determines whether a resource can be created with the specified name.
      *
      * @param parameters The name availability request parameters.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the result of a name availability check.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public CheckNameAvailabilityResponseInner checkNameAvailability(CheckNameAvailabilityRequest parameters) {
-        return checkNameAvailabilityAsync(parameters).block();
-    }
-
-    /**
-     * Determines whether a resource can be created with the specified name.
-     *
-     * @param parameters The name availability request parameters.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -344,6 +330,20 @@ public final class ServersClientImpl
     public Response<CheckNameAvailabilityResponseInner> checkNameAvailabilityWithResponse(
         CheckNameAvailabilityRequest parameters, Context context) {
         return checkNameAvailabilityWithResponseAsync(parameters, context).block();
+    }
+
+    /**
+     * Determines whether a resource can be created with the specified name.
+     *
+     * @param parameters The name availability request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the result of a name availability check.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public CheckNameAvailabilityResponseInner checkNameAvailability(CheckNameAvailabilityRequest parameters) {
+        return checkNameAvailabilityWithResponse(parameters, Context.NONE).getValue();
     }
 
     /**
@@ -815,24 +815,6 @@ public final class ServersClientImpl
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
-     * @param expand The child resources to include in the response.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ServerInner> getByResourceGroupAsync(String resourceGroupName, String serverName, String expand) {
-        return getByResourceGroupWithResponseAsync(resourceGroupName, serverName, expand)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -843,23 +825,6 @@ public final class ServersClientImpl
         final String expand = null;
         return getByResourceGroupWithResponseAsync(resourceGroupName, serverName, expand)
             .flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Gets a server.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerInner getByResourceGroup(String resourceGroupName, String serverName) {
-        final String expand = null;
-        return getByResourceGroupAsync(resourceGroupName, serverName, expand).block();
     }
 
     /**
@@ -879,6 +844,23 @@ public final class ServersClientImpl
     public Response<ServerInner> getByResourceGroupWithResponse(
         String resourceGroupName, String serverName, String expand, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, serverName, expand, context).block();
+    }
+
+    /**
+     * Gets a server.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerInner getByResourceGroup(String resourceGroupName, String serverName) {
+        final String expand = null;
+        return getByResourceGroupWithResponse(resourceGroupName, serverName, expand, Context.NONE).getValue();
     }
 
     /**

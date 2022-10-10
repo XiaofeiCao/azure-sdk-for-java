@@ -30,6 +30,10 @@ public final class ManagedInstancePrivateEndpointConnectionProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
 
+    /** Creates an instance of ManagedInstancePrivateEndpointConnectionProperties class. */
+    public ManagedInstancePrivateEndpointConnectionProperties() {
+    }
+
     /**
      * Get the privateEndpoint property: Private endpoint which the connection belongs to.
      *

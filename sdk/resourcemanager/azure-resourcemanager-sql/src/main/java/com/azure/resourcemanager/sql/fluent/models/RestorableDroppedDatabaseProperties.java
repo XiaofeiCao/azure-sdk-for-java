@@ -48,6 +48,10 @@ public final class RestorableDroppedDatabaseProperties {
     @JsonProperty(value = "backupStorageRedundancy", access = JsonProperty.Access.WRITE_ONLY)
     private BackupStorageRedundancy backupStorageRedundancy;
 
+    /** Creates an instance of RestorableDroppedDatabaseProperties class. */
+    public RestorableDroppedDatabaseProperties() {
+    }
+
     /**
      * Get the databaseName property: The name of the database.
      *

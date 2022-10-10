@@ -822,25 +822,6 @@ public final class RestorePointsClientImpl implements RestorePointsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a restore point.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RestorePointInner get(
-        String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        return getAsync(resourceGroupName, serverName, databaseName, restorePointName).block();
-    }
-
-    /**
-     * Gets a restore point.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointName The name of the restore point.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -851,6 +832,25 @@ public final class RestorePointsClientImpl implements RestorePointsClient {
     public Response<RestorePointInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String restorePointName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, restorePointName, context).block();
+    }
+
+    /**
+     * Gets a restore point.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param restorePointName The name of the restore point.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a restore point.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RestorePointInner get(
+        String resourceGroupName, String serverName, String databaseName, String restorePointName) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, restorePointName, Context.NONE).getValue();
     }
 
     /**
@@ -995,23 +995,6 @@ public final class RestorePointsClientImpl implements RestorePointsClient {
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param restorePointName The name of the restore point.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void delete(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
-        deleteAsync(resourceGroupName, serverName, databaseName, restorePointName).block();
-    }
-
-    /**
-     * Deletes a restore point.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param restorePointName The name of the restore point.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1022,6 +1005,23 @@ public final class RestorePointsClientImpl implements RestorePointsClient {
     public Response<Void> deleteWithResponse(
         String resourceGroupName, String serverName, String databaseName, String restorePointName, Context context) {
         return deleteWithResponseAsync(resourceGroupName, serverName, databaseName, restorePointName, context).block();
+    }
+
+    /**
+     * Deletes a restore point.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param restorePointName The name of the restore point.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void delete(String resourceGroupName, String serverName, String databaseName, String restorePointName) {
+        deleteWithResponse(resourceGroupName, serverName, databaseName, restorePointName, Context.NONE);
     }
 
     /**

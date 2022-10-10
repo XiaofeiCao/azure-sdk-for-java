@@ -19,6 +19,10 @@ public final class VirtualClusterInner extends Resource {
     @JsonProperty(value = "properties")
     private VirtualClusterProperties innerProperties;
 
+    /** Creates an instance of VirtualClusterInner class. */
+    public VirtualClusterInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

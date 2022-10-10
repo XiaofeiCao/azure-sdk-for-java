@@ -28,6 +28,10 @@ public final class PrivateEndpointConnectionRequestStatus {
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private String status;
 
+    /** Creates an instance of PrivateEndpointConnectionRequestStatus class. */
+    public PrivateEndpointConnectionRequestStatus() {
+    }
+
     /**
      * Get the privateLinkServiceId property: Resource id for which the private endpoint is created.
      *

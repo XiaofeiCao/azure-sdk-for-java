@@ -48,6 +48,10 @@ public final class EncryptionProtectorProperties {
     @JsonProperty(value = "autoRotationEnabled")
     private Boolean autoRotationEnabled;
 
+    /** Creates an instance of EncryptionProtectorProperties class. */
+    public EncryptionProtectorProperties() {
+    }
+
     /**
      * Get the subregion property: Subregion of the encryption protector.
      *

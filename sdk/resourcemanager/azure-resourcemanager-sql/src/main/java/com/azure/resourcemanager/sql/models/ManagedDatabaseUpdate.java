@@ -27,6 +27,10 @@ public final class ManagedDatabaseUpdate {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
+    /** Creates an instance of ManagedDatabaseUpdate class. */
+    public ManagedDatabaseUpdate() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

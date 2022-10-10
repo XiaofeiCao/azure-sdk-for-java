@@ -21,6 +21,10 @@ public final class ReplicationLinkInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private ReplicationLinkProperties innerProperties;
 
+    /** Creates an instance of ReplicationLinkInner class. */
+    public ReplicationLinkInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

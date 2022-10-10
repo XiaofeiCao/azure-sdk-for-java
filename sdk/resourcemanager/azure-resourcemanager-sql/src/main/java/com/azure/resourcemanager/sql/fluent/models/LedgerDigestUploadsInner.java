@@ -18,6 +18,10 @@ public final class LedgerDigestUploadsInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private LedgerDigestUploadsProperties innerProperties;
 
+    /** Creates an instance of LedgerDigestUploadsInner class. */
+    public LedgerDigestUploadsInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

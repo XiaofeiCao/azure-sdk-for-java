@@ -52,6 +52,10 @@ public final class SecurityEventSqlInjectionAdditionalProperties {
     @JsonProperty(value = "errorMessage", access = JsonProperty.Access.WRITE_ONLY)
     private String errorMessage;
 
+    /** Creates an instance of SecurityEventSqlInjectionAdditionalProperties class. */
+    public SecurityEventSqlInjectionAdditionalProperties() {
+    }
+
     /**
      * Get the threatId property: The threat ID.
      *

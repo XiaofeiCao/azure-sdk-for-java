@@ -113,22 +113,6 @@ public interface ManagedInstanceAzureADOnlyAuthenticationsClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param authenticationName The name of server azure active directory only authentication.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a specific Azure Active Directory only authentication property.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ManagedInstanceAzureADOnlyAuthenticationInner get(
-        String resourceGroupName, String managedInstanceName, AuthenticationName authenticationName);
-
-    /**
-     * Gets a specific Azure Active Directory only authentication property.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param authenticationName The name of server azure active directory only authentication.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -138,6 +122,22 @@ public interface ManagedInstanceAzureADOnlyAuthenticationsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ManagedInstanceAzureADOnlyAuthenticationInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, AuthenticationName authenticationName, Context context);
+
+    /**
+     * Gets a specific Azure Active Directory only authentication property.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param authenticationName The name of server azure active directory only authentication.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a specific Azure Active Directory only authentication property.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ManagedInstanceAzureADOnlyAuthenticationInner get(
+        String resourceGroupName, String managedInstanceName, AuthenticationName authenticationName);
 
     /**
      * Sets Server Active Directory only authentication property or updates an existing server Active Directory only

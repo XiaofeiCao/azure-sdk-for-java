@@ -54,6 +54,10 @@ public final class JobTarget {
     @JsonProperty(value = "refreshCredential")
     private String refreshCredential;
 
+    /** Creates an instance of JobTarget class. */
+    public JobTarget() {
+    }
+
     /**
      * Get the membershipType property: Whether the target is included or excluded from the group.
      *

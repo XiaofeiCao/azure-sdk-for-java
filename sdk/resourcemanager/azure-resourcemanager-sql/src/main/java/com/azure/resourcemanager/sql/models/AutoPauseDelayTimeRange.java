@@ -46,6 +46,10 @@ public final class AutoPauseDelayTimeRange {
     @JsonProperty(value = "doNotPauseValue", access = JsonProperty.Access.WRITE_ONLY)
     private Integer doNotPauseValue;
 
+    /** Creates an instance of AutoPauseDelayTimeRange class. */
+    public AutoPauseDelayTimeRange() {
+    }
+
     /**
      * Get the minValue property: Minimum value.
      *

@@ -18,6 +18,10 @@ public final class SyncAgentLinkedDatabaseInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private SyncAgentLinkedDatabaseProperties innerProperties;
 
+    /** Creates an instance of SyncAgentLinkedDatabaseInner class. */
+    public SyncAgentLinkedDatabaseInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

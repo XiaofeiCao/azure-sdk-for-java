@@ -24,6 +24,10 @@ public final class RecommendedActionImplementationInfo {
     @JsonProperty(value = "script", access = JsonProperty.Access.WRITE_ONLY)
     private String script;
 
+    /** Creates an instance of RecommendedActionImplementationInfo class. */
+    public RecommendedActionImplementationInfo() {
+    }
+
     /**
      * Get the method property: Gets the method in which this recommended action can be manually implemented. e.g.,
      * TSql, AzurePowerShell.

@@ -530,24 +530,6 @@ public final class ReplicationLinksClientImpl implements ReplicationLinksClient 
      * @param serverName The name of the server.
      * @param databaseName The name of the database.
      * @param linkId The name of the replication link.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a replication link.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ReplicationLinkInner get(String resourceGroupName, String serverName, String databaseName, String linkId) {
-        return getAsync(resourceGroupName, serverName, databaseName, linkId).block();
-    }
-
-    /**
-     * Gets a replication link.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param databaseName The name of the database.
-     * @param linkId The name of the replication link.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -558,6 +540,24 @@ public final class ReplicationLinksClientImpl implements ReplicationLinksClient 
     public Response<ReplicationLinkInner> getWithResponse(
         String resourceGroupName, String serverName, String databaseName, String linkId, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, databaseName, linkId, context).block();
+    }
+
+    /**
+     * Gets a replication link.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param linkId The name of the replication link.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a replication link.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ReplicationLinkInner get(String resourceGroupName, String serverName, String databaseName, String linkId) {
+        return getWithResponse(resourceGroupName, serverName, databaseName, linkId, Context.NONE).getValue();
     }
 
     /**

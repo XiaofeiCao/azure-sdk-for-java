@@ -19,6 +19,10 @@ public final class QueryStatisticsInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private QueryStatisticsProperties innerProperties;
 
+    /** Creates an instance of QueryStatisticsInner class. */
+    public QueryStatisticsInner() {
+    }
+
     /**
      * Get the innerProperties property: Resource properties.
      *

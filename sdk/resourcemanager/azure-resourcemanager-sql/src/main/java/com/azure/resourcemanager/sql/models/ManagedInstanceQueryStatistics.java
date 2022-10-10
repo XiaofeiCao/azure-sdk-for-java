@@ -24,6 +24,10 @@ public final class ManagedInstanceQueryStatistics {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
+    /** Creates an instance of ManagedInstanceQueryStatistics class. */
+    public ManagedInstanceQueryStatistics() {
+    }
+
     /**
      * Get the value property: Array of results.
      *

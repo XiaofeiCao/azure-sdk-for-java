@@ -39,6 +39,10 @@ public final class RecommendedActionInner extends ProxyResource {
     @JsonProperty(value = "properties")
     private RecommendedActionProperties innerProperties;
 
+    /** Creates an instance of RecommendedActionInner class. */
+    public RecommendedActionInner() {
+    }
+
     /**
      * Get the kind property: Resource kind.
      *

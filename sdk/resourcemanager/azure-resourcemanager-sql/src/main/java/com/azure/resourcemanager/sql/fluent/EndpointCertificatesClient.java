@@ -98,21 +98,6 @@ public interface EndpointCertificatesClient {
      *     from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
      * @param endpointType Type of the endpoint whose certificate the customer is looking for.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a certificate used on the endpoint with the given id.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    EndpointCertificateInner get(String resourceGroupName, String managedInstanceName, String endpointType);
-
-    /**
-     * Gets a certificate used on the endpoint with the given id.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param managedInstanceName The name of the managed instance.
-     * @param endpointType Type of the endpoint whose certificate the customer is looking for.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -122,4 +107,19 @@ public interface EndpointCertificatesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<EndpointCertificateInner> getWithResponse(
         String resourceGroupName, String managedInstanceName, String endpointType, Context context);
+
+    /**
+     * Gets a certificate used on the endpoint with the given id.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param endpointType Type of the endpoint whose certificate the customer is looking for.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a certificate used on the endpoint with the given id.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    EndpointCertificateInner get(String resourceGroupName, String managedInstanceName, String endpointType);
 }

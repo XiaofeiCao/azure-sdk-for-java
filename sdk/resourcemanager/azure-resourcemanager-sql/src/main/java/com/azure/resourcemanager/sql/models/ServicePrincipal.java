@@ -34,6 +34,10 @@ public final class ServicePrincipal {
     @JsonProperty(value = "type")
     private ServicePrincipalType type;
 
+    /** Creates an instance of ServicePrincipal class. */
+    public ServicePrincipal() {
+    }
+
     /**
      * Get the principalId property: The Azure Active Directory application object id.
      *

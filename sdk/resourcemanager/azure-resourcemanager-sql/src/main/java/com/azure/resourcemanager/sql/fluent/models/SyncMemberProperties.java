@@ -86,6 +86,10 @@ public final class SyncMemberProperties {
     @JsonProperty(value = "syncState", access = JsonProperty.Access.WRITE_ONLY)
     private SyncMemberState syncState;
 
+    /** Creates an instance of SyncMemberProperties class. */
+    public SyncMemberProperties() {
+    }
+
     /**
      * Get the databaseType property: Database type of the sync member.
      *

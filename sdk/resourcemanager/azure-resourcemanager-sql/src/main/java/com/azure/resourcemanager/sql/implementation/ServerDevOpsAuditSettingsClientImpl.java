@@ -450,24 +450,6 @@ public final class ServerDevOpsAuditSettingsClientImpl implements ServerDevOpsAu
      *     from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
      * @param devOpsAuditingSettingsName The name of the devops audit settings. This should always be 'default'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a server's DevOps audit settings.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServerDevOpsAuditingSettingsInner get(
-        String resourceGroupName, String serverName, String devOpsAuditingSettingsName) {
-        return getAsync(resourceGroupName, serverName, devOpsAuditingSettingsName).block();
-    }
-
-    /**
-     * Gets a server's DevOps audit settings.
-     *
-     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
-     *     from the Azure Resource Manager API or the portal.
-     * @param serverName The name of the server.
-     * @param devOpsAuditingSettingsName The name of the devops audit settings. This should always be 'default'.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -478,6 +460,24 @@ public final class ServerDevOpsAuditSettingsClientImpl implements ServerDevOpsAu
     public Response<ServerDevOpsAuditingSettingsInner> getWithResponse(
         String resourceGroupName, String serverName, String devOpsAuditingSettingsName, Context context) {
         return getWithResponseAsync(resourceGroupName, serverName, devOpsAuditingSettingsName, context).block();
+    }
+
+    /**
+     * Gets a server's DevOps audit settings.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value
+     *     from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param devOpsAuditingSettingsName The name of the devops audit settings. This should always be 'default'.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a server's DevOps audit settings.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServerDevOpsAuditingSettingsInner get(
+        String resourceGroupName, String serverName, String devOpsAuditingSettingsName) {
+        return getWithResponse(resourceGroupName, serverName, devOpsAuditingSettingsName, Context.NONE).getValue();
     }
 
     /**

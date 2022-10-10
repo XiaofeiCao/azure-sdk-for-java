@@ -17,6 +17,10 @@ public final class DnsRefreshConfigurationProperties {
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private DnsRefreshConfigurationPropertiesStatus status;
 
+    /** Creates an instance of DnsRefreshConfigurationProperties class. */
+    public DnsRefreshConfigurationProperties() {
+    }
+
     /**
      * Get the status property: The status of the DNS refresh operation.
      *
