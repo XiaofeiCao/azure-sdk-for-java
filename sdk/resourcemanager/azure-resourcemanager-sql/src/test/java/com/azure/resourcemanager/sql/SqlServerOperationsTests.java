@@ -20,17 +20,15 @@ import com.azure.resourcemanager.sql.models.CheckNameAvailabilityResult;
 import com.azure.resourcemanager.sql.models.CreateMode;
 import com.azure.resourcemanager.sql.models.DatabaseEdition;
 import com.azure.resourcemanager.sql.models.DatabaseSku;
+import com.azure.resourcemanager.sql.models.ElasticPoolEdition;
 import com.azure.resourcemanager.sql.models.ElasticPoolSku;
 import com.azure.resourcemanager.sql.models.FailoverGroupReplicationRole;
 import com.azure.resourcemanager.sql.models.ReadOnlyEndpointFailoverPolicy;
 import com.azure.resourcemanager.sql.models.ReadWriteEndpointFailoverPolicy;
-import com.azure.resourcemanager.sql.models.RecommendedElasticPool;
 import com.azure.resourcemanager.sql.models.RegionCapabilities;
 import com.azure.resourcemanager.sql.models.ReplicationLink;
 import com.azure.resourcemanager.sql.models.SampleName;
-import com.azure.resourcemanager.sql.models.ServiceObjective;
 import com.azure.resourcemanager.sql.models.ServiceObjectiveName;
-import com.azure.resourcemanager.sql.models.ServiceTierAdvisor;
 import com.azure.resourcemanager.sql.models.Sku;
 import com.azure.resourcemanager.sql.models.SqlActiveDirectoryAdministrator;
 import com.azure.resourcemanager.sql.models.SqlDatabase;
@@ -66,7 +64,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class SqlServerOperationsTests extends SqlServerTest {
@@ -78,6 +81,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String END_IPADDRESS = "10.102.1.12";
 
     @Test
+    @Disabled
     public void canCRUDSqlSyncMember() throws Exception {
         final String dbName = "dbSample";
         final String dbSyncName = "dbSync";
@@ -159,6 +163,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    @Disabled
     public void canCRUDSqlSyncGroup() throws Exception {
         final String dbName = "dbSample";
         final String dbSyncName = "dbSync";
@@ -436,7 +441,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals("BASIC", dbFromSample.edition());
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlServerAutomaticTuning serverAutomaticTuning = sqlServer.getServerAutomaticTuning();
         Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
@@ -608,7 +613,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals("BASIC", dbFromSample.edition());
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
         Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
@@ -657,7 +662,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withTag("tag1", "value1")
                 .create();
         Assertions.assertNotNull(dbFromSample);
-        Assertions.assertEquals("BASIC", dbFromSample.edition());
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlDatabaseImportExportResponse exportedDB;
         StorageAccount storageAccount = null;
@@ -715,6 +720,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Create
         String sqlServerAdminName = "sqladmin";
         String id = generateRandomUuid();
+        if (!isPlaybackMode()) {
+            id = clientIdFromFile();
+        }
 
         SqlServer sqlServer =
             sqlServerManager
@@ -973,13 +981,13 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionState.ENABLED);
         Assertions.assertNotNull(transparentDataEncryption);
-        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionState.ENABLED);
+        Assertions.assertEquals(TransparentDataEncryptionState.ENABLED, transparentDataEncryption.status());
 
         ResourceManagerUtils.sleep(Duration.ofSeconds(10));
         transparentDataEncryption =
             sqlDatabase.getTransparentDataEncryption().updateStatus(TransparentDataEncryptionState.DISABLED);
         Assertions.assertNotNull(transparentDataEncryption);
-        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionState.DISABLED);
+        Assertions.assertEquals(TransparentDataEncryptionState.DISABLED, transparentDataEncryption.status());
         Assertions.assertEquals(transparentDataEncryption.sqlServerName(), sqlServerName);
         Assertions.assertEquals(transparentDataEncryption.databaseName(), SQL_DATABASE_NAME);
         Assertions.assertNotNull(transparentDataEncryption.name());
@@ -1423,7 +1431,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlElasticPool ep2 = sqlServer.elasticPools().get(elasticPool2Name);
 
         Assertions.assertNotNull(ep2);
-        Assertions.assertEquals(ep2.edition(), "PREMIUM");
+        Assertions.assertEquals(ElasticPoolEdition.PREMIUM, ep2.edition());
         Assertions.assertEquals(ep2.listDatabases().size(), 2);
         Assertions.assertNotNull(ep2.getDatabase(database1InEPName));
         Assertions.assertNotNull(ep2.getDatabase(database2InEPName));
@@ -1431,7 +1439,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlElasticPool ep3 = sqlServer.elasticPools().get(elasticPool3Name);
 
         Assertions.assertNotNull(ep3);
-        Assertions.assertEquals(ep3.edition(), "STANDARD");
+        Assertions.assertEquals(ElasticPoolEdition.STANDARD, ep3.edition());
 
         if (!deleteUsingUpdate) {
             sqlServer.databases().delete(database2Name);
@@ -1566,7 +1574,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(rgName, sqlElasticPool.resourceGroupName());
         Assertions.assertEquals(elasticPoolName, sqlElasticPool.name());
         Assertions.assertEquals(sqlServerName, sqlElasticPool.sqlServerName());
-        Assertions.assertEquals("STANDARD", sqlElasticPool.edition());
+        Assertions.assertEquals(ElasticPoolEdition.STANDARD, sqlElasticPool.edition());
         Assertions.assertNotNull(sqlElasticPool.creationDate());
         Assertions.assertNotEquals(0, sqlElasticPool.databaseDtuMax());
         Assertions.assertNotEquals(0, sqlElasticPool.dtu());
@@ -1595,7 +1603,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(sqlDatabase.name(), databaseName);
         Assertions.assertEquals(sqlServerName, sqlDatabase.sqlServerName());
         Assertions.assertEquals(sqlDatabase.collation(), COLLATION);
-        Assertions.assertEquals(sqlDatabase.edition(), "STANDARD");
+        Assertions.assertEquals(DatabaseEdition.STANDARD, sqlDatabase.edition());
     }
 
     private void validateSqlDatabaseWithElasticPool(SqlDatabase sqlDatabase, String databaseName) {

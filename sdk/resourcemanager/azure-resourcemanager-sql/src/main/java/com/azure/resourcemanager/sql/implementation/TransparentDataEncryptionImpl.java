@@ -66,8 +66,6 @@ class TransparentDataEncryptionImpl
 
     @Override
     public TransparentDataEncryption updateStatus(TransparentDataEncryptionState transparentDataEncryptionState) {
-        this.innerModel().withState(transparentDataEncryptionState);
-        LogicalDatabaseTransparentDataEncryptionInner transparentDataEncryptionInner =
             this
                 .sqlServerManager
                 .serviceClient()
@@ -78,9 +76,8 @@ class TransparentDataEncryptionImpl
                     this.databaseName(),
                     TransparentDataEncryptionName.CURRENT,
                     new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState),
-                    Context.NONE)
-                .getValue();
-        this.setInner(transparentDataEncryptionInner);
+                    Context.NONE);
+        this.refresh();
 
         return this;
     }
@@ -99,11 +96,7 @@ class TransparentDataEncryptionImpl
                 self.databaseName(),
                 TransparentDataEncryptionName.CURRENT,
                 new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState))
-            .map(
-                transparentDataEncryptionInner -> {
-                    self.setInner(transparentDataEncryptionInner);
-                    return self;
-                });
+            .then(refreshAsync());
     }
 
     @Override

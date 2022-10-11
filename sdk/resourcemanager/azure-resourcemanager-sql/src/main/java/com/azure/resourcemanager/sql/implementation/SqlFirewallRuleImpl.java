@@ -124,12 +124,20 @@ public class SqlFirewallRuleImpl
 
     @Override
     public String kind() {
-        return parent().kind();
+        if (this.parent() != null) {
+            return this.parent().name();
+        } else {
+            return sqlServerManager.sqlServers().getById(parentId()).kind();
+        }
     }
 
     @Override
     public Region region() {
-        return Region.fromName(parent().regionName());
+        if (this.parent() != null) {
+            return Region.fromName(this.parent().regionName());
+        } else {
+            return Region.fromName(sqlServerManager.sqlServers().getById(parentId()).regionName());
+        }
     }
 
     @Override
