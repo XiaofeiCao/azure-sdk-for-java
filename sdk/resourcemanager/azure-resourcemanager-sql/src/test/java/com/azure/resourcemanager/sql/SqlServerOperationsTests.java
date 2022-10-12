@@ -71,6 +71,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SqlServerOperationsTests extends SqlServerTest {
     private static final String SQL_DATABASE_NAME = "myTestDatabase2";
@@ -1140,7 +1141,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         Assertions.assertNotNull(dataWarehouse);
         Assertions.assertEquals(dataWarehouse.name(), SQL_DATABASE_NAME);
-        Assertions.assertEquals(dataWarehouse.edition(), "DATA_WAREHOUSE");
+        Assertions.assertEquals(DatabaseEdition.DATA_WAREHOUSE, dataWarehouse.edition());
 
         // List Restore points.
         Assertions.assertNotNull(dataWarehouse.listRestorePoints());
@@ -1613,23 +1614,24 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
     @Test
     public void testRandomSku() {
-        List<DatabaseSku> databaseSkus = new LinkedList<>(Arrays.asList(DatabaseSku.getAll().toArray(new DatabaseSku[0])));
+        // "M" series is not supported in this region
+        List<DatabaseSku> databaseSkus = DatabaseSku.getAll().stream().filter(sku -> !"M".equals(sku.toSku().family())).collect(Collectors.toCollection(LinkedList::new));
         Collections.shuffle(databaseSkus);
-        List<ElasticPoolSku> elasticPoolSkus = new LinkedList<>(Arrays.asList(ElasticPoolSku.getAll().toArray(new ElasticPoolSku[0])));
+        List<ElasticPoolSku> elasticPoolSkus = ElasticPoolSku.getAll().stream().filter(sku -> !"M".equals(sku.toSku().family())).collect(Collectors.toCollection(LinkedList::new));
         Collections.shuffle(elasticPoolSkus);
 
         sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST).supportedCapabilitiesByServerVersion()
             .forEach((x, serverVersionCapability) -> {
                 serverVersionCapability.supportedEditions().forEach(edition -> {
                     edition.supportedServiceLevelObjectives().forEach(serviceObjective -> {
-                        if (serviceObjective.status() != CapabilityStatus.AVAILABLE && serviceObjective.status() != CapabilityStatus.DEFAULT) {
+                        if (serviceObjective.status() != CapabilityStatus.AVAILABLE && serviceObjective.status() != CapabilityStatus.DEFAULT|| "M".equals(serviceObjective.sku().family())) {
                             databaseSkus.remove(DatabaseSku.fromSku(serviceObjective.sku()));
                         }
                     });
                 });
                 serverVersionCapability.supportedElasticPoolEditions().forEach(edition -> {
                     edition.supportedElasticPoolPerformanceLevels().forEach(performance -> {
-                        if (performance.status() != CapabilityStatus.AVAILABLE && performance.status() != CapabilityStatus.DEFAULT) {
+                        if (performance.status() != CapabilityStatus.AVAILABLE && performance.status() != CapabilityStatus.DEFAULT || "M".equals(performance.sku().family())) {
                             elasticPoolSkus.remove(ElasticPoolSku.fromSku(performance.sku()));
                         }
                     });
@@ -1643,10 +1645,12 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAdministratorPassword(password())
             .create();
 
+        // Too many elastic pools defined will hit sql server DTU quota limits.
+        // https://learn.microsoft.com/en-us/azure/azure-sql/database/resource-limits-logical-server?view=azuresql#logical-server-limits
         Flux.merge(
-            Flux.range(0, 5)
+            Flux.range(0, 3)
                 .flatMap(i -> sqlServer.databases().define("database" + i).withSku(databaseSkus.get(i)).createAsync().cast(Indexable.class)),
-            Flux.range(0, 5)
+            Flux.range(0, 3)
                 .flatMap(i -> sqlServer.elasticPools().define("elasticPool" + i).withSku(elasticPoolSkus.get(i)).createAsync().cast(Indexable.class))
         )
             .blockLast();
