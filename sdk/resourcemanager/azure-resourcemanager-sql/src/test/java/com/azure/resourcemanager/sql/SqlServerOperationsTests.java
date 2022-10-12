@@ -6,6 +6,7 @@ package com.azure.resourcemanager.sql;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.exception.ManagementException;
+import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
@@ -82,7 +83,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static final String END_IPADDRESS = "10.102.1.12";
 
     @Test
-    @Disabled
     public void canCRUDSqlSyncMember() throws Exception {
         final String dbName = "dbSample";
         final String dbSyncName = "dbSync";
@@ -164,7 +164,6 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
-    @Disabled
     public void canCRUDSqlSyncGroup() throws Exception {
         final String dbName = "dbSample";
         final String dbSyncName = "dbSync";
@@ -631,11 +630,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     @Test
+    @DoNotRecord(skipInPlayback = true)
+    // The test makes calls to the Azure Storage data plane APIs which are not mocked at this time.
     public void canCRUDSqlServerWithImportDatabase() throws Exception {
-        if (isPlaybackMode()) {
-            // The test makes calls to the Azure Storage data plane APIs which are not mocked at this time.
-            return;
-        }
         // Create
 
         String sqlServerAdminName = "sqladmin";
@@ -981,12 +978,15 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertNotNull(transparentDataEncryption.status());
 
         transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionState.ENABLED);
+        ResourceManagerUtils.sleep(Duration.ofMinutes(5));
+
         Assertions.assertNotNull(transparentDataEncryption);
         Assertions.assertEquals(TransparentDataEncryptionState.ENABLED, transparentDataEncryption.status());
 
-        ResourceManagerUtils.sleep(Duration.ofSeconds(10));
         transparentDataEncryption =
             sqlDatabase.getTransparentDataEncryption().updateStatus(TransparentDataEncryptionState.DISABLED);
+        ResourceManagerUtils.sleep(Duration.ofMinutes(5));
+
         Assertions.assertNotNull(transparentDataEncryption);
         Assertions.assertEquals(TransparentDataEncryptionState.DISABLED, transparentDataEncryption.status());
         Assertions.assertEquals(transparentDataEncryption.sqlServerName(), sqlServerName);

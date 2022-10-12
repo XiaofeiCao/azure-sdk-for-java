@@ -26,7 +26,7 @@ import com.azure.resourcemanager.sql.models.DatabaseEdition;
 import com.azure.resourcemanager.sql.models.DatabaseSku;
 import com.azure.resourcemanager.sql.models.DatabaseStatus;
 import com.azure.resourcemanager.sql.models.DatabaseUpdate;
-import com.azure.resourcemanager.sql.models.ImportExistingDatabaseDefinition;
+import com.azure.resourcemanager.sql.models.ImportNewDatabaseDefinition;
 import com.azure.resourcemanager.sql.models.ReplicationLink;
 import com.azure.resourcemanager.sql.models.ResourceMoveDefinition;
 import com.azure.resourcemanager.sql.models.RestorePoint;
@@ -86,7 +86,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportExistingDatabaseDefinition importRequestInner;
+    private ImportNewDatabaseDefinition importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -542,24 +542,33 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
         final SqlDatabaseImpl self = this;
         this.innerModel().withLocation(this.sqlServerLocation);
         if (this.importRequestInner != null) {
+            this.importRequestInner.withDatabaseName(this.name());
+            if (this.importRequestInner.edition() == null) {
+                this.importRequestInner.withEdition(this.edition().toString());
+            }
+            if (this.importRequestInner.serviceObjectiveName() == null) {
+                this
+                    .importRequestInner
+                    .withServiceObjectiveName(this.innerModel().sku().name());
+            }
+
+            if (this.importRequestInner.maxSizeBytes() == null) {
+                this.importRequestInner.withMaxSizeBytes(String.valueOf(this.innerModel().maxSizeBytes()));
+            }
 
             return this
                 .sqlServerManager
                 .serviceClient()
-                .getDatabases()
-                .importMethodAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.importRequestInner)
+                .getServers()
+                .importDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.importRequestInner)
                 .then(
                     Mono
                         .defer(
                             () -> {
                                 if (self.elasticPoolId() != null) {
                                     self.importRequestInner = null;
-                                    SqlDatabaseImpl database = self.withExistingElasticPool(self.elasticPoolId())
-                                        .withPatchUpdate();
-                                    if (this.innerModel().maxSizeBytes() != null) {
-                                        database.withMaxSizeBytes(innerModel().maxSizeBytes());
-                                    }
-                                    return database
+                                    return self.withExistingElasticPool(self.elasticPoolId())
+                                        .withPatchUpdate()
                                         .updateResourceAsync();
                                 } else {
                                     return self.refreshAsync();
@@ -758,9 +767,11 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
     }
 
     private void initializeImportRequestInner() {
-        this.importRequestInner = new ImportExistingDatabaseDefinition();
+        this.importRequestInner = new ImportNewDatabaseDefinition();
         if (this.elasticPoolId() != null) {
-            this.withBasicEdition(SqlDatabaseBasicStorage.MAX_2_GB);
+            this.importRequestInner.withEdition(DatabaseEdition.BASIC.toString());
+            this.importRequestInner.withServiceObjectiveName(ServiceObjectiveName.BASIC.toString());
+            this.importRequestInner.withMaxSizeBytes(Long.toString(SqlDatabaseBasicStorage.MAX_2_GB.capacity()));
         } else {
             this.withStandardEdition(SqlDatabaseStandardServiceObjective.S0);
         }

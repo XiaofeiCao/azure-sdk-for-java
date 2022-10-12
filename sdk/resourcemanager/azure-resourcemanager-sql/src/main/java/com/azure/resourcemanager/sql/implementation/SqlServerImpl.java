@@ -336,7 +336,9 @@ public class SqlServerImpl extends GroupableResourceImpl<SqlServer, ServerInner,
             .manager()
             .serviceClient()
             .getServerAzureADAdministrators()
-            .delete(this.resourceGroupName(), this.name(), AdministratorName.ACTIVE_DIRECTORY);
+            .deleteAsync(this.resourceGroupName(), this.name(), AdministratorName.ACTIVE_DIRECTORY)
+            .then(refreshAsync())
+            .block();
     }
 
     @Override

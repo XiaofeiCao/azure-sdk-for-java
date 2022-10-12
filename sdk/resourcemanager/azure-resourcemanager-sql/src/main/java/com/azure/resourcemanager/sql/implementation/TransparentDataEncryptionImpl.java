@@ -70,13 +70,12 @@ class TransparentDataEncryptionImpl
                 .sqlServerManager
                 .serviceClient()
                 .getTransparentDataEncryptions()
-                .createOrUpdateWithResponse(
+                .createOrUpdate(
                     this.resourceGroupName,
                     this.sqlServerName,
                     this.databaseName(),
                     TransparentDataEncryptionName.CURRENT,
-                    new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState),
-                    Context.NONE);
+                    new LogicalDatabaseTransparentDataEncryptionInner().withState(transparentDataEncryptionState));
         this.refresh();
 
         return this;
