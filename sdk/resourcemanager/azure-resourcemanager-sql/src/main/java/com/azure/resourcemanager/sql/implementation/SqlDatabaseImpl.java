@@ -567,7 +567,7 @@ class SqlDatabaseImpl extends ExternalChildResourceImpl<SqlDatabase, DatabaseInn
                             () -> {
                                 if (self.elasticPoolId() != null) {
                                     self.importRequestInner = null;
-                                    return self.withExistingElasticPool(self.elasticPoolId())
+                                    return self.withExistingElasticPool(ResourceUtils.nameFromResourceId(self.elasticPoolId()))
                                         .withPatchUpdate()
                                         .updateResourceAsync();
                                 } else {
