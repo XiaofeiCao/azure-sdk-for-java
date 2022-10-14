@@ -10,6 +10,25 @@
 
 ### Other Changes
 
+## 1.3.8 (2022-10-12)
+
+### Other Changes
+
+#### Dependency Updates
+- Updated `azure-core` to `1.33.0`.
+- Updated `azure-core-http-netty` to `1.12.6`.
+
+## 1.3.7 (2022-09-06)
+
+### Bugs Fixed
+- Fixed the issue of sharing the same default http pipeline instance between App Configuration clients.
+
+### Other Changes
+
+#### Dependency Updates
+- Updated `azure-core` to `1.32.0`.
+- Updated `azure-core-http-netty` to `1.12.5`.
+
 ## 1.3.6 (2022-08-12)
 
 ### Features Added
