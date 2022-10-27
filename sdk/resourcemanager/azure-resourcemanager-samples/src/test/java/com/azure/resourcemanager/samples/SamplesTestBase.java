@@ -11,6 +11,7 @@ import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.resourcemanager.AzureResourceManager;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.resourcemanager.compute.ComputeManager;
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
 import com.azure.resourcemanager.test.ResourceManagerTestBase;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class SamplesTestBase extends ResourceManagerTestBase {
     protected AzureResourceManager azureResourceManager;
+    protected ComputeManager computeManager;
 
     @Override
     protected HttpPipeline buildHttpPipeline(
@@ -47,6 +49,7 @@ public class SamplesTestBase extends ResourceManagerTestBase {
         ResourceManagerUtils.InternalRuntimeContext internalContext = new ResourceManagerUtils.InternalRuntimeContext();
         internalContext.setIdentifierFunction(name -> new TestIdentifierProvider(testResourceNamer));
         azureResourceManager = buildManager(AzureResourceManager.class, httpPipeline, profile);
+        computeManager = buildManager(ComputeManager.class, httpPipeline, profile);
         setInternalContext(internalContext, azureResourceManager);
     }
 
