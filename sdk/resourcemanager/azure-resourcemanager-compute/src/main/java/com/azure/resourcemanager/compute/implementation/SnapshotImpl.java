@@ -21,6 +21,7 @@ import com.azure.resourcemanager.compute.models.SnapshotSkuType;
 import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -130,28 +131,29 @@ class SnapshotImpl extends GroupableResourceImpl<Snapshot, SnapshotInner, Snapsh
                 String.format(
                     "\"awaitCopyStartCompletionAsync\" cannot be called on snapshot \"%s\" when \"creationMethod\" is not \"CopyStart\"", this.name()))));
         }
-        return getInnerAsync()
-            .flatMap(inner -> {
-                setInner(inner);
-                Mono<SnapshotInner> result = Mono.just(inner);
-                if (inner.copyCompletionError() != null) { // service error
-                    result = Mono.error(new ManagementException(inner.copyCompletionError().errorMessage(), null));
-                }
-                return result;
-            })
-            .delaySubscription(ResourceManagerUtils.InternalRuntimeContext.getDelayDuration(
+        return
+            Flux.interval(Duration.ZERO, ResourceManagerUtils.InternalRuntimeContext.getDelayDuration(
                 manager().serviceClient().getDefaultPollInterval()))
-            .repeat()
-            .takeUntil(inner -> {
-                if (Float.valueOf(100).equals(inner.completionPercent())) {
-                    return true;
-                } else { // in progress
-                    logger.info("Wait for CopyStart complete for snapshot: {}. Complete percent: {}.",
-                        inner.name(), inner.completionPercent());
-                    return false;
-                }
-            })
-            .then();
+                .flatMap(ignored -> getInnerAsync())
+                .flatMap(inner -> {
+                    setInner(inner);
+                    Mono<SnapshotInner> result = Mono.just(inner);
+                    if (inner.copyCompletionError() != null) { // service error
+                        result = Mono.error(new ManagementException(inner.copyCompletionError().errorMessage(), null));
+                    }
+                    return result;
+                })
+                .repeat()
+                .takeUntil(inner -> {
+                    if (Float.valueOf(100).equals(inner.completionPercent())) {
+                        return true;
+                    } else { // in progress
+                        logger.info("Wait for CopyStart complete for snapshot: {}. Complete percent: {}.",
+                            inner.name(), inner.completionPercent());
+                        return false;
+                    }
+                })
+                .then();
     }
 
     @Override
