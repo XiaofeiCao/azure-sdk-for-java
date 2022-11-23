@@ -2,13 +2,22 @@
 
 ## 2.21.0-beta.1 (Unreleased)
 
-### Features Added
-
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Removed `NEW` from `SecurityAlertPolicyState`. It's no longer supported. 
+- Removed `withPolicyNew` method from `SqlDatabaseThreatDetectionPolicy` since `NEW` is no longer supported in `SecurityAlertPolicyState`.
+- Removed `nextResetTime` and `resourceName` method from `ServerMetric` and `SqlDatabase`. They are no longer supported.
+- Removed `listMetricsDefinitions` and `listMetrics` methods from `SqlDatabase`. Metrics in SQL have been replaced by the Azure monitor shoebox metrics API. Not in SQL any more.
+- Removed `listServiceTierAdvisors` method from `SqlDatabase`. It's no longer supported.
+- Removed class `ElasticPoolDatabaseActivity`. It's removed from service definition.
+- Removed `listDatabaseActivities`, `listDatabaseMetricDefinitions` and `listDatabaseMetrics` methods from `SqlElasticPool`. 
+- Removed `elasticPoolName` and `serviceLevelObjective` methods from `SqlRestorableDroppedDatabase`. 
+- Removed `getServiceObjective`, `listRecommendedElasticPools`, `listServiceObjectives` methods from `SqlServer`.
+- Removed `withCreationDate` and `withThumbprint` from SqlServerKeyOperations. These are no longer mutable.
+- Renamed class from `TransparentDataEncryptionInner` to `LogicalDatabaseTransparentDataEncryptionInner`.
+- Removed class `TransparentDataEncryptionActivity`.
+- Removed `listActivities` from `TransparentDataEncryption` since `TransparentDataEncryptionActivity` is removed.
+- Renamed `TransparentDataEncryptionStatus` to `TransparentDataEncryptionState`.
 
 ## 2.20.0 (2022-10-26)
 
