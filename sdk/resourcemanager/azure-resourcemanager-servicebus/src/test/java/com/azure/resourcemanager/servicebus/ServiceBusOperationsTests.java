@@ -80,7 +80,7 @@ public class ServiceBusOperationsTests extends ResourceManagerTestBase {
 
     @Test
     public void canCRUDOnSimpleNamespace() {
-        Region region = Region.US_EAST;
+        Region region = Region.CHINA_NORTH2;
         Creatable<ResourceGroup> rgCreatable = resourceManager.resourceGroups()
                 .define(rgName)
                 .withRegion(region);
