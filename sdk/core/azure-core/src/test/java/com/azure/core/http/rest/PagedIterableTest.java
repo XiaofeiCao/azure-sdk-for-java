@@ -10,6 +10,7 @@ import com.azure.core.http.HttpRequest;
 import com.azure.core.util.paging.ContinuablePage;
 import com.azure.core.util.paging.ContinuablePagedFlux;
 import com.azure.core.util.paging.ContinuablePagedIterable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -263,6 +264,18 @@ public class PagedIterableTest {
         Integer firstValue = pagedResponses.get(0).getValue().get(0);
         assertEquals(firstValue, pagedIterable.iterator().next());
         assertEquals(0, pagedIterable.getNextPageRetrievals());
+    }
+
+    @Test
+    public void mapPageTestWithoutPagedFlux() {
+        PagedIterable<Integer> pagedIterable = getTestPagedIterable();
+
+        Assertions.assertEquals(
+            5 * 3,
+            pagedIterable
+                .mapPage(String::valueOf)
+                .stream()
+                .count());
     }
 
     @Test

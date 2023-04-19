@@ -9,6 +9,7 @@ import com.azure.core.util.paging.PageRetrieverSync;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -187,7 +188,30 @@ public class PagedIterable<T> extends PagedIterableBase<T, PagedResponse<T>> {
      */
     @SuppressWarnings("deprecation")
     public <S> PagedIterable<S> mapPage(Function<T, S> mapper) {
-        return new PagedIterable<>(pagedFlux.mapPage(mapper));
+        if (this.pagedFlux != null) {
+            return new PagedIterable<S>(pagedFlux.mapPage(mapper));
+        }
+
+        return new PagedIterable<S>(new Supplier<>() {
+            @Override
+            public PageRetrieverSync<String, PagedResponse<S>> get() {
+                return (continuationToken, pageSize) -> pageSize == null ?
+                    streamByPage(continuationToken).map(mapPagedResponse()).findFirst().orElse(null)
+                    : streamByPage(continuationToken, pageSize).map(mapPagedResponse()).findFirst().orElse(null);
+            }
+
+            private Function<PagedResponse<T>, PagedResponse<S>> mapPagedResponse() {
+                return pagedResponse -> new PagedResponseBase<Void, S>(
+                    pagedResponse.getRequest(),
+                    pagedResponse.getStatusCode(),
+                    pagedResponse.getHeaders(),
+                    pagedResponse.getValue() == null
+                        ? null
+                        : pagedResponse.getValue().stream().map(mapper).collect(Collectors.toList()),
+                    pagedResponse.getContinuationToken(),
+                    null);
+            }
+        }, true);
     }
 
     /**
