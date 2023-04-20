@@ -140,20 +140,20 @@ def update_changelog(changelog_file, changelog):
 
     first_version_part = old_changelog[:first_version.end() +
                                        second_version.start()]
-    # remove text starting from the first '###' (usually the block '### Features Added')
-    first_version_part = re.sub('\n###.*', '\n', first_version_part, re.S)
-    first_version_part = re.sub('\s+$', '', first_version_part)
-
-    first_version_part += '\n\n'
+    # in case the script runs multiple times, remove everything from first '###' (### Features Added) to the end of first version
+    label_pattern = '\n### '
+    first_label_start = re.search(label_pattern, first_version_part, re.M)
+    if (first_label_start is not None):
+        first_version_part = first_version_part[:first_label_start.start()]
+        first_version_part += '\n'
     if changelog.strip() != '':
         first_version_part += changelog.strip() + '\n\n'
 
     with open(changelog_file, 'w') as fout:
         fout.write(first_version_part +
-                   old_changelog[first_version.end() + second_version.start():])
+                old_changelog[first_version.end() + second_version.start():])
 
     logging.info('[Changelog][Success] Write to changelog')
-
 
 def compare_with_maven_package(sdk_root: str, service: str, stable_version: str,
                                current_version: str, module: str):
