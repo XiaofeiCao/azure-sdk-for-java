@@ -4,8 +4,25 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.AnomalyDetectionModel;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.util.Configuration;
+
 public class ListMultivariateModels {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.listmultivariablemodels.listmultivariablemodels
+        PagedIterable<AnomalyDetectionModel> multivariateDetectionResults =
+            anomalyDetectorClient
+                .listMultivariateModels();
+        // END:com.azure.ai.anomalydetector.generated.listmultivariablemodels.listmultivariablemodels
     }
 }

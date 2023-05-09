@@ -4,8 +4,26 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.MultivariateDetectionResult;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
 public class GetMultivariateBatchDetectionResult {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.getmultivariablebatchdetectionresult.getmultivariablebatchdetectionresult
+        MultivariateDetectionResult multivariateDetectionResult =
+            anomalyDetectorClient
+                .getMultivariateBatchDetectionResult(
+                    "663884e6-b117-11ea-b3de-0242ac130004"
+                );
+        // END:com.azure.ai.anomalydetector.generated.getmultivariablebatchdetectionresult.getmultivariablebatchdetectionresult
     }
 }

@@ -4,8 +4,42 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.TimeGranularity;
+import com.azure.ai.anomalydetector.models.TimeSeriesPoint;
+import com.azure.ai.anomalydetector.models.UnivariateChangePointDetectionOptions;
+import com.azure.ai.anomalydetector.models.UnivariateChangePointDetectionResult;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+
 public class UnivariateDetectionOfAChangePoint {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.detectunicariatechangepoint.univariatedetectionofachangepoint
+        UnivariateChangePointDetectionResult univariateChangePointDetectionResult =
+            anomalyDetectorClient
+                .detectUnivariateChangePoint(
+                    new UnivariateChangePointDetectionOptions(
+                        Arrays.asList(
+                            new TimeSeriesPoint(1639196d)
+                                .setTimestamp(OffsetDateTime.parse("2017-01-01T06:45:00Z"))
+
+                        ),
+                        TimeGranularity.MONTHLY)
+                        .setCustomInterval(5)
+                        .setStableTrendWindow(10)
+                        .setThreshold(0.99)
+                        .setPeriod(0)
+                );
+        // END:com.azure.ai.anomalydetector.generated.detectunicariatechangepoint.univariatedetectionofachangepoint
     }
 }

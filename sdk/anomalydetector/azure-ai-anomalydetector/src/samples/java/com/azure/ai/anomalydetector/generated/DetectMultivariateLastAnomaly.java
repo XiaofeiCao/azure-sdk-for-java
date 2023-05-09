@@ -4,8 +4,100 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.MultivariateLastDetectionOptions;
+import com.azure.ai.anomalydetector.models.MultivariateLastDetectionResult;
+import com.azure.ai.anomalydetector.models.VariableValues;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
+import java.util.Arrays;
+
 public class DetectMultivariateLastAnomaly {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.detectmultivariablelastanomaly.detectmultivariablelastanomaly
+        MultivariateLastDetectionResult multivariateLastDetectionResult =
+            anomalyDetectorClient
+                .detectMultivariateLastAnomaly(
+                    "45aad126-aafd-11ea-b8fb-d89ef3400c5f",
+                    new MultivariateLastDetectionOptions(
+                        Arrays.asList(
+                            new VariableValues(
+                                "Variable_1",
+                                Arrays.asList(
+                                    "2021-01-01T00:00:00Z",
+                                    "2021-01-01T00:01:00Z",
+                                    "2021-01-01T00:02:00Z",
+                                    "2021-01-01T00:03:00Z",
+                                    "2021-01-01T00:04:00Z",
+                                    "2021-01-01T00:05:00Z",
+                                    "2021-01-01T00:06:00Z",
+                                    "2021-01-01T00:07:00Z",
+                                    "2021-01-01T00:08:00Z",
+                                    "2021-01-01T00:09:00Z",
+                                    "2021-01-01T00:10:00Z",
+                                    "2021-01-01T00:11:00Z",
+                                    "2021-01-01T00:12:00Z",
+                                    "2021-01-01T00:13:00Z",
+                                    "2021-01-01T00:14:00Z",
+                                    "2021-01-01T00:15:00Z",
+                                    "2021-01-01T00:16:00Z",
+                                    "2021-01-01T00:17:00Z",
+                                    "2021-01-01T00:18:00Z",
+                                    "2021-01-01T00:19:00Z",
+                                    "2021-01-01T00:20:00Z",
+                                    "2021-01-01T00:21:00Z",
+                                    "2021-01-01T00:22:00Z",
+                                    "2021-01-01T00:23:00Z",
+                                    "2021-01-01T00:24:00Z",
+                                    "2021-01-01T00:25:00Z",
+                                    "2021-01-01T00:26:00Z",
+                                    "2021-01-01T00:27:00Z",
+                                    "2021-01-01T00:28:00Z",
+                                    "2021-01-01T00:29:00Z"
+                                ),
+                                Arrays.asList(
+                                    0.4551378545933972,
+                                    0.7388603950488748,
+                                    0.201088255984052,
+                                    0.7462812245891899,
+                                    0.07308128850401663,
+                                    0.33090474587393537,
+                                    0.7544925268153315,
+                                    0.987506336316328,
+                                    0.6665932993421468,
+                                    0.6308351543168672,
+                                    0.08083310161466228,
+                                    0.8414415588668442,
+                                    0.514583545640453,
+                                    0.0954489875193526,
+                                    0.7786793231920507,
+                                    0.41646133667960994,
+                                    0.030176187583339287,
+                                    0.3474214937189324,
+                                    0.508530173413991,
+                                    0.42451199127255046,
+                                    0.2115944222725208,
+                                    0.24733519545833516,
+                                    0.8791022110982156,
+                                    0.9479621899884665,
+                                    0.26702703121252136,
+                                    0.6954503497669413,
+                                    0.1235728391488995,
+                                    0.8214915473050647,
+                                    0.11813002444192677,
+                                    0.8579045951076123
+                                )
+                            )
+                        ),
+                        10));
+        // END:com.azure.ai.anomalydetector.generated.detectmultivariablelastanomaly.detectmultivariablelastanomaly
     }
 }

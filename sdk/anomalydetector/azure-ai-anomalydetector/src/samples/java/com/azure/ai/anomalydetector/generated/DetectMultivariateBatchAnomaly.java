@@ -4,8 +4,35 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.MultivariateBatchDetectionOptions;
+import com.azure.ai.anomalydetector.models.MultivariateDetectionResult;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
+import java.time.OffsetDateTime;
+
 public class DetectMultivariateBatchAnomaly {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.detectmultivariablebatchanomaly.detectmultivariablebatchanomaly
+        MultivariateDetectionResult multivariateDetectionResult =
+            anomalyDetectorClient
+                .detectMultivariateBatchAnomaly(
+                    "45aad126-aafd-11ea-b8fb-d89ef3400c5f",
+                    new MultivariateBatchDetectionOptions(
+                        "https://multiadsample.blob.core.windows.net/data/sample_data_2_1000.csv",
+                        10,
+                        OffsetDateTime.parse("2019-04-01T00:15:00Z"),
+                        OffsetDateTime.parse("2019-04-01T00:40:00Z")
+                    )
+                );
+        // END:com.azure.ai.anomalydetector.generated.detectmultivariablebatchanomaly.detectmultivariablebatchanomaly
     }
 }

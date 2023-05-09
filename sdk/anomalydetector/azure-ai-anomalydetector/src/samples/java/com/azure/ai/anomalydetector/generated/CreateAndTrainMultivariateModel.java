@@ -4,8 +4,41 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.AlignMode;
+import com.azure.ai.anomalydetector.models.AlignPolicy;
+import com.azure.ai.anomalydetector.models.AnomalyDetectionModel;
+import com.azure.ai.anomalydetector.models.FillNAMethod;
+import com.azure.ai.anomalydetector.models.ModelInfo;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
+import java.time.OffsetDateTime;
+
 public class CreateAndTrainMultivariateModel {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.trainmultivariablemodel.createandtrainmultivariablemodel
+        AnomalyDetectionModel anomalyDetectionModel =
+            anomalyDetectorClient
+                .trainMultivariateModel(
+                    new ModelInfo(
+                        "https://multiadsample.blob.core.windows.net/data/sample_data_2_1000.csv",
+                        OffsetDateTime.parse("2019-04-01T00:00:00Z"),
+                        OffsetDateTime.parse("2019-04-02T00:00:00Z"))
+                        .setSlidingWindow(20)
+                        .setAlignPolicy(new AlignPolicy()
+                            .setAlignMode(AlignMode.OUTER)
+                            .setFillNAMethod(FillNAMethod.LINEAR)
+                            .setPaddingValue(0D))
+                        .setDisplayName("Devops-MultiAD")
+                );
+        // END:com.azure.ai.anomalydetector.generated.trainmultivariablemodel.createandtrainmultivariablemodel
     }
 }

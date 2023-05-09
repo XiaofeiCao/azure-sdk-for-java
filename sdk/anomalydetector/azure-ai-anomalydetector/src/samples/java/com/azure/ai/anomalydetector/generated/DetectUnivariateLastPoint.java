@@ -4,8 +4,42 @@
 
 package com.azure.ai.anomalydetector.generated;
 
+import com.azure.ai.anomalydetector.AnomalyDetectorClient;
+import com.azure.ai.anomalydetector.AnomalyDetectorClientBuilder;
+import com.azure.ai.anomalydetector.models.ImputeMode;
+import com.azure.ai.anomalydetector.models.TimeGranularity;
+import com.azure.ai.anomalydetector.models.TimeSeriesPoint;
+import com.azure.ai.anomalydetector.models.UnivariateDetectionOptions;
+import com.azure.ai.anomalydetector.models.UnivariateLastDetectionResult;
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.Configuration;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+
 public class DetectUnivariateLastPoint {
     public static void main(String[] args) {
-        // TODO(xiaofei) add method body
+        AnomalyDetectorClient anomalyDetectorClient =
+            new AnomalyDetectorClientBuilder()
+                .credential(new AzureKeyCredential(Configuration.getGlobalConfiguration().get("API_KEY")))
+                .endpoint("{Endpoint}")
+                .buildClient();
+
+        // BEGIN:com.azure.ai.anomalydetector.generated.detectunivariatebatchanomaly.detectunivariatebatchanomaly
+        UnivariateLastDetectionResult univariateLastDetectionResult =
+            anomalyDetectorClient
+                .detectUnivariateLastPoint(
+                    new UnivariateDetectionOptions(
+                        Arrays.asList(
+                            new TimeSeriesPoint(826d)
+                                .setTimestamp(OffsetDateTime.parse("1972-01-01T00:00:00Z"))
+                        ))
+                        .setMaxAnomalyRatio(0.25)
+                        .setSensitivity(95)
+                        .setGranularity(TimeGranularity.MONTHLY)
+                        .setImputeMode(ImputeMode.FIXED)
+                        .setImputeFixedValue(800D)
+                );
+        // END:com.azure.ai.anomalydetector.generated.detectunivariatebatchanomaly.detectunivariatebatchanomaly
     }
 }
