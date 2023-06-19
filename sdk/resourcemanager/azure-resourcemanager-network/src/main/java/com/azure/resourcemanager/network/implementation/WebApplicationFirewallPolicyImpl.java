@@ -8,6 +8,10 @@ import com.azure.resourcemanager.network.NetworkManager;
 import com.azure.resourcemanager.network.fluent.models.ApplicationGatewayInner;
 import com.azure.resourcemanager.network.fluent.models.WebApplicationFirewallPolicyInner;
 import com.azure.resourcemanager.network.models.ApplicationGateway;
+import com.azure.resourcemanager.network.models.KnownManagedRuleSet;
+import com.azure.resourcemanager.network.models.ManagedRuleEnabledState;
+import com.azure.resourcemanager.network.models.ManagedRuleGroupOverride;
+import com.azure.resourcemanager.network.models.ManagedRuleOverride;
 import com.azure.resourcemanager.network.models.ManagedRuleSet;
 import com.azure.resourcemanager.network.models.ManagedRulesDefinition;
 import com.azure.resourcemanager.network.models.PolicySettings;
@@ -20,8 +24,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -248,5 +254,54 @@ public class WebApplicationFirewallPolicyImpl extends GroupableResourceImpl<
                     .withRuleSetVersion(DEFAULT_MANAGED_RULE_SET_VERSION);
             this.innerModel().managedRules().managedRuleSets().add(defaultRuleSet);
         }
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withManagedRuleSet(KnownManagedRuleSet managedRuleSet) {
+        Objects.requireNonNull(managedRuleSet);
+        return withManagedRuleSet(managedRuleSet.type(), managedRuleSet.version());
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withManagedRuleSet(KnownManagedRuleSet managedRuleSet, ManagedRuleGroupOverride... managedRuleGroupOverrides) {
+        Objects.requireNonNull(managedRuleSet);
+        return withManagedRuleSet(managedRuleSet.type(), managedRuleSet.version(), managedRuleGroupOverrides);
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withManagedRuleSet(String type, String version) {
+        return withManagedRuleSet(type, version, (ManagedRuleGroupOverride[]) null);
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withManagedRuleSet(String type, String version, ManagedRuleGroupOverride... managedRuleGroupOverrides) {
+        ManagedRuleSet managedRuleSet = new ManagedRuleSet().withRuleSetType(type).withRuleSetVersion(version);
+        if (managedRuleGroupOverrides != null) {
+            managedRuleSet.withRuleGroupOverrides(Arrays.stream(managedRuleGroupOverrides).collect(Collectors.toList()));
+        }
+        return withManagedRuleSet(managedRuleSet);
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withManagedRuleSet(ManagedRuleSet managedRuleSet) {
+        ensureManagedRules().managedRuleSets().add(managedRuleSet);
+        return this;
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withoutManagedRuleSet(KnownManagedRuleSet managedRuleSet) {
+        Objects.requireNonNull(managedRuleSet);
+        return withManagedRuleSet(managedRuleSet.type(), managedRuleSet.version());
+    }
+
+    @Override
+    public WebApplicationFirewallPolicyImpl withoutManagedRuleSet(String type, String version) {
+        Objects.requireNonNull(type);
+        Objects.requireNonNull(version);
+        if (this.innerModel().managedRules() != null && this.innerModel().managedRules().managedRuleSets() != null) {
+            this.innerModel().managedRules().managedRuleSets().removeIf(ruleSet -> type.equals(ruleSet.ruleSetType())
+                && version.equals(ruleSet.ruleSetVersion()));
+        }
+        return this;
     }
 }

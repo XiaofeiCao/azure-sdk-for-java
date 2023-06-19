@@ -7,13 +7,40 @@ package com.azure.resourcemanager.network.models;
  * Known managed rule set.
  */
 public enum KnownManagedRuleSet {
-    /** Managed Rule Set based off OWASP CRS 3.2.0 version. */
+    /**
+     * Managed Rule Set based off OWASP CRS 3.2 version.
+     *
+     * @see <a href="https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-crs-rulegroups-rules?tabs=owasp32#owasp-crs-32">
+     *     OWASP CRS 3.2
+     *     </a>
+     */
     OWASP_3_2("OWASP", "3.2"),
-    /** Managed Rule Set based off OWASP CRS 3.1.1 version. */
+
+    /**
+     * Managed Rule Set based off OWASP CRS 3.1 version.
+     *
+     * @see <a href="https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-crs-rulegroups-rules?tabs=owasp32#owasp-crs-31">
+     *     OWASP CRS 3.1
+     *     </a>
+     */
     OWASP_3_1("OWASP", "3.1"),
-    /** Managed Rule Set based off OWASP CRS 3.0.0 version.*/
+
+    /**
+     * Managed Rule Set based off OWASP CRS 3.0 version.
+     *
+     * @see <a href="https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-crs-rulegroups-rules?tabs=owasp32#owasp-crs-30>
+     *     OWASP CRS 3.0
+     *     </a>
+     */
     OWASP_3_0("OWASP", "3.0"),
-    /** The Azure-managed Default Rule Set (DRS) 2.1 version. */
+
+    /**
+     * The Azure-managed Default Rule Set (DRS) 2.1 version.
+     *
+     * @see <a href="https://learn.microsoft.com/en-us/azure/web-application-firewall/afds/waf-front-door-drs?tabs=drs20#drs-21">
+     *     DRS 2.1
+     *     </a>
+     */
     MICROSOFT_DEFAULT_RULESET_2_1("Microsoft_DefaultRuleSet", "2.1");
 
     private final String type;

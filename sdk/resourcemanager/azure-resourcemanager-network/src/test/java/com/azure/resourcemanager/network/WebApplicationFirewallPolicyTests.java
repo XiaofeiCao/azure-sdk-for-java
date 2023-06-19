@@ -5,14 +5,14 @@ package com.azure.resourcemanager.network;
 
 import com.azure.core.management.Region;
 import com.azure.resourcemanager.network.models.KnownManagedRuleSet;
+import com.azure.resourcemanager.network.models.ManagedRuleEnabledState;
 import com.azure.resourcemanager.network.models.ManagedRuleGroupOverride;
-import com.azure.resourcemanager.network.models.ManagedRuleSet;
+import com.azure.resourcemanager.network.models.ManagedRuleOverride;
 import com.azure.resourcemanager.network.models.WebApplicationFirewallMode;
 import com.azure.resourcemanager.network.models.WebApplicationFirewallPolicy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class WebApplicationFirewallPolicyTests extends NetworkManagementTest {
@@ -28,6 +28,7 @@ public class WebApplicationFirewallPolicyTests extends NetworkManagementTest {
                 .define(policyDefaultName)
                 .withRegion(region)
                 .withNewResourceGroup(rgName)
+                .withManagedRuleSet(KnownManagedRuleSet.OWASP_3_2)
                 .create();
 
         defaultPolicy.refresh();
@@ -45,7 +46,13 @@ public class WebApplicationFirewallPolicyTests extends NetworkManagementTest {
                 .define(policyName)
                 .withRegion(region)
                 .withExistingResourceGroup(rgName)
-                .withManagedRuleSet(KnownManagedRuleSet.OWASP_3_2, new ManagedRuleGroupOverride().withRuleGroupName("").withRules())
+                .withManagedRuleSet(KnownManagedRuleSet.OWASP_3_2,
+                    new ManagedRuleGroupOverride()
+                        .withRuleGroupName("REQUEST-911-METHOD-ENFORCEMENT")
+                        .withRules(Arrays.asList(
+                            new ManagedRuleOverride()
+                                .withRuleId("911012")
+                                .withState(ManagedRuleEnabledState.DISABLED))))
                 .withDetectionMode()
                 .withBotProtection()
                 .enableRequestBodyInspection()
@@ -72,11 +79,7 @@ public class WebApplicationFirewallPolicyTests extends NetworkManagementTest {
         policy.update()
             .withPreventionMode()
             .withoutManagedRuleSet(KnownManagedRuleSet.OWASP_3_2)
-            .withManagedRuleSet(
-                new ManagedRuleSet()
-                    .withRuleSetType(KnownManagedRuleSet.MICROSOFT_DEFAULT_RULESET_2_1.type())
-                    .withRuleSetVersion(KnownManagedRuleSet.MICROSOFT_DEFAULT_RULESET_2_1.version())
-                    .withRuleGroupOverrides(Arrays.asList(new ManagedRuleGroupOverride().withRuleGroupName(""))))
+            .withManagedRuleSet(KnownManagedRuleSet.MICROSOFT_DEFAULT_RULESET_2_1)
             .withBotProtection("1.0")
             .disableRequestBodyInspection()
             .disablePolicy()
@@ -92,9 +95,9 @@ public class WebApplicationFirewallPolicyTests extends NetworkManagementTest {
                 .stream()
                 .filter(managedRuleSet -> managedRuleSet.ruleSetType().equals("Microsoft_BotManagerRuleSet"))
                 .findFirst().get().ruleSetVersion());
-        Assertions.assertFalse((policy.getManagedRules().managedRuleSets()
+        Assertions.assertTrue((policy.getManagedRules().managedRuleSets()
             .stream()
-            .anyMatch(managedRuleSet -> managedRuleSet.ruleSetType().equals(KnownManagedRuleSet.OWASP_3_2.type()))));
+            .noneMatch(managedRuleSet -> managedRuleSet.ruleSetType().equals(KnownManagedRuleSet.OWASP_3_2.type()))));
         Assertions.assertTrue((policy.getManagedRules().managedRuleSets()
             .stream()
             .anyMatch(
