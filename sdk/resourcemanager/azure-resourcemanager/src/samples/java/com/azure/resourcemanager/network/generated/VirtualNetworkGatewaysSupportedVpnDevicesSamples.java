@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways SupportedVpnDevices. */
 public final class VirtualNetworkGatewaysSupportedVpnDevicesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
      */
     /**
      * Sample code: ListVirtualNetworkGatewaySupportedVPNDevices.
@@ -21,6 +23,6 @@ public final class VirtualNetworkGatewaysSupportedVpnDevicesSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .supportedVpnDevicesWithResponse("rg1", "vpngw", com.azure.core.util.Context.NONE);
+            .supportedVpnDevicesWithResponse("rg1", "vpngw", Context.NONE);
     }
 }

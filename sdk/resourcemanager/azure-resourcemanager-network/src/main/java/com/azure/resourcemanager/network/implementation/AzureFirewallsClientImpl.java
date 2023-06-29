@@ -75,10 +75,11 @@ public final class AzureFirewallsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface AzureFirewallsService {
+    private interface AzureFirewallsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -92,7 +93,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AzureFirewallInner>> getByResourceGroup(
@@ -106,7 +108,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -121,7 +124,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> updateTags(
@@ -136,7 +140,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AzureFirewallListResult>> listByResourceGroup(
@@ -160,7 +165,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}/learnedIPPrefixes")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listLearnedPrefixes(
@@ -174,7 +180,8 @@ public final class AzureFirewallsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/packetCapture")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/azureFirewalls/{azureFirewallName}/packetCapture")
         @ExpectedResponses({202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> packetCapture(
@@ -241,7 +248,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -292,7 +299,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -358,7 +365,7 @@ public final class AzureFirewallsClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String azureFirewallName) {
-        return this.beginDeleteAsync(resourceGroupName, azureFirewallName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, azureFirewallName).getSyncPoller();
     }
 
     /**
@@ -375,7 +382,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String azureFirewallName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, azureFirewallName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, azureFirewallName, context).getSyncPoller();
     }
 
     /**
@@ -475,7 +482,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -526,7 +533,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -561,6 +568,21 @@ public final class AzureFirewallsClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param azureFirewallName The name of the Azure Firewall.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Azure Firewall.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public AzureFirewallInner getByResourceGroup(String resourceGroupName, String azureFirewallName) {
+        return getByResourceGroupAsync(resourceGroupName, azureFirewallName).block();
+    }
+
+    /**
+     * Gets the specified Azure Firewall.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param azureFirewallName The name of the Azure Firewall.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -571,21 +593,6 @@ public final class AzureFirewallsClientImpl
     public Response<AzureFirewallInner> getByResourceGroupWithResponse(
         String resourceGroupName, String azureFirewallName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, azureFirewallName, context).block();
-    }
-
-    /**
-     * Gets the specified Azure Firewall.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param azureFirewallName The name of the Azure Firewall.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified Azure Firewall.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public AzureFirewallInner getByResourceGroup(String resourceGroupName, String azureFirewallName) {
-        return getByResourceGroupWithResponse(resourceGroupName, azureFirewallName, Context.NONE).getValue();
     }
 
     /**
@@ -627,7 +634,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -685,7 +692,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -764,7 +771,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AzureFirewallInner>, AzureFirewallInner> beginCreateOrUpdate(
         String resourceGroupName, String azureFirewallName, AzureFirewallInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
     }
 
     /**
@@ -782,7 +789,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AzureFirewallInner>, AzureFirewallInner> beginCreateOrUpdate(
         String resourceGroupName, String azureFirewallName, AzureFirewallInner parameters, Context context) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -898,7 +905,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -956,7 +963,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1035,7 +1042,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AzureFirewallInner>, AzureFirewallInner> beginUpdateTags(
         String resourceGroupName, String azureFirewallName, TagsObject parameters) {
-        return this.beginUpdateTagsAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
+        return beginUpdateTagsAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
     }
 
     /**
@@ -1053,7 +1060,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AzureFirewallInner>, AzureFirewallInner> beginUpdateTags(
         String resourceGroupName, String azureFirewallName, TagsObject parameters, Context context) {
-        return this.beginUpdateTagsAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
+        return beginUpdateTagsAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -1157,7 +1164,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1212,7 +1219,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1317,7 +1324,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1360,7 +1367,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1463,7 +1470,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1515,7 +1522,7 @@ public final class AzureFirewallsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1590,7 +1597,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<IpPrefixesListInner>, IpPrefixesListInner> beginListLearnedPrefixes(
         String resourceGroupName, String azureFirewallName) {
-        return this.beginListLearnedPrefixesAsync(resourceGroupName, azureFirewallName).getSyncPoller();
+        return beginListLearnedPrefixesAsync(resourceGroupName, azureFirewallName).getSyncPoller();
     }
 
     /**
@@ -1607,7 +1614,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<IpPrefixesListInner>, IpPrefixesListInner> beginListLearnedPrefixes(
         String resourceGroupName, String azureFirewallName, Context context) {
-        return this.beginListLearnedPrefixesAsync(resourceGroupName, azureFirewallName, context).getSyncPoller();
+        return beginListLearnedPrefixesAsync(resourceGroupName, azureFirewallName, context).getSyncPoller();
     }
 
     /**
@@ -1717,7 +1724,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1778,7 +1785,7 @@ public final class AzureFirewallsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1855,7 +1862,7 @@ public final class AzureFirewallsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginPacketCapture(
         String resourceGroupName, String azureFirewallName, FirewallPacketCaptureParameters parameters) {
-        return this.beginPacketCaptureAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
+        return beginPacketCaptureAsync(resourceGroupName, azureFirewallName, parameters).getSyncPoller();
     }
 
     /**
@@ -1876,7 +1883,7 @@ public final class AzureFirewallsClientImpl
         String azureFirewallName,
         FirewallPacketCaptureParameters parameters,
         Context context) {
-        return this.beginPacketCaptureAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
+        return beginPacketCaptureAsync(resourceGroupName, azureFirewallName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -1960,8 +1967,7 @@ public final class AzureFirewallsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1997,8 +2003,7 @@ public final class AzureFirewallsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2035,8 +2040,7 @@ public final class AzureFirewallsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2072,8 +2076,7 @@ public final class AzureFirewallsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

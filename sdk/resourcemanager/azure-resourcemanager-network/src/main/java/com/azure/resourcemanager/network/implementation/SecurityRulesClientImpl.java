@@ -63,10 +63,11 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface SecurityRulesService {
+    private interface SecurityRulesService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -81,7 +82,8 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SecurityRuleInner>> get(
@@ -96,7 +98,8 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -112,7 +115,8 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/securityRules")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SecurityRuleListResult>> list(
@@ -174,7 +178,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -232,7 +236,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -306,7 +310,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkSecurityGroupName, String securityRuleName) {
-        return this.beginDeleteAsync(resourceGroupName, networkSecurityGroupName, securityRuleName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkSecurityGroupName, securityRuleName).getSyncPoller();
     }
 
     /**
@@ -324,9 +328,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkSecurityGroupName, String securityRuleName, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, networkSecurityGroupName, securityRuleName, context)
-            .getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkSecurityGroupName, securityRuleName, context).getSyncPoller();
     }
 
     /**
@@ -438,7 +440,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -496,7 +498,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -535,6 +537,22 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
      * @param resourceGroupName The name of the resource group.
      * @param networkSecurityGroupName The name of the network security group.
      * @param securityRuleName The name of the security rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified network security rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SecurityRuleInner get(String resourceGroupName, String networkSecurityGroupName, String securityRuleName) {
+        return getAsync(resourceGroupName, networkSecurityGroupName, securityRuleName).block();
+    }
+
+    /**
+     * Get the specified network security rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param securityRuleName The name of the security rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -545,22 +563,6 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
     public Response<SecurityRuleInner> getWithResponse(
         String resourceGroupName, String networkSecurityGroupName, String securityRuleName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkSecurityGroupName, securityRuleName, context).block();
-    }
-
-    /**
-     * Get the specified network security rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkSecurityGroupName The name of the network security group.
-     * @param securityRuleName The name of the security rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified network security rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SecurityRuleInner get(String resourceGroupName, String networkSecurityGroupName, String securityRuleName) {
-        return getWithResponse(resourceGroupName, networkSecurityGroupName, securityRuleName, Context.NONE).getValue();
     }
 
     /**
@@ -613,7 +615,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
         } else {
             securityRuleParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -684,7 +686,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
         } else {
             securityRuleParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -779,8 +781,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
         String networkSecurityGroupName,
         String securityRuleName,
         SecurityRuleInner securityRuleParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, networkSecurityGroupName, securityRuleName, securityRuleParameters)
             .getSyncPoller();
     }
@@ -805,8 +806,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
         String securityRuleName,
         SecurityRuleInner securityRuleParameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, networkSecurityGroupName, securityRuleName, securityRuleParameters, context)
             .getSyncPoller();
     }
@@ -944,7 +944,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1006,7 +1006,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1100,8 +1100,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1137,8 +1136,7 @@ public final class SecurityRulesClientImpl implements SecurityRulesClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

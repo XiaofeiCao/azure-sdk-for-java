@@ -13,14 +13,11 @@ import java.util.List;
 @Fluent
 public final class EffectiveRouteMapRouteListInner {
     /*
-     * The list of Effective RouteMap Routes configured on the connection resource.
+     * The list of Effective RouteMap Routes configured on the connection
+     * resource.
      */
     @JsonProperty(value = "value")
     private List<EffectiveRouteMapRoute> value;
-
-    /** Creates an instance of EffectiveRouteMapRouteListInner class. */
-    public EffectiveRouteMapRouteListInner() {
-    }
 
     /**
      * Get the value property: The list of Effective RouteMap Routes configured on the connection resource.

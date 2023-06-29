@@ -28,10 +28,6 @@ public final class Availability {
     @JsonProperty(value = "blobDuration")
     private String blobDuration;
 
-    /** Creates an instance of Availability class. */
-    public Availability() {
-    }
-
     /**
      * Get the timeGrain property: The time grain of the availability.
      *

@@ -32,6 +32,19 @@ public interface WebCategoriesClient {
      * Gets the specified Azure Web Category.
      *
      * @param name The name of the azureWebCategory.
+     * @param expand Expands resourceIds back referenced by the azureWebCategory resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Azure Web Category on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<AzureWebCategoryInner> getAsync(String name, String expand);
+
+    /**
+     * Gets the specified Azure Web Category.
+     *
+     * @param name The name of the azureWebCategory.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -39,6 +52,18 @@ public interface WebCategoriesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<AzureWebCategoryInner> getAsync(String name);
+
+    /**
+     * Gets the specified Azure Web Category.
+     *
+     * @param name The name of the azureWebCategory.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Azure Web Category.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    AzureWebCategoryInner get(String name);
 
     /**
      * Gets the specified Azure Web Category.
@@ -53,18 +78,6 @@ public interface WebCategoriesClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<AzureWebCategoryInner> getWithResponse(String name, String expand, Context context);
-
-    /**
-     * Gets the specified Azure Web Category.
-     *
-     * @param name The name of the azureWebCategory.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified Azure Web Category.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    AzureWebCategoryInner get(String name);
 
     /**
      * Gets all the Azure Web Categories in a subscription.

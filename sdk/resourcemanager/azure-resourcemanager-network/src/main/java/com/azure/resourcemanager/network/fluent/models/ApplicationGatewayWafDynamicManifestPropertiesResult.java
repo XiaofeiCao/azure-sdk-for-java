@@ -24,10 +24,6 @@ public final class ApplicationGatewayWafDynamicManifestPropertiesResult {
     @JsonProperty(value = "availableRuleSets")
     private List<ApplicationGatewayFirewallManifestRuleSet> availableRuleSets;
 
-    /** Creates an instance of ApplicationGatewayWafDynamicManifestPropertiesResult class. */
-    public ApplicationGatewayWafDynamicManifestPropertiesResult() {
-    }
-
     /**
      * Get the innerDefaultRuleSet property: The default ruleset.
      *

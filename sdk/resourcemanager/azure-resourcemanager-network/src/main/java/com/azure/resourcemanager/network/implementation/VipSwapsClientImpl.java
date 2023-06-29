@@ -57,10 +57,11 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface VipSwapsService {
+    private interface VipSwapsService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices"
+                + "/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SwapResourceInner>> get(
@@ -75,7 +76,8 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices"
+                + "/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> create(
@@ -91,7 +93,8 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots")
+            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices"
+                + "/{resourceName}/providers/Microsoft.Network/cloudServiceSlots")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SwapResourceListResultInner>> list(
@@ -137,7 +140,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String singletonResource = "swap";
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -190,7 +193,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         final String singletonResource = "swap";
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -228,6 +231,22 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
      *
      * @param groupName The name of the resource group.
      * @param resourceName The name of the cloud service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the SwapResource which identifies the slot type for the specified cloud service.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SwapResourceInner get(String groupName, String resourceName) {
+        return getAsync(groupName, resourceName).block();
+    }
+
+    /**
+     * Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud
+     * service can either be Staging or Production.
+     *
+     * @param groupName The name of the resource group.
+     * @param resourceName The name of the cloud service.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -238,22 +257,6 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<SwapResourceInner> getWithResponse(String groupName, String resourceName, Context context) {
         return getWithResponseAsync(groupName, resourceName, context).block();
-    }
-
-    /**
-     * Gets the SwapResource which identifies the slot type for the specified cloud service. The slot type on a cloud
-     * service can either be Staging or Production.
-     *
-     * @param groupName The name of the resource group.
-     * @param resourceName The name of the cloud service.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the SwapResource which identifies the slot type for the specified cloud service.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SwapResourceInner get(String groupName, String resourceName) {
-        return getWithResponse(groupName, resourceName, Context.NONE).getValue();
     }
 
     /**
@@ -295,7 +298,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
             parameters.validate();
         }
         final String singletonResource = "swap";
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -354,7 +357,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
             parameters.validate();
         }
         final String singletonResource = "swap";
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -430,7 +433,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginCreate(
         String groupName, String resourceName, SwapResourceInner parameters) {
-        return this.beginCreateAsync(groupName, resourceName, parameters).getSyncPoller();
+        return beginCreateAsync(groupName, resourceName, parameters).getSyncPoller();
     }
 
     /**
@@ -449,7 +452,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginCreate(
         String groupName, String resourceName, SwapResourceInner parameters, Context context) {
-        return this.beginCreateAsync(groupName, resourceName, parameters, context).getSyncPoller();
+        return beginCreateAsync(groupName, resourceName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -557,7 +560,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -608,7 +611,7 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -645,6 +648,22 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
      *
      * @param groupName The name of the resource group.
      * @param resourceName The name of the cloud service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of SwapResource which identifies the slot type for the specified cloud service.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SwapResourceListResultInner list(String groupName, String resourceName) {
+        return listAsync(groupName, resourceName).block();
+    }
+
+    /**
+     * Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a
+     * cloud service can either be Staging or Production.
+     *
+     * @param groupName The name of the resource group.
+     * @param resourceName The name of the cloud service.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -656,21 +675,5 @@ public final class VipSwapsClientImpl implements VipSwapsClient {
     public Response<SwapResourceListResultInner> listWithResponse(
         String groupName, String resourceName, Context context) {
         return listWithResponseAsync(groupName, resourceName, context).block();
-    }
-
-    /**
-     * Gets the list of SwapResource which identifies the slot type for the specified cloud service. The slot type on a
-     * cloud service can either be Staging or Production.
-     *
-     * @param groupName The name of the resource group.
-     * @param resourceName The name of the cloud service.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the list of SwapResource which identifies the slot type for the specified cloud service.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SwapResourceListResultInner list(String groupName, String resourceName) {
-        return listWithResponse(groupName, resourceName, Context.NONE).getValue();
     }
 }

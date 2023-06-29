@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Name of an application gateway SKU. */
+/** Defines values for ApplicationGatewaySkuName. */
 public final class ApplicationGatewaySkuName extends ExpandableStringEnum<ApplicationGatewaySkuName> {
     /** Static value Standard_Small for ApplicationGatewaySkuName. */
     public static final ApplicationGatewaySkuName STANDARD_SMALL = fromString("Standard_Small");
@@ -30,15 +30,6 @@ public final class ApplicationGatewaySkuName extends ExpandableStringEnum<Applic
 
     /** Static value WAF_v2 for ApplicationGatewaySkuName. */
     public static final ApplicationGatewaySkuName WAF_V2 = fromString("WAF_v2");
-
-    /**
-     * Creates a new instance of ApplicationGatewaySkuName value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewaySkuName() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewaySkuName from its string representation.

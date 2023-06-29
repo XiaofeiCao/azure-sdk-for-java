@@ -70,10 +70,11 @@ public final class DscpConfigurationsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface DscpConfigurationsService {
+    private interface DscpConfigurationsService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/dscpConfigurations/{dscpConfigurationName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -88,7 +89,8 @@ public final class DscpConfigurationsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/dscpConfigurations/{dscpConfigurationName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -102,7 +104,8 @@ public final class DscpConfigurationsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/dscpConfigurations/{dscpConfigurationName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<DscpConfigurationInner>> getByResourceGroup(
@@ -116,7 +119,8 @@ public final class DscpConfigurationsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/dscpConfigurations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<DscpConfigurationListResult>> listByResourceGroup(
@@ -199,7 +203,7 @@ public final class DscpConfigurationsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -258,7 +262,7 @@ public final class DscpConfigurationsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -344,7 +348,7 @@ public final class DscpConfigurationsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<DscpConfigurationInner>, DscpConfigurationInner> beginCreateOrUpdate(
         String resourceGroupName, String dscpConfigurationName, DscpConfigurationInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, dscpConfigurationName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, dscpConfigurationName, parameters).getSyncPoller();
     }
 
     /**
@@ -363,9 +367,7 @@ public final class DscpConfigurationsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<DscpConfigurationInner>, DscpConfigurationInner> beginCreateOrUpdate(
         String resourceGroupName, String dscpConfigurationName, DscpConfigurationInner parameters, Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, dscpConfigurationName, parameters, context)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, dscpConfigurationName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -477,7 +479,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -528,7 +530,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -595,7 +597,7 @@ public final class DscpConfigurationsClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String dscpConfigurationName) {
-        return this.beginDeleteAsync(resourceGroupName, dscpConfigurationName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, dscpConfigurationName).getSyncPoller();
     }
 
     /**
@@ -612,7 +614,7 @@ public final class DscpConfigurationsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String dscpConfigurationName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, dscpConfigurationName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, dscpConfigurationName, context).getSyncPoller();
     }
 
     /**
@@ -712,7 +714,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -763,7 +765,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -799,6 +801,21 @@ public final class DscpConfigurationsClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param dscpConfigurationName The name of the resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a DSCP Configuration.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DscpConfigurationInner getByResourceGroup(String resourceGroupName, String dscpConfigurationName) {
+        return getByResourceGroupAsync(resourceGroupName, dscpConfigurationName).block();
+    }
+
+    /**
+     * Gets a DSCP Configuration.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param dscpConfigurationName The name of the resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -809,21 +826,6 @@ public final class DscpConfigurationsClientImpl
     public Response<DscpConfigurationInner> getByResourceGroupWithResponse(
         String resourceGroupName, String dscpConfigurationName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, dscpConfigurationName, context).block();
-    }
-
-    /**
-     * Gets a DSCP Configuration.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param dscpConfigurationName The name of the resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a DSCP Configuration.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DscpConfigurationInner getByResourceGroup(String resourceGroupName, String dscpConfigurationName) {
-        return getByResourceGroupWithResponse(resourceGroupName, dscpConfigurationName, Context.NONE).getValue();
     }
 
     /**
@@ -853,7 +855,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -907,7 +909,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1012,7 +1014,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1055,7 +1057,7 @@ public final class DscpConfigurationsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1127,8 +1129,7 @@ public final class DscpConfigurationsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1164,8 +1165,7 @@ public final class DscpConfigurationsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1202,8 +1202,7 @@ public final class DscpConfigurationsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1239,8 +1238,7 @@ public final class DscpConfigurationsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

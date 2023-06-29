@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The current state of the connection with Security Partner Provider. */
+/** Defines values for SecurityPartnerProviderConnectionStatus. */
 public final class SecurityPartnerProviderConnectionStatus
     extends ExpandableStringEnum<SecurityPartnerProviderConnectionStatus> {
     /** Static value Unknown for SecurityPartnerProviderConnectionStatus. */
@@ -22,15 +22,6 @@ public final class SecurityPartnerProviderConnectionStatus
 
     /** Static value NotConnected for SecurityPartnerProviderConnectionStatus. */
     public static final SecurityPartnerProviderConnectionStatus NOT_CONNECTED = fromString("NotConnected");
-
-    /**
-     * Creates a new instance of SecurityPartnerProviderConnectionStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public SecurityPartnerProviderConnectionStatus() {
-    }
 
     /**
      * Creates or finds a SecurityPartnerProviderConnectionStatus from its string representation.

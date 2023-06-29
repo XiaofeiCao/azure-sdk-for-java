@@ -8,20 +8,11 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The behavior of the endpoint filter. Currently only 'Include' is supported. */
+/** Defines values for ConnectionMonitorEndpointFilterType. */
 public final class ConnectionMonitorEndpointFilterType
     extends ExpandableStringEnum<ConnectionMonitorEndpointFilterType> {
     /** Static value Include for ConnectionMonitorEndpointFilterType. */
     public static final ConnectionMonitorEndpointFilterType INCLUDE = fromString("Include");
-
-    /**
-     * Creates a new instance of ConnectionMonitorEndpointFilterType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ConnectionMonitorEndpointFilterType() {
-    }
 
     /**
      * Creates or finds a ConnectionMonitorEndpointFilterType from its string representation.

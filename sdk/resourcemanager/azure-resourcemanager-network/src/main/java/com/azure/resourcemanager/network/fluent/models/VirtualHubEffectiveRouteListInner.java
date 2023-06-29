@@ -13,14 +13,11 @@ import java.util.List;
 @Fluent
 public final class VirtualHubEffectiveRouteListInner {
     /*
-     * The list of effective routes configured on the virtual hub or the specified resource.
+     * The list of effective routes configured on the virtual hub or the
+     * specified resource.
      */
     @JsonProperty(value = "value")
     private List<VirtualHubEffectiveRoute> value;
-
-    /** Creates an instance of VirtualHubEffectiveRouteListInner class. */
-    public VirtualHubEffectiveRouteListInner() {
-    }
 
     /**
      * Get the value property: The list of effective routes configured on the virtual hub or the specified resource.

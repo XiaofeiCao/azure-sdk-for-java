@@ -19,10 +19,6 @@ public final class SignaturesOverridesProperties {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> signatures;
 
-    /** Creates an instance of SignaturesOverridesProperties class. */
-    public SignaturesOverridesProperties() {
-    }
-
     /**
      * Get the signatures property: Dictionary of &lt;string&gt;.
      *

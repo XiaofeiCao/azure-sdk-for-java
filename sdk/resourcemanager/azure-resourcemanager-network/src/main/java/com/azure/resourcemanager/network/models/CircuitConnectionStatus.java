@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Express Route Circuit connection state. */
+/** Defines values for CircuitConnectionStatus. */
 public final class CircuitConnectionStatus extends ExpandableStringEnum<CircuitConnectionStatus> {
     /** Static value Connected for CircuitConnectionStatus. */
     public static final CircuitConnectionStatus CONNECTED = fromString("Connected");
@@ -18,15 +18,6 @@ public final class CircuitConnectionStatus extends ExpandableStringEnum<CircuitC
 
     /** Static value Disconnected for CircuitConnectionStatus. */
     public static final CircuitConnectionStatus DISCONNECTED = fromString("Disconnected");
-
-    /**
-     * Creates a new instance of CircuitConnectionStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public CircuitConnectionStatus() {
-    }
 
     /**
      * Creates or finds a CircuitConnectionStatus from its string representation.

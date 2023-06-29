@@ -22,10 +22,6 @@ public final class AzureFirewallSku {
     @JsonProperty(value = "tier")
     private AzureFirewallSkuTier tier;
 
-    /** Creates an instance of AzureFirewallSku class. */
-    public AzureFirewallSku() {
-    }
-
     /**
      * Get the name property: Name of an Azure Firewall SKU.
      *

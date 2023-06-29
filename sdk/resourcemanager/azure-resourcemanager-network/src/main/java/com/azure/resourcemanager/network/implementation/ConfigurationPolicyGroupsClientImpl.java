@@ -65,10 +65,12 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface ConfigurationPolicyGroupsService {
+    private interface ConfigurationPolicyGroupsService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups"
+                + "/{configurationPolicyGroupName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -85,7 +87,9 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups"
+                + "/{configurationPolicyGroupName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -100,7 +104,9 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups"
+                + "/{configurationPolicyGroupName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<VpnServerConfigurationPolicyGroupInner>> get(
@@ -115,7 +121,8 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ListVpnServerConfigurationPolicyGroupsResult>> listByVpnServerConfiguration(
@@ -194,7 +201,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
         } else {
             vpnServerConfigurationPolicyGroupParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -271,7 +278,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
         } else {
             vpnServerConfigurationPolicyGroupParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -383,8 +390,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
             String vpnServerConfigurationName,
             String configurationPolicyGroupName,
             VpnServerConfigurationPolicyGroupInner vpnServerConfigurationPolicyGroupParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName,
                 vpnServerConfigurationName,
                 configurationPolicyGroupName,
@@ -414,8 +420,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
             String configurationPolicyGroupName,
             VpnServerConfigurationPolicyGroupInner vpnServerConfigurationPolicyGroupParameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName,
                 vpnServerConfigurationName,
                 configurationPolicyGroupName,
@@ -582,7 +587,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter configurationPolicyGroupName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -646,7 +651,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter configurationPolicyGroupName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -724,8 +729,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String vpnServerConfigurationName, String configurationPolicyGroupName) {
-        return this
-            .beginDeleteAsync(resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName)
+        return beginDeleteAsync(resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName)
             .getSyncPoller();
     }
 
@@ -747,8 +751,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
         String vpnServerConfigurationName,
         String configurationPolicyGroupName,
         Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName, context)
+        return beginDeleteAsync(resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName, context)
             .getSyncPoller();
     }
 
@@ -873,7 +876,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter configurationPolicyGroupName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -938,7 +941,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter configurationPolicyGroupName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -977,6 +980,23 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
      * @param resourceGroupName The resource group name of the VpnServerConfiguration.
      * @param vpnServerConfigurationName The name of the VpnServerConfiguration.
      * @param configurationPolicyGroupName The name of the ConfigurationPolicyGroup being retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return vpnServerConfigurationPolicyGroup Resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VpnServerConfigurationPolicyGroupInner get(
+        String resourceGroupName, String vpnServerConfigurationName, String configurationPolicyGroupName) {
+        return getAsync(resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName).block();
+    }
+
+    /**
+     * Retrieves the details of a ConfigurationPolicyGroup.
+     *
+     * @param resourceGroupName The resource group name of the VpnServerConfiguration.
+     * @param vpnServerConfigurationName The name of the VpnServerConfiguration.
+     * @param configurationPolicyGroupName The name of the ConfigurationPolicyGroup being retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -992,25 +1012,6 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
         return getWithResponseAsync(
                 resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName, context)
             .block();
-    }
-
-    /**
-     * Retrieves the details of a ConfigurationPolicyGroup.
-     *
-     * @param resourceGroupName The resource group name of the VpnServerConfiguration.
-     * @param vpnServerConfigurationName The name of the VpnServerConfiguration.
-     * @param configurationPolicyGroupName The name of the ConfigurationPolicyGroup being retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return vpnServerConfigurationPolicyGroup Resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public VpnServerConfigurationPolicyGroupInner get(
-        String resourceGroupName, String vpnServerConfigurationName, String configurationPolicyGroupName) {
-        return getWithResponse(
-                resourceGroupName, vpnServerConfigurationName, configurationPolicyGroupName, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -1049,7 +1050,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter vpnServerConfigurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1112,7 +1113,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
                     new IllegalArgumentException(
                         "Parameter vpnServerConfigurationName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1213,8 +1214,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1253,8 +1253,7 @@ public final class ConfigurationPolicyGroupsClientImpl implements ConfigurationP
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

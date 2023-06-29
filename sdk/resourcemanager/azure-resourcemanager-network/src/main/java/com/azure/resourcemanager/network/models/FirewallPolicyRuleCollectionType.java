@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The type of the rule collection. */
+/** Defines values for FirewallPolicyRuleCollectionType. */
 public final class FirewallPolicyRuleCollectionType extends ExpandableStringEnum<FirewallPolicyRuleCollectionType> {
     /** Static value FirewallPolicyNatRuleCollection for FirewallPolicyRuleCollectionType. */
     public static final FirewallPolicyRuleCollectionType FIREWALL_POLICY_NAT_RULE_COLLECTION =
@@ -17,15 +17,6 @@ public final class FirewallPolicyRuleCollectionType extends ExpandableStringEnum
     /** Static value FirewallPolicyFilterRuleCollection for FirewallPolicyRuleCollectionType. */
     public static final FirewallPolicyRuleCollectionType FIREWALL_POLICY_FILTER_RULE_COLLECTION =
         fromString("FirewallPolicyFilterRuleCollection");
-
-    /**
-     * Creates a new instance of FirewallPolicyRuleCollectionType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public FirewallPolicyRuleCollectionType() {
-    }
 
     /**
      * Creates or finds a FirewallPolicyRuleCollectionType from its string representation.

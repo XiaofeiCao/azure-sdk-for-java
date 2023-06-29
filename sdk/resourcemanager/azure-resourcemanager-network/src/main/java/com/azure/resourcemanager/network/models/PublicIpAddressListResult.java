@@ -24,10 +24,6 @@ public final class PublicIpAddressListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of PublicIpAddressListResult class. */
-    public PublicIpAddressListResult() {
-    }
-
     /**
      * Get the value property: A list of public IP addresses that exists in a resource group.
      *

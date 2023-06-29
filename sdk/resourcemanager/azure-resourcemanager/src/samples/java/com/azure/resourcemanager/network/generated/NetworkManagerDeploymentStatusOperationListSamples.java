@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.ConfigurationType;
 import com.azure.resourcemanager.network.models.NetworkManagerDeploymentStatusParameter;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for NetworkManagerDeploymentStatusOperation List. */
 public final class NetworkManagerDeploymentStatusOperationListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerDeploymentStatusList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerDeploymentStatusList.json
      */
     /**
      * Sample code: NetworkManagerDeploymentStatusList.
@@ -31,8 +32,8 @@ public final class NetworkManagerDeploymentStatusOperationListSamples {
                     .withRegions(Arrays.asList("eastus", "westus"))
                     .withDeploymentTypes(
                         Arrays.asList(ConfigurationType.CONNECTIVITY, ConfigurationType.fromString("AdminPolicy")))
-                    .withSkipToken("fakeTokenPlaceholder"),
+                    .withSkipToken("FakeSkipTokenCode"),
                 null,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

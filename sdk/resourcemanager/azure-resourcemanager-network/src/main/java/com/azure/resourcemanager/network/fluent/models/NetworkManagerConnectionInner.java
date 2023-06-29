@@ -25,10 +25,6 @@ public final class NetworkManagerConnectionInner extends ChildResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of NetworkManagerConnectionInner class. */
-    public NetworkManagerConnectionInner() {
-    }
-
     /**
      * Get the innerProperties property: The scope connection properties.
      *

@@ -72,10 +72,11 @@ public final class BastionHostsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface BastionHostsService {
+    private interface BastionHostsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/bastionHosts/{bastionHostName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -89,7 +90,8 @@ public final class BastionHostsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/bastionHosts/{bastionHostName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<BastionHostInner>> getByResourceGroup(
@@ -103,7 +105,8 @@ public final class BastionHostsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/bastionHosts/{bastionHostName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -118,7 +121,8 @@ public final class BastionHostsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/bastionHosts/{bastionHostName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> updateTags(
@@ -144,7 +148,8 @@ public final class BastionHostsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/bastionHosts")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<BastionHostListResult>> listByResourceGroup(
@@ -208,7 +213,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -259,7 +264,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -325,7 +330,7 @@ public final class BastionHostsClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String bastionHostname) {
-        return this.beginDeleteAsync(resourceGroupName, bastionHostname).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, bastionHostname).getSyncPoller();
     }
 
     /**
@@ -342,7 +347,7 @@ public final class BastionHostsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String bastionHostname, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, bastionHostname, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, bastionHostname, context).getSyncPoller();
     }
 
     /**
@@ -442,7 +447,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -493,7 +498,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -528,6 +533,21 @@ public final class BastionHostsClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param bastionHostname The name of the Bastion Host.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Bastion Host.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public BastionHostInner getByResourceGroup(String resourceGroupName, String bastionHostname) {
+        return getByResourceGroupAsync(resourceGroupName, bastionHostname).block();
+    }
+
+    /**
+     * Gets the specified Bastion Host.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param bastionHostname The name of the Bastion Host.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -538,21 +558,6 @@ public final class BastionHostsClientImpl
     public Response<BastionHostInner> getByResourceGroupWithResponse(
         String resourceGroupName, String bastionHostname, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, bastionHostname, context).block();
-    }
-
-    /**
-     * Gets the specified Bastion Host.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param bastionHostname The name of the Bastion Host.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified Bastion Host.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public BastionHostInner getByResourceGroup(String resourceGroupName, String bastionHostname) {
-        return getByResourceGroupWithResponse(resourceGroupName, bastionHostname, Context.NONE).getValue();
     }
 
     /**
@@ -594,7 +599,7 @@ public final class BastionHostsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -652,7 +657,7 @@ public final class BastionHostsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -731,7 +736,7 @@ public final class BastionHostsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BastionHostInner>, BastionHostInner> beginCreateOrUpdate(
         String resourceGroupName, String bastionHostname, BastionHostInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, bastionHostname, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, bastionHostname, parameters).getSyncPoller();
     }
 
     /**
@@ -749,7 +754,7 @@ public final class BastionHostsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BastionHostInner>, BastionHostInner> beginCreateOrUpdate(
         String resourceGroupName, String bastionHostname, BastionHostInner parameters, Context context) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, bastionHostname, parameters, context).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, bastionHostname, parameters, context).getSyncPoller();
     }
 
     /**
@@ -865,7 +870,7 @@ public final class BastionHostsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -923,7 +928,7 @@ public final class BastionHostsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1002,7 +1007,7 @@ public final class BastionHostsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BastionHostInner>, BastionHostInner> beginUpdateTags(
         String resourceGroupName, String bastionHostname, TagsObject parameters) {
-        return this.beginUpdateTagsAsync(resourceGroupName, bastionHostname, parameters).getSyncPoller();
+        return beginUpdateTagsAsync(resourceGroupName, bastionHostname, parameters).getSyncPoller();
     }
 
     /**
@@ -1020,7 +1025,7 @@ public final class BastionHostsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<BastionHostInner>, BastionHostInner> beginUpdateTags(
         String resourceGroupName, String bastionHostname, TagsObject parameters, Context context) {
-        return this.beginUpdateTagsAsync(resourceGroupName, bastionHostname, parameters, context).getSyncPoller();
+        return beginUpdateTagsAsync(resourceGroupName, bastionHostname, parameters, context).getSyncPoller();
     }
 
     /**
@@ -1118,7 +1123,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1161,7 +1166,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1258,7 +1263,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1313,7 +1318,7 @@ public final class BastionHostsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1400,8 +1405,7 @@ public final class BastionHostsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1437,8 +1441,7 @@ public final class BastionHostsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1475,8 +1478,7 @@ public final class BastionHostsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1513,8 +1515,7 @@ public final class BastionHostsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

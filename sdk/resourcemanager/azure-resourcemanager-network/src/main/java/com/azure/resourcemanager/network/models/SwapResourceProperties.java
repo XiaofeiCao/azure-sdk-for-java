@@ -16,10 +16,6 @@ public final class SwapResourceProperties {
     @JsonProperty(value = "slotType")
     private SlotType slotType;
 
-    /** Creates an instance of SwapResourceProperties class. */
-    public SwapResourceProperties() {
-    }
-
     /**
      * Get the slotType property: Specifies slot info on a cloud service.
      *

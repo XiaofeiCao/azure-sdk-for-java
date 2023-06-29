@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkGroupInner;
 
 /** Samples for NetworkGroups CreateOrUpdate. */
 public final class NetworkGroupsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerGroupPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerGroupPut.json
      */
     /**
      * Sample code: NetworkGroupsPut.
@@ -28,6 +29,6 @@ public final class NetworkGroupsCreateOrUpdateSamples {
                 "testNetworkGroup",
                 new NetworkGroupInner().withDescription("A sample group"),
                 null,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

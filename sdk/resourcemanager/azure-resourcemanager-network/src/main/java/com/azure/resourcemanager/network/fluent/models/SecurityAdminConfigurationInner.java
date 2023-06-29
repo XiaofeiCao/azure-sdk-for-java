@@ -16,7 +16,8 @@ import java.util.List;
 @Fluent
 public final class SecurityAdminConfigurationInner extends ChildResource {
     /*
-     * Indicates the properties for the network manager security admin configuration.
+     * Indicates the properties for the network manager security admin
+     * configuration.
      */
     @JsonProperty(value = "properties")
     private SecurityAdminConfigurationPropertiesFormat innerProperties;
@@ -26,10 +27,6 @@ public final class SecurityAdminConfigurationInner extends ChildResource {
      */
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
-
-    /** Creates an instance of SecurityAdminConfigurationInner class. */
-    public SecurityAdminConfigurationInner() {
-    }
 
     /**
      * Get the innerProperties property: Indicates the properties for the network manager security admin configuration.
@@ -103,6 +100,15 @@ public final class SecurityAdminConfigurationInner extends ChildResource {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

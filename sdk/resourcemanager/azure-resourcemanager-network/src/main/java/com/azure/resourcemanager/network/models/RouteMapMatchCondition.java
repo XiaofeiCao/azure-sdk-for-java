@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Match condition to apply RouteMap rules. */
+/** Defines values for RouteMapMatchCondition. */
 public final class RouteMapMatchCondition extends ExpandableStringEnum<RouteMapMatchCondition> {
     /** Static value Unknown for RouteMapMatchCondition. */
     public static final RouteMapMatchCondition UNKNOWN = fromString("Unknown");
@@ -24,15 +24,6 @@ public final class RouteMapMatchCondition extends ExpandableStringEnum<RouteMapM
 
     /** Static value NotEquals for RouteMapMatchCondition. */
     public static final RouteMapMatchCondition NOT_EQUALS = fromString("NotEquals");
-
-    /**
-     * Creates a new instance of RouteMapMatchCondition value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public RouteMapMatchCondition() {
-    }
 
     /**
      * Creates or finds a RouteMapMatchCondition from its string representation.

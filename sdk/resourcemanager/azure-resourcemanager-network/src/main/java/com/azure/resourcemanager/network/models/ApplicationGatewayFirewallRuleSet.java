@@ -26,10 +26,6 @@ public final class ApplicationGatewayFirewallRuleSet extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ApplicationGatewayFirewallRuleSet class. */
-    public ApplicationGatewayFirewallRuleSet() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the application gateway firewall rule set.
      *

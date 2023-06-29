@@ -63,10 +63,6 @@ public final class NatRule extends FirewallPolicyRule {
     @JsonProperty(value = "translatedFqdn")
     private String translatedFqdn;
 
-    /** Creates an instance of NatRule class. */
-    public NatRule() {
-    }
-
     /**
      * Get the ipProtocols property: Array of FirewallPolicyRuleNetworkProtocols.
      *

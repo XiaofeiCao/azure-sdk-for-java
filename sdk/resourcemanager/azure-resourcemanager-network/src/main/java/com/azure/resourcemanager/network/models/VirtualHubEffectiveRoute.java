@@ -41,10 +41,6 @@ public final class VirtualHubEffectiveRoute {
     @JsonProperty(value = "routeOrigin")
     private String routeOrigin;
 
-    /** Creates an instance of VirtualHubEffectiveRoute class. */
-    public VirtualHubEffectiveRoute() {
-    }
-
     /**
      * Get the addressPrefixes property: The list of address prefixes.
      *

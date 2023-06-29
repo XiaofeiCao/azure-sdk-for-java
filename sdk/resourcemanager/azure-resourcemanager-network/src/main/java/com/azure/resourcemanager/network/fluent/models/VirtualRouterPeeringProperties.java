@@ -29,10 +29,6 @@ public final class VirtualRouterPeeringProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of VirtualRouterPeeringProperties class. */
-    public VirtualRouterPeeringProperties() {
-    }
-
     /**
      * Get the peerAsn property: Peer ASN.
      *

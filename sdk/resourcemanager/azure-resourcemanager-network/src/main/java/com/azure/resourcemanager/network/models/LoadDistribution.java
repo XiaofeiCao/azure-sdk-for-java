@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The load distribution policy for this rule. */
+/** Defines values for LoadDistribution. */
 public final class LoadDistribution extends ExpandableStringEnum<LoadDistribution> {
     /** Static value Default for LoadDistribution. */
     public static final LoadDistribution DEFAULT = fromString("Default");
@@ -18,15 +18,6 @@ public final class LoadDistribution extends ExpandableStringEnum<LoadDistributio
 
     /** Static value SourceIPProtocol for LoadDistribution. */
     public static final LoadDistribution SOURCE_IPPROTOCOL = fromString("SourceIPProtocol");
-
-    /**
-     * Creates a new instance of LoadDistribution value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public LoadDistribution() {
-    }
 
     /**
      * Creates or finds a LoadDistribution from its string representation.

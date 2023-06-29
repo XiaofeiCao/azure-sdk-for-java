@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRoutePorts GetByResourceGroup. */
 public final class ExpressRoutePortsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRoutePortGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRoutePortGet.json
      */
     /**
      * Sample code: ExpressRoutePortGet.
@@ -20,6 +22,6 @@ public final class ExpressRoutePortsGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getExpressRoutePorts()
-            .getByResourceGroupWithResponse("rg1", "portName", com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "portName", Context.NONE);
     }
 }

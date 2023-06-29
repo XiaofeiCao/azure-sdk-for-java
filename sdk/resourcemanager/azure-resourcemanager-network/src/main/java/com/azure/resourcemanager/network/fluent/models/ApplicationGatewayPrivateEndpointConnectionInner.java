@@ -37,10 +37,6 @@ public final class ApplicationGatewayPrivateEndpointConnectionInner extends SubR
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayPrivateEndpointConnectionInner class. */
-    public ApplicationGatewayPrivateEndpointConnectionInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the application gateway private endpoint connection.
      *

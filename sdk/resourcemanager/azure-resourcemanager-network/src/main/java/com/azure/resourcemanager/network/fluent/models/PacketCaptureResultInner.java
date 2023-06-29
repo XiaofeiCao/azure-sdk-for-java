@@ -40,10 +40,6 @@ public final class PacketCaptureResultInner {
     @JsonProperty(value = "properties")
     private PacketCaptureResultProperties innerProperties;
 
-    /** Creates an instance of PacketCaptureResultInner class. */
-    public PacketCaptureResultInner() {
-    }
-
     /**
      * Get the name property: Name of the packet capture session.
      *

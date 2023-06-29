@@ -4,13 +4,14 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.P2SVpnConnectionHealthRequest;
 import java.util.Arrays;
 
 /** Samples for P2SVpnGateways GetP2SVpnConnectionHealthDetailed. */
 public final class P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
      */
     /**
      * Sample code: P2SVpnGatewayGetConnectionHealthDetailed.
@@ -30,6 +31,6 @@ public final class P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedSamples {
                     .withVpnUserNamesFilter(Arrays.asList("vpnUser1", "vpnUser2"))
                     .withOutputBlobSasUrl(
                         "https://blobcortextesturl.blob.core.windows.net/folderforconfig/p2sconnectionhealths?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -18,15 +18,15 @@ public final class WebApplicationFirewallScrubbingRules {
     private ScrubbingRuleEntryMatchVariable matchVariable;
 
     /*
-     * When matchVariable is a collection, operate on the selector to specify which elements in the collection this
-     * rule applies to.
+     * When matchVariable is a collection, operate on the selector to specify
+     * which elements in the collection this rule applies to.
      */
     @JsonProperty(value = "selectorMatchOperator", required = true)
     private ScrubbingRuleEntryMatchOperator selectorMatchOperator;
 
     /*
-     * When matchVariable is a collection, operator used to specify which elements in the collection this rule applies
-     * to.
+     * When matchVariable is a collection, operator used to specify which
+     * elements in the collection this rule applies to.
      */
     @JsonProperty(value = "selector")
     private String selector;
@@ -36,10 +36,6 @@ public final class WebApplicationFirewallScrubbingRules {
      */
     @JsonProperty(value = "state")
     private ScrubbingRuleEntryState state;
-
-    /** Creates an instance of WebApplicationFirewallScrubbingRules class. */
-    public WebApplicationFirewallScrubbingRules() {
-    }
 
     /**
      * Get the matchVariable property: The variable to be scrubbed from the logs.

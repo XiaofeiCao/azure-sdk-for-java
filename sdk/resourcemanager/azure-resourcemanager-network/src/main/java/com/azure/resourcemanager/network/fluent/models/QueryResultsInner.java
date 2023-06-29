@@ -24,10 +24,6 @@ public final class QueryResultsInner {
     @JsonProperty(value = "signatures")
     private List<SingleQueryResult> signatures;
 
-    /** Creates an instance of QueryResultsInner class. */
-    public QueryResultsInner() {
-    }
-
     /**
      * Get the matchingRecordsCount property: Number of total records matching the query.
      *

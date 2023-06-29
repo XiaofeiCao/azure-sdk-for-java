@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationSecurityGroups GetByResourceGroup. */
 public final class ApplicationSecurityGroupsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationSecurityGroupGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationSecurityGroupGet.json
      */
     /**
      * Sample code: Get application security group.
@@ -20,6 +22,6 @@ public final class ApplicationSecurityGroupsGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getApplicationSecurityGroups()
-            .getByResourceGroupWithResponse("rg1", "test-asg", com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "test-asg", Context.NONE);
     }
 }

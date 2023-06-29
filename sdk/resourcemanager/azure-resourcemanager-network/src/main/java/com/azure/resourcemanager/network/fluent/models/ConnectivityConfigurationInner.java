@@ -31,10 +31,6 @@ public final class ConnectivityConfigurationInner extends ChildResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of ConnectivityConfigurationInner class. */
-    public ConnectivityConfigurationInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of a network manager connectivity configuration.
      *
@@ -198,6 +194,15 @@ public final class ConnectivityConfigurationInner extends ChildResource {
         }
         this.innerProperties().withDeleteExistingPeering(deleteExistingPeering);
         return this;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

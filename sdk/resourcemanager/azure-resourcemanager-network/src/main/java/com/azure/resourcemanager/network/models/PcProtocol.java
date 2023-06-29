@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Protocol to be filtered on. */
+/** Defines values for PcProtocol. */
 public final class PcProtocol extends ExpandableStringEnum<PcProtocol> {
     /** Static value TCP for PcProtocol. */
     public static final PcProtocol TCP = fromString("TCP");
@@ -18,15 +18,6 @@ public final class PcProtocol extends ExpandableStringEnum<PcProtocol> {
 
     /** Static value Any for PcProtocol. */
     public static final PcProtocol ANY = fromString("Any");
-
-    /**
-     * Creates a new instance of PcProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public PcProtocol() {
-    }
 
     /**
      * Creates or finds a PcProtocol from its string representation.

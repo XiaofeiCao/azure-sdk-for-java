@@ -34,10 +34,6 @@ public final class ConnectionMonitorResultInner extends Resource {
     @JsonProperty(value = "properties")
     private ConnectionMonitorResultProperties innerProperties;
 
-    /** Creates an instance of ConnectionMonitorResultInner class. */
-    public ConnectionMonitorResultInner() {
-    }
-
     /**
      * Get the etag property: A unique read-only string that changes whenever the resource is updated.
      *

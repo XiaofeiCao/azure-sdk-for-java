@@ -24,10 +24,6 @@ public final class CustomIpPrefixListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of CustomIpPrefixListResult class. */
-    public CustomIpPrefixListResult() {
-    }
-
     /**
      * Get the value property: A list of Custom IP prefixes that exists in a resource group.
      *

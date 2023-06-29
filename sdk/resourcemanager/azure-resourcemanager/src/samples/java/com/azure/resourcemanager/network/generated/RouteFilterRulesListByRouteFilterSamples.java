@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for RouteFilterRules ListByRouteFilter. */
 public final class RouteFilterRulesListByRouteFilterSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteFilterRuleListByRouteFilter.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RouteFilterRuleListByRouteFilter.json
      */
     /**
      * Sample code: RouteFilterRuleListByRouteFilter.
@@ -20,6 +22,6 @@ public final class RouteFilterRulesListByRouteFilterSamples {
             .manager()
             .serviceClient()
             .getRouteFilterRules()
-            .listByRouteFilter("rg1", "filterName", com.azure.core.util.Context.NONE);
+            .listByRouteFilter("rg1", "filterName", Context.NONE);
     }
 }

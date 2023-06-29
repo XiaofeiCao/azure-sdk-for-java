@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The DH Groups used in IKE Phase 1 for initial SA. */
+/** Defines values for DhGroup. */
 public final class DhGroup extends ExpandableStringEnum<DhGroup> {
     /** Static value None for DhGroup. */
     public static final DhGroup NONE = fromString("None");
@@ -33,15 +33,6 @@ public final class DhGroup extends ExpandableStringEnum<DhGroup> {
 
     /** Static value DHGroup24 for DhGroup. */
     public static final DhGroup DHGROUP24 = fromString("DHGroup24");
-
-    /**
-     * Creates a new instance of DhGroup value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public DhGroup() {
-    }
 
     /**
      * Creates or finds a DhGroup from its string representation.

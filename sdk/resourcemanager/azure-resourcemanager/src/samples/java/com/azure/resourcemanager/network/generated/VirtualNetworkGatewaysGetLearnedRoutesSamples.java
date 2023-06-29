@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways GetLearnedRoutes. */
 public final class VirtualNetworkGatewaysGetLearnedRoutesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayLearnedRoutes.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayLearnedRoutes.json
      */
     /**
      * Sample code: GetVirtualNetworkGatewayLearnedRoutes.
@@ -20,6 +22,6 @@ public final class VirtualNetworkGatewaysGetLearnedRoutesSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .getLearnedRoutes("rg1", "vpngw", com.azure.core.util.Context.NONE);
+            .getLearnedRoutes("rg1", "vpngw", Context.NONE);
     }
 }

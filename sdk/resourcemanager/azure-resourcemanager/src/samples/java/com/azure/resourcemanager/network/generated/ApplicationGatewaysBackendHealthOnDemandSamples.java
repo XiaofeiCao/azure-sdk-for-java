@@ -5,13 +5,14 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.ApplicationGatewayOnDemandProbe;
 import com.azure.resourcemanager.network.models.ApplicationGatewayProtocol;
 
 /** Samples for ApplicationGateways BackendHealthOnDemand. */
 public final class ApplicationGatewaysBackendHealthOnDemandSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayBackendHealthTest.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayBackendHealthTest.json
      */
     /**
      * Sample code: Test Backend Health.
@@ -41,6 +42,6 @@ public final class ApplicationGatewaysBackendHealthOnDemandSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings")),
                 null,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

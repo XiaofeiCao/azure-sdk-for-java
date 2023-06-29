@@ -18,10 +18,6 @@ public final class VM extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VM class. */
-    public VM() {
-    }
-
     /**
      * Get the id property: Resource ID.
      *

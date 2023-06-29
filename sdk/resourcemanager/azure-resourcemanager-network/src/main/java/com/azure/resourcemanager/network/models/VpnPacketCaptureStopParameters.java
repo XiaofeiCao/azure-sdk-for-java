@@ -16,10 +16,6 @@ public final class VpnPacketCaptureStopParameters {
     @JsonProperty(value = "sasUrl")
     private String sasUrl;
 
-    /** Creates an instance of VpnPacketCaptureStopParameters class. */
-    public VpnPacketCaptureStopParameters() {
-    }
-
     /**
      * Get the sasUrl property: SAS url for packet capture on virtual network gateway.
      *

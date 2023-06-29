@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The protocol for the outbound rule in load balancer. */
+/** Defines values for LoadBalancerOutboundRuleProtocol. */
 public final class LoadBalancerOutboundRuleProtocol extends ExpandableStringEnum<LoadBalancerOutboundRuleProtocol> {
     /** Static value Tcp for LoadBalancerOutboundRuleProtocol. */
     public static final LoadBalancerOutboundRuleProtocol TCP = fromString("Tcp");
@@ -18,15 +18,6 @@ public final class LoadBalancerOutboundRuleProtocol extends ExpandableStringEnum
 
     /** Static value All for LoadBalancerOutboundRuleProtocol. */
     public static final LoadBalancerOutboundRuleProtocol ALL = fromString("All");
-
-    /**
-     * Creates a new instance of LoadBalancerOutboundRuleProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public LoadBalancerOutboundRuleProtocol() {
-    }
 
     /**
      * Creates or finds a LoadBalancerOutboundRuleProtocol from its string representation.

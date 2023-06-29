@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class PrivateLinkServiceConnectionState {
     /*
-     * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+     * Indicates whether the connection has been Approved/Rejected/Removed by
+     * the owner of the service.
      */
     @JsonProperty(value = "status")
     private String status;
@@ -23,14 +24,11 @@ public final class PrivateLinkServiceConnectionState {
     private String description;
 
     /*
-     * A message indicating if changes on the service provider require any updates on the consumer.
+     * A message indicating if changes on the service provider require any
+     * updates on the consumer.
      */
     @JsonProperty(value = "actionsRequired")
     private String actionsRequired;
-
-    /** Creates an instance of PrivateLinkServiceConnectionState class. */
-    public PrivateLinkServiceConnectionState() {
-    }
 
     /**
      * Get the status property: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the

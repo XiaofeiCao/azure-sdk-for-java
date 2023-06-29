@@ -24,10 +24,6 @@ public final class ManagedRulesDefinition {
     @JsonProperty(value = "managedRuleSets", required = true)
     private List<ManagedRuleSet> managedRuleSets;
 
-    /** Creates an instance of ManagedRulesDefinition class. */
-    public ManagedRulesDefinition() {
-    }
-
     /**
      * Get the exclusions property: The Exclusions that are applied on the policy.
      *

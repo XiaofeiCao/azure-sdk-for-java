@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualApplianceSkus Get. */
 public final class VirtualApplianceSkusGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceSkuGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualApplianceSkuGet.json
      */
     /**
      * Sample code: NetworkVirtualApplianceSkuGet.
@@ -20,6 +22,6 @@ public final class VirtualApplianceSkusGetSamples {
             .manager()
             .serviceClient()
             .getVirtualApplianceSkus()
-            .getWithResponse("ciscoSdwan", com.azure.core.util.Context.NONE);
+            .getWithResponse("ciscoSdwan", Context.NONE);
     }
 }

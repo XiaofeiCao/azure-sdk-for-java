@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The operator to be matched. */
+/** Defines values for WebApplicationFirewallOperator. */
 public final class WebApplicationFirewallOperator extends ExpandableStringEnum<WebApplicationFirewallOperator> {
     /** Static value IPMatch for WebApplicationFirewallOperator. */
     public static final WebApplicationFirewallOperator IPMATCH = fromString("IPMatch");
@@ -45,15 +45,6 @@ public final class WebApplicationFirewallOperator extends ExpandableStringEnum<W
 
     /** Static value Any for WebApplicationFirewallOperator. */
     public static final WebApplicationFirewallOperator ANY = fromString("Any");
-
-    /**
-     * Creates a new instance of WebApplicationFirewallOperator value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public WebApplicationFirewallOperator() {
-    }
 
     /**
      * Creates or finds a WebApplicationFirewallOperator from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for FirewallPolicies List. */
 public final class FirewallPoliciesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicyListBySubscription.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicyListBySubscription.json
      */
     /**
      * Sample code: List all Firewall Policies for a given subscription.
@@ -16,6 +18,6 @@ public final class FirewallPoliciesListSamples {
      */
     public static void listAllFirewallPoliciesForAGivenSubscription(
         com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.networks().manager().serviceClient().getFirewallPolicies().list(com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getFirewallPolicies().list(Context.NONE);
     }
 }

@@ -25,10 +25,6 @@ public final class LoadBalancerBackendAddress {
     @JsonProperty(value = "name")
     private String name;
 
-    /** Creates an instance of LoadBalancerBackendAddress class. */
-    public LoadBalancerBackendAddress() {
-    }
-
     /**
      * Get the innerProperties property: Properties of load balancer backend address pool.
      *

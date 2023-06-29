@@ -28,10 +28,6 @@ public final class TopologyAssociation {
     @JsonProperty(value = "associationType")
     private AssociationType associationType;
 
-    /** Creates an instance of TopologyAssociation class. */
-    public TopologyAssociation() {
-    }
-
     /**
      * Get the name property: The name of the resource that is associated with the parent resource.
      *

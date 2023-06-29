@@ -44,10 +44,6 @@ public final class VirtualNetworkGatewayConnectionListEntityInner extends Resour
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VirtualNetworkGatewayConnectionListEntityInner class. */
-    public VirtualNetworkGatewayConnectionListEntityInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the virtual network gateway connection.
      *

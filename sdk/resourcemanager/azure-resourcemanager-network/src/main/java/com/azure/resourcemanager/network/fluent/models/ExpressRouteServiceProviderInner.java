@@ -27,10 +27,6 @@ public final class ExpressRouteServiceProviderInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteServiceProviderInner class. */
-    public ExpressRouteServiceProviderInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the express route service provider.
      *

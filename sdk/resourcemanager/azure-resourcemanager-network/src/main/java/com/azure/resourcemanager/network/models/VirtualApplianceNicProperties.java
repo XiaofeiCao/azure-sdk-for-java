@@ -34,10 +34,6 @@ public final class VirtualApplianceNicProperties {
     @JsonProperty(value = "instanceName", access = JsonProperty.Access.WRITE_ONLY)
     private String instanceName;
 
-    /** Creates an instance of VirtualApplianceNicProperties class. */
-    public VirtualApplianceNicProperties() {
-    }
-
     /**
      * Get the name property: NIC name.
      *

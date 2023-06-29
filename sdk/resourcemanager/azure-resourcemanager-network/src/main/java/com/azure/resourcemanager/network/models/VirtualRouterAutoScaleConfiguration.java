@@ -16,10 +16,6 @@ public final class VirtualRouterAutoScaleConfiguration {
     @JsonProperty(value = "minCapacity")
     private Integer minCapacity;
 
-    /** Creates an instance of VirtualRouterAutoScaleConfiguration class. */
-    public VirtualRouterAutoScaleConfiguration() {
-    }
-
     /**
      * Get the minCapacity property: The minimum number of scale units for VirtualHub Router.
      *

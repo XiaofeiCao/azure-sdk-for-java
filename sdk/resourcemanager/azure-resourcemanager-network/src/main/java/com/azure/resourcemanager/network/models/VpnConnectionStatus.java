@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The current state of the vpn connection. */
+/** Defines values for VpnConnectionStatus. */
 public final class VpnConnectionStatus extends ExpandableStringEnum<VpnConnectionStatus> {
     /** Static value Unknown for VpnConnectionStatus. */
     public static final VpnConnectionStatus UNKNOWN = fromString("Unknown");
@@ -21,15 +21,6 @@ public final class VpnConnectionStatus extends ExpandableStringEnum<VpnConnectio
 
     /** Static value NotConnected for VpnConnectionStatus. */
     public static final VpnConnectionStatus NOT_CONNECTED = fromString("NotConnected");
-
-    /**
-     * Creates a new instance of VpnConnectionStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VpnConnectionStatus() {
-    }
 
     /**
      * Creates or finds a VpnConnectionStatus from its string representation.

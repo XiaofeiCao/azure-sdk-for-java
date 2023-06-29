@@ -14,13 +14,15 @@ import java.util.List;
 @Fluent
 public final class RouteMapProperties {
     /*
-     * List of connections which have this RoutMap associated for inbound traffic.
+     * List of connections which have this RoutMap associated for inbound
+     * traffic.
      */
     @JsonProperty(value = "associatedInboundConnections")
     private List<String> associatedInboundConnections;
 
     /*
-     * List of connections which have this RoutMap associated for outbound traffic.
+     * List of connections which have this RoutMap associated for outbound
+     * traffic.
      */
     @JsonProperty(value = "associatedOutboundConnections")
     private List<String> associatedOutboundConnections;
@@ -36,10 +38,6 @@ public final class RouteMapProperties {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of RouteMapProperties class. */
-    public RouteMapProperties() {
-    }
 
     /**
      * Get the associatedInboundConnections property: List of connections which have this RoutMap associated for inbound

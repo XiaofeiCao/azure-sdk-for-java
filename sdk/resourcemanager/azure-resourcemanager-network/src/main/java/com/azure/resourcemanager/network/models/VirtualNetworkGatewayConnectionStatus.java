@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Virtual Network Gateway connection status. */
+/** Defines values for VirtualNetworkGatewayConnectionStatus. */
 public final class VirtualNetworkGatewayConnectionStatus
     extends ExpandableStringEnum<VirtualNetworkGatewayConnectionStatus> {
     /** Static value Unknown for VirtualNetworkGatewayConnectionStatus. */
@@ -22,15 +22,6 @@ public final class VirtualNetworkGatewayConnectionStatus
 
     /** Static value NotConnected for VirtualNetworkGatewayConnectionStatus. */
     public static final VirtualNetworkGatewayConnectionStatus NOT_CONNECTED = fromString("NotConnected");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewayConnectionStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewayConnectionStatus() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewayConnectionStatus from its string representation.

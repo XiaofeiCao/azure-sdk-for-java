@@ -16,10 +16,6 @@ public final class ExpressRouteConnectionId {
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
-    /** Creates an instance of ExpressRouteConnectionId class. */
-    public ExpressRouteConnectionId() {
-    }
-
     /**
      * Get the id property: The ID of the ExpressRouteConnection.
      *

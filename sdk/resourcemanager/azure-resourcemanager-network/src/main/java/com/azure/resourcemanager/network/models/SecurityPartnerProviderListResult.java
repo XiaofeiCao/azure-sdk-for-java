@@ -24,10 +24,6 @@ public final class SecurityPartnerProviderListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of SecurityPartnerProviderListResult class. */
-    public SecurityPartnerProviderListResult() {
-    }
-
     /**
      * Get the value property: List of Security Partner Providers in a resource group.
      *

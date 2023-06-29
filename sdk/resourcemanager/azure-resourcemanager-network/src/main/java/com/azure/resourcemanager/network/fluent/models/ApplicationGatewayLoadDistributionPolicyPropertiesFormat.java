@@ -32,10 +32,6 @@ public final class ApplicationGatewayLoadDistributionPolicyPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of ApplicationGatewayLoadDistributionPolicyPropertiesFormat class. */
-    public ApplicationGatewayLoadDistributionPolicyPropertiesFormat() {
-    }
-
     /**
      * Get the loadDistributionTargets property: Load Distribution Targets resource of an application gateway.
      *

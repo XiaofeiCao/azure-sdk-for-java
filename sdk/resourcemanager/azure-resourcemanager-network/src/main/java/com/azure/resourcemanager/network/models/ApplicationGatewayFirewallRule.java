@@ -17,7 +17,8 @@ public final class ApplicationGatewayFirewallRule {
     private int ruleId;
 
     /*
-     * The string representation of the web application firewall rule identifier.
+     * The string representation of the web application firewall rule
+     * identifier.
      */
     @JsonProperty(value = "ruleIdString")
     private String ruleIdString;
@@ -39,10 +40,6 @@ public final class ApplicationGatewayFirewallRule {
      */
     @JsonProperty(value = "description")
     private String description;
-
-    /** Creates an instance of ApplicationGatewayFirewallRule class. */
-    public ApplicationGatewayFirewallRule() {
-    }
 
     /**
      * Get the ruleId property: The identifier of the web application firewall rule.

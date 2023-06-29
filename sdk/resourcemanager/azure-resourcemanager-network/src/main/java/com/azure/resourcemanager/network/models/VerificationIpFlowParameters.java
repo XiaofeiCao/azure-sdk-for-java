@@ -30,15 +30,17 @@ public final class VerificationIpFlowParameters {
     private IpFlowProtocol protocol;
 
     /*
-     * The local port. Acceptable values are a single integer in the range (0-65535). Support for * for the source
-     * port, which depends on the direction.
+     * The local port. Acceptable values are a single integer in the range
+     * (0-65535). Support for * for the source port, which depends on the
+     * direction.
      */
     @JsonProperty(value = "localPort", required = true)
     private String localPort;
 
     /*
-     * The remote port. Acceptable values are a single integer in the range (0-65535). Support for * for the source
-     * port, which depends on the direction.
+     * The remote port. Acceptable values are a single integer in the range
+     * (0-65535). Support for * for the source port, which depends on the
+     * direction.
      */
     @JsonProperty(value = "remotePort", required = true)
     private String remotePort;
@@ -56,15 +58,11 @@ public final class VerificationIpFlowParameters {
     private String remoteIpAddress;
 
     /*
-     * The NIC ID. (If VM has multiple NICs and IP forwarding is enabled on any of them, then this parameter must be
-     * specified. Otherwise optional).
+     * The NIC ID. (If VM has multiple NICs and IP forwarding is enabled on any
+     * of them, then this parameter must be specified. Otherwise optional).
      */
     @JsonProperty(value = "targetNicResourceId")
     private String targetNicResourceId;
-
-    /** Creates an instance of VerificationIpFlowParameters class. */
-    public VerificationIpFlowParameters() {
-    }
 
     /**
      * Get the targetResourceId property: The ID of the target resource to perform next-hop on.

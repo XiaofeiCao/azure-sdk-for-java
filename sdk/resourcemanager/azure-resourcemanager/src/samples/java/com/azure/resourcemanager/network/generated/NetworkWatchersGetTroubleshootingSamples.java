@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.TroubleshootingParameters;
 
 /** Samples for NetworkWatchers GetTroubleshooting. */
 public final class NetworkWatchersGetTroubleshootingSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherTroubleshootGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherTroubleshootGet.json
      */
     /**
      * Sample code: Get troubleshooting.
@@ -31,6 +32,6 @@ public final class NetworkWatchersGetTroubleshootingSamples {
                     .withStorageId(
                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/st1")
                     .withStoragePath("https://st1.blob.core.windows.net/cn1"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

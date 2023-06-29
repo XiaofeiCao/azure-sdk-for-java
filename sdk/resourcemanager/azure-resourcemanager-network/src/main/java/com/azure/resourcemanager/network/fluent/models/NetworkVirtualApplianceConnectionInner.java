@@ -26,10 +26,6 @@ public final class NetworkVirtualApplianceConnectionInner extends SubResource {
     @JsonProperty(value = "name")
     private String name;
 
-    /** Creates an instance of NetworkVirtualApplianceConnectionInner class. */
-    public NetworkVirtualApplianceConnectionInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the express route connection.
      *

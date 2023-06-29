@@ -22,10 +22,6 @@ public final class VirtualNetworkUsageName {
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private String value;
 
-    /** Creates an instance of VirtualNetworkUsageName class. */
-    public VirtualNetworkUsageName() {
-    }
-
     /**
      * Get the localizedValue property: Localized subnet size and usage string.
      *

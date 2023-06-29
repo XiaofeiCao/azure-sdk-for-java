@@ -8,10 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/**
- * When matchVariable is a collection, operate on the selector to specify which elements in the collection this
- * exclusion applies to.
- */
+/** Defines values for OwaspCrsExclusionEntrySelectorMatchOperator. */
 public final class OwaspCrsExclusionEntrySelectorMatchOperator
     extends ExpandableStringEnum<OwaspCrsExclusionEntrySelectorMatchOperator> {
     /** Static value Equals for OwaspCrsExclusionEntrySelectorMatchOperator. */
@@ -28,15 +25,6 @@ public final class OwaspCrsExclusionEntrySelectorMatchOperator
 
     /** Static value EqualsAny for OwaspCrsExclusionEntrySelectorMatchOperator. */
     public static final OwaspCrsExclusionEntrySelectorMatchOperator EQUALS_ANY = fromString("EqualsAny");
-
-    /**
-     * Creates a new instance of OwaspCrsExclusionEntrySelectorMatchOperator value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public OwaspCrsExclusionEntrySelectorMatchOperator() {
-    }
 
     /**
      * Creates or finds a OwaspCrsExclusionEntrySelectorMatchOperator from its string representation.

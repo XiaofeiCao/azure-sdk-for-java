@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkGroups Get. */
 public final class NetworkGroupsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerGroupGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerGroupGet.json
      */
     /**
      * Sample code: NetworkGroupsGet.
@@ -20,6 +22,6 @@ public final class NetworkGroupsGetSamples {
             .manager()
             .serviceClient()
             .getNetworkGroups()
-            .getWithResponse("rg1", "testNetworkManager", "testNetworkGroup", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "testNetworkManager", "testNetworkGroup", Context.NONE);
     }
 }

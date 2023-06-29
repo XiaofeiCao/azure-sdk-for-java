@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** IpAllocation type. */
+/** Defines values for IpAllocationType. */
 public final class IpAllocationType extends ExpandableStringEnum<IpAllocationType> {
     /** Static value Undefined for IpAllocationType. */
     public static final IpAllocationType UNDEFINED = fromString("Undefined");
 
     /** Static value Hypernet for IpAllocationType. */
     public static final IpAllocationType HYPERNET = fromString("Hypernet");
-
-    /**
-     * Creates a new instance of IpAllocationType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public IpAllocationType() {
-    }
 
     /**
      * Creates or finds a IpAllocationType from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ResourceNavigationLinks List. */
 public final class ResourceNavigationLinksListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGetResourceNavigationLinks.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGetResourceNavigationLinks.json
      */
     /**
      * Sample code: Get Resource Navigation Links.
@@ -20,6 +22,6 @@ public final class ResourceNavigationLinksListSamples {
             .manager()
             .serviceClient()
             .getResourceNavigationLinks()
-            .listWithResponse("rg1", "vnet", "subnet", com.azure.core.util.Context.NONE);
+            .listWithResponse("rg1", "vnet", "subnet", Context.NONE);
     }
 }

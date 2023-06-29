@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The flags type to be captured. */
+/** Defines values for AzureFirewallPacketCaptureFlagsType. */
 public final class AzureFirewallPacketCaptureFlagsType
     extends ExpandableStringEnum<AzureFirewallPacketCaptureFlagsType> {
     /** Static value fin for AzureFirewallPacketCaptureFlagsType. */
@@ -28,15 +28,6 @@ public final class AzureFirewallPacketCaptureFlagsType
 
     /** Static value urg for AzureFirewallPacketCaptureFlagsType. */
     public static final AzureFirewallPacketCaptureFlagsType URG = fromString("urg");
-
-    /**
-     * Creates a new instance of AzureFirewallPacketCaptureFlagsType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public AzureFirewallPacketCaptureFlagsType() {
-    }
 
     /**
      * Creates or finds a AzureFirewallPacketCaptureFlagsType from its string representation.

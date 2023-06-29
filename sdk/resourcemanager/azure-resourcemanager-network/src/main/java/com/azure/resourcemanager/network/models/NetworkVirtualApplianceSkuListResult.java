@@ -24,10 +24,6 @@ public final class NetworkVirtualApplianceSkuListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of NetworkVirtualApplianceSkuListResult class. */
-    public NetworkVirtualApplianceSkuListResult() {
-    }
-
     /**
      * Get the value property: List of Network Virtual Appliance Skus that are available.
      *

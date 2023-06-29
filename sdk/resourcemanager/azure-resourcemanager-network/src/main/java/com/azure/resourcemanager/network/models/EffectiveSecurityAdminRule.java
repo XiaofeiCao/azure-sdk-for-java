@@ -22,10 +22,6 @@ public final class EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdmin
     @JsonProperty(value = "properties")
     private AdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of EffectiveSecurityAdminRule class. */
-    public EffectiveSecurityAdminRule() {
-    }
-
     /**
      * Get the innerProperties property: Indicates the properties of the security admin rule.
      *
@@ -289,6 +285,15 @@ public final class EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdmin
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.WebApplicationFirewallPolicyInner;
 import com.azure.resourcemanager.network.models.ActionType;
 import com.azure.resourcemanager.network.models.ApplicationGatewayFirewallRateLimitDuration;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 /** Samples for WebApplicationFirewallPolicies CreateOrUpdate. */
 public final class WebApplicationFirewallPoliciesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/WafPolicyCreateOrUpdate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/WafPolicyCreateOrUpdate.json
      */
     /**
      * Sample code: Creates or updates a WAF policy within a resource group.
@@ -78,7 +79,6 @@ public final class WebApplicationFirewallPoliciesCreateOrUpdateSamples {
                                                         ScrubbingRuleEntryMatchVariable.REQUEST_IPADDRESS)
                                                     .withSelectorMatchOperator(
                                                         ScrubbingRuleEntryMatchOperator.EQUALS_ANY)
-                                                    .withSelector("*")
                                                     .withState(ScrubbingRuleEntryState.ENABLED)))))
                     .withCustomRules(
                         Arrays
@@ -237,6 +237,6 @@ public final class WebApplicationFirewallPoliciesCreateOrUpdateSamples {
                                                                             .withState(ManagedRuleEnabledState.DISABLED)
                                                                             .withAction(
                                                                                 ActionType.ANOMALY_SCORING)))))))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
+/** Defines values for WebApplicationFirewallState. */
 public final class WebApplicationFirewallState extends ExpandableStringEnum<WebApplicationFirewallState> {
     /** Static value Disabled for WebApplicationFirewallState. */
     public static final WebApplicationFirewallState DISABLED = fromString("Disabled");
 
     /** Static value Enabled for WebApplicationFirewallState. */
     public static final WebApplicationFirewallState ENABLED = fromString("Enabled");
-
-    /**
-     * Creates a new instance of WebApplicationFirewallState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public WebApplicationFirewallState() {
-    }
 
     /**
      * Creates or finds a WebApplicationFirewallState from its string representation.

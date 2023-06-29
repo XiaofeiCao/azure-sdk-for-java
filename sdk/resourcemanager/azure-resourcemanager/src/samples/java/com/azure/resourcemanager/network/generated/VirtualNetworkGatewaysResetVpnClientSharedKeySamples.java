@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways ResetVpnClientSharedKey. */
 public final class VirtualNetworkGatewaysResetVpnClientSharedKeySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
      */
     /**
      * Sample code: ResetVpnClientSharedKey.
@@ -20,6 +22,6 @@ public final class VirtualNetworkGatewaysResetVpnClientSharedKeySamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .resetVpnClientSharedKey("rg1", "vpngw", com.azure.core.util.Context.NONE);
+            .resetVpnClientSharedKey("rg1", "vpngw", Context.NONE);
     }
 }

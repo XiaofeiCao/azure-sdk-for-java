@@ -28,10 +28,6 @@ public final class VpnGatewayIpConfiguration {
     @JsonProperty(value = "privateIpAddress")
     private String privateIpAddress;
 
-    /** Creates an instance of VpnGatewayIpConfiguration class. */
-    public VpnGatewayIpConfiguration() {
-    }
-
     /**
      * Get the id property: The identifier of the IP configuration for a VPN Gateway.
      *

@@ -23,10 +23,6 @@ public final class ConfigurationGroup {
     @JsonProperty(value = "properties")
     private NetworkGroupProperties innerProperties;
 
-    /** Creates an instance of ConfigurationGroup class. */
-    public ConfigurationGroup() {
-    }
-
     /**
      * Get the id property: Network group ID.
      *
@@ -86,6 +82,15 @@ public final class ConfigurationGroup {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Ssl cipher suites enums. */
+/** Defines values for ApplicationGatewaySslCipherSuite. */
 public final class ApplicationGatewaySslCipherSuite extends ExpandableStringEnum<ApplicationGatewaySslCipherSuite> {
     /** Static value TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 for ApplicationGatewaySslCipherSuite. */
     public static final ApplicationGatewaySslCipherSuite TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 =
@@ -121,15 +121,6 @@ public final class ApplicationGatewaySslCipherSuite extends ExpandableStringEnum
     /** Static value TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 for ApplicationGatewaySslCipherSuite. */
     public static final ApplicationGatewaySslCipherSuite TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 =
         fromString("TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384");
-
-    /**
-     * Creates a new instance of ApplicationGatewaySslCipherSuite value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewaySslCipherSuite() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewaySslCipherSuite from its string representation.

@@ -27,10 +27,6 @@ public final class DdosProtectionPlanInner extends Resource {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of DdosProtectionPlanInner class. */
-    public DdosProtectionPlanInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the DDoS protection plan.
      *

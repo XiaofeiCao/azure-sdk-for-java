@@ -20,7 +20,8 @@ public final class ApplicationGatewayLoadDistributionPolicy extends SubResource 
     private ApplicationGatewayLoadDistributionPolicyPropertiesFormat innerProperties;
 
     /*
-     * Name of the load distribution policy that is unique within an Application Gateway.
+     * Name of the load distribution policy that is unique within an
+     * Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -36,10 +37,6 @@ public final class ApplicationGatewayLoadDistributionPolicy extends SubResource 
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
-
-    /** Creates an instance of ApplicationGatewayLoadDistributionPolicy class. */
-    public ApplicationGatewayLoadDistributionPolicy() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the application gateway load distribution policy.

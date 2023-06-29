@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The string representation of the web application firewall rule action. */
+/** Defines values for ApplicationGatewayWafRuleActionTypes. */
 public final class ApplicationGatewayWafRuleActionTypes
     extends ExpandableStringEnum<ApplicationGatewayWafRuleActionTypes> {
     /** Static value None for ApplicationGatewayWafRuleActionTypes. */
@@ -25,15 +25,6 @@ public final class ApplicationGatewayWafRuleActionTypes
 
     /** Static value Log for ApplicationGatewayWafRuleActionTypes. */
     public static final ApplicationGatewayWafRuleActionTypes LOG = fromString("Log");
-
-    /**
-     * Creates a new instance of ApplicationGatewayWafRuleActionTypes value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayWafRuleActionTypes() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayWafRuleActionTypes from its string representation.

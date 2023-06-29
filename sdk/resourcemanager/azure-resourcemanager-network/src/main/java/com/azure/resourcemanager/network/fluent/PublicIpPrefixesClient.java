@@ -140,6 +140,21 @@ public interface PublicIpPrefixesClient
      *
      * @param resourceGroupName The name of the resource group.
      * @param publicIpPrefixName The name of the public IP prefix.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP prefix in a specified resource group on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<PublicIpPrefixInner> getByResourceGroupAsync(
+        String resourceGroupName, String publicIpPrefixName, String expand);
+
+    /**
+     * Gets the specified public IP prefix in a specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param publicIpPrefixName The name of the public IP prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -147,6 +162,19 @@ public interface PublicIpPrefixesClient
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<PublicIpPrefixInner> getByResourceGroupAsync(String resourceGroupName, String publicIpPrefixName);
+
+    /**
+     * Gets the specified public IP prefix in a specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param publicIpPrefixName The name of the public IP prefix.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified public IP prefix in a specified resource group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    PublicIpPrefixInner getByResourceGroup(String resourceGroupName, String publicIpPrefixName);
 
     /**
      * Gets the specified public IP prefix in a specified resource group.
@@ -163,19 +191,6 @@ public interface PublicIpPrefixesClient
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<PublicIpPrefixInner> getByResourceGroupWithResponse(
         String resourceGroupName, String publicIpPrefixName, String expand, Context context);
-
-    /**
-     * Gets the specified public IP prefix in a specified resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified public IP prefix in a specified resource group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    PublicIpPrefixInner getByResourceGroup(String resourceGroupName, String publicIpPrefixName);
 
     /**
      * Creates or updates a static or dynamic public IP prefix.
@@ -320,6 +335,20 @@ public interface PublicIpPrefixesClient
      * @param resourceGroupName The name of the resource group.
      * @param publicIpPrefixName The name of the public IP prefix.
      * @param parameters Parameters supplied to update public IP prefix tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return public IP prefix resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    PublicIpPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName, TagsObject parameters);
+
+    /**
+     * Updates public IP prefix tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param publicIpPrefixName The name of the public IP prefix.
+     * @param parameters Parameters supplied to update public IP prefix tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -329,20 +358,6 @@ public interface PublicIpPrefixesClient
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<PublicIpPrefixInner> updateTagsWithResponse(
         String resourceGroupName, String publicIpPrefixName, TagsObject parameters, Context context);
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param parameters Parameters supplied to update public IP prefix tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return public IP prefix resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    PublicIpPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName, TagsObject parameters);
 
     /**
      * Gets all the public IP prefixes in a subscription.

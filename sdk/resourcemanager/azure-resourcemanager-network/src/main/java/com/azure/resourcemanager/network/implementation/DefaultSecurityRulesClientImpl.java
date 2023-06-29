@@ -56,10 +56,11 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface DefaultSecurityRulesService {
+    private interface DefaultSecurityRulesService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SecurityRuleListResult>> list(
@@ -73,7 +74,8 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<SecurityRuleInner>> get(
@@ -132,7 +134,7 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -194,7 +196,7 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -326,7 +328,7 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -386,7 +388,7 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -425,6 +427,23 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
      * @param resourceGroupName The name of the resource group.
      * @param networkSecurityGroupName The name of the network security group.
      * @param defaultSecurityRuleName The name of the default security rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified default network security rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public SecurityRuleInner get(
+        String resourceGroupName, String networkSecurityGroupName, String defaultSecurityRuleName) {
+        return getAsync(resourceGroupName, networkSecurityGroupName, defaultSecurityRuleName).block();
+    }
+
+    /**
+     * Get the specified default network security rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkSecurityGroupName The name of the network security group.
+     * @param defaultSecurityRuleName The name of the default security rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -439,28 +458,9 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
     }
 
     /**
-     * Get the specified default network security rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkSecurityGroupName The name of the network security group.
-     * @param defaultSecurityRuleName The name of the default security rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified default network security rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public SecurityRuleInner get(
-        String resourceGroupName, String networkSecurityGroupName, String defaultSecurityRuleName) {
-        return getWithResponse(resourceGroupName, networkSecurityGroupName, defaultSecurityRuleName, Context.NONE)
-            .getValue();
-    }
-
-    /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -496,8 +496,7 @@ public final class DefaultSecurityRulesClientImpl implements DefaultSecurityRule
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

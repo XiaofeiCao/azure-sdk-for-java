@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The current scope connection state. */
+/** Defines values for ScopeConnectionState. */
 public final class ScopeConnectionState extends ExpandableStringEnum<ScopeConnectionState> {
     /** Static value Connected for ScopeConnectionState. */
     public static final ScopeConnectionState CONNECTED = fromString("Connected");
@@ -24,15 +24,6 @@ public final class ScopeConnectionState extends ExpandableStringEnum<ScopeConnec
 
     /** Static value Rejected for ScopeConnectionState. */
     public static final ScopeConnectionState REJECTED = fromString("Rejected");
-
-    /**
-     * Creates a new instance of ScopeConnectionState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ScopeConnectionState() {
-    }
 
     /**
      * Creates or finds a ScopeConnectionState from its string representation.

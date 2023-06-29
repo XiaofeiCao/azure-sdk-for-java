@@ -45,10 +45,6 @@ public final class ExpressRouteGatewayProperties {
     @JsonProperty(value = "allowNonVirtualWanTraffic")
     private Boolean allowNonVirtualWanTraffic;
 
-    /** Creates an instance of ExpressRouteGatewayProperties class. */
-    public ExpressRouteGatewayProperties() {
-    }
-
     /**
      * Get the autoScaleConfiguration property: Configuration for auto scaling.
      *

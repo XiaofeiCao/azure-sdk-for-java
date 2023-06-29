@@ -24,10 +24,6 @@ public final class ListVirtualHubIpConfigurationResults {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListVirtualHubIpConfigurationResults class. */
-    public ListVirtualHubIpConfigurationResults() {
-    }
-
     /**
      * Get the value property: The list of VirtualHubIpConfigurations.
      *

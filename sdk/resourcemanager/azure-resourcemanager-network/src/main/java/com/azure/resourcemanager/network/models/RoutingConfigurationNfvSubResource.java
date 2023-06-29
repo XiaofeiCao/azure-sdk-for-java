@@ -16,10 +16,6 @@ public final class RoutingConfigurationNfvSubResource {
     @JsonProperty(value = "resourceUri")
     private String resourceUri;
 
-    /** Creates an instance of RoutingConfigurationNfvSubResource class. */
-    public RoutingConfigurationNfvSubResource() {
-    }
-
     /**
      * Get the resourceUri property: Resource ID.
      *

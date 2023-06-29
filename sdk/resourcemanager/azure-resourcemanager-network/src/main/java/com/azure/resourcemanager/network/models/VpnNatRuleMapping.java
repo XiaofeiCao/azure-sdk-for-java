@@ -22,10 +22,6 @@ public final class VpnNatRuleMapping {
     @JsonProperty(value = "portRange")
     private String portRange;
 
-    /** Creates an instance of VpnNatRuleMapping class. */
-    public VpnNatRuleMapping() {
-    }
-
     /**
      * Get the addressSpace property: Address space for Vpn NatRule mapping.
      *

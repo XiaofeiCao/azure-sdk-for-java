@@ -24,10 +24,6 @@ public final class SecurityAdminConfigurationListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of SecurityAdminConfigurationListResult class. */
-    public SecurityAdminConfigurationListResult() {
-    }
-
     /**
      * Get the value property: Gets a page of security admin configurations.
      *

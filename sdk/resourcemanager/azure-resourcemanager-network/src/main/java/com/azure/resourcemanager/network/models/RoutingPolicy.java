@@ -19,7 +19,8 @@ public final class RoutingPolicy {
     private String name;
 
     /*
-     * List of all destinations which this routing policy is applicable to (for example: Internet, PrivateTraffic).
+     * List of all destinations which this routing policy is applicable to (for
+     * example: Internet, PrivateTraffic).
      */
     @JsonProperty(value = "destinations", required = true)
     private List<String> destinations;
@@ -29,10 +30,6 @@ public final class RoutingPolicy {
      */
     @JsonProperty(value = "nextHop", required = true)
     private String nextHop;
-
-    /** Creates an instance of RoutingPolicy class. */
-    public RoutingPolicy() {
-    }
 
     /**
      * Get the name property: The unique name for the routing policy.

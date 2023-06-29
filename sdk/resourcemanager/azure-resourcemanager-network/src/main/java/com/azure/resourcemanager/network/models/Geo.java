@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The Geo for CIDR advertising. Should be an Geo code. */
+/** Defines values for Geo. */
 public final class Geo extends ExpandableStringEnum<Geo> {
     /** Static value GLOBAL for Geo. */
     public static final Geo GLOBAL = fromString("GLOBAL");
@@ -36,15 +36,6 @@ public final class Geo extends ExpandableStringEnum<Geo> {
 
     /** Static value AQ for Geo. */
     public static final Geo AQ = fromString("AQ");
-
-    /**
-     * Creates a new instance of Geo value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public Geo() {
-    }
 
     /**
      * Creates or finds a Geo from its string representation.

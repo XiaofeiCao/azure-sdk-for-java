@@ -16,10 +16,6 @@ public final class FirewallPolicyTransportSecurity {
     @JsonProperty(value = "certificateAuthority")
     private FirewallPolicyCertificateAuthority certificateAuthority;
 
-    /** Creates an instance of FirewallPolicyTransportSecurity class. */
-    public FirewallPolicyTransportSecurity() {
-    }
-
     /**
      * Get the certificateAuthority property: The CA used for intermediate CA generation.
      *

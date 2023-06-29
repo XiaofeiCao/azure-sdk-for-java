@@ -45,10 +45,6 @@ public final class VirtualNetworkGatewayPolicyGroupProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of VirtualNetworkGatewayPolicyGroupProperties class. */
-    public VirtualNetworkGatewayPolicyGroupProperties() {
-    }
-
     /**
      * Get the isDefault property: Shows if this is a Default VirtualNetworkGatewayPolicyGroup or not.
      *

@@ -23,10 +23,6 @@ public final class EndpointServiceResultInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of EndpointServiceResultInner class. */
-    public EndpointServiceResultInner() {
-    }
-
     /**
      * Get the name property: Name of the endpoint service.
      *

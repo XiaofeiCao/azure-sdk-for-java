@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.StaticMemberInner;
 
 /** Samples for StaticMembers CreateOrUpdate. */
 public final class StaticMembersCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerStaticMemberPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerStaticMemberPut.json
      */
     /**
      * Sample code: StaticMemberPut.
@@ -30,6 +31,6 @@ public final class StaticMembersCreateOrUpdateSamples {
                 new StaticMemberInner()
                     .withResourceId(
                         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

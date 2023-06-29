@@ -9,11 +9,7 @@ import com.azure.resourcemanager.network.fluent.models.ExpressRoutePortsLocation
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/**
- * ExpressRoutePorts Location List Result
- *
- * <p>Response for ListExpressRoutePortsLocations API service call.
- */
+/** ExpressRoutePorts Location List Result Response for ListExpressRoutePortsLocations API service call. */
 @Fluent
 public final class ExpressRoutePortsLocationListResult {
     /*
@@ -27,10 +23,6 @@ public final class ExpressRoutePortsLocationListResult {
      */
     @JsonProperty(value = "nextLink")
     private String nextLink;
-
-    /** Creates an instance of ExpressRoutePortsLocationListResult class. */
-    public ExpressRoutePortsLocationListResult() {
-    }
 
     /**
      * Get the value property: The list of all ExpressRoutePort peering locations.

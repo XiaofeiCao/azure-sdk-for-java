@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Auxiliary mode of Network Interface resource. */
+/** Defines values for NetworkInterfaceAuxiliaryMode. */
 public final class NetworkInterfaceAuxiliaryMode extends ExpandableStringEnum<NetworkInterfaceAuxiliaryMode> {
     /** Static value None for NetworkInterfaceAuxiliaryMode. */
     public static final NetworkInterfaceAuxiliaryMode NONE = fromString("None");
@@ -21,15 +21,6 @@ public final class NetworkInterfaceAuxiliaryMode extends ExpandableStringEnum<Ne
 
     /** Static value AcceleratedConnections for NetworkInterfaceAuxiliaryMode. */
     public static final NetworkInterfaceAuxiliaryMode ACCELERATED_CONNECTIONS = fromString("AcceleratedConnections");
-
-    /**
-     * Creates a new instance of NetworkInterfaceAuxiliaryMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public NetworkInterfaceAuxiliaryMode() {
-    }
 
     /**
      * Creates or finds a NetworkInterfaceAuxiliaryMode from its string representation.

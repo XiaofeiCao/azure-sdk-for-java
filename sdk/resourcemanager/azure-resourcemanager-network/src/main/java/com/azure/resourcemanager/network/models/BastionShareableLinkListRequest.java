@@ -18,10 +18,6 @@ public final class BastionShareableLinkListRequest {
     @JsonProperty(value = "vms")
     private List<BastionShareableLinkInner> vms;
 
-    /** Creates an instance of BastionShareableLinkListRequest class. */
-    public BastionShareableLinkListRequest() {
-    }
-
     /**
      * Get the vms property: List of VM references.
      *

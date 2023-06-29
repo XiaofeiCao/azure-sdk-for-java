@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Network intent policy based services. */
+/** Defines values for NetworkIntentPolicyBasedService. */
 public final class NetworkIntentPolicyBasedService extends ExpandableStringEnum<NetworkIntentPolicyBasedService> {
     /** Static value None for NetworkIntentPolicyBasedService. */
     public static final NetworkIntentPolicyBasedService NONE = fromString("None");
@@ -18,15 +18,6 @@ public final class NetworkIntentPolicyBasedService extends ExpandableStringEnum<
 
     /** Static value AllowRulesOnly for NetworkIntentPolicyBasedService. */
     public static final NetworkIntentPolicyBasedService ALLOW_RULES_ONLY = fromString("AllowRulesOnly");
-
-    /**
-     * Creates a new instance of NetworkIntentPolicyBasedService value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public NetworkIntentPolicyBasedService() {
-    }
 
     /**
      * Creates or finds a NetworkIntentPolicyBasedService from its string representation.

@@ -28,10 +28,6 @@ public final class EffectiveRouteMapRoute {
     @JsonProperty(value = "asPath")
     private String asPath;
 
-    /** Creates an instance of EffectiveRouteMapRoute class. */
-    public EffectiveRouteMapRoute() {
-    }
-
     /**
      * Get the prefix property: The address prefix of the route.
      *

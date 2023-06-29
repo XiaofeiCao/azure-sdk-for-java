@@ -16,10 +16,6 @@ public final class ReferencedPublicIpAddress {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ReferencedPublicIpAddress class. */
-    public ReferencedPublicIpAddress() {
-    }
-
     /**
      * Get the id property: The PublicIPAddress Reference.
      *

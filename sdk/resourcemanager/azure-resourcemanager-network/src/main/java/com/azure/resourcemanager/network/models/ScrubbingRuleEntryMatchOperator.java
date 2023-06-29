@@ -8,25 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/**
- * When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule
- * applies to.
- */
+/** Defines values for ScrubbingRuleEntryMatchOperator. */
 public final class ScrubbingRuleEntryMatchOperator extends ExpandableStringEnum<ScrubbingRuleEntryMatchOperator> {
     /** Static value Equals for ScrubbingRuleEntryMatchOperator. */
     public static final ScrubbingRuleEntryMatchOperator EQUALS = fromString("Equals");
 
     /** Static value EqualsAny for ScrubbingRuleEntryMatchOperator. */
     public static final ScrubbingRuleEntryMatchOperator EQUALS_ANY = fromString("EqualsAny");
-
-    /**
-     * Creates a new instance of ScrubbingRuleEntryMatchOperator value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ScrubbingRuleEntryMatchOperator() {
-    }
 
     /**
      * Creates or finds a ScrubbingRuleEntryMatchOperator from its string representation.

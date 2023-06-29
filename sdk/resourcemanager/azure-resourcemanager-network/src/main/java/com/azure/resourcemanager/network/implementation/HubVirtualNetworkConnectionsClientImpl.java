@@ -65,10 +65,11 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface HubVirtualNetworkConnectionsService {
+    private interface HubVirtualNetworkConnectionsService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -84,7 +85,8 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -99,7 +101,8 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<HubVirtualNetworkConnectionInner>> get(
@@ -114,7 +117,8 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/hubVirtualNetworkConnections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ListHubVirtualNetworkConnectionsResult>> list(
@@ -187,7 +191,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         } else {
             hubVirtualNetworkConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -258,7 +262,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         } else {
             hubVirtualNetworkConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -363,8 +367,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
             String virtualHubName,
             String connectionName,
             HubVirtualNetworkConnectionInner hubVirtualNetworkConnectionParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, virtualHubName, connectionName, hubVirtualNetworkConnectionParameters)
             .getSyncPoller();
     }
@@ -391,8 +394,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
             String connectionName,
             HubVirtualNetworkConnectionInner hubVirtualNetworkConnectionParameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, virtualHubName, connectionName, hubVirtualNetworkConnectionParameters, context)
             .getSyncPoller();
     }
@@ -535,7 +537,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -590,7 +592,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -664,7 +666,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String connectionName) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, connectionName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, connectionName).getSyncPoller();
     }
 
     /**
@@ -682,7 +684,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String connectionName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, connectionName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, connectionName, context).getSyncPoller();
     }
 
     /**
@@ -791,7 +793,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -847,7 +849,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -886,6 +888,23 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @param connectionName The name of the vpn connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return hubVirtualNetworkConnection Resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public HubVirtualNetworkConnectionInner get(
+        String resourceGroupName, String virtualHubName, String connectionName) {
+        return getAsync(resourceGroupName, virtualHubName, connectionName).block();
+    }
+
+    /**
+     * Retrieves the details of a HubVirtualNetworkConnection.
+     *
+     * @param resourceGroupName The resource group name of the VirtualHub.
+     * @param virtualHubName The name of the VirtualHub.
+     * @param connectionName The name of the vpn connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -896,23 +915,6 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
     public Response<HubVirtualNetworkConnectionInner> getWithResponse(
         String resourceGroupName, String virtualHubName, String connectionName, Context context) {
         return getWithResponseAsync(resourceGroupName, virtualHubName, connectionName, context).block();
-    }
-
-    /**
-     * Retrieves the details of a HubVirtualNetworkConnection.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param connectionName The name of the vpn connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return hubVirtualNetworkConnection Resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public HubVirtualNetworkConnectionInner get(
-        String resourceGroupName, String virtualHubName, String connectionName) {
-        return getWithResponse(resourceGroupName, virtualHubName, connectionName, Context.NONE).getValue();
     }
 
     /**
@@ -948,7 +950,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1008,7 +1010,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1106,8 +1108,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1143,8 +1144,7 @@ public final class HubVirtualNetworkConnectionsClientImpl implements HubVirtualN
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

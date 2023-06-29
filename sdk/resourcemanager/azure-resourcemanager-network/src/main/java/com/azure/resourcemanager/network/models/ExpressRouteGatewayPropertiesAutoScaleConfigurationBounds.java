@@ -22,10 +22,6 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
     @JsonProperty(value = "max")
     private Integer max;
 
-    /** Creates an instance of ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds class. */
-    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds() {
-    }
-
     /**
      * Get the min property: Minimum number of scale units deployed for ExpressRoute gateway.
      *

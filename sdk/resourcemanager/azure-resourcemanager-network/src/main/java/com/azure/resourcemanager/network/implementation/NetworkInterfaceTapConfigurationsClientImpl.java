@@ -69,10 +69,11 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface NetworkInterfaceTapConfigurationsService {
+    private interface NetworkInterfaceTapConfigurationsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -87,7 +88,8 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NetworkInterfaceTapConfigurationInner>> get(
@@ -102,7 +104,8 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -118,7 +121,8 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkInterfaces/{networkInterfaceName}/tapConfigurations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NetworkInterfaceTapConfigurationListResult>> list(
@@ -179,7 +183,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -236,7 +240,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -310,7 +314,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkInterfaceName, String tapConfigurationName) {
-        return this.beginDeleteAsync(resourceGroupName, networkInterfaceName, tapConfigurationName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkInterfaceName, tapConfigurationName).getSyncPoller();
     }
 
     /**
@@ -328,9 +332,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkInterfaceName, String tapConfigurationName, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, networkInterfaceName, tapConfigurationName, context)
-            .getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkInterfaceName, tapConfigurationName, context).getSyncPoller();
     }
 
     /**
@@ -442,7 +444,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -500,7 +502,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -539,6 +541,23 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
      * @param resourceGroupName The name of the resource group.
      * @param networkInterfaceName The name of the network interface.
      * @param tapConfigurationName The name of the tap configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified tap configuration on a network interface.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkInterfaceTapConfigurationInner get(
+        String resourceGroupName, String networkInterfaceName, String tapConfigurationName) {
+        return getAsync(resourceGroupName, networkInterfaceName, tapConfigurationName).block();
+    }
+
+    /**
+     * Get the specified tap configuration on a network interface.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkInterfaceName The name of the network interface.
+     * @param tapConfigurationName The name of the tap configuration.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -549,23 +568,6 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
     public Response<NetworkInterfaceTapConfigurationInner> getWithResponse(
         String resourceGroupName, String networkInterfaceName, String tapConfigurationName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkInterfaceName, tapConfigurationName, context).block();
-    }
-
-    /**
-     * Get the specified tap configuration on a network interface.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkInterfaceName The name of the network interface.
-     * @param tapConfigurationName The name of the tap configuration.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified tap configuration on a network interface.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkInterfaceTapConfigurationInner get(
-        String resourceGroupName, String networkInterfaceName, String tapConfigurationName) {
-        return getWithResponse(resourceGroupName, networkInterfaceName, tapConfigurationName, Context.NONE).getValue();
     }
 
     /**
@@ -619,7 +621,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
         } else {
             tapConfigurationParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -691,7 +693,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
         } else {
             tapConfigurationParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -793,8 +795,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
             String networkInterfaceName,
             String tapConfigurationName,
             NetworkInterfaceTapConfigurationInner tapConfigurationParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, networkInterfaceName, tapConfigurationName, tapConfigurationParameters)
             .getSyncPoller();
     }
@@ -820,8 +821,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
             String tapConfigurationName,
             NetworkInterfaceTapConfigurationInner tapConfigurationParameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, networkInterfaceName, tapConfigurationName, tapConfigurationParameters, context)
             .getSyncPoller();
     }
@@ -958,7 +958,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1019,7 +1019,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1115,8 +1115,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1152,8 +1151,7 @@ public final class NetworkInterfaceTapConfigurationsClientImpl implements Networ
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

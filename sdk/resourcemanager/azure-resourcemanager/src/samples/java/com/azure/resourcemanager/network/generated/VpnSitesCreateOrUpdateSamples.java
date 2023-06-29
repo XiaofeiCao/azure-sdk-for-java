@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VpnSiteInner;
 import com.azure.resourcemanager.network.fluent.models.VpnSiteLinkInner;
 import com.azure.resourcemanager.network.models.AddressSpace;
@@ -19,7 +20,7 @@ import java.util.Map;
 /** Samples for VpnSites CreateOrUpdate. */
 public final class VpnSitesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VpnSitePut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VpnSitePut.json
      */
     /**
      * Sample code: VpnSiteCreate.
@@ -64,7 +65,7 @@ public final class VpnSitesCreateOrUpdateSamples {
                                     .withAllow(true)
                                     .withOptimize(true)
                                     .withDefaultProperty(false))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

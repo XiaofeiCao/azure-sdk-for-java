@@ -59,14 +59,15 @@ public final class PolicySettings {
     private Integer fileUploadLimitInMb;
 
     /*
-     * If the action type is block, customer can override the response status code.
+     * If the action type is block, customer can override the response status
+     * code.
      */
     @JsonProperty(value = "customBlockResponseStatusCode")
     private Integer customBlockResponseStatusCode;
 
     /*
-     * If the action type is block, customer can override the response body. The body must be specified in base64
-     * encoding.
+     * If the action type is block, customer can override the response body.
+     * The body must be specified in base64 encoding.
      */
     @JsonProperty(value = "customBlockResponseBody")
     private String customBlockResponseBody;
@@ -76,10 +77,6 @@ public final class PolicySettings {
      */
     @JsonProperty(value = "logScrubbing")
     private PolicySettingsLogScrubbing logScrubbing;
-
-    /** Creates an instance of PolicySettings class. */
-    public PolicySettings() {
-    }
 
     /**
      * Get the state property: The state of the policy.

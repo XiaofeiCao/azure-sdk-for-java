@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The Pfs Groups used in IKE Phase 2 for new child SA. */
+/** Defines values for PfsGroup. */
 public final class PfsGroup extends ExpandableStringEnum<PfsGroup> {
     /** Static value None for PfsGroup. */
     public static final PfsGroup NONE = fromString("None");
@@ -36,15 +36,6 @@ public final class PfsGroup extends ExpandableStringEnum<PfsGroup> {
 
     /** Static value PFSMM for PfsGroup. */
     public static final PfsGroup PFSMM = fromString("PFSMM");
-
-    /**
-     * Creates a new instance of PfsGroup value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public PfsGroup() {
-    }
 
     /**
      * Creates or finds a PfsGroup from its string representation.

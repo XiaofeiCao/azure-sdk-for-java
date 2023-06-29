@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteCrossConnectionPeerings Delete. */
 public final class ExpressRouteCrossConnectionPeeringsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCrossConnectionBgpPeeringDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCrossConnectionBgpPeeringDelete.json
      */
     /**
      * Sample code: DeleteExpressRouteCrossConnectionBgpPeering.
@@ -21,10 +23,6 @@ public final class ExpressRouteCrossConnectionPeeringsDeleteSamples {
             .manager()
             .serviceClient()
             .getExpressRouteCrossConnectionPeerings()
-            .delete(
-                "CrossConnection-SiliconValley",
-                "<circuitServiceKey>",
-                "AzurePrivatePeering",
-                com.azure.core.util.Context.NONE);
+            .delete("CrossConnection-SiliconValley", "<circuitServiceKey>", "AzurePrivatePeering", Context.NONE);
     }
 }

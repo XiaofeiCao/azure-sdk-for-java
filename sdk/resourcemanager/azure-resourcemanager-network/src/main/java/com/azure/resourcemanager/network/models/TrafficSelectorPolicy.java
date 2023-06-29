@@ -24,10 +24,6 @@ public final class TrafficSelectorPolicy {
     @JsonProperty(value = "remoteAddressRanges", required = true)
     private List<String> remoteAddressRanges;
 
-    /** Creates an instance of TrafficSelectorPolicy class. */
-    public TrafficSelectorPolicy() {
-    }
-
     /**
      * Get the localAddressRanges property: A collection of local address spaces in CIDR format.
      *

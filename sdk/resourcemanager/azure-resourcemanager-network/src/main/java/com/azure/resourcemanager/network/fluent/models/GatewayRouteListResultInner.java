@@ -18,10 +18,6 @@ public final class GatewayRouteListResultInner {
     @JsonProperty(value = "value")
     private List<GatewayRoute> value;
 
-    /** Creates an instance of GatewayRouteListResultInner class. */
-    public GatewayRouteListResultInner() {
-    }
-
     /**
      * Get the value property: List of gateway routes.
      *

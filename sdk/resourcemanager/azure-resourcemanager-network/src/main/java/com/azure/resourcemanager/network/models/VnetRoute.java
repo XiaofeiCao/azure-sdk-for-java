@@ -30,10 +30,6 @@ public final class VnetRoute {
     @JsonProperty(value = "bgpConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> bgpConnections;
 
-    /** Creates an instance of VnetRoute class. */
-    public VnetRoute() {
-    }
-
     /**
      * Get the staticRoutesConfig property: Configuration for static routes on this HubVnetConnection.
      *

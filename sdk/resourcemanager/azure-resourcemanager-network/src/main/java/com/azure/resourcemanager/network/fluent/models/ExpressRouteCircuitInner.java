@@ -42,10 +42,6 @@ public final class ExpressRouteCircuitInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteCircuitInner class. */
-    public ExpressRouteCircuitInner() {
-    }
-
     /**
      * Get the sku property: The SKU.
      *

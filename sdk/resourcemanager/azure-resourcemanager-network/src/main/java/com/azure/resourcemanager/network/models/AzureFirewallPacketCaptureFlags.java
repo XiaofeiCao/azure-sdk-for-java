@@ -16,10 +16,6 @@ public final class AzureFirewallPacketCaptureFlags {
     @JsonProperty(value = "type")
     private AzureFirewallPacketCaptureFlagsType type;
 
-    /** Creates an instance of AzureFirewallPacketCaptureFlags class. */
-    public AzureFirewallPacketCaptureFlags() {
-    }
-
     /**
      * Get the type property: Flags to capture.
      *

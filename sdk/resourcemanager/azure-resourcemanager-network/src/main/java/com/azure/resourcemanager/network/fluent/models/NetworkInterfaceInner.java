@@ -45,10 +45,6 @@ public final class NetworkInterfaceInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of NetworkInterfaceInner class. */
-    public NetworkInterfaceInner() {
-    }
-
     /**
      * Get the extendedLocation property: The extended location of the network interface.
      *

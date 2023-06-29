@@ -29,10 +29,6 @@ public final class HttpConfiguration {
     @JsonProperty(value = "validStatusCodes")
     private List<Integer> validStatusCodes;
 
-    /** Creates an instance of HttpConfiguration class. */
-    public HttpConfiguration() {
-    }
-
     /**
      * Get the method property: HTTP method.
      *

@@ -23,14 +23,11 @@ public final class VirtualNetworkGatewayPolicyGroupMember {
     private VpnPolicyMemberAttributeType attributeType;
 
     /*
-     * The value of Attribute used for this VirtualNetworkGatewayPolicyGroupMember.
+     * The value of Attribute used for this
+     * VirtualNetworkGatewayPolicyGroupMember.
      */
     @JsonProperty(value = "attributeValue")
     private String attributeValue;
-
-    /** Creates an instance of VirtualNetworkGatewayPolicyGroupMember class. */
-    public VirtualNetworkGatewayPolicyGroupMember() {
-    }
 
     /**
      * Get the name property: Name of the VirtualNetworkGatewayPolicyGroupMember.

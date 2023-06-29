@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaces Delete. */
 public final class NetworkInterfacesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkInterfaceDelete.json
      */
     /**
      * Sample code: Delete network interface.
@@ -15,11 +17,6 @@ public final class NetworkInterfacesDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteNetworkInterface(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getNetworkInterfaces()
-            .delete("rg1", "test-nic", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getNetworkInterfaces().delete("rg1", "test-nic", Context.NONE);
     }
 }

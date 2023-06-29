@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Resource status of the policy. */
+/** Defines values for WebApplicationFirewallPolicyResourceState. */
 public final class WebApplicationFirewallPolicyResourceState
     extends ExpandableStringEnum<WebApplicationFirewallPolicyResourceState> {
     /** Static value Creating for WebApplicationFirewallPolicyResourceState. */
@@ -28,15 +28,6 @@ public final class WebApplicationFirewallPolicyResourceState
 
     /** Static value Deleting for WebApplicationFirewallPolicyResourceState. */
     public static final WebApplicationFirewallPolicyResourceState DELETING = fromString("Deleting");
-
-    /**
-     * Creates a new instance of WebApplicationFirewallPolicyResourceState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public WebApplicationFirewallPolicyResourceState() {
-    }
 
     /**
      * Creates or finds a WebApplicationFirewallPolicyResourceState from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VpnSites GetByResourceGroup. */
 public final class VpnSitesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VpnSiteGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VpnSiteGet.json
      */
     /**
      * Sample code: VpnSiteGet.
@@ -20,6 +22,6 @@ public final class VpnSitesGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getVpnSites()
-            .getByResourceGroupWithResponse("rg1", "vpnSite1", com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "vpnSite1", Context.NONE);
     }
 }

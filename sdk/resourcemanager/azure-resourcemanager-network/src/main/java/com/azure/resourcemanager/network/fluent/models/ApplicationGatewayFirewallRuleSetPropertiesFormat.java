@@ -45,10 +45,6 @@ public final class ApplicationGatewayFirewallRuleSetPropertiesFormat {
     @JsonProperty(value = "tiers")
     private List<ApplicationGatewayTierTypes> tiers;
 
-    /** Creates an instance of ApplicationGatewayFirewallRuleSetPropertiesFormat class. */
-    public ApplicationGatewayFirewallRuleSetPropertiesFormat() {
-    }
-
     /**
      * Get the provisioningState property: The provisioning state of the web application firewall rule set.
      *

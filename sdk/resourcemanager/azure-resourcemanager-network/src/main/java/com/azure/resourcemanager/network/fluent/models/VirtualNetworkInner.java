@@ -44,10 +44,6 @@ public final class VirtualNetworkInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VirtualNetworkInner class. */
-    public VirtualNetworkInner() {
-    }
-
     /**
      * Get the extendedLocation property: The extended location of the virtual network.
      *

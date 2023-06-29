@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaces ListVirtualMachineScaleSetIpConfigurations. */
 public final class NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VmssNetworkInterfaceIpConfigList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VmssNetworkInterfaceIpConfigList.json
      */
     /**
      * Sample code: List virtual machine scale set network interface ip configurations.
@@ -21,7 +23,6 @@ public final class NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsSa
             .manager()
             .serviceClient()
             .getNetworkInterfaces()
-            .listVirtualMachineScaleSetIpConfigurations(
-                "rg1", "vmss1", "2", "nic1", null, com.azure.core.util.Context.NONE);
+            .listVirtualMachineScaleSetIpConfigurations("rg1", "vmss1", "2", "nic1", null, Context.NONE);
     }
 }

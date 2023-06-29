@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaces GetCloudServiceNetworkInterface. */
 public final class NetworkInterfacesGetCloudServiceNetworkInterfaceSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/CloudServiceNetworkInterfaceGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/CloudServiceNetworkInterfaceGet.json
      */
     /**
      * Sample code: Get cloud service network interface.
@@ -20,7 +22,6 @@ public final class NetworkInterfacesGetCloudServiceNetworkInterfaceSamples {
             .manager()
             .serviceClient()
             .getNetworkInterfaces()
-            .getCloudServiceNetworkInterfaceWithResponse(
-                "rg1", "cs1", "TestVMRole_IN_0", "nic1", null, com.azure.core.util.Context.NONE);
+            .getCloudServiceNetworkInterfaceWithResponse("rg1", "cs1", "TestVMRole_IN_0", "nic1", null, Context.NONE);
     }
 }

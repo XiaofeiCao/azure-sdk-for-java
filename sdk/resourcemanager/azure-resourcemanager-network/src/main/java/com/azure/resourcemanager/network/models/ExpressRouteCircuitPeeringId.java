@@ -16,10 +16,6 @@ public final class ExpressRouteCircuitPeeringId {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteCircuitPeeringId class. */
-    public ExpressRouteCircuitPeeringId() {
-    }
-
     /**
      * Get the id property: The ID of the ExpressRoute circuit peering.
      *

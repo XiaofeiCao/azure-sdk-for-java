@@ -25,10 +25,6 @@ public final class InboundSecurityRuleProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of InboundSecurityRuleProperties class. */
-    public InboundSecurityRuleProperties() {
-    }
-
     /**
      * Get the rules property: List of allowed rules.
      *

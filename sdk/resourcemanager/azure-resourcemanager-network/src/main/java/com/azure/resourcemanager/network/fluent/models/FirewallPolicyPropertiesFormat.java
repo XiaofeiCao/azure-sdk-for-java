@@ -42,7 +42,8 @@ public final class FirewallPolicyPropertiesFormat {
     private SubResource basePolicy;
 
     /*
-     * List of references to Azure Firewalls that this Firewall Policy is associated with.
+     * List of references to Azure Firewalls that this Firewall Policy is
+     * associated with.
      */
     @JsonProperty(value = "firewalls", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> firewalls;
@@ -112,10 +113,6 @@ public final class FirewallPolicyPropertiesFormat {
      */
     @JsonProperty(value = "sku")
     private FirewallPolicySku sku;
-
-    /** Creates an instance of FirewallPolicyPropertiesFormat class. */
-    public FirewallPolicyPropertiesFormat() {
-    }
 
     /**
      * Get the ruleCollectionGroups property: List of references to FirewallPolicyRuleCollectionGroups.

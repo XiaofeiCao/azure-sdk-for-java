@@ -35,10 +35,6 @@ public final class PrivateEndpointIpConfiguration {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of PrivateEndpointIpConfiguration class. */
-    public PrivateEndpointIpConfiguration() {
-    }
-
     /**
      * Get the innerProperties property: Properties of private endpoint IP configurations.
      *

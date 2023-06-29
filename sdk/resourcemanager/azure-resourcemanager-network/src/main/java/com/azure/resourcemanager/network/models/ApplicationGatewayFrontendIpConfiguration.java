@@ -19,7 +19,8 @@ public final class ApplicationGatewayFrontendIpConfiguration extends SubResource
     private ApplicationGatewayFrontendIpConfigurationPropertiesFormat innerProperties;
 
     /*
-     * Name of the frontend IP configuration that is unique within an Application Gateway.
+     * Name of the frontend IP configuration that is unique within an
+     * Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -35,10 +36,6 @@ public final class ApplicationGatewayFrontendIpConfiguration extends SubResource
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
-
-    /** Creates an instance of ApplicationGatewayFrontendIpConfiguration class. */
-    public ApplicationGatewayFrontendIpConfiguration() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the application gateway frontend IP configuration.

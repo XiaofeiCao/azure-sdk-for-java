@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.Direction;
 import com.azure.resourcemanager.network.models.IpFlowProtocol;
 import com.azure.resourcemanager.network.models.VerificationIpFlowParameters;
@@ -11,7 +12,7 @@ import com.azure.resourcemanager.network.models.VerificationIpFlowParameters;
 /** Samples for NetworkWatchers VerifyIpFlow. */
 public final class NetworkWatchersVerifyIpFlowSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherIpFlowVerify.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherIpFlowVerify.json
      */
     /**
      * Sample code: Ip flow verify.
@@ -36,6 +37,6 @@ public final class NetworkWatchersVerifyIpFlowSamples {
                     .withRemotePort("80")
                     .withLocalIpAddress("10.2.0.4")
                     .withRemoteIpAddress("121.10.1.1"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The Vpn Policy member attribute type. */
+/** Defines values for VpnPolicyMemberAttributeType. */
 public final class VpnPolicyMemberAttributeType extends ExpandableStringEnum<VpnPolicyMemberAttributeType> {
     /** Static value CertificateGroupId for VpnPolicyMemberAttributeType. */
     public static final VpnPolicyMemberAttributeType CERTIFICATE_GROUP_ID = fromString("CertificateGroupId");
@@ -18,15 +18,6 @@ public final class VpnPolicyMemberAttributeType extends ExpandableStringEnum<Vpn
 
     /** Static value RadiusAzureGroupId for VpnPolicyMemberAttributeType. */
     public static final VpnPolicyMemberAttributeType RADIUS_AZURE_GROUP_ID = fromString("RadiusAzureGroupId");
-
-    /**
-     * Creates a new instance of VpnPolicyMemberAttributeType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VpnPolicyMemberAttributeType() {
-    }
 
     /**
      * Creates or finds a VpnPolicyMemberAttributeType from its string representation.

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Gateway SKU name. */
+/** Defines values for VirtualNetworkGatewaySkuName. */
 public final class VirtualNetworkGatewaySkuName extends ExpandableStringEnum<VirtualNetworkGatewaySkuName> {
     /** Static value Basic for VirtualNetworkGatewaySkuName. */
     public static final VirtualNetworkGatewaySkuName BASIC = fromString("Basic");
@@ -60,15 +60,6 @@ public final class VirtualNetworkGatewaySkuName extends ExpandableStringEnum<Vir
 
     /** Static value ErGw3AZ for VirtualNetworkGatewaySkuName. */
     public static final VirtualNetworkGatewaySkuName ER_GW3AZ = fromString("ErGw3AZ");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewaySkuName value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewaySkuName() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewaySkuName from its string representation.

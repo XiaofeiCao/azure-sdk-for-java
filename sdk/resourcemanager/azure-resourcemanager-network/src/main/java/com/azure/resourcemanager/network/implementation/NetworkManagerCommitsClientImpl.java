@@ -57,10 +57,11 @@ public final class NetworkManagerCommitsClientImpl implements NetworkManagerComm
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface NetworkManagerCommitsService {
+    private interface NetworkManagerCommitsService {
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkManagers/{networkManagerName}/commit")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> post(
@@ -113,7 +114,7 @@ public final class NetworkManagerCommitsClientImpl implements NetworkManagerComm
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -171,7 +172,7 @@ public final class NetworkManagerCommitsClientImpl implements NetworkManagerComm
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -254,7 +255,7 @@ public final class NetworkManagerCommitsClientImpl implements NetworkManagerComm
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<NetworkManagerCommitInner>, NetworkManagerCommitInner> beginPost(
         String resourceGroupName, String networkManagerName, NetworkManagerCommitInner parameters) {
-        return this.beginPostAsync(resourceGroupName, networkManagerName, parameters).getSyncPoller();
+        return beginPostAsync(resourceGroupName, networkManagerName, parameters).getSyncPoller();
     }
 
     /**
@@ -272,7 +273,7 @@ public final class NetworkManagerCommitsClientImpl implements NetworkManagerComm
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<NetworkManagerCommitInner>, NetworkManagerCommitInner> beginPost(
         String resourceGroupName, String networkManagerName, NetworkManagerCommitInner parameters, Context context) {
-        return this.beginPostAsync(resourceGroupName, networkManagerName, parameters, context).getSyncPoller();
+        return beginPostAsync(resourceGroupName, networkManagerName, parameters, context).getSyncPoller();
     }
 
     /**

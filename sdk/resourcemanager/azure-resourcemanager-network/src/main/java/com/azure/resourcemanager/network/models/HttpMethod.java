@@ -8,19 +8,10 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** HTTP method. */
+/** Defines values for HttpMethod. */
 public final class HttpMethod extends ExpandableStringEnum<HttpMethod> {
     /** Static value Get for HttpMethod. */
     public static final HttpMethod GET = fromString("Get");
-
-    /**
-     * Creates a new instance of HttpMethod value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public HttpMethod() {
-    }
 
     /**
      * Creates or finds a HttpMethod from its string representation.

@@ -24,20 +24,18 @@ public final class PublicIpDdosProtectionStatusResultInner {
     private String publicIpAddress;
 
     /*
-     * Value indicating whether the IP address is DDoS workload protected or not.
+     * Value indicating whether the IP address is DDoS workload protected or
+     * not.
      */
     @JsonProperty(value = "isWorkloadProtected")
     private IsWorkloadProtected isWorkloadProtected;
 
     /*
-     * DDoS protection plan Resource Id of a if IP address is protected through a plan.
+     * DDoS protection plan Resource Id of a if IP address is protected through
+     * a plan.
      */
     @JsonProperty(value = "ddosProtectionPlanId")
     private String ddosProtectionPlanId;
-
-    /** Creates an instance of PublicIpDdosProtectionStatusResultInner class. */
-    public PublicIpDdosProtectionStatusResultInner() {
-    }
 
     /**
      * Get the publicIpAddressId property: Public IP ARM resource ID.

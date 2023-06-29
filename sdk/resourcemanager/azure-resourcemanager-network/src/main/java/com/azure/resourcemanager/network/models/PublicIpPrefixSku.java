@@ -22,10 +22,6 @@ public final class PublicIpPrefixSku {
     @JsonProperty(value = "tier")
     private PublicIpPrefixSkuTier tier;
 
-    /** Creates an instance of PublicIpPrefixSku class. */
-    public PublicIpPrefixSku() {
-    }
-
     /**
      * Get the name property: Name of a public IP prefix SKU.
      *

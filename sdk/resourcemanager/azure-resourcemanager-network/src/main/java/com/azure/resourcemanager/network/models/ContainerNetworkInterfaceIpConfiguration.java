@@ -35,10 +35,6 @@ public final class ContainerNetworkInterfaceIpConfiguration {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of ContainerNetworkInterfaceIpConfiguration class. */
-    public ContainerNetworkInterfaceIpConfiguration() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the container network interface IP configuration.
      *

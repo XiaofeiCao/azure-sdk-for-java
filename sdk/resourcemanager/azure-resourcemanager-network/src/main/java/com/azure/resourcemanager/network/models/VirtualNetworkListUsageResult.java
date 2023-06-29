@@ -24,10 +24,6 @@ public final class VirtualNetworkListUsageResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of VirtualNetworkListUsageResult class. */
-    public VirtualNetworkListUsageResult() {
-    }
-
     /**
      * Get the value property: VirtualNetwork usage stats.
      *

@@ -16,10 +16,6 @@ public final class ConnectionMonitorWorkspaceSettings {
     @JsonProperty(value = "workspaceResourceId")
     private String workspaceResourceId;
 
-    /** Creates an instance of ConnectionMonitorWorkspaceSettings class. */
-    public ConnectionMonitorWorkspaceSettings() {
-    }
-
     /**
      * Get the workspaceResourceId property: Log analytics workspace resource ID.
      *

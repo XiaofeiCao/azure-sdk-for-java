@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualWanInner;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 /** Samples for VirtualWans CreateOrUpdate. */
 public final class VirtualWansCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualWANPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualWANPut.json
      */
     /**
      * Sample code: VirtualWANCreate.
@@ -32,7 +33,7 @@ public final class VirtualWansCreateOrUpdateSamples {
                     .withTags(mapOf("key1", "value1"))
                     .withDisableVpnEncryption(false)
                     .withTypePropertiesType("Basic"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

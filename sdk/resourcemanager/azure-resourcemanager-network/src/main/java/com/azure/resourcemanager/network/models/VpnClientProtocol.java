@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** VPN client protocol enabled for the virtual network gateway. */
+/** Defines values for VpnClientProtocol. */
 public final class VpnClientProtocol extends ExpandableStringEnum<VpnClientProtocol> {
     /** Static value IkeV2 for VpnClientProtocol. */
     public static final VpnClientProtocol IKE_V2 = fromString("IkeV2");
@@ -18,15 +18,6 @@ public final class VpnClientProtocol extends ExpandableStringEnum<VpnClientProto
 
     /** Static value OpenVPN for VpnClientProtocol. */
     public static final VpnClientProtocol OPEN_VPN = fromString("OpenVPN");
-
-    /**
-     * Creates a new instance of VpnClientProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VpnClientProtocol() {
-    }
 
     /**
      * Creates or finds a VpnClientProtocol from its string representation.

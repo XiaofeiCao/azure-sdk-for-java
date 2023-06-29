@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Access to be allowed or denied. */
+/** Defines values for Access. */
 public final class Access extends ExpandableStringEnum<Access> {
     /** Static value Allow for Access. */
     public static final Access ALLOW = fromString("Allow");
 
     /** Static value Deny for Access. */
     public static final Access DENY = fromString("Deny");
-
-    /**
-     * Creates a new instance of Access value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public Access() {
-    }
 
     /**
      * Creates or finds a Access from its string representation.

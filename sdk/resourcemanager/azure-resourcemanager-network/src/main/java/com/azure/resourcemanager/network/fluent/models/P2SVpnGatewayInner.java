@@ -35,10 +35,6 @@ public final class P2SVpnGatewayInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of P2SVpnGatewayInner class. */
-    public P2SVpnGatewayInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the P2SVpnGateway.
      *

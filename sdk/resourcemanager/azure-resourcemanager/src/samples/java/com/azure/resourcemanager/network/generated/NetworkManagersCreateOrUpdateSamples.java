@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkManagerInner;
 import com.azure.resourcemanager.network.models.ConfigurationType;
 import com.azure.resourcemanager.network.models.NetworkManagerPropertiesNetworkManagerScopes;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 /** Samples for NetworkManagers CreateOrUpdate. */
 public final class NetworkManagersCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerPut.json
      */
     /**
      * Sample code: Put Network Manager.
@@ -35,6 +36,6 @@ public final class NetworkManagersCreateOrUpdateSamples {
                             .withManagementGroups(Arrays.asList("/Microsoft.Management/testmg"))
                             .withSubscriptions(Arrays.asList("/subscriptions/00000000-0000-0000-0000-000000000000")))
                     .withNetworkManagerScopeAccesses(Arrays.asList(ConfigurationType.CONNECTIVITY)),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

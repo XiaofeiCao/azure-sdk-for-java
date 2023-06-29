@@ -18,10 +18,6 @@ public final class ConnectionMonitorListResult {
     @JsonProperty(value = "value")
     private List<ConnectionMonitorResultInner> value;
 
-    /** Creates an instance of ConnectionMonitorListResult class. */
-    public ConnectionMonitorListResult() {
-    }
-
     /**
      * Get the value property: Information about connection monitors.
      *

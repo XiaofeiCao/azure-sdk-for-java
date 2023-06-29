@@ -20,7 +20,8 @@ public final class TopologyInner {
     private String id;
 
     /*
-     * The datetime when the topology was initially created for the resource group.
+     * The datetime when the topology was initially created for the resource
+     * group.
      */
     @JsonProperty(value = "createdDateTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime createdDateTime;
@@ -36,10 +37,6 @@ public final class TopologyInner {
      */
     @JsonProperty(value = "resources")
     private List<TopologyResource> resources;
-
-    /** Creates an instance of TopologyInner class. */
-    public TopologyInner() {
-    }
 
     /**
      * Get the id property: GUID representing the operation id.

@@ -21,14 +21,11 @@ public final class PacketCaptureMachineScope {
     private List<String> include;
 
     /*
-     * List of AzureVMSS instances which has to be excluded from the AzureVMSS from running packet capture.
+     * List of AzureVMSS instances which has to be excluded from the AzureVMSS
+     * from running packet capture.
      */
     @JsonProperty(value = "exclude")
     private List<String> exclude;
-
-    /** Creates an instance of PacketCaptureMachineScope class. */
-    public PacketCaptureMachineScope() {
-    }
 
     /**
      * Get the include property: List of AzureVMSS instances to run packet capture on.

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** If the encrypted VNet allows VM that does not support encryption. */
+/** Defines values for VirtualNetworkEncryptionEnforcement. */
 public final class VirtualNetworkEncryptionEnforcement
     extends ExpandableStringEnum<VirtualNetworkEncryptionEnforcement> {
     /** Static value DropUnencrypted for VirtualNetworkEncryptionEnforcement. */
@@ -16,15 +16,6 @@ public final class VirtualNetworkEncryptionEnforcement
 
     /** Static value AllowUnencrypted for VirtualNetworkEncryptionEnforcement. */
     public static final VirtualNetworkEncryptionEnforcement ALLOW_UNENCRYPTED = fromString("AllowUnencrypted");
-
-    /**
-     * Creates a new instance of VirtualNetworkEncryptionEnforcement value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkEncryptionEnforcement() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkEncryptionEnforcement from its string representation.

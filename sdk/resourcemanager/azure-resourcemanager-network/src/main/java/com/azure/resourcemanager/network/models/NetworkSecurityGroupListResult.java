@@ -24,10 +24,6 @@ public final class NetworkSecurityGroupListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of NetworkSecurityGroupListResult class. */
-    public NetworkSecurityGroupListResult() {
-    }
-
     /**
      * Get the value property: A list of NetworkSecurityGroup resources.
      *

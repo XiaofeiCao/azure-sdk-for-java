@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayNatRuleInner;
 import com.azure.resourcemanager.network.models.VpnNatRuleMapping;
 import com.azure.resourcemanager.network.models.VpnNatRuleMode;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 /** Samples for VirtualNetworkGatewayNatRules CreateOrUpdate. */
 public final class VirtualNetworkGatewayNatRulesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayNatRulePut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayNatRulePut.json
      */
     /**
      * Sample code: VirtualNetworkGatewayNatRulePut.
@@ -41,6 +42,6 @@ public final class VirtualNetworkGatewayNatRulesCreateOrUpdateSamples {
                                 new VpnNatRuleMapping().withAddressSpace("192.168.21.0/24").withPortRange("300-400")))
                     .withIpConfigurationId(
                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/gateway1/ipConfigurations/default"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

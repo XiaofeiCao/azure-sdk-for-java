@@ -65,10 +65,11 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface PrivateDnsZoneGroupsService {
+    private interface PrivateDnsZoneGroupsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -83,7 +84,8 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PrivateDnsZoneGroupInner>> get(
@@ -98,7 +100,8 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -114,7 +117,8 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)
         Mono<Response<PrivateDnsZoneGroupListResult>> list(
@@ -176,7 +180,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -234,7 +238,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -308,7 +312,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String privateEndpointName, String privateDnsZoneGroupName) {
-        return this.beginDeleteAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName).getSyncPoller();
     }
 
     /**
@@ -326,8 +330,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String privateEndpointName, String privateDnsZoneGroupName, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, context)
+        return beginDeleteAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, context)
             .getSyncPoller();
     }
 
@@ -442,7 +445,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -501,7 +504,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -541,6 +544,23 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
      * @param privateDnsZoneGroupName The name of the private dns zone group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the private dns zone group resource by specified private dns zone group name.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PrivateDnsZoneGroupInner get(
+        String resourceGroupName, String privateEndpointName, String privateDnsZoneGroupName) {
+        return getAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName).block();
+    }
+
+    /**
+     * Gets the private dns zone group resource by specified private dns zone group name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param privateEndpointName The name of the private endpoint.
+     * @param privateDnsZoneGroupName The name of the private dns zone group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -551,24 +571,6 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
     public Response<PrivateDnsZoneGroupInner> getWithResponse(
         String resourceGroupName, String privateEndpointName, String privateDnsZoneGroupName, Context context) {
         return getWithResponseAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, context).block();
-    }
-
-    /**
-     * Gets the private dns zone group resource by specified private dns zone group name.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param privateEndpointName The name of the private endpoint.
-     * @param privateDnsZoneGroupName The name of the private dns zone group.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the private dns zone group resource by specified private dns zone group name.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PrivateDnsZoneGroupInner get(
-        String resourceGroupName, String privateEndpointName, String privateDnsZoneGroupName) {
-        return getWithResponse(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -619,7 +621,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -688,7 +690,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -787,8 +789,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
         String privateEndpointName,
         String privateDnsZoneGroupName,
         PrivateDnsZoneGroupInner parameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, parameters)
+        return beginCreateOrUpdateAsync(resourceGroupName, privateEndpointName, privateDnsZoneGroupName, parameters)
             .getSyncPoller();
     }
 
@@ -812,8 +813,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
         String privateDnsZoneGroupName,
         PrivateDnsZoneGroupInner parameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, privateEndpointName, privateDnsZoneGroupName, parameters, context)
             .getSyncPoller();
     }
@@ -946,7 +946,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1007,7 +1007,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1101,8 +1101,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1138,8 +1137,7 @@ public final class PrivateDnsZoneGroupsClientImpl implements PrivateDnsZoneGroup
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.

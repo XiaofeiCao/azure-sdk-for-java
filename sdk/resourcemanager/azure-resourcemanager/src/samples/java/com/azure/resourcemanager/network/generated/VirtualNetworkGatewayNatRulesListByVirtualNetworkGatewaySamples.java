@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGatewayNatRules ListByVirtualNetworkGateway. */
 public final class VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayNatRuleList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayNatRuleList.json
      */
     /**
      * Sample code: VirtualNetworkGatewayNatRuleList.
@@ -20,6 +22,6 @@ public final class VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewaySampl
             .manager()
             .serviceClient()
             .getVirtualNetworkGatewayNatRules()
-            .listByVirtualNetworkGateway("rg1", "gateway1", com.azure.core.util.Context.NONE);
+            .listByVirtualNetworkGateway("rg1", "gateway1", Context.NONE);
     }
 }

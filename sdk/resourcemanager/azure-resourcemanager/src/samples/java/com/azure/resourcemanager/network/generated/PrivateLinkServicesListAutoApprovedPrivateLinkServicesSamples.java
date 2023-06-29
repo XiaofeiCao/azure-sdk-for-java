@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for PrivateLinkServices ListAutoApprovedPrivateLinkServices. */
 public final class PrivateLinkServicesListAutoApprovedPrivateLinkServicesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/AutoApprovedPrivateLinkServicesGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/AutoApprovedPrivateLinkServicesGet.json
      */
     /**
      * Sample code: Get list of private link service id that can be linked to a private end point with auto approved.
@@ -21,6 +23,6 @@ public final class PrivateLinkServicesListAutoApprovedPrivateLinkServicesSamples
             .manager()
             .serviceClient()
             .getPrivateLinkServices()
-            .listAutoApprovedPrivateLinkServices("regionName", com.azure.core.util.Context.NONE);
+            .listAutoApprovedPrivateLinkServices("regionName", Context.NONE);
     }
 }

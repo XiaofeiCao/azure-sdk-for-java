@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for PacketCaptures Get. */
 public final class PacketCapturesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherPacketCaptureGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherPacketCaptureGet.json
      */
     /**
      * Sample code: Get packet capture.
@@ -20,6 +22,6 @@ public final class PacketCapturesGetSamples {
             .manager()
             .serviceClient()
             .getPacketCaptures()
-            .getWithResponse("rg1", "nw1", "pc1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "nw1", "pc1", Context.NONE);
     }
 }

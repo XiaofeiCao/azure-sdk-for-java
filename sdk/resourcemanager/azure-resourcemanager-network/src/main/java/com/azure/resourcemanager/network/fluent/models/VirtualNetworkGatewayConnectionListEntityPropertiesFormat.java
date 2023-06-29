@@ -114,7 +114,8 @@ public final class VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     private Boolean enableBgp;
 
     /*
-     * GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection.
+     * GatewayCustomBgpIpAddresses to be used for virtual network gateway
+     * Connection.
      */
     @JsonProperty(value = "gatewayCustomBgpIpAddresses")
     private List<GatewayCustomBgpIpAddressIpConfiguration> gatewayCustomBgpIpAddresses;
@@ -138,13 +139,15 @@ public final class VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     private List<TrafficSelectorPolicy> trafficSelectorPolicies;
 
     /*
-     * The resource GUID property of the virtual network gateway connection resource.
+     * The resource GUID property of the virtual network gateway connection
+     * resource.
      */
     @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /*
-     * The provisioning state of the virtual network gateway connection resource.
+     * The provisioning state of the virtual network gateway connection
+     * resource.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
@@ -156,15 +159,11 @@ public final class VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     private Boolean expressRouteGatewayBypass;
 
     /*
-     * Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass)
-     * must be enabled.
+     * Bypass the ExpressRoute gateway when accessing private-links.
+     * ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled.
      */
     @JsonProperty(value = "enablePrivateLinkFastPath")
     private Boolean enablePrivateLinkFastPath;
-
-    /** Creates an instance of VirtualNetworkGatewayConnectionListEntityPropertiesFormat class. */
-    public VirtualNetworkGatewayConnectionListEntityPropertiesFormat() {
-    }
 
     /**
      * Get the authorizationKey property: The authorizationKey.

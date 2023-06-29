@@ -16,10 +16,6 @@ public final class VpnGatewayPacketCaptureStartParameters {
     @JsonProperty(value = "filterData")
     private String filterData;
 
-    /** Creates an instance of VpnGatewayPacketCaptureStartParameters class. */
-    public VpnGatewayPacketCaptureStartParameters() {
-    }
-
     /**
      * Get the filterData property: Start Packet capture parameters on vpn gateway.
      *

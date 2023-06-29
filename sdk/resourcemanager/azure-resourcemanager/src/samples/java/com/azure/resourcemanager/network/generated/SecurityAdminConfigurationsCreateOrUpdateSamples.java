@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.SecurityAdminConfigurationInner;
 import com.azure.resourcemanager.network.models.NetworkIntentPolicyBasedService;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for SecurityAdminConfigurations CreateOrUpdate. */
 public final class SecurityAdminConfigurationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
      */
     /**
      * Sample code: Create network manager security admin configuration.
@@ -32,6 +33,6 @@ public final class SecurityAdminConfigurationsCreateOrUpdateSamples {
                 new SecurityAdminConfigurationInner()
                     .withDescription("A sample policy")
                     .withApplyOnNetworkIntentPolicyBasedServices(Arrays.asList(NetworkIntentPolicyBasedService.NONE)),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

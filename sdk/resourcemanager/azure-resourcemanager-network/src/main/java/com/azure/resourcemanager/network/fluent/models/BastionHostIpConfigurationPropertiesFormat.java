@@ -38,10 +38,6 @@ public final class BastionHostIpConfigurationPropertiesFormat {
     @JsonProperty(value = "privateIPAllocationMethod")
     private IpAllocationMethod privateIpAllocationMethod;
 
-    /** Creates an instance of BastionHostIpConfigurationPropertiesFormat class. */
-    public BastionHostIpConfigurationPropertiesFormat() {
-    }
-
     /**
      * Get the subnet property: Reference of the subnet resource.
      *

@@ -31,10 +31,6 @@ public final class DdosCustomPolicyInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of DdosCustomPolicyInner class. */
-    public DdosCustomPolicyInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the DDoS custom policy.
      *

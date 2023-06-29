@@ -21,7 +21,8 @@ public final class RouteMapInner extends SubResource {
     private RouteMapProperties innerProperties;
 
     /*
-     * The name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * The name of the resource that is unique within a resource group. This
+     * name can be used to access the resource.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
@@ -37,10 +38,6 @@ public final class RouteMapInner extends SubResource {
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
-
-    /** Creates an instance of RouteMapInner class. */
-    public RouteMapInner() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the RouteMap resource.

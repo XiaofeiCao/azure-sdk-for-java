@@ -24,10 +24,6 @@ public final class NatGatewayListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of NatGatewayListResult class. */
-    public NatGatewayListResult() {
-    }
-
     /**
      * Get the value property: A list of Nat Gateways that exists in a resource group.
      *

@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.LocalNetworkGatewayInner;
 import com.azure.resourcemanager.network.models.AddressSpace;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for LocalNetworkGateways CreateOrUpdate. */
 public final class LocalNetworkGatewaysCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LocalNetworkGatewayCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LocalNetworkGatewayCreate.json
      */
     /**
      * Sample code: CreateLocalNetworkGateway.
@@ -32,6 +33,6 @@ public final class LocalNetworkGatewaysCreateOrUpdateSamples {
                     .withLocalNetworkAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.1.0.0/16")))
                     .withGatewayIpAddress("11.12.13.14")
                     .withFqdn("site1.contoso.com"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

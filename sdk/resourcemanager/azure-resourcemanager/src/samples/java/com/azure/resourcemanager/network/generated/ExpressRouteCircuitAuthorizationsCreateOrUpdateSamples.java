@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitAuthorizationInner;
 
 /** Samples for ExpressRouteCircuitAuthorizations CreateOrUpdate. */
 public final class ExpressRouteCircuitAuthorizationsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCircuitAuthorizationCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCircuitAuthorizationCreate.json
      */
     /**
      * Sample code: Create ExpressRouteCircuit Authorization.
@@ -23,10 +24,6 @@ public final class ExpressRouteCircuitAuthorizationsCreateOrUpdateSamples {
             .serviceClient()
             .getExpressRouteCircuitAuthorizations()
             .createOrUpdate(
-                "rg1",
-                "circuitName",
-                "authorizatinName",
-                new ExpressRouteCircuitAuthorizationInner(),
-                com.azure.core.util.Context.NONE);
+                "rg1", "circuitName", "authorizatinName", new ExpressRouteCircuitAuthorizationInner(), Context.NONE);
     }
 }

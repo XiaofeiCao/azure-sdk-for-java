@@ -65,10 +65,6 @@ public final class ConnectivityHop {
     @JsonProperty(value = "issues", access = JsonProperty.Access.WRITE_ONLY)
     private List<ConnectivityIssue> issues;
 
-    /** Creates an instance of ConnectivityHop class. */
-    public ConnectivityHop() {
-    }
-
     /**
      * Get the type property: The type of the hop.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ConnectionMonitors Get. */
 public final class ConnectionMonitorsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherConnectionMonitorGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherConnectionMonitorGet.json
      */
     /**
      * Sample code: Get connection monitor.
@@ -20,6 +22,6 @@ public final class ConnectionMonitorsGetSamples {
             .manager()
             .serviceClient()
             .getConnectionMonitors()
-            .getWithResponse("rg1", "nw1", "cm1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "nw1", "cm1", Context.NONE);
     }
 }

@@ -31,7 +31,8 @@ public final class NetworkInterfacePropertiesFormatInner {
     private NetworkSecurityGroupInner networkSecurityGroup;
 
     /*
-     * A reference to the private endpoint to which the network interface is linked.
+     * A reference to the private endpoint to which the network interface is
+     * linked.
      */
     @JsonProperty(value = "privateEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private PrivateEndpointInner privateEndpoint;
@@ -73,8 +74,8 @@ public final class NetworkInterfacePropertiesFormatInner {
     private Boolean vnetEncryptionSupported;
 
     /*
-     * If the network interface is configured for accelerated networking. Not applicable to VM sizes which require
-     * accelerated networking.
+     * If the network interface is configured for accelerated networking. Not
+     * applicable to VM sizes which require accelerated networking.
      */
     @JsonProperty(value = "enableAcceleratedNetworking")
     private Boolean enableAcceleratedNetworking;
@@ -98,7 +99,8 @@ public final class NetworkInterfacePropertiesFormatInner {
     private List<String> hostedWorkloads;
 
     /*
-     * A reference to the dscp configuration to which the network interface is linked.
+     * A reference to the dscp configuration to which the network interface is
+     * linked.
      */
     @JsonProperty(value = "dscpConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource dscpConfiguration;
@@ -150,10 +152,6 @@ public final class NetworkInterfacePropertiesFormatInner {
      */
     @JsonProperty(value = "auxiliarySku")
     private NetworkInterfaceAuxiliarySku auxiliarySku;
-
-    /** Creates an instance of NetworkInterfacePropertiesFormatInner class. */
-    public NetworkInterfacePropertiesFormatInner() {
-    }
 
     /**
      * Get the virtualMachine property: The reference to a virtual machine.

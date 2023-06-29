@@ -30,7 +30,8 @@ public class ConnectionMonitorParameters {
     private ConnectionMonitorDestination destination;
 
     /*
-     * Determines if the connection monitor will start automatically once created.
+     * Determines if the connection monitor will start automatically once
+     * created.
      */
     @JsonProperty(value = "autoStart")
     private Boolean autoStart;
@@ -70,10 +71,6 @@ public class ConnectionMonitorParameters {
      */
     @JsonProperty(value = "notes")
     private String notes;
-
-    /** Creates an instance of ConnectionMonitorParameters class. */
-    public ConnectionMonitorParameters() {
-    }
 
     /**
      * Get the source property: Describes the source of connection monitor.

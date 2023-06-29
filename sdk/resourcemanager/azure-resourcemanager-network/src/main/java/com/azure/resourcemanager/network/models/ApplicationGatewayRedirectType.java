@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Redirect type enum. */
+/** Defines values for ApplicationGatewayRedirectType. */
 public final class ApplicationGatewayRedirectType extends ExpandableStringEnum<ApplicationGatewayRedirectType> {
     /** Static value Permanent for ApplicationGatewayRedirectType. */
     public static final ApplicationGatewayRedirectType PERMANENT = fromString("Permanent");
@@ -21,15 +21,6 @@ public final class ApplicationGatewayRedirectType extends ExpandableStringEnum<A
 
     /** Static value Temporary for ApplicationGatewayRedirectType. */
     public static final ApplicationGatewayRedirectType TEMPORARY = fromString("Temporary");
-
-    /**
-     * Creates a new instance of ApplicationGatewayRedirectType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayRedirectType() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayRedirectType from its string representation.

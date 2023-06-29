@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The authorization use status. */
+/** Defines values for ExpressRoutePortAuthorizationUseStatus. */
 public final class ExpressRoutePortAuthorizationUseStatus
     extends ExpandableStringEnum<ExpressRoutePortAuthorizationUseStatus> {
     /** Static value Available for ExpressRoutePortAuthorizationUseStatus. */
@@ -16,15 +16,6 @@ public final class ExpressRoutePortAuthorizationUseStatus
 
     /** Static value InUse for ExpressRoutePortAuthorizationUseStatus. */
     public static final ExpressRoutePortAuthorizationUseStatus IN_USE = fromString("InUse");
-
-    /**
-     * Creates a new instance of ExpressRoutePortAuthorizationUseStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ExpressRoutePortAuthorizationUseStatus() {
-    }
 
     /**
      * Creates or finds a ExpressRoutePortAuthorizationUseStatus from its string representation.

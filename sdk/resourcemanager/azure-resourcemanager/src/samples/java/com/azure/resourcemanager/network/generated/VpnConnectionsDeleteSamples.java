@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VpnConnections Delete. */
 public final class VpnConnectionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VpnConnectionDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VpnConnectionDelete.json
      */
     /**
      * Sample code: VpnConnectionDelete.
@@ -20,6 +22,6 @@ public final class VpnConnectionsDeleteSamples {
             .manager()
             .serviceClient()
             .getVpnConnections()
-            .delete("rg1", "gateway1", "vpnConnection1", com.azure.core.util.Context.NONE);
+            .delete("rg1", "gateway1", "vpnConnection1", Context.NONE);
     }
 }

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkManagers Delete. */
 public final class NetworkManagersDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerDelete.json
      */
     /**
      * Sample code: NetworkManagersDelete.
@@ -20,6 +22,6 @@ public final class NetworkManagersDeleteSamples {
             .manager()
             .serviceClient()
             .getNetworkManagers()
-            .delete("rg1", "testNetworkManager", false, com.azure.core.util.Context.NONE);
+            .delete("rg1", "testNetworkManager", false, Context.NONE);
     }
 }

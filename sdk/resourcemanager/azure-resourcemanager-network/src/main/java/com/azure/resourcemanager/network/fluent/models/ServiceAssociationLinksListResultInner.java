@@ -24,10 +24,6 @@ public final class ServiceAssociationLinksListResultInner {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ServiceAssociationLinksListResultInner class. */
-    public ServiceAssociationLinksListResultInner() {
-    }
-
     /**
      * Get the value property: The service association links in a subnet.
      *

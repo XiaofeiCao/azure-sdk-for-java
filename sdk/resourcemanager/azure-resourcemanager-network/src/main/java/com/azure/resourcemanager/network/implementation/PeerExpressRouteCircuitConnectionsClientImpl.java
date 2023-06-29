@@ -61,10 +61,11 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface PeerExpressRouteCircuitConnectionsService {
+    private interface PeerExpressRouteCircuitConnectionsService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PeerExpressRouteCircuitConnectionInner>> get(
@@ -80,7 +81,8 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PeerExpressRouteCircuitConnectionListResult>> list(
@@ -145,7 +147,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -206,7 +208,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -249,6 +251,24 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the peer express route circuit connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Peer Express Route Circuit Connection from the specified express route circuit.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PeerExpressRouteCircuitConnectionInner get(
+        String resourceGroupName, String circuitName, String peeringName, String connectionName) {
+        return getAsync(resourceGroupName, circuitName, peeringName, connectionName).block();
+    }
+
+    /**
+     * Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the express route circuit.
+     * @param peeringName The name of the peering.
+     * @param connectionName The name of the peer express route circuit connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -260,24 +280,6 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
     public Response<PeerExpressRouteCircuitConnectionInner> getWithResponse(
         String resourceGroupName, String circuitName, String peeringName, String connectionName, Context context) {
         return getWithResponseAsync(resourceGroupName, circuitName, peeringName, connectionName, context).block();
-    }
-
-    /**
-     * Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param circuitName The name of the express route circuit.
-     * @param peeringName The name of the peering.
-     * @param connectionName The name of the peer express route circuit connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified Peer Express Route Circuit Connection from the specified express route circuit.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PeerExpressRouteCircuitConnectionInner get(
-        String resourceGroupName, String circuitName, String peeringName, String connectionName) {
-        return getWithResponse(resourceGroupName, circuitName, peeringName, connectionName, Context.NONE).getValue();
     }
 
     /**
@@ -317,7 +319,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -382,7 +384,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -487,8 +489,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -525,8 +526,7 @@ public final class PeerExpressRouteCircuitConnectionsClientImpl implements PeerE
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

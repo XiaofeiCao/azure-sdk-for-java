@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The status of the virtual network peering. */
+/** Defines values for VirtualNetworkPeeringState. */
 public final class VirtualNetworkPeeringState extends ExpandableStringEnum<VirtualNetworkPeeringState> {
     /** Static value Initiated for VirtualNetworkPeeringState. */
     public static final VirtualNetworkPeeringState INITIATED = fromString("Initiated");
@@ -18,15 +18,6 @@ public final class VirtualNetworkPeeringState extends ExpandableStringEnum<Virtu
 
     /** Static value Disconnected for VirtualNetworkPeeringState. */
     public static final VirtualNetworkPeeringState DISCONNECTED = fromString("Disconnected");
-
-    /**
-     * Creates a new instance of VirtualNetworkPeeringState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkPeeringState() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkPeeringState from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkManagers ListByResourceGroup. */
 public final class NetworkManagersListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerList.json
      */
     /**
      * Sample code: List Network Manager.
@@ -20,6 +22,6 @@ public final class NetworkManagersListByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getNetworkManagers()
-            .listByResourceGroup("rg1", null, null, com.azure.core.util.Context.NONE);
+            .listByResourceGroup("rg1", null, null, Context.NONE);
     }
 }

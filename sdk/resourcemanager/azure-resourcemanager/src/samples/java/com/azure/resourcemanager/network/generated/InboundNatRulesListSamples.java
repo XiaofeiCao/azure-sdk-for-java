@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for InboundNatRules List. */
 public final class InboundNatRulesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/InboundNatRuleList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/InboundNatRuleList.json
      */
     /**
      * Sample code: InboundNatRuleList.
@@ -15,11 +17,6 @@ public final class InboundNatRulesListSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void inboundNatRuleList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getInboundNatRules()
-            .list("testrg", "lb1", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getInboundNatRules().list("testrg", "lb1", Context.NONE);
     }
 }

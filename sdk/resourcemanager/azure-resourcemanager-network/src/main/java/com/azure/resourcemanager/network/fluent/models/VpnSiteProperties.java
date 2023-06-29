@@ -77,10 +77,6 @@ public final class VpnSiteProperties {
     @JsonProperty(value = "o365Policy")
     private O365PolicyProperties o365Policy;
 
-    /** Creates an instance of VpnSiteProperties class. */
-    public VpnSiteProperties() {
-    }
-
     /**
      * Get the virtualWan property: The VirtualWAN to which the vpnSite belongs.
      *

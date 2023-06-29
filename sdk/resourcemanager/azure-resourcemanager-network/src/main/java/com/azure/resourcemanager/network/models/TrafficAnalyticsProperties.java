@@ -16,10 +16,6 @@ public final class TrafficAnalyticsProperties {
     @JsonProperty(value = "networkWatcherFlowAnalyticsConfiguration")
     private TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration;
 
-    /** Creates an instance of TrafficAnalyticsProperties class. */
-    public TrafficAnalyticsProperties() {
-    }
-
     /**
      * Get the networkWatcherFlowAnalyticsConfiguration property: Parameters that define the configuration of traffic
      * analytics.

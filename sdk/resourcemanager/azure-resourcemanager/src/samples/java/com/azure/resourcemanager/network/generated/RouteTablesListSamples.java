@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for RouteTables List. */
 public final class RouteTablesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteTableListAll.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RouteTableListAll.json
      */
     /**
      * Sample code: List all route tables.
@@ -15,6 +17,6 @@ public final class RouteTablesListSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listAllRouteTables(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.networks().manager().serviceClient().getRouteTables().list(com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getRouteTables().list(Context.NONE);
     }
 }

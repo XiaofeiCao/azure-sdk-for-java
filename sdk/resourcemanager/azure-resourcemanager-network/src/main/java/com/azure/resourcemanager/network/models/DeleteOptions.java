@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Specify what happens to the public IP address when the VM using it is deleted. */
+/** Defines values for DeleteOptions. */
 public final class DeleteOptions extends ExpandableStringEnum<DeleteOptions> {
     /** Static value Delete for DeleteOptions. */
     public static final DeleteOptions DELETE = fromString("Delete");
 
     /** Static value Detach for DeleteOptions. */
     public static final DeleteOptions DETACH = fromString("Detach");
-
-    /**
-     * Creates a new instance of DeleteOptions value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public DeleteOptions() {
-    }
 
     /**
      * Creates or finds a DeleteOptions from its string representation.

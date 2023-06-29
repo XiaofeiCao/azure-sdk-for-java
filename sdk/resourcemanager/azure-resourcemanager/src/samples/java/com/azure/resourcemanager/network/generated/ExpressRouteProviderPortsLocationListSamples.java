@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteProviderPortsLocation List. */
 public final class ExpressRouteProviderPortsLocationListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/expressRouteProviderPortList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/expressRouteProviderPortList.json
      */
     /**
      * Sample code: ExpressRouteProviderPortList.
@@ -20,6 +22,6 @@ public final class ExpressRouteProviderPortsLocationListSamples {
             .manager()
             .serviceClient()
             .getExpressRouteProviderPortsLocations()
-            .listWithResponse(null, com.azure.core.util.Context.NONE);
+            .listWithResponse(null, Context.NONE);
     }
 }

@@ -29,10 +29,6 @@ public final class Parameter {
     @JsonProperty(value = "asPath")
     private List<String> asPath;
 
-    /** Creates an instance of Parameter class. */
-    public Parameter() {
-    }
-
     /**
      * Get the routePrefix property: List of route prefixes.
      *

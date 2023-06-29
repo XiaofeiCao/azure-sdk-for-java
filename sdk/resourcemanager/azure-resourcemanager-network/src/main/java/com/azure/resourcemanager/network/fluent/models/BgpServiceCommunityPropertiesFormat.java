@@ -24,10 +24,6 @@ public final class BgpServiceCommunityPropertiesFormat {
     @JsonProperty(value = "bgpCommunities")
     private List<BgpCommunity> bgpCommunities;
 
-    /** Creates an instance of BgpServiceCommunityPropertiesFormat class. */
-    public BgpServiceCommunityPropertiesFormat() {
-    }
-
     /**
      * Get the serviceName property: The name of the bgp community. e.g. Skype.
      *

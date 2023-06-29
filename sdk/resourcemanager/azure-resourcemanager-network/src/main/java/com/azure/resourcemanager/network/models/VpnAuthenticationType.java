@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** VPN authentication types enabled for the virtual network gateway. */
+/** Defines values for VpnAuthenticationType. */
 public final class VpnAuthenticationType extends ExpandableStringEnum<VpnAuthenticationType> {
     /** Static value Certificate for VpnAuthenticationType. */
     public static final VpnAuthenticationType CERTIFICATE = fromString("Certificate");
@@ -18,15 +18,6 @@ public final class VpnAuthenticationType extends ExpandableStringEnum<VpnAuthent
 
     /** Static value AAD for VpnAuthenticationType. */
     public static final VpnAuthenticationType AAD = fromString("AAD");
-
-    /**
-     * Creates a new instance of VpnAuthenticationType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VpnAuthenticationType() {
-    }
 
     /**
      * Creates or finds a VpnAuthenticationType from its string representation.

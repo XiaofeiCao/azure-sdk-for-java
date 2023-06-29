@@ -37,10 +37,6 @@ public final class TroubleshootingResultInner {
     @JsonProperty(value = "results")
     private List<TroubleshootingDetails> results;
 
-    /** Creates an instance of TroubleshootingResultInner class. */
-    public TroubleshootingResultInner() {
-    }
-
     /**
      * Get the startTime property: The start time of the troubleshooting.
      *

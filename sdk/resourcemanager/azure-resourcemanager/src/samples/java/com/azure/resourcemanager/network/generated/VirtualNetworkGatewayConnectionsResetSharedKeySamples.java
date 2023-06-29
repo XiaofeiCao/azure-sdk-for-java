@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ConnectionResetSharedKeyInner;
 
 /** Samples for VirtualNetworkGatewayConnections ResetSharedKey. */
 public final class VirtualNetworkGatewayConnectionsResetSharedKeySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayConnectionResetSharedKey.json
      */
     /**
      * Sample code: ResetVirtualNetworkGatewayConnectionSharedKey.
@@ -23,10 +24,6 @@ public final class VirtualNetworkGatewayConnectionsResetSharedKeySamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGatewayConnections()
-            .resetSharedKey(
-                "rg1",
-                "conn1",
-                new ConnectionResetSharedKeyInner().withKeyLength(128),
-                com.azure.core.util.Context.NONE);
+            .resetSharedKey("rg1", "conn1", new ConnectionResetSharedKeyInner().withKeyLength(128), Context.NONE);
     }
 }

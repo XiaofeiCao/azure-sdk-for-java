@@ -7,7 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High. */
+/** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 public enum FirewallPolicyIdpsSignatureSeverity {
     /** Enum value 1. */
     ONE(1),

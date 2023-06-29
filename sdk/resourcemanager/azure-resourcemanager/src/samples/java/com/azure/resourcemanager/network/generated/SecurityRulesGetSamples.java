@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for SecurityRules Get. */
 public final class SecurityRulesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkSecurityGroupRuleGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkSecurityGroupRuleGet.json
      */
     /**
      * Sample code: Get network security rule in network security group.
@@ -21,6 +23,6 @@ public final class SecurityRulesGetSamples {
             .manager()
             .serviceClient()
             .getSecurityRules()
-            .getWithResponse("rg1", "testnsg", "rule1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "testnsg", "rule1", Context.NONE);
     }
 }

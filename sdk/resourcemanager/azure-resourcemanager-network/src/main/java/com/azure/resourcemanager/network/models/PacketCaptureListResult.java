@@ -18,10 +18,6 @@ public final class PacketCaptureListResult {
     @JsonProperty(value = "value")
     private List<PacketCaptureResultInner> value;
 
-    /** Creates an instance of PacketCaptureListResult class. */
-    public PacketCaptureListResult() {
-    }
-
     /**
      * Get the value property: Information about packet capture sessions.
      *

@@ -24,14 +24,11 @@ public final class NetworkManagerDeploymentStatusParameter {
     private List<ConfigurationType> deploymentTypes;
 
     /*
-     * Continuation token for pagination, capturing the next page size and offset, as well as the context of the query.
+     * Continuation token for pagination, capturing the next page size and
+     * offset, as well as the context of the query.
      */
     @JsonProperty(value = "skipToken")
     private String skipToken;
-
-    /** Creates an instance of NetworkManagerDeploymentStatusParameter class. */
-    public NetworkManagerDeploymentStatusParameter() {
-    }
 
     /**
      * Get the regions property: List of locations.

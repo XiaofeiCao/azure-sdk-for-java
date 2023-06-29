@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for RouteFilterRules Delete. */
 public final class RouteFilterRulesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteFilterRuleDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RouteFilterRuleDelete.json
      */
     /**
      * Sample code: RouteFilterRuleDelete.
@@ -20,6 +22,6 @@ public final class RouteFilterRulesDeleteSamples {
             .manager()
             .serviceClient()
             .getRouteFilterRules()
-            .delete("rg1", "filterName", "ruleName", com.azure.core.util.Context.NONE);
+            .delete("rg1", "filterName", "ruleName", Context.NONE);
     }
 }

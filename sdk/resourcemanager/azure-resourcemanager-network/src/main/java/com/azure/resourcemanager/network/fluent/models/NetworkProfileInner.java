@@ -34,10 +34,6 @@ public final class NetworkProfileInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of NetworkProfileInner class. */
-    public NetworkProfileInner() {
-    }
-
     /**
      * Get the innerProperties property: Network profile properties.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGateways ListAvailableWafRuleSets. */
 public final class ApplicationGatewaysListAvailableWafRuleSetsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
      */
     /**
      * Sample code: Get Available Waf Rule Sets.
@@ -20,6 +22,6 @@ public final class ApplicationGatewaysListAvailableWafRuleSetsSamples {
             .manager()
             .serviceClient()
             .getApplicationGateways()
-            .listAvailableWafRuleSetsWithResponse(com.azure.core.util.Context.NONE);
+            .listAvailableWafRuleSetsWithResponse(Context.NONE);
     }
 }

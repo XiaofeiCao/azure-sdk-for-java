@@ -4,13 +4,14 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkInterfaceIpConfigurationInner;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkTapInner;
 
 /** Samples for VirtualNetworkTaps CreateOrUpdate. */
 public final class VirtualNetworkTapsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkTapCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkTapCreate.json
      */
     /**
      * Sample code: Create Virtual Network Tap.
@@ -32,6 +33,6 @@ public final class VirtualNetworkTapsCreateOrUpdateSamples {
                         new NetworkInterfaceIpConfigurationInner()
                             .withId(
                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

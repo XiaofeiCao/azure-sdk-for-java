@@ -24,10 +24,6 @@ public final class ServiceTagInformationListResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ServiceTagInformationListResult class. */
-    public ServiceTagInformationListResult() {
-    }
-
     /**
      * Get the value property: The list of service tag information resources.
      *

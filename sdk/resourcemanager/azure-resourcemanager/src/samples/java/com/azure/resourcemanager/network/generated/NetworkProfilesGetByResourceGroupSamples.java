@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkProfiles GetByResourceGroup. */
 public final class NetworkProfilesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkProfileGetWithContainerNic.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkProfileGetWithContainerNic.json
      */
     /**
      * Sample code: Get network profile with container network interfaces.
@@ -21,11 +23,11 @@ public final class NetworkProfilesGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getNetworkProfiles()
-            .getByResourceGroupWithResponse("rg1", "networkProfile1", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "networkProfile1", null, Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkProfileGetConfigOnly.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkProfileGetConfigOnly.json
      */
     /**
      * Sample code: Get network profile.
@@ -38,6 +40,6 @@ public final class NetworkProfilesGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getNetworkProfiles()
-            .getByResourceGroupWithResponse("rg1", "networkProfile1", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "networkProfile1", null, Context.NONE);
     }
 }

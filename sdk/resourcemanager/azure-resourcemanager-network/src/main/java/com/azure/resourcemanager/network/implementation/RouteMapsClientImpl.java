@@ -63,10 +63,11 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface RouteMapsService {
+    private interface RouteMapsService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/routeMaps/{routeMapName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<RouteMapInner>> get(
@@ -81,7 +82,8 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/routeMaps/{routeMapName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -97,7 +99,8 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/routeMaps/{routeMapName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -112,7 +115,8 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/routeMaps")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ListRouteMapsResult>> list(
@@ -172,7 +176,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (routeMapName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeMapName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -228,7 +232,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (routeMapName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeMapName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -266,6 +270,22 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
      * @param resourceGroupName The resource group name of the RouteMap's resource group.
      * @param virtualHubName The name of the VirtualHub containing the RouteMap.
      * @param routeMapName The name of the RouteMap.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the RouteMap child resource of a Virtual hub.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public RouteMapInner get(String resourceGroupName, String virtualHubName, String routeMapName) {
+        return getAsync(resourceGroupName, virtualHubName, routeMapName).block();
+    }
+
+    /**
+     * Retrieves the details of a RouteMap.
+     *
+     * @param resourceGroupName The resource group name of the RouteMap's resource group.
+     * @param virtualHubName The name of the VirtualHub containing the RouteMap.
+     * @param routeMapName The name of the RouteMap.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -276,22 +296,6 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     public Response<RouteMapInner> getWithResponse(
         String resourceGroupName, String virtualHubName, String routeMapName, Context context) {
         return getWithResponseAsync(resourceGroupName, virtualHubName, routeMapName, context).block();
-    }
-
-    /**
-     * Retrieves the details of a RouteMap.
-     *
-     * @param resourceGroupName The resource group name of the RouteMap's resource group.
-     * @param virtualHubName The name of the VirtualHub containing the RouteMap.
-     * @param routeMapName The name of the RouteMap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the RouteMap child resource of a Virtual hub.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public RouteMapInner get(String resourceGroupName, String virtualHubName, String routeMapName) {
-        return getWithResponse(resourceGroupName, virtualHubName, routeMapName, Context.NONE).getValue();
     }
 
     /**
@@ -338,7 +342,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         } else {
             routeMapParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -406,7 +410,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         } else {
             routeMapParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -494,8 +498,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<RouteMapInner>, RouteMapInner> beginCreateOrUpdate(
         String resourceGroupName, String virtualHubName, String routeMapName, RouteMapInner routeMapParameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeMapName, routeMapParameters)
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeMapName, routeMapParameters)
             .getSyncPoller();
     }
 
@@ -519,8 +522,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         String routeMapName,
         RouteMapInner routeMapParameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeMapName, routeMapParameters, context)
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, routeMapName, routeMapParameters, context)
             .getSyncPoller();
     }
 
@@ -647,7 +649,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (routeMapName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeMapName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -702,7 +704,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (routeMapName == null) {
             return Mono.error(new IllegalArgumentException("Parameter routeMapName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -776,7 +778,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String routeMapName) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, routeMapName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, routeMapName).getSyncPoller();
     }
 
     /**
@@ -794,7 +796,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String routeMapName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, routeMapName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, routeMapName, context).getSyncPoller();
     }
 
     /**
@@ -898,7 +900,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -958,7 +960,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1054,8 +1056,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1091,8 +1092,7 @@ public final class RouteMapsClientImpl implements RouteMapsClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

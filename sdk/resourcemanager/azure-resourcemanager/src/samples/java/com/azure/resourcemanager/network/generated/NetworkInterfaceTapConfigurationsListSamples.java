@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaceTapConfigurations List. */
 public final class NetworkInterfaceTapConfigurationsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceTapConfigurationList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkInterfaceTapConfigurationList.json
      */
     /**
      * Sample code: List virtual network tap configurations.
@@ -20,6 +22,6 @@ public final class NetworkInterfaceTapConfigurationsListSamples {
             .manager()
             .serviceClient()
             .getNetworkInterfaceTapConfigurations()
-            .list("rg1", "mynic", com.azure.core.util.Context.NONE);
+            .list("rg1", "mynic", Context.NONE);
     }
 }

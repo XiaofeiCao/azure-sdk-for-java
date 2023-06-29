@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.GetInboundRoutesParameters;
 
 /** Samples for VirtualHubs GetInboundRoutes. */
 public final class VirtualHubsGetInboundRoutesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/GetInboundRoutes.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/GetInboundRoutes.json
      */
     /**
      * Sample code: Inbound Routes for the Virtual Hub on a Particular Connection.
@@ -30,6 +31,6 @@ public final class VirtualHubsGetInboundRoutesSamples {
                     .withResourceUri(
                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1")
                     .withConnectionType("ExpressRouteConnection"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

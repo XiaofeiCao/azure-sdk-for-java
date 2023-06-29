@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NatGateways Delete. */
 public final class NatGatewaysDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NatGatewayDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NatGatewayDelete.json
      */
     /**
      * Sample code: Delete nat gateway.
@@ -15,11 +17,6 @@ public final class NatGatewaysDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteNatGateway(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getNatGateways()
-            .delete("rg1", "test-natGateway", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getNatGateways().delete("rg1", "test-natGateway", Context.NONE);
     }
 }

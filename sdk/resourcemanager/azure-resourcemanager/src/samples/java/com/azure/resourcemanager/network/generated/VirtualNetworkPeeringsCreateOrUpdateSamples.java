@@ -5,13 +5,14 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkPeeringInner;
 import com.azure.resourcemanager.network.models.SyncRemoteAddressSpace;
 
 /** Samples for VirtualNetworkPeerings CreateOrUpdate. */
 public final class VirtualNetworkPeeringsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkPeeringSync.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkPeeringSync.json
      */
     /**
      * Sample code: Sync Peering.
@@ -38,11 +39,11 @@ public final class VirtualNetworkPeeringsCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2")),
                 SyncRemoteAddressSpace.TRUE,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkPeeringCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkPeeringCreate.json
      */
     /**
      * Sample code: Create peering.
@@ -69,11 +70,11 @@ public final class VirtualNetworkPeeringsCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2")),
                 null,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
      */
     /**
      * Sample code: Create peering with remote virtual network encryption.
@@ -101,6 +102,6 @@ public final class VirtualNetworkPeeringsCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2")),
                 null,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

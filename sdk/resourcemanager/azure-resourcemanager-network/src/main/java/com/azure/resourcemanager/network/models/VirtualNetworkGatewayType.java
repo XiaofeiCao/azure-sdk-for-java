@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The type of this virtual network gateway. */
+/** Defines values for VirtualNetworkGatewayType. */
 public final class VirtualNetworkGatewayType extends ExpandableStringEnum<VirtualNetworkGatewayType> {
     /** Static value Vpn for VirtualNetworkGatewayType. */
     public static final VirtualNetworkGatewayType VPN = fromString("Vpn");
@@ -18,15 +18,6 @@ public final class VirtualNetworkGatewayType extends ExpandableStringEnum<Virtua
 
     /** Static value LocalGateway for VirtualNetworkGatewayType. */
     public static final VirtualNetworkGatewayType LOCAL_GATEWAY = fromString("LocalGateway");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewayType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewayType() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewayType from its string representation.

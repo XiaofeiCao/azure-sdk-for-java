@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for StaticMembers Get. */
 public final class StaticMembersGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerStaticMemberGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerStaticMemberGet.json
      */
     /**
      * Sample code: StaticMembersGet.
@@ -20,7 +22,6 @@ public final class StaticMembersGetSamples {
             .manager()
             .serviceClient()
             .getStaticMembers()
-            .getWithResponse(
-                "rg1", "testNetworkManager", "testNetworkGroup", "testStaticMember", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "testNetworkManager", "testNetworkGroup", "testStaticMember", Context.NONE);
     }
 }

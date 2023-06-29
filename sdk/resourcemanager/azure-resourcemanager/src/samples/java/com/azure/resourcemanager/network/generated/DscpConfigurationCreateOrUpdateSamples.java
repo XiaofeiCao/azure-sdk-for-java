@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.DscpConfigurationInner;
 import com.azure.resourcemanager.network.models.ProtocolType;
 import com.azure.resourcemanager.network.models.QosDefinition;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 /** Samples for DscpConfiguration CreateOrUpdate. */
 public final class DscpConfigurationCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/DscpConfigurationCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/DscpConfigurationCreate.json
      */
     /**
      * Sample code: Create DSCP Configuration.
@@ -60,6 +61,6 @@ public final class DscpConfigurationCreateOrUpdateSamples {
                                     .withDestinationPortRanges(
                                         Arrays.asList(new QosPortRange().withStart(51).withEnd(52)))
                                     .withProtocol(ProtocolType.UDP))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

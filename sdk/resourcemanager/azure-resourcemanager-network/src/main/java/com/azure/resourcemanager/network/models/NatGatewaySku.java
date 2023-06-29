@@ -16,10 +16,6 @@ public final class NatGatewaySku {
     @JsonProperty(value = "name")
     private NatGatewaySkuName name;
 
-    /** Creates an instance of NatGatewaySku class. */
-    public NatGatewaySku() {
-    }
-
     /**
      * Get the name property: Name of Nat Gateway SKU.
      *

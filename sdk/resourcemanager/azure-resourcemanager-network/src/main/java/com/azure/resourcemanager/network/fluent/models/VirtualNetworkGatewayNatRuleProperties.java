@@ -51,10 +51,6 @@ public final class VirtualNetworkGatewayNatRuleProperties {
     @JsonProperty(value = "ipConfigurationId")
     private String ipConfigurationId;
 
-    /** Creates an instance of VirtualNetworkGatewayNatRuleProperties class. */
-    public VirtualNetworkGatewayNatRuleProperties() {
-    }
-
     /**
      * Get the provisioningState property: The provisioning state of the NAT Rule resource.
      *

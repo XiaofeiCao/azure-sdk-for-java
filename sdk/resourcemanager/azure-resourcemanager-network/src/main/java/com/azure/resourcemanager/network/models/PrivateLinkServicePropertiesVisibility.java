@@ -10,10 +10,6 @@ import java.util.List;
 /** The visibility list of the private link service. */
 @Fluent
 public final class PrivateLinkServicePropertiesVisibility extends ResourceSet {
-    /** Creates an instance of PrivateLinkServicePropertiesVisibility class. */
-    public PrivateLinkServicePropertiesVisibility() {
-    }
-
     /** {@inheritDoc} */
     @Override
     public PrivateLinkServicePropertiesVisibility withSubscriptions(List<String> subscriptions) {

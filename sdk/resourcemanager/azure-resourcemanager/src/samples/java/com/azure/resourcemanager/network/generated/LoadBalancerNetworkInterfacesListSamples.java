@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for LoadBalancerNetworkInterfaces List. */
 public final class LoadBalancerNetworkInterfacesListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerNetworkInterfaceListVmss.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerNetworkInterfaceListVmss.json
      */
     /**
      * Sample code: LoadBalancerNetworkInterfaceListVmss.
@@ -20,11 +22,11 @@ public final class LoadBalancerNetworkInterfacesListSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerNetworkInterfaces()
-            .list("testrg", "lb", com.azure.core.util.Context.NONE);
+            .list("testrg", "lb", Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerNetworkInterfaceListSimple.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerNetworkInterfaceListSimple.json
      */
     /**
      * Sample code: LoadBalancerNetworkInterfaceListSimple.
@@ -37,6 +39,6 @@ public final class LoadBalancerNetworkInterfacesListSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerNetworkInterfaces()
-            .list("testrg", "lb", com.azure.core.util.Context.NONE);
+            .list("testrg", "lb", Context.NONE);
     }
 }

@@ -8,10 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/**
- * Kind of actions which can be taken on a matched route. Add, Replace, Remove refer to parameters on the route, like
- * community or prefix.
- */
+/** Defines values for RouteMapActionType. */
 public final class RouteMapActionType extends ExpandableStringEnum<RouteMapActionType> {
     /** Static value Unknown for RouteMapActionType. */
     public static final RouteMapActionType UNKNOWN = fromString("Unknown");
@@ -27,15 +24,6 @@ public final class RouteMapActionType extends ExpandableStringEnum<RouteMapActio
 
     /** Static value Drop for RouteMapActionType. */
     public static final RouteMapActionType DROP = fromString("Drop");
-
-    /**
-     * Creates a new instance of RouteMapActionType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public RouteMapActionType() {
-    }
 
     /**
      * Creates or finds a RouteMapActionType from its string representation.

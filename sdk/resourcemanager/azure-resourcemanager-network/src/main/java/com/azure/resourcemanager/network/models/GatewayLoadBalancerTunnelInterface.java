@@ -34,10 +34,6 @@ public final class GatewayLoadBalancerTunnelInterface {
     @JsonProperty(value = "type")
     private GatewayLoadBalancerTunnelInterfaceType type;
 
-    /** Creates an instance of GatewayLoadBalancerTunnelInterface class. */
-    public GatewayLoadBalancerTunnelInterface() {
-    }
-
     /**
      * Get the port property: Port of gateway load balancer tunnel interface.
      *

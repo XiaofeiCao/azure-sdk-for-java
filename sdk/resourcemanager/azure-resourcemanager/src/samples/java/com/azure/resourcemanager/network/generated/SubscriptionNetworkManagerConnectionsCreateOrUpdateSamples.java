@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkManagerConnectionInner;
 
 /** Samples for SubscriptionNetworkManagerConnections CreateOrUpdate. */
 public final class SubscriptionNetworkManagerConnectionsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectionSubscriptionPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectionSubscriptionPut.json
      */
     /**
      * Sample code: Create or Update Subscription Network Manager Connection.
@@ -28,6 +29,6 @@ public final class SubscriptionNetworkManagerConnectionsCreateOrUpdateSamples {
                 new NetworkManagerConnectionInner()
                     .withNetworkManagerId(
                         "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

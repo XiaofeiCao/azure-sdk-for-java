@@ -24,10 +24,6 @@ public final class ListRouteMapsResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListRouteMapsResult class. */
-    public ListRouteMapsResult() {
-    }
-
     /**
      * Get the value property: List of RouteMaps.
      *

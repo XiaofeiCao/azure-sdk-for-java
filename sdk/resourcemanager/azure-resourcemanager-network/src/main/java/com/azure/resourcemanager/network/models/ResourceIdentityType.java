@@ -7,11 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
- * created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual
- * machine.
- */
+/** Defines values for ResourceIdentityType. */
 public enum ResourceIdentityType {
     /** Enum value SystemAssigned. */
     SYSTEM_ASSIGNED("SystemAssigned"),
@@ -40,9 +36,6 @@ public enum ResourceIdentityType {
      */
     @JsonCreator
     public static ResourceIdentityType fromString(String value) {
-        if (value == null) {
-            return null;
-        }
         ResourceIdentityType[] items = ResourceIdentityType.values();
         for (ResourceIdentityType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
@@ -52,7 +45,6 @@ public enum ResourceIdentityType {
         return null;
     }
 
-    /** {@inheritDoc} */
     @JsonValue
     @Override
     public String toString() {

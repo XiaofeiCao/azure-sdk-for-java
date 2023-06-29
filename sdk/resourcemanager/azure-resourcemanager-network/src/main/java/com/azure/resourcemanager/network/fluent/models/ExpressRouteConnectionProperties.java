@@ -51,21 +51,18 @@ public final class ExpressRouteConnectionProperties {
     private Boolean expressRouteGatewayBypass;
 
     /*
-     * Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass)
-     * must be enabled.
+     * Bypass the ExpressRoute gateway when accessing private-links.
+     * ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled.
      */
     @JsonProperty(value = "enablePrivateLinkFastPath")
     private Boolean enablePrivateLinkFastPath;
 
     /*
-     * The Routing Configuration indicating the associated and propagated route tables on this connection.
+     * The Routing Configuration indicating the associated and propagated route
+     * tables on this connection.
      */
     @JsonProperty(value = "routingConfiguration")
     private RoutingConfiguration routingConfiguration;
-
-    /** Creates an instance of ExpressRouteConnectionProperties class. */
-    public ExpressRouteConnectionProperties() {
-    }
 
     /**
      * Get the provisioningState property: The provisioning state of the express route connection resource.

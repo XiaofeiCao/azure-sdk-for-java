@@ -67,10 +67,11 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface ExpressRoutePortAuthorizationsService {
+    private interface ExpressRoutePortAuthorizationsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -85,7 +86,8 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRoutePortAuthorizationInner>> get(
@@ -100,7 +102,8 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -116,7 +119,8 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRoutePorts/{expressRoutePortName}/authorizations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRoutePortAuthorizationListResult>> list(
@@ -177,7 +181,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -234,7 +238,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -308,7 +312,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String expressRoutePortName, String authorizationName) {
-        return this.beginDeleteAsync(resourceGroupName, expressRoutePortName, authorizationName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, expressRoutePortName, authorizationName).getSyncPoller();
     }
 
     /**
@@ -326,9 +330,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String expressRoutePortName, String authorizationName, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, expressRoutePortName, authorizationName, context)
-            .getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, expressRoutePortName, authorizationName, context).getSyncPoller();
     }
 
     /**
@@ -440,7 +442,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -498,7 +500,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -538,6 +540,23 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
      * @param resourceGroupName The name of the resource group.
      * @param expressRoutePortName The name of the express route port.
      * @param authorizationName The name of the authorization.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified authorization from the specified express route port.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ExpressRoutePortAuthorizationInner get(
+        String resourceGroupName, String expressRoutePortName, String authorizationName) {
+        return getAsync(resourceGroupName, expressRoutePortName, authorizationName).block();
+    }
+
+    /**
+     * Gets the specified authorization from the specified express route port.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param expressRoutePortName The name of the express route port.
+     * @param authorizationName The name of the authorization.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -548,23 +567,6 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
     public Response<ExpressRoutePortAuthorizationInner> getWithResponse(
         String resourceGroupName, String expressRoutePortName, String authorizationName, Context context) {
         return getWithResponseAsync(resourceGroupName, expressRoutePortName, authorizationName, context).block();
-    }
-
-    /**
-     * Gets the specified authorization from the specified express route port.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param expressRoutePortName The name of the express route port.
-     * @param authorizationName The name of the authorization.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified authorization from the specified express route port.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRoutePortAuthorizationInner get(
-        String resourceGroupName, String expressRoutePortName, String authorizationName) {
-        return getWithResponse(resourceGroupName, expressRoutePortName, authorizationName, Context.NONE).getValue();
     }
 
     /**
@@ -617,7 +619,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
         } else {
             authorizationParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -688,7 +690,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
         } else {
             authorizationParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -793,8 +795,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
             String expressRoutePortName,
             String authorizationName,
             ExpressRoutePortAuthorizationInner authorizationParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, expressRoutePortName, authorizationName, authorizationParameters)
             .getSyncPoller();
     }
@@ -821,8 +822,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
             String authorizationName,
             ExpressRoutePortAuthorizationInner authorizationParameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName, expressRoutePortName, authorizationName, authorizationParameters, context)
             .getSyncPoller();
     }
@@ -962,7 +962,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1023,7 +1023,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1119,8 +1119,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1156,8 +1155,7 @@ public final class ExpressRoutePortAuthorizationsClientImpl implements ExpressRo
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

@@ -23,10 +23,6 @@ public final class ApplicationGatewayBackendHealthPool {
     @JsonProperty(value = "backendHttpSettingsCollection")
     private List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection;
 
-    /** Creates an instance of ApplicationGatewayBackendHealthPool class. */
-    public ApplicationGatewayBackendHealthPool() {
-    }
-
     /**
      * Get the backendAddressPool property: Reference to an ApplicationGatewayBackendAddressPool resource.
      *

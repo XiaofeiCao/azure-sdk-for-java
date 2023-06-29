@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualRouterPeerings Get. */
 public final class VirtualRouterPeeringsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualRouterPeeringGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualRouterPeeringGet.json
      */
     /**
      * Sample code: Get Virtual Router Peering.
@@ -20,6 +22,6 @@ public final class VirtualRouterPeeringsGetSamples {
             .manager()
             .serviceClient()
             .getVirtualRouterPeerings()
-            .getWithResponse("rg1", "virtualRouter", "peering1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "virtualRouter", "peering1", Context.NONE);
     }
 }

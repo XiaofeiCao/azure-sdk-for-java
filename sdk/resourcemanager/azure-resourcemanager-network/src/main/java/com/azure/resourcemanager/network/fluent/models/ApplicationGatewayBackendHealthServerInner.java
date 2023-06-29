@@ -35,10 +35,6 @@ public final class ApplicationGatewayBackendHealthServerInner {
     @JsonProperty(value = "healthProbeLog")
     private String healthProbeLog;
 
-    /** Creates an instance of ApplicationGatewayBackendHealthServerInner class. */
-    public ApplicationGatewayBackendHealthServerInner() {
-    }
-
     /**
      * Get the address property: IP address or FQDN of backend server.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGateways ListAvailableSslPredefinedPolicies. */
 public final class ApplicationGatewaysListAvailableSslPredefinedPoliciesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPoliciesGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPoliciesGet.json
      */
     /**
      * Sample code: Get Available Ssl Predefined Policies.
@@ -20,6 +22,6 @@ public final class ApplicationGatewaysListAvailableSslPredefinedPoliciesSamples 
             .manager()
             .serviceClient()
             .getApplicationGateways()
-            .listAvailableSslPredefinedPolicies(com.azure.core.util.Context.NONE);
+            .listAvailableSslPredefinedPolicies(Context.NONE);
     }
 }

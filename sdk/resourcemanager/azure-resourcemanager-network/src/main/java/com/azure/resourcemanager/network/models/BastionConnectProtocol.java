@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The protocol used to connect to the target. */
+/** Defines values for BastionConnectProtocol. */
 public final class BastionConnectProtocol extends ExpandableStringEnum<BastionConnectProtocol> {
     /** Static value SSH for BastionConnectProtocol. */
     public static final BastionConnectProtocol SSH = fromString("SSH");
 
     /** Static value RDP for BastionConnectProtocol. */
     public static final BastionConnectProtocol RDP = fromString("RDP");
-
-    /**
-     * Creates a new instance of BastionConnectProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public BastionConnectProtocol() {
-    }
 
     /**
      * Creates or finds a BastionConnectProtocol from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways GetVpnclientIpsecParameters. */
 public final class VirtualNetworkGatewaysGetVpnclientIpsecParametersSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayGetVpnClientIpsecParameters.json
      */
     /**
      * Sample code: Get VirtualNetworkGateway VpnClientIpsecParameters.
@@ -21,6 +23,6 @@ public final class VirtualNetworkGatewaysGetVpnclientIpsecParametersSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .getVpnclientIpsecParameters("rg1", "vpngw", com.azure.core.util.Context.NONE);
+            .getVpnclientIpsecParameters("rg1", "vpngw", Context.NONE);
     }
 }

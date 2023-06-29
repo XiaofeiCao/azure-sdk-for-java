@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Whether network traffic is allowed or denied. */
+/** Defines values for SecurityConfigurationRuleAccess. */
 public final class SecurityConfigurationRuleAccess extends ExpandableStringEnum<SecurityConfigurationRuleAccess> {
     /** Static value Allow for SecurityConfigurationRuleAccess. */
     public static final SecurityConfigurationRuleAccess ALLOW = fromString("Allow");
@@ -18,15 +18,6 @@ public final class SecurityConfigurationRuleAccess extends ExpandableStringEnum<
 
     /** Static value AlwaysAllow for SecurityConfigurationRuleAccess. */
     public static final SecurityConfigurationRuleAccess ALWAYS_ALLOW = fromString("AlwaysAllow");
-
-    /**
-     * Creates a new instance of SecurityConfigurationRuleAccess value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public SecurityConfigurationRuleAccess() {
-    }
 
     /**
      * Creates or finds a SecurityConfigurationRuleAccess from its string representation.

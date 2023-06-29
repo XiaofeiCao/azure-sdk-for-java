@@ -7,11 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * ExpressRoutePorts Location Bandwidths
- *
- * <p>Real-time inventory of available ExpressRoute port bandwidths.
- */
+/** ExpressRoutePorts Location Bandwidths Real-time inventory of available ExpressRoute port bandwidths. */
 @Immutable
 public final class ExpressRoutePortsLocationBandwidths {
     /*
@@ -25,10 +21,6 @@ public final class ExpressRoutePortsLocationBandwidths {
      */
     @JsonProperty(value = "valueInGbps", access = JsonProperty.Access.WRITE_ONLY)
     private Integer valueInGbps;
-
-    /** Creates an instance of ExpressRoutePortsLocationBandwidths class. */
-    public ExpressRoutePortsLocationBandwidths() {
-    }
 
     /**
      * Get the offerName property: Bandwidth descriptive name.

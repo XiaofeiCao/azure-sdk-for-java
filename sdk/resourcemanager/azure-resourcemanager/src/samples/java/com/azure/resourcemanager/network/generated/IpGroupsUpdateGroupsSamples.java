@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.TagsObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 /** Samples for IpGroups UpdateGroups. */
 public final class IpGroupsUpdateGroupsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/IpGroupsUpdateTags.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/IpGroupsUpdateTags.json
      */
     /**
      * Sample code: Update_IpGroups.
@@ -28,7 +29,7 @@ public final class IpGroupsUpdateGroupsSamples {
                 "myResourceGroup",
                 "ipGroups1",
                 new TagsObject().withTags(mapOf("key1", "value1", "key2", "value2")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

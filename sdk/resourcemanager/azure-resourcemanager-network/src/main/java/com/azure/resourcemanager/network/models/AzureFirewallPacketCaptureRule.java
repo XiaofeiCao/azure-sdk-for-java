@@ -29,10 +29,6 @@ public final class AzureFirewallPacketCaptureRule {
     @JsonProperty(value = "destinationPorts")
     private List<String> destinationPorts;
 
-    /** Creates an instance of AzureFirewallPacketCaptureRule class. */
-    public AzureFirewallPacketCaptureRule() {
-    }
-
     /**
      * Get the sources property: List of source IP addresses/subnets to be captured.
      *

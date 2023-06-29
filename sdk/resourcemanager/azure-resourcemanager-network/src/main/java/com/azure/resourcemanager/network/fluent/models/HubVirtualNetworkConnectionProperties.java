@@ -38,7 +38,8 @@ public final class HubVirtualNetworkConnectionProperties {
     private Boolean enableInternetSecurity;
 
     /*
-     * The Routing Configuration indicating the associated and propagated route tables on this connection.
+     * The Routing Configuration indicating the associated and propagated route
+     * tables on this connection.
      */
     @JsonProperty(value = "routingConfiguration")
     private RoutingConfiguration routingConfiguration;
@@ -48,10 +49,6 @@ public final class HubVirtualNetworkConnectionProperties {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of HubVirtualNetworkConnectionProperties class. */
-    public HubVirtualNetworkConnectionProperties() {
-    }
 
     /**
      * Get the remoteVirtualNetwork property: Reference to the remote virtual network.

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Status code of the application gateway custom error. */
+/** Defines values for ApplicationGatewayCustomErrorStatusCode. */
 public final class ApplicationGatewayCustomErrorStatusCode
     extends ExpandableStringEnum<ApplicationGatewayCustomErrorStatusCode> {
     /** Static value HttpStatus400 for ApplicationGatewayCustomErrorStatusCode. */
@@ -26,9 +26,6 @@ public final class ApplicationGatewayCustomErrorStatusCode
     /** Static value HttpStatus408 for ApplicationGatewayCustomErrorStatusCode. */
     public static final ApplicationGatewayCustomErrorStatusCode HTTP_STATUS408 = fromString("HttpStatus408");
 
-    /** Static value HttpStatus499 for ApplicationGatewayCustomErrorStatusCode. */
-    public static final ApplicationGatewayCustomErrorStatusCode HTTP_STATUS499 = fromString("HttpStatus499");
-
     /** Static value HttpStatus500 for ApplicationGatewayCustomErrorStatusCode. */
     public static final ApplicationGatewayCustomErrorStatusCode HTTP_STATUS500 = fromString("HttpStatus500");
 
@@ -40,15 +37,6 @@ public final class ApplicationGatewayCustomErrorStatusCode
 
     /** Static value HttpStatus504 for ApplicationGatewayCustomErrorStatusCode. */
     public static final ApplicationGatewayCustomErrorStatusCode HTTP_STATUS504 = fromString("HttpStatus504");
-
-    /**
-     * Creates a new instance of ApplicationGatewayCustomErrorStatusCode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayCustomErrorStatusCode() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayCustomErrorStatusCode from its string representation.

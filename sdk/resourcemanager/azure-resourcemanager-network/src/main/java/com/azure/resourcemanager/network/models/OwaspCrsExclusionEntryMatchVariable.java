@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The variable to be excluded. */
+/** Defines values for OwaspCrsExclusionEntryMatchVariable. */
 public final class OwaspCrsExclusionEntryMatchVariable
     extends ExpandableStringEnum<OwaspCrsExclusionEntryMatchVariable> {
     /** Static value RequestHeaderNames for OwaspCrsExclusionEntryMatchVariable. */
@@ -37,15 +37,6 @@ public final class OwaspCrsExclusionEntryMatchVariable
 
     /** Static value RequestArgValues for OwaspCrsExclusionEntryMatchVariable. */
     public static final OwaspCrsExclusionEntryMatchVariable REQUEST_ARG_VALUES = fromString("RequestArgValues");
-
-    /**
-     * Creates a new instance of OwaspCrsExclusionEntryMatchVariable value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public OwaspCrsExclusionEntryMatchVariable() {
-    }
 
     /**
      * Creates or finds a OwaspCrsExclusionEntryMatchVariable from its string representation.

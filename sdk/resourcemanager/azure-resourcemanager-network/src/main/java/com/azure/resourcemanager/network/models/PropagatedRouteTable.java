@@ -24,10 +24,6 @@ public final class PropagatedRouteTable {
     @JsonProperty(value = "ids")
     private List<SubResource> ids;
 
-    /** Creates an instance of PropagatedRouteTable class. */
-    public PropagatedRouteTable() {
-    }
-
     /**
      * Get the labels property: The list of labels.
      *

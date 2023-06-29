@@ -56,6 +56,20 @@ public interface RouteMapsClient {
      * @param resourceGroupName The resource group name of the RouteMap's resource group.
      * @param virtualHubName The name of the VirtualHub containing the RouteMap.
      * @param routeMapName The name of the RouteMap.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the RouteMap child resource of a Virtual hub.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    RouteMapInner get(String resourceGroupName, String virtualHubName, String routeMapName);
+
+    /**
+     * Retrieves the details of a RouteMap.
+     *
+     * @param resourceGroupName The resource group name of the RouteMap's resource group.
+     * @param virtualHubName The name of the VirtualHub containing the RouteMap.
+     * @param routeMapName The name of the RouteMap.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -65,20 +79,6 @@ public interface RouteMapsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<RouteMapInner> getWithResponse(
         String resourceGroupName, String virtualHubName, String routeMapName, Context context);
-
-    /**
-     * Retrieves the details of a RouteMap.
-     *
-     * @param resourceGroupName The resource group name of the RouteMap's resource group.
-     * @param virtualHubName The name of the VirtualHub containing the RouteMap.
-     * @param routeMapName The name of the RouteMap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the RouteMap child resource of a Virtual hub.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    RouteMapInner get(String resourceGroupName, String virtualHubName, String routeMapName);
 
     /**
      * Creates a RouteMap if it doesn't exist else updates the existing one.

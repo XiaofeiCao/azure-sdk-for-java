@@ -24,26 +24,25 @@ public final class RoutingConfiguration {
     private PropagatedRouteTable propagatedRouteTables;
 
     /*
-     * List of routes that control routing from VirtualHub into a virtual network connection.
+     * List of routes that control routing from VirtualHub into a virtual
+     * network connection.
      */
     @JsonProperty(value = "vnetRoutes")
     private VnetRoute vnetRoutes;
 
     /*
-     * The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+     * The resource id of the RouteMap associated with this
+     * RoutingConfiguration for inbound learned routes.
      */
     @JsonProperty(value = "inboundRouteMap")
     private SubResource inboundRouteMap;
 
     /*
-     * The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+     * The resource id of theRouteMap associated with this RoutingConfiguration
+     * for outbound advertised routes.
      */
     @JsonProperty(value = "outboundRouteMap")
     private SubResource outboundRouteMap;
-
-    /** Creates an instance of RoutingConfiguration class. */
-    public RoutingConfiguration() {
-    }
 
     /**
      * Get the associatedRouteTable property: The resource id RouteTable associated with this RoutingConfiguration.

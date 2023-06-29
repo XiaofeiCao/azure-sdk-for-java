@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualHubInner;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 /** Samples for VirtualHubs CreateOrUpdate. */
 public final class VirtualHubsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualHubPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualHubPut.json
      */
     /**
      * Sample code: VirtualHubPut.
@@ -37,7 +38,7 @@ public final class VirtualHubsCreateOrUpdateSamples {
                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"))
                     .withAddressPrefix("10.168.0.0/24")
                     .withSku("Basic"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

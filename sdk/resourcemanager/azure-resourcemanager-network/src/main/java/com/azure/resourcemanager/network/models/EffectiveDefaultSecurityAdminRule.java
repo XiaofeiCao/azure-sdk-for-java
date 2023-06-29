@@ -22,10 +22,6 @@ public final class EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecuri
     @JsonProperty(value = "properties")
     private DefaultAdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of EffectiveDefaultSecurityAdminRule class. */
-    public EffectiveDefaultSecurityAdminRule() {
-    }
-
     /**
      * Get the innerProperties property: Indicates the properties of the default security admin rule.
      *
@@ -184,6 +180,15 @@ public final class EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecuri
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

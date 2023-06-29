@@ -41,10 +41,6 @@ public final class NetworkManagerInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of NetworkManagerInner class. */
-    public NetworkManagerInner() {
-    }
-
     /**
      * Get the innerProperties property: The network manager properties.
      *
@@ -183,6 +179,15 @@ public final class NetworkManagerInner extends Resource {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

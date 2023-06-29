@@ -27,10 +27,6 @@ public final class OperationListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of OperationListResult class. */
-    public OperationListResult() {
-    }
-
     /**
      * Get the value property: List of Network operations supported by the Network resource provider.
      *

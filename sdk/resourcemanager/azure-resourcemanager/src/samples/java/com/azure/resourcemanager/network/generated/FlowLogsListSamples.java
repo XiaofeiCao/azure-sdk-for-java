@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for FlowLogs List. */
 public final class FlowLogsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherFlowLogList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherFlowLogList.json
      */
     /**
      * Sample code: List connection monitors.
@@ -15,6 +17,6 @@ public final class FlowLogsListSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void listConnectionMonitors(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.networks().manager().serviceClient().getFlowLogs().list("rg1", "nw1", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getFlowLogs().list("rg1", "nw1", Context.NONE);
     }
 }

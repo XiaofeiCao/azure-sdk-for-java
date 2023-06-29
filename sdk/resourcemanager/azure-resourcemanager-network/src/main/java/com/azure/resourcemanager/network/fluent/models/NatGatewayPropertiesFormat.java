@@ -20,7 +20,8 @@ public final class NatGatewayPropertiesFormat {
     private Integer idleTimeoutInMinutes;
 
     /*
-     * An array of public ip addresses associated with the nat gateway resource.
+     * An array of public ip addresses associated with the nat gateway
+     * resource.
      */
     @JsonProperty(value = "publicIpAddresses")
     private List<SubResource> publicIpAddresses;
@@ -48,10 +49,6 @@ public final class NatGatewayPropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of NatGatewayPropertiesFormat class. */
-    public NatGatewayPropertiesFormat() {
-    }
 
     /**
      * Get the idleTimeoutInMinutes property: The idle timeout of the nat gateway.

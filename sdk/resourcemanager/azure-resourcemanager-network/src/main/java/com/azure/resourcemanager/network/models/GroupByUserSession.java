@@ -18,10 +18,6 @@ public final class GroupByUserSession {
     @JsonProperty(value = "groupByVariables", required = true)
     private List<GroupByVariable> groupByVariables;
 
-    /** Creates an instance of GroupByUserSession class. */
-    public GroupByUserSession() {
-    }
-
     /**
      * Get the groupByVariables property: List of group by clause variables.
      *

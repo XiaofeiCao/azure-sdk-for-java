@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualHubBgpConnections Delete. */
 public final class VirtualHubBgpConnectionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualHubBgpConnectionDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualHubBgpConnectionDelete.json
      */
     /**
      * Sample code: VirtualHubRouteTableV2Delete.
@@ -20,6 +22,6 @@ public final class VirtualHubBgpConnectionsDeleteSamples {
             .manager()
             .serviceClient()
             .getVirtualHubBgpConnections()
-            .delete("rg1", "hub1", "conn1", com.azure.core.util.Context.NONE);
+            .delete("rg1", "hub1", "conn1", Context.NONE);
     }
 }

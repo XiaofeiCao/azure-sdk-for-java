@@ -30,10 +30,6 @@ public class EffectiveConnectivityConfiguration {
     @JsonProperty(value = "configurationGroups")
     private List<ConfigurationGroup> configurationGroups;
 
-    /** Creates an instance of EffectiveConnectivityConfiguration class. */
-    public EffectiveConnectivityConfiguration() {
-    }
-
     /**
      * Get the id property: Connectivity configuration ID.
      *
@@ -228,6 +224,15 @@ public class EffectiveConnectivityConfiguration {
         }
         this.innerProperties().withDeleteExistingPeering(deleteExistingPeering);
         return this;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

@@ -32,10 +32,6 @@ public final class VirtualNetworkTapInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VirtualNetworkTapInner class. */
-    public VirtualNetworkTapInner() {
-    }
-
     /**
      * Get the innerProperties property: Virtual Network Tap Properties.
      *

@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Tier of a public IP address SKU. */
+/** Defines values for PublicIpAddressSkuTier. */
 public final class PublicIpAddressSkuTier extends ExpandableStringEnum<PublicIpAddressSkuTier> {
     /** Static value Regional for PublicIpAddressSkuTier. */
     public static final PublicIpAddressSkuTier REGIONAL = fromString("Regional");
 
     /** Static value Global for PublicIpAddressSkuTier. */
     public static final PublicIpAddressSkuTier GLOBAL = fromString("Global");
-
-    /**
-     * Creates a new instance of PublicIpAddressSkuTier value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public PublicIpAddressSkuTier() {
-    }
 
     /**
      * Creates or finds a PublicIpAddressSkuTier from its string representation.

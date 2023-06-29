@@ -24,10 +24,6 @@ public final class BastionShareableLinkListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of BastionShareableLinkListResult class. */
-    public BastionShareableLinkListResult() {
-    }
-
     /**
      * Get the value property: List of Bastion Shareable Links for the request.
      *

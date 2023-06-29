@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ConnectivityConfigurations List. */
 public final class ConnectivityConfigurationsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectivityConfigurationList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectivityConfigurationList.json
      */
     /**
      * Sample code: ConnectivityConfigurationsList.
@@ -20,6 +22,6 @@ public final class ConnectivityConfigurationsListSamples {
             .manager()
             .serviceClient()
             .getConnectivityConfigurations()
-            .list("myResourceGroup", "testNetworkManager", null, null, com.azure.core.util.Context.NONE);
+            .list("myResourceGroup", "testNetworkManager", null, null, Context.NONE);
     }
 }

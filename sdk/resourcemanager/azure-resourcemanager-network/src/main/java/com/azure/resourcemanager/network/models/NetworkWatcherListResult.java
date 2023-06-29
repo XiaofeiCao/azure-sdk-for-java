@@ -18,10 +18,6 @@ public final class NetworkWatcherListResult {
     @JsonProperty(value = "value")
     private List<NetworkWatcherInner> value;
 
-    /** Creates an instance of NetworkWatcherListResult class. */
-    public NetworkWatcherListResult() {
-    }
-
     /**
      * Get the value property: List of network watcher resources.
      *

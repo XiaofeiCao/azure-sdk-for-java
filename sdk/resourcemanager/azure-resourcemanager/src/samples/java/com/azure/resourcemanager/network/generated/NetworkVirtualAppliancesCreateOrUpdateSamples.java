@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkVirtualApplianceInner;
 import com.azure.resourcemanager.network.models.DelegationProperties;
 import com.azure.resourcemanager.network.models.ManagedServiceIdentity;
@@ -19,7 +20,7 @@ import java.util.Map;
 /** Samples for NetworkVirtualAppliances CreateOrUpdate. */
 public final class NetworkVirtualAppliancesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceSaaSPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualApplianceSaaSPut.json
      */
     /**
      * Sample code: Create SaaS NetworkVirtualAppliance.
@@ -43,11 +44,11 @@ public final class NetworkVirtualAppliancesCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"))
                     .withDelegation(new DelegationProperties().withServiceName("PaloAltoNetworks.Cloudngfw/firewalls")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualAppliancePut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualAppliancePut.json
      */
     /**
      * Sample code: Create NetworkVirtualAppliance.
@@ -97,7 +98,7 @@ public final class NetworkVirtualAppliancesCreateOrUpdateSamples {
                                 new VirtualApplianceAdditionalNicProperties()
                                     .withName("exrsdwan")
                                     .withHasPublicIp(true))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

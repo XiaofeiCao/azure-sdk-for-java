@@ -34,10 +34,6 @@ public final class ExpressRouteGatewayInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteGatewayInner class. */
-    public ExpressRouteGatewayInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the express route gateway.
      *

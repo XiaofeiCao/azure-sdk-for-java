@@ -38,10 +38,6 @@ public final class PrivateLinkServiceIpConfigurationInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of PrivateLinkServiceIpConfigurationInner class. */
-    public PrivateLinkServiceIpConfigurationInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the private link service ip configuration.
      *

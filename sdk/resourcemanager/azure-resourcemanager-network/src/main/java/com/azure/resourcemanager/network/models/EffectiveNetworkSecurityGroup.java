@@ -36,10 +36,6 @@ public final class EffectiveNetworkSecurityGroup {
     @JsonProperty(value = "tagMap")
     private String tagMap;
 
-    /** Creates an instance of EffectiveNetworkSecurityGroup class. */
-    public EffectiveNetworkSecurityGroup() {
-    }
-
     /**
      * Get the networkSecurityGroup property: The ID of network security group that is applied.
      *

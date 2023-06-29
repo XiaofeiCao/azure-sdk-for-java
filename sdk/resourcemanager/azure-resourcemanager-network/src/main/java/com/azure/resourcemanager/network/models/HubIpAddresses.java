@@ -22,10 +22,6 @@ public final class HubIpAddresses {
     @JsonProperty(value = "privateIPAddress")
     private String privateIpAddress;
 
-    /** Creates an instance of HubIpAddresses class. */
-    public HubIpAddresses() {
-    }
-
     /**
      * Get the publicIPs property: Public IP addresses associated with azure firewall.
      *

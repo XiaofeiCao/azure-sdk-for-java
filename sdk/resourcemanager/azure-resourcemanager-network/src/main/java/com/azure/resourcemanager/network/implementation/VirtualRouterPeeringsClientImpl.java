@@ -64,10 +64,11 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface VirtualRouterPeeringsService {
+    private interface VirtualRouterPeeringsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -82,7 +83,8 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)
         Mono<Response<VirtualRouterPeeringInner>> get(
@@ -97,7 +99,8 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualRouters/{virtualRouterName}/peerings/{peeringName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -113,7 +116,8 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualRouters/{virtualRouterName}/peerings")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)
         Mono<Response<VirtualRouterPeeringListResult>> list(
@@ -173,7 +177,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -229,7 +233,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -303,7 +307,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualRouterName, String peeringName) {
-        return this.beginDeleteAsync(resourceGroupName, virtualRouterName, peeringName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualRouterName, peeringName).getSyncPoller();
     }
 
     /**
@@ -321,7 +325,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualRouterName, String peeringName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, virtualRouterName, peeringName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualRouterName, peeringName, context).getSyncPoller();
     }
 
     /**
@@ -431,7 +435,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -488,7 +492,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -527,6 +531,22 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
      * @param resourceGroupName The name of the resource group.
      * @param virtualRouterName The name of the Virtual Router.
      * @param peeringName The name of the Virtual Router Peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified Virtual Router Peering.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VirtualRouterPeeringInner get(String resourceGroupName, String virtualRouterName, String peeringName) {
+        return getAsync(resourceGroupName, virtualRouterName, peeringName).block();
+    }
+
+    /**
+     * Gets the specified Virtual Router Peering.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualRouterName The name of the Virtual Router.
+     * @param peeringName The name of the Virtual Router Peering.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -537,22 +557,6 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     public Response<VirtualRouterPeeringInner> getWithResponse(
         String resourceGroupName, String virtualRouterName, String peeringName, Context context) {
         return getWithResponseAsync(resourceGroupName, virtualRouterName, peeringName, context).block();
-    }
-
-    /**
-     * Gets the specified Virtual Router Peering.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param virtualRouterName The name of the Virtual Router.
-     * @param peeringName The name of the Virtual Router Peering.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified Virtual Router Peering.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualRouterPeeringInner get(String resourceGroupName, String virtualRouterName, String peeringName) {
-        return getWithResponse(resourceGroupName, virtualRouterName, peeringName, Context.NONE).getValue();
     }
 
     /**
@@ -598,7 +602,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -665,7 +669,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -756,9 +760,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<VirtualRouterPeeringInner>, VirtualRouterPeeringInner> beginCreateOrUpdate(
         String resourceGroupName, String virtualRouterName, String peeringName, VirtualRouterPeeringInner parameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualRouterName, peeringName, parameters)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualRouterName, peeringName, parameters).getSyncPoller();
     }
 
     /**
@@ -781,8 +783,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
         String peeringName,
         VirtualRouterPeeringInner parameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualRouterName, peeringName, parameters, context)
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualRouterName, peeringName, parameters, context)
             .getSyncPoller();
     }
 
@@ -906,7 +907,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -967,7 +968,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1061,8 +1062,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1098,8 +1098,7 @@ public final class VirtualRouterPeeringsClientImpl implements VirtualRouterPeeri
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.

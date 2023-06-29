@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualHubs GetByResourceGroup. */
 public final class VirtualHubsGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualHubGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualHubGet.json
      */
     /**
      * Sample code: VirtualHubGet.
@@ -20,6 +22,6 @@ public final class VirtualHubsGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getVirtualHubs()
-            .getByResourceGroupWithResponse("rg1", "virtualHub1", com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "virtualHub1", Context.NONE);
     }
 }

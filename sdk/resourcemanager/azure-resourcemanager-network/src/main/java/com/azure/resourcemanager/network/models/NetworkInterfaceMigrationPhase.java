@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Migration phase of Network Interface resource. */
+/** Defines values for NetworkInterfaceMigrationPhase. */
 public final class NetworkInterfaceMigrationPhase extends ExpandableStringEnum<NetworkInterfaceMigrationPhase> {
     /** Static value None for NetworkInterfaceMigrationPhase. */
     public static final NetworkInterfaceMigrationPhase NONE = fromString("None");
@@ -24,15 +24,6 @@ public final class NetworkInterfaceMigrationPhase extends ExpandableStringEnum<N
 
     /** Static value Committed for NetworkInterfaceMigrationPhase. */
     public static final NetworkInterfaceMigrationPhase COMMITTED = fromString("Committed");
-
-    /**
-     * Creates a new instance of NetworkInterfaceMigrationPhase value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public NetworkInterfaceMigrationPhase() {
-    }
 
     /**
      * Creates or finds a NetworkInterfaceMigrationPhase from its string representation.

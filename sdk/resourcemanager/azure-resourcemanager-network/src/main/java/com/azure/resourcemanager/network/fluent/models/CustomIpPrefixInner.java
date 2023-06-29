@@ -38,7 +38,8 @@ public final class CustomIpPrefixInner extends Resource {
     private String etag;
 
     /*
-     * A list of availability zones denoting the IP allocated for the resource needs to come from.
+     * A list of availability zones denoting the IP allocated for the resource
+     * needs to come from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -48,10 +49,6 @@ public final class CustomIpPrefixInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of CustomIpPrefixInner class. */
-    public CustomIpPrefixInner() {
-    }
 
     /**
      * Get the extendedLocation property: The extended location of the custom IP prefix.

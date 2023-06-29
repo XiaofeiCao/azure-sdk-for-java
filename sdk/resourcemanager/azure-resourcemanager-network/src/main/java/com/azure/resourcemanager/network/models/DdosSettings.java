@@ -18,14 +18,11 @@ public final class DdosSettings {
     private DdosSettingsProtectionMode protectionMode;
 
     /*
-     * The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
+     * The DDoS protection plan associated with the public IP. Can only be set
+     * if ProtectionMode is Enabled
      */
     @JsonProperty(value = "ddosProtectionPlan")
     private SubResource ddosProtectionPlan;
-
-    /** Creates an instance of DdosSettings class. */
-    public DdosSettings() {
-    }
 
     /**
      * Get the protectionMode property: The DDoS protection mode of the public IP.

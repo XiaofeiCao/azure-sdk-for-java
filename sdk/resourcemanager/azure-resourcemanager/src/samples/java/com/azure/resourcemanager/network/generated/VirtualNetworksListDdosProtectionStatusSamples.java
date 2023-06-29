@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworks ListDdosProtectionStatus. */
 public final class VirtualNetworksListDdosProtectionStatusSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGetDdosProtectionStatus.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGetDdosProtectionStatus.json
      */
     /**
      * Sample code: Get Ddos Protection Status of a Virtual Network.
@@ -20,6 +22,6 @@ public final class VirtualNetworksListDdosProtectionStatusSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworks()
-            .listDdosProtectionStatus("rg1", "test-vnet", 75, null, com.azure.core.util.Context.NONE);
+            .listDdosProtectionStatus("rg1", "test-vnet", 75, null, Context.NONE);
     }
 }

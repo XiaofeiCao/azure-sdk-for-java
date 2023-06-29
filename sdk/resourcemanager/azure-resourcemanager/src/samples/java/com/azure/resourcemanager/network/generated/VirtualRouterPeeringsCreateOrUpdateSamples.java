@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualRouterPeeringInner;
 
 /** Samples for VirtualRouterPeerings CreateOrUpdate. */
 public final class VirtualRouterPeeringsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualRouterPeeringPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualRouterPeeringPut.json
      */
     /**
      * Sample code: Create Virtual Router Peering.
@@ -27,6 +28,6 @@ public final class VirtualRouterPeeringsCreateOrUpdateSamples {
                 "virtualRouter",
                 "peering1",
                 new VirtualRouterPeeringInner().withPeerAsn(20000L).withPeerIp("192.168.1.5"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

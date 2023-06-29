@@ -45,6 +45,18 @@ public interface ApplicationGatewayWafDynamicManifestsDefaultsClient {
      * Gets the regional application gateway waf manifest.
      *
      * @param location The region where the nrp are located at.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the regional application gateway waf manifest.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    ApplicationGatewayWafDynamicManifestResultInner get(String location);
+
+    /**
+     * Gets the regional application gateway waf manifest.
+     *
+     * @param location The region where the nrp are located at.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -53,16 +65,4 @@ public interface ApplicationGatewayWafDynamicManifestsDefaultsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<ApplicationGatewayWafDynamicManifestResultInner> getWithResponse(String location, Context context);
-
-    /**
-     * Gets the regional application gateway waf manifest.
-     *
-     * @param location The region where the nrp are located at.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the regional application gateway waf manifest.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    ApplicationGatewayWafDynamicManifestResultInner get(String location);
 }

@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyDefinitionInner;
 import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyInner;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for ServiceEndpointPolicies CreateOrUpdate. */
 public final class ServiceEndpointPoliciesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ServiceEndpointPolicyCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ServiceEndpointPolicyCreate.json
      */
     /**
      * Sample code: Create service endpoint policy.
@@ -24,15 +25,11 @@ public final class ServiceEndpointPoliciesCreateOrUpdateSamples {
             .manager()
             .serviceClient()
             .getServiceEndpointPolicies()
-            .createOrUpdate(
-                "rg1",
-                "testPolicy",
-                new ServiceEndpointPolicyInner().withLocation("westus"),
-                com.azure.core.util.Context.NONE);
+            .createOrUpdate("rg1", "testPolicy", new ServiceEndpointPolicyInner().withLocation("westus"), Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
      */
     /**
      * Sample code: Create service endpoint policy with definition.
@@ -63,6 +60,6 @@ public final class ServiceEndpointPoliciesCreateOrUpdateSamples {
                                                 "/subscriptions/subid1",
                                                 "/subscriptions/subid1/resourceGroups/storageRg",
                                                 "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount")))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

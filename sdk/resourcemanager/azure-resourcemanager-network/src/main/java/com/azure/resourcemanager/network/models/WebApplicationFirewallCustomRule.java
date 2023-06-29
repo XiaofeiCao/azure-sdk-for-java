@@ -13,7 +13,8 @@ import java.util.List;
 @Fluent
 public final class WebApplicationFirewallCustomRule {
     /*
-     * The name of the resource that is unique within a policy. This name can be used to access the resource.
+     * The name of the resource that is unique within a policy. This name can
+     * be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -25,25 +26,29 @@ public final class WebApplicationFirewallCustomRule {
     private String etag;
 
     /*
-     * Priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
+     * Priority of the rule. Rules with a lower value will be evaluated before
+     * rules with a higher value.
      */
     @JsonProperty(value = "priority", required = true)
     private int priority;
 
     /*
-     * Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.
+     * Describes if the custom rule is in enabled or disabled state. Defaults
+     * to Enabled if not specified.
      */
     @JsonProperty(value = "state")
     private WebApplicationFirewallState state;
 
     /*
-     * Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.
+     * Duration over which Rate Limit policy will be applied. Applies only when
+     * ruleType is RateLimitRule.
      */
     @JsonProperty(value = "rateLimitDuration")
     private ApplicationGatewayFirewallRateLimitDuration rateLimitDuration;
 
     /*
-     * Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1
+     * Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be
+     * greater than or equal to 1
      */
     @JsonProperty(value = "rateLimitThreshold")
     private Integer rateLimitThreshold;
@@ -71,10 +76,6 @@ public final class WebApplicationFirewallCustomRule {
      */
     @JsonProperty(value = "action", required = true)
     private WebApplicationFirewallAction action;
-
-    /** Creates an instance of WebApplicationFirewallCustomRule class. */
-    public WebApplicationFirewallCustomRule() {
-    }
 
     /**
      * Get the name property: The name of the resource that is unique within a policy. This name can be used to access

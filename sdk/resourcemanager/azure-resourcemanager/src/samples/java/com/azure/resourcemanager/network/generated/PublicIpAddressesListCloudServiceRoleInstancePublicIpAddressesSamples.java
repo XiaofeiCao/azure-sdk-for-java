@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for PublicIpAddresses ListCloudServiceRoleInstancePublicIpAddresses. */
 public final class PublicIpAddressesListCloudServiceRoleInstancePublicIpAddressesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/CloudServiceRoleInstancePublicIpList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/CloudServiceRoleInstancePublicIpList.json
      */
     /**
      * Sample code: ListVMSSVMPublicIP.
@@ -21,6 +23,6 @@ public final class PublicIpAddressesListCloudServiceRoleInstancePublicIpAddresse
             .serviceClient()
             .getPublicIpAddresses()
             .listCloudServiceRoleInstancePublicIpAddresses(
-                "cs-tester", "cs1", "Test_VM_0", "nic1", "ip1", com.azure.core.util.Context.NONE);
+                "cs-tester", "cs1", "Test_VM_0", "nic1", "ip1", Context.NONE);
     }
 }

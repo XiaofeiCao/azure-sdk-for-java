@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkVirtualApplianceConnectionInner;
 import com.azure.resourcemanager.network.models.PropagatedRouteTableNfv;
 import com.azure.resourcemanager.network.models.RoutingConfigurationNfv;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 /** Samples for NetworkVirtualApplianceConnections CreateOrUpdate. */
 public final class NetworkVirtualApplianceConnectionsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceConnectionPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualApplianceConnectionPut.json
      */
     /**
      * Sample code: NetworkVirtualApplianceConnectionPut.
@@ -59,6 +60,6 @@ public final class NetworkVirtualApplianceConnectionsCreateOrUpdateSamples {
                                 new RoutingConfigurationNfvSubResource()
                                     .withResourceUri(
                                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

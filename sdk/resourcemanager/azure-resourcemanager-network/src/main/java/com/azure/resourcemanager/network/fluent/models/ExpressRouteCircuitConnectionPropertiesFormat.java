@@ -15,13 +15,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class ExpressRouteCircuitConnectionPropertiesFormat {
     /*
-     * Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
+     * Reference to Express Route Circuit Private Peering Resource of the
+     * circuit initiating connection.
      */
     @JsonProperty(value = "expressRouteCircuitPeering")
     private SubResource expressRouteCircuitPeering;
 
     /*
-     * Reference to Express Route Circuit Private Peering Resource of the peered circuit.
+     * Reference to Express Route Circuit Private Peering Resource of the
+     * peered circuit.
      */
     @JsonProperty(value = "peerExpressRouteCircuitPeering")
     private SubResource peerExpressRouteCircuitPeering;
@@ -55,10 +57,6 @@ public final class ExpressRouteCircuitConnectionPropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of ExpressRouteCircuitConnectionPropertiesFormat class. */
-    public ExpressRouteCircuitConnectionPropertiesFormat() {
-    }
 
     /**
      * Get the expressRouteCircuitPeering property: Reference to Express Route Circuit Private Peering Resource of the

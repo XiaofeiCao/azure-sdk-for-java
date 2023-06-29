@@ -41,10 +41,6 @@ public final class ConnectivityParameters {
     @JsonProperty(value = "preferredIPVersion")
     private IpVersion preferredIpVersion;
 
-    /** Creates an instance of ConnectivityParameters class. */
-    public ConnectivityParameters() {
-    }
-
     /**
      * Get the source property: The source of the connection.
      *

@@ -27,10 +27,6 @@ public final class ExpressRouteConnectionInner extends SubResource {
     @JsonProperty(value = "name", required = true)
     private String name;
 
-    /** Creates an instance of ExpressRouteConnectionInner class. */
-    public ExpressRouteConnectionInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the express route connection.
      *

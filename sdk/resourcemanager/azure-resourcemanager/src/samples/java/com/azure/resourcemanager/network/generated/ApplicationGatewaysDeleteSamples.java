@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGateways Delete. */
 public final class ApplicationGatewaysDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayDelete.json
      */
     /**
      * Sample code: Delete ApplicationGateway.
@@ -15,11 +17,6 @@ public final class ApplicationGatewaysDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteApplicationGateway(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getApplicationGateways()
-            .delete("rg1", "appgw", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getApplicationGateways().delete("rg1", "appgw", Context.NONE);
     }
 }

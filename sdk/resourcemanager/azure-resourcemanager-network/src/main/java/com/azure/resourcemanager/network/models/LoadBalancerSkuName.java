@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Name of a load balancer SKU. */
+/** Defines values for LoadBalancerSkuName. */
 public final class LoadBalancerSkuName extends ExpandableStringEnum<LoadBalancerSkuName> {
     /** Static value Basic for LoadBalancerSkuName. */
     public static final LoadBalancerSkuName BASIC = fromString("Basic");
@@ -18,15 +18,6 @@ public final class LoadBalancerSkuName extends ExpandableStringEnum<LoadBalancer
 
     /** Static value Gateway for LoadBalancerSkuName. */
     public static final LoadBalancerSkuName GATEWAY = fromString("Gateway");
-
-    /**
-     * Creates a new instance of LoadBalancerSkuName value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public LoadBalancerSkuName() {
-    }
 
     /**
      * Creates or finds a LoadBalancerSkuName from its string representation.

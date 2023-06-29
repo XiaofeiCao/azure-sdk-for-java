@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Verify client certificate revocation status. */
+/** Defines values for ApplicationGatewayClientRevocationOptions. */
 public final class ApplicationGatewayClientRevocationOptions
     extends ExpandableStringEnum<ApplicationGatewayClientRevocationOptions> {
     /** Static value None for ApplicationGatewayClientRevocationOptions. */
@@ -16,15 +16,6 @@ public final class ApplicationGatewayClientRevocationOptions
 
     /** Static value OCSP for ApplicationGatewayClientRevocationOptions. */
     public static final ApplicationGatewayClientRevocationOptions OCSP = fromString("OCSP");
-
-    /**
-     * Creates a new instance of ApplicationGatewayClientRevocationOptions value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayClientRevocationOptions() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayClientRevocationOptions from its string representation.

@@ -24,10 +24,6 @@ public final class VpnClientRootCertificatePropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of VpnClientRootCertificatePropertiesFormat class. */
-    public VpnClientRootCertificatePropertiesFormat() {
-    }
-
     /**
      * Get the publicCertData property: The certificate public data.
      *

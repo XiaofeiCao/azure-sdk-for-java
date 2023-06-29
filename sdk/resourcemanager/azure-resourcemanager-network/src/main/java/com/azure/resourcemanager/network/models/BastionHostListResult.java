@@ -24,10 +24,6 @@ public final class BastionHostListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of BastionHostListResult class. */
-    public BastionHostListResult() {
-    }
-
     /**
      * Get the value property: List of Bastion Hosts in a resource group.
      *

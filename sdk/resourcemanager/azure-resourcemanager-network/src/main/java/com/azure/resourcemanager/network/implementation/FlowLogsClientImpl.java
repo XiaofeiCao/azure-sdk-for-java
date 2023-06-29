@@ -64,10 +64,11 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface FlowLogsService {
+    private interface FlowLogsService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -83,7 +84,8 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<FlowLogInner>> updateTags(
@@ -99,7 +101,8 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<FlowLogInner>> get(
@@ -114,7 +117,8 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -129,7 +133,8 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/flowLogs")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<FlowLogListResult>> list(
@@ -195,7 +200,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -262,7 +267,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -345,9 +350,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<FlowLogInner>, FlowLogInner> beginCreateOrUpdate(
         String resourceGroupName, String networkWatcherName, String flowLogName, FlowLogInner parameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, flowLogName, parameters)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, flowLogName, parameters).getSyncPoller();
     }
 
     /**
@@ -370,8 +373,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         String flowLogName,
         FlowLogInner parameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, flowLogName, parameters, context)
+        return beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, flowLogName, parameters, context)
             .getSyncPoller();
     }
 
@@ -504,7 +506,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -571,7 +573,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -613,6 +615,24 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
      * @param networkWatcherName The name of the network watcher.
      * @param flowLogName The name of the flow log.
      * @param parameters Parameters supplied to update flow log tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a flow log resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FlowLogInner updateTags(
+        String resourceGroupName, String networkWatcherName, String flowLogName, TagsObject parameters) {
+        return updateTagsAsync(resourceGroupName, networkWatcherName, flowLogName, parameters).block();
+    }
+
+    /**
+     * Update tags of the specified flow log.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param flowLogName The name of the flow log.
+     * @param parameters Parameters supplied to update flow log tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -628,25 +648,6 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
         Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, networkWatcherName, flowLogName, parameters, context)
             .block();
-    }
-
-    /**
-     * Update tags of the specified flow log.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkWatcherName The name of the network watcher.
-     * @param flowLogName The name of the flow log.
-     * @param parameters Parameters supplied to update flow log tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a flow log resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public FlowLogInner updateTags(
-        String resourceGroupName, String networkWatcherName, String flowLogName, TagsObject parameters) {
-        return updateTagsWithResponse(resourceGroupName, networkWatcherName, flowLogName, parameters, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -686,7 +687,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -742,7 +743,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -780,6 +781,22 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
      * @param flowLogName The name of the flow log resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a flow log resource by name.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FlowLogInner get(String resourceGroupName, String networkWatcherName, String flowLogName) {
+        return getAsync(resourceGroupName, networkWatcherName, flowLogName).block();
+    }
+
+    /**
+     * Gets a flow log resource by name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param flowLogName The name of the flow log resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -790,22 +807,6 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     public Response<FlowLogInner> getWithResponse(
         String resourceGroupName, String networkWatcherName, String flowLogName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkWatcherName, flowLogName, context).block();
-    }
-
-    /**
-     * Gets a flow log resource by name.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkWatcherName The name of the network watcher.
-     * @param flowLogName The name of the flow log resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a flow log resource by name.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public FlowLogInner get(String resourceGroupName, String networkWatcherName, String flowLogName) {
-        return getWithResponse(resourceGroupName, networkWatcherName, flowLogName, Context.NONE).getValue();
     }
 
     /**
@@ -845,7 +846,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -901,7 +902,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -975,7 +976,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkWatcherName, String flowLogName) {
-        return this.beginDeleteAsync(resourceGroupName, networkWatcherName, flowLogName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkWatcherName, flowLogName).getSyncPoller();
     }
 
     /**
@@ -993,7 +994,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkWatcherName, String flowLogName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, networkWatcherName, flowLogName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkWatcherName, flowLogName, context).getSyncPoller();
     }
 
     /**
@@ -1097,7 +1098,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1157,7 +1158,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1249,8 +1250,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1285,8 +1285,7 @@ public final class FlowLogsClientImpl implements FlowLogsClient {
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

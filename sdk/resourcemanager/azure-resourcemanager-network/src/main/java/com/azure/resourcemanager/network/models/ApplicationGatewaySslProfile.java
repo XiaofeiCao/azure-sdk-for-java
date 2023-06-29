@@ -37,10 +37,6 @@ public final class ApplicationGatewaySslProfile extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewaySslProfile class. */
-    public ApplicationGatewaySslProfile() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the application gateway SSL profile.
      *

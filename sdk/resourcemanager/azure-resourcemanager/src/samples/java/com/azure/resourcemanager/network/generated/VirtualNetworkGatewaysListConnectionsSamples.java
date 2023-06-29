@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways ListConnections. */
 public final class VirtualNetworkGatewaysListConnectionsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewaysListConnections.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewaysListConnections.json
      */
     /**
      * Sample code: VirtualNetworkGatewaysListConnections.
@@ -20,6 +22,6 @@ public final class VirtualNetworkGatewaysListConnectionsSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .listConnections("testrg", "test-vpn-gateway-1", com.azure.core.util.Context.NONE);
+            .listConnections("testrg", "test-vpn-gateway-1", Context.NONE);
     }
 }

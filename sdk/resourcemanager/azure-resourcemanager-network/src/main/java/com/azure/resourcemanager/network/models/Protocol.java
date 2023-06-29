@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Network protocol. */
+/** Defines values for Protocol. */
 public final class Protocol extends ExpandableStringEnum<Protocol> {
     /** Static value Tcp for Protocol. */
     public static final Protocol TCP = fromString("Tcp");
@@ -21,15 +21,6 @@ public final class Protocol extends ExpandableStringEnum<Protocol> {
 
     /** Static value Icmp for Protocol. */
     public static final Protocol ICMP = fromString("Icmp");
-
-    /**
-     * Creates a new instance of Protocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public Protocol() {
-    }
 
     /**
      * Creates or finds a Protocol from its string representation.

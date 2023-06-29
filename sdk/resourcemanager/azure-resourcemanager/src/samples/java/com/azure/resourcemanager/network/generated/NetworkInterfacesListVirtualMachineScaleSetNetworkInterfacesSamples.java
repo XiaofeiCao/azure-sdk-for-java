@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaces ListVirtualMachineScaleSetNetworkInterfaces. */
 public final class NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VmssNetworkInterfaceList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VmssNetworkInterfaceList.json
      */
     /**
      * Sample code: List virtual machine scale set network interfaces.
@@ -21,6 +23,6 @@ public final class NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesS
             .manager()
             .serviceClient()
             .getNetworkInterfaces()
-            .listVirtualMachineScaleSetNetworkInterfaces("rg1", "vmss1", com.azure.core.util.Context.NONE);
+            .listVirtualMachineScaleSetNetworkInterfaces("rg1", "vmss1", Context.NONE);
     }
 }

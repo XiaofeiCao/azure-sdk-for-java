@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Auxiliary sku of Network Interface resource. */
+/** Defines values for NetworkInterfaceAuxiliarySku. */
 public final class NetworkInterfaceAuxiliarySku extends ExpandableStringEnum<NetworkInterfaceAuxiliarySku> {
     /** Static value None for NetworkInterfaceAuxiliarySku. */
     public static final NetworkInterfaceAuxiliarySku NONE = fromString("None");
@@ -24,15 +24,6 @@ public final class NetworkInterfaceAuxiliarySku extends ExpandableStringEnum<Net
 
     /** Static value A8 for NetworkInterfaceAuxiliarySku. */
     public static final NetworkInterfaceAuxiliarySku A8 = fromString("A8");
-
-    /**
-     * Creates a new instance of NetworkInterfaceAuxiliarySku value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public NetworkInterfaceAuxiliarySku() {
-    }
 
     /**
      * Creates or finds a NetworkInterfaceAuxiliarySku from its string representation.

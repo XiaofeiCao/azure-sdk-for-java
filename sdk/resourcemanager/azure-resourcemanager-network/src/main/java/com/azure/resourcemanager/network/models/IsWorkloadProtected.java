@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Value indicating whether the IP address is DDoS workload protected or not. */
+/** Defines values for IsWorkloadProtected. */
 public final class IsWorkloadProtected extends ExpandableStringEnum<IsWorkloadProtected> {
     /** Static value False for IsWorkloadProtected. */
     public static final IsWorkloadProtected FALSE = fromString("False");
 
     /** Static value True for IsWorkloadProtected. */
     public static final IsWorkloadProtected TRUE = fromString("True");
-
-    /**
-     * Creates a new instance of IsWorkloadProtected value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public IsWorkloadProtected() {
-    }
 
     /**
      * Creates or finds a IsWorkloadProtected from its string representation.

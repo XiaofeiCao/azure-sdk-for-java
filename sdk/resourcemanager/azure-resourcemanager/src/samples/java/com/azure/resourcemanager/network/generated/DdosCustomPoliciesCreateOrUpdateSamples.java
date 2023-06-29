@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.DdosCustomPolicyInner;
 
 /** Samples for DdosCustomPolicies CreateOrUpdate. */
 public final class DdosCustomPoliciesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/DdosCustomPolicyCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/DdosCustomPolicyCreate.json
      */
     /**
      * Sample code: Create DDoS custom policy.
@@ -26,6 +27,6 @@ public final class DdosCustomPoliciesCreateOrUpdateSamples {
                 "rg1",
                 "test-ddos-custom-policy",
                 new DdosCustomPolicyInner().withLocation("centraluseuap"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -73,10 +73,11 @@ public final class ServiceEndpointPoliciesClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface ServiceEndpointPoliciesService {
+    private interface ServiceEndpointPoliciesService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/serviceEndpointPolicies/{serviceEndpointPolicyName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -90,7 +91,8 @@ public final class ServiceEndpointPoliciesClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/serviceEndpointPolicies/{serviceEndpointPolicyName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ServiceEndpointPolicyInner>> getByResourceGroup(
@@ -105,7 +107,8 @@ public final class ServiceEndpointPoliciesClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/serviceEndpointPolicies/{serviceEndpointPolicyName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -120,7 +123,8 @@ public final class ServiceEndpointPoliciesClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/serviceEndpointPolicies/{serviceEndpointPolicyName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ServiceEndpointPolicyInner>> updateTags(
@@ -146,7 +150,8 @@ public final class ServiceEndpointPoliciesClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/serviceEndpointPolicies")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ServiceEndpointPolicyListResult>> listByResourceGroup(
@@ -213,7 +218,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -266,7 +271,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -334,7 +339,7 @@ public final class ServiceEndpointPoliciesClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String serviceEndpointPolicyName) {
-        return this.beginDeleteAsync(resourceGroupName, serviceEndpointPolicyName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, serviceEndpointPolicyName).getSyncPoller();
     }
 
     /**
@@ -351,7 +356,7 @@ public final class ServiceEndpointPoliciesClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String serviceEndpointPolicyName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, serviceEndpointPolicyName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, serviceEndpointPolicyName, context).getSyncPoller();
     }
 
     /**
@@ -455,7 +460,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -511,7 +516,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -524,6 +529,25 @@ public final class ServiceEndpointPoliciesClientImpl
                 expand,
                 accept,
                 context);
+    }
+
+    /**
+     * Gets the specified service Endpoint Policies in a specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceEndpointPolicyName The name of the service endpoint policy.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified service Endpoint Policies in a specified resource group on successful completion of {@link
+     *     Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<ServiceEndpointPolicyInner> getByResourceGroupAsync(
+        String resourceGroupName, String serviceEndpointPolicyName, String expand) {
+        return getByResourceGroupWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, expand)
+            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
 
     /**
@@ -550,6 +574,22 @@ public final class ServiceEndpointPoliciesClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified service Endpoint Policies in a specified resource group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServiceEndpointPolicyInner getByResourceGroup(String resourceGroupName, String serviceEndpointPolicyName) {
+        final String expand = null;
+        return getByResourceGroupAsync(resourceGroupName, serviceEndpointPolicyName, expand).block();
+    }
+
+    /**
+     * Gets the specified service Endpoint Policies in a specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -562,23 +602,6 @@ public final class ServiceEndpointPoliciesClientImpl
         String resourceGroupName, String serviceEndpointPolicyName, String expand, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, expand, context)
             .block();
-    }
-
-    /**
-     * Gets the specified service Endpoint Policies in a specified resource group.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified service Endpoint Policies in a specified resource group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServiceEndpointPolicyInner getByResourceGroup(String resourceGroupName, String serviceEndpointPolicyName) {
-        final String expand = null;
-        return getByResourceGroupWithResponse(resourceGroupName, serviceEndpointPolicyName, expand, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -622,7 +645,7 @@ public final class ServiceEndpointPoliciesClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -685,7 +708,7 @@ public final class ServiceEndpointPoliciesClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -771,7 +794,7 @@ public final class ServiceEndpointPoliciesClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner> beginCreateOrUpdate(
         String resourceGroupName, String serviceEndpointPolicyName, ServiceEndpointPolicyInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, serviceEndpointPolicyName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, serviceEndpointPolicyName, parameters).getSyncPoller();
     }
 
     /**
@@ -792,8 +815,7 @@ public final class ServiceEndpointPoliciesClientImpl
         String serviceEndpointPolicyName,
         ServiceEndpointPolicyInner parameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, serviceEndpointPolicyName, parameters, context)
+        return beginCreateOrUpdateAsync(resourceGroupName, serviceEndpointPolicyName, parameters, context)
             .getSyncPoller();
     }
 
@@ -918,7 +940,7 @@ public final class ServiceEndpointPoliciesClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -978,7 +1000,7 @@ public final class ServiceEndpointPoliciesClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1017,6 +1039,23 @@ public final class ServiceEndpointPoliciesClientImpl
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @param parameters Parameters supplied to update service endpoint policy tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return service End point policy resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ServiceEndpointPolicyInner updateTags(
+        String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
+        return updateTagsAsync(resourceGroupName, serviceEndpointPolicyName, parameters).block();
+    }
+
+    /**
+     * Updates tags of a service endpoint policy.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceEndpointPolicyName The name of the service endpoint policy.
+     * @param parameters Parameters supplied to update service endpoint policy tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1027,24 +1066,6 @@ public final class ServiceEndpointPoliciesClientImpl
     public Response<ServiceEndpointPolicyInner> updateTagsWithResponse(
         String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters, Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, parameters, context).block();
-    }
-
-    /**
-     * Updates tags of a service endpoint policy.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param parameters Parameters supplied to update service endpoint policy tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return service End point policy resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServiceEndpointPolicyInner updateTags(
-        String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
-        return updateTagsWithResponse(resourceGroupName, serviceEndpointPolicyName, parameters, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -1069,7 +1090,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1112,7 +1133,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1210,7 +1231,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1265,7 +1286,7 @@ public final class ServiceEndpointPoliciesClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1352,8 +1373,7 @@ public final class ServiceEndpointPoliciesClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1389,8 +1409,7 @@ public final class ServiceEndpointPoliciesClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1427,8 +1446,7 @@ public final class ServiceEndpointPoliciesClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1465,8 +1483,7 @@ public final class ServiceEndpointPoliciesClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

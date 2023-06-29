@@ -13,21 +13,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class StaticRoutesConfig {
     /*
-     * Boolean indicating whether static routes on this connection are automatically propagate to route tables which
-     * this connection propagates to.
+     * Boolean indicating whether static routes on this connection are
+     * automatically propagate to route tables which this connection propagates
+     * to.
      */
     @JsonProperty(value = "propagateStaticRoutes", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean propagateStaticRoutes;
 
     /*
-     * Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+     * Parameter determining whether NVA in spoke vnet is bypassed for traffic
+     * with destination in spoke.
      */
     @JsonProperty(value = "vnetLocalRouteOverrideCriteria")
     private VnetLocalRouteOverrideCriteria vnetLocalRouteOverrideCriteria;
-
-    /** Creates an instance of StaticRoutesConfig class. */
-    public StaticRoutesConfig() {
-    }
 
     /**
      * Get the propagateStaticRoutes property: Boolean indicating whether static routes on this connection are

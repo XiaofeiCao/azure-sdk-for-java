@@ -35,10 +35,6 @@ public final class SwapResourceInner {
     @JsonProperty(value = "properties")
     private SwapResourceProperties properties;
 
-    /** Creates an instance of SwapResourceInner class. */
-    public SwapResourceInner() {
-    }
-
     /**
      * Get the id property: Resource Id.
      *

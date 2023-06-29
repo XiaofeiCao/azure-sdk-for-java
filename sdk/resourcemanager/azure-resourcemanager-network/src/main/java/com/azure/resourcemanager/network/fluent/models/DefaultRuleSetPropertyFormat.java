@@ -22,10 +22,6 @@ public final class DefaultRuleSetPropertyFormat {
     @JsonProperty(value = "ruleSetVersion")
     private String ruleSetVersion;
 
-    /** Creates an instance of DefaultRuleSetPropertyFormat class. */
-    public DefaultRuleSetPropertyFormat() {
-    }
-
     /**
      * Get the ruleSetType property: The type of the web application firewall rule set.
      *

@@ -27,10 +27,6 @@ public final class ListVpnGatewayNatRulesResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListVpnGatewayNatRulesResult class. */
-    public ListVpnGatewayNatRulesResult() {
-    }
-
     /**
      * Get the value property: List of Nat Rules.
      *

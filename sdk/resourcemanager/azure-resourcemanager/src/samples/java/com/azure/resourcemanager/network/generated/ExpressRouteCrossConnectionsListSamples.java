@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteCrossConnections List. */
 public final class ExpressRouteCrossConnectionsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCrossConnectionList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCrossConnectionList.json
      */
     /**
      * Sample code: ExpressRouteCrossConnectionList.
@@ -15,11 +17,6 @@ public final class ExpressRouteCrossConnectionsListSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void expressRouteCrossConnectionList(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getExpressRouteCrossConnections()
-            .list(com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getExpressRouteCrossConnections().list(Context.NONE);
     }
 }

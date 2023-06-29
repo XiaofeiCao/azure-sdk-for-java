@@ -29,7 +29,8 @@ public final class NatGatewayInner extends Resource {
     private NatGatewayPropertiesFormat innerProperties;
 
     /*
-     * A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+     * A list of availability zones denoting the zone in which Nat Gateway
+     * should be deployed.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -45,10 +46,6 @@ public final class NatGatewayInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of NatGatewayInner class. */
-    public NatGatewayInner() {
-    }
 
     /**
      * Get the sku property: The nat gateway SKU.

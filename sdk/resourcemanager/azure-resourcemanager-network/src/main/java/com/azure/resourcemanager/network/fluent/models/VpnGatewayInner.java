@@ -35,10 +35,6 @@ public final class VpnGatewayInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VpnGatewayInner class. */
-    public VpnGatewayInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the VPN gateway.
      *

@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Defines the state of log scrubbing rule. Default value is Enabled. */
+/** Defines values for ScrubbingRuleEntryState. */
 public final class ScrubbingRuleEntryState extends ExpandableStringEnum<ScrubbingRuleEntryState> {
     /** Static value Enabled for ScrubbingRuleEntryState. */
     public static final ScrubbingRuleEntryState ENABLED = fromString("Enabled");
 
     /** Static value Disabled for ScrubbingRuleEntryState. */
     public static final ScrubbingRuleEntryState DISABLED = fromString("Disabled");
-
-    /**
-     * Creates a new instance of ScrubbingRuleEntryState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ScrubbingRuleEntryState() {
-    }
 
     /**
      * Creates or finds a ScrubbingRuleEntryState from its string representation.

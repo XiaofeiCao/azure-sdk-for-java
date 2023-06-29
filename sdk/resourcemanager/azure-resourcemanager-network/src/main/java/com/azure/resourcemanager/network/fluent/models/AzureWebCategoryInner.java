@@ -40,10 +40,6 @@ public final class AzureWebCategoryInner {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of AzureWebCategoryInner class. */
-    public AzureWebCategoryInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the Azure Web Category.
      *

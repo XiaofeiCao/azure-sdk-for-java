@@ -22,10 +22,6 @@ public final class FirewallPolicyIntrusionDetection {
     @JsonProperty(value = "configuration")
     private FirewallPolicyIntrusionDetectionConfiguration configuration;
 
-    /** Creates an instance of FirewallPolicyIntrusionDetection class. */
-    public FirewallPolicyIntrusionDetection() {
-    }
-
     /**
      * Get the mode property: Intrusion detection general state.
      *

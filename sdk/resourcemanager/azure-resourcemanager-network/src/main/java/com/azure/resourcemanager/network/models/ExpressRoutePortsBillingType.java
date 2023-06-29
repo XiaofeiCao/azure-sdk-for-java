@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The billing type of the ExpressRoutePort resource. */
+/** Defines values for ExpressRoutePortsBillingType. */
 public final class ExpressRoutePortsBillingType extends ExpandableStringEnum<ExpressRoutePortsBillingType> {
     /** Static value MeteredData for ExpressRoutePortsBillingType. */
     public static final ExpressRoutePortsBillingType METERED_DATA = fromString("MeteredData");
 
     /** Static value UnlimitedData for ExpressRoutePortsBillingType. */
     public static final ExpressRoutePortsBillingType UNLIMITED_DATA = fromString("UnlimitedData");
-
-    /**
-     * Creates a new instance of ExpressRoutePortsBillingType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ExpressRoutePortsBillingType() {
-    }
 
     /**
      * Creates or finds a ExpressRoutePortsBillingType from its string representation.

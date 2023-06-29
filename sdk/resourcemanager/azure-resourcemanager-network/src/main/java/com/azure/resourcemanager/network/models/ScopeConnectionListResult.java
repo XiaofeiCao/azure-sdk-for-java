@@ -24,10 +24,6 @@ public final class ScopeConnectionListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ScopeConnectionListResult class. */
-    public ScopeConnectionListResult() {
-    }
-
     /**
      * Get the value property: List of scope connections.
      *

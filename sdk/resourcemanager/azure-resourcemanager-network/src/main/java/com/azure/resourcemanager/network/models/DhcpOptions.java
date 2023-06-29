@@ -20,10 +20,6 @@ public final class DhcpOptions {
     @JsonProperty(value = "dnsServers")
     private List<String> dnsServers;
 
-    /** Creates an instance of DhcpOptions class. */
-    public DhcpOptions() {
-    }
-
     /**
      * Get the dnsServers property: The list of DNS servers IP addresses.
      *

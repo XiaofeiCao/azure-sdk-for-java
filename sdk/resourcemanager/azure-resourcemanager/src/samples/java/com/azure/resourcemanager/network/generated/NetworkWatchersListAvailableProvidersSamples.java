@@ -4,13 +4,14 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.AvailableProvidersListParameters;
 import java.util.Arrays;
 
 /** Samples for NetworkWatchers ListAvailableProviders. */
 public final class NetworkWatchersListAvailableProvidersSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherAvailableProvidersListGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherAvailableProvidersListGet.json
      */
     /**
      * Sample code: Get Available Providers List.
@@ -31,6 +32,6 @@ public final class NetworkWatchersListAvailableProvidersSamples {
                     .withCountry("United States")
                     .withState("washington")
                     .withCity("seattle"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -24,10 +24,6 @@ public final class AvailableDelegationsResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of AvailableDelegationsResult class. */
-    public AvailableDelegationsResult() {
-    }
-
     /**
      * Get the value property: An array of available delegations.
      *

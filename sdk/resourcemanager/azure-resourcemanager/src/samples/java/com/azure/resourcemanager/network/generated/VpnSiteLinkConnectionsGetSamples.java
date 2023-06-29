@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VpnSiteLinkConnections Get. */
 public final class VpnSiteLinkConnectionsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VpnSiteLinkConnectionGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VpnSiteLinkConnectionGet.json
      */
     /**
      * Sample code: VpnSiteLinkConnectionGet.
@@ -20,6 +22,6 @@ public final class VpnSiteLinkConnectionsGetSamples {
             .manager()
             .serviceClient()
             .getVpnSiteLinkConnections()
-            .getWithResponse("rg1", "gateway1", "vpnConnection1", "Connection-Link1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "gateway1", "vpnConnection1", "Connection-Link1", Context.NONE);
     }
 }

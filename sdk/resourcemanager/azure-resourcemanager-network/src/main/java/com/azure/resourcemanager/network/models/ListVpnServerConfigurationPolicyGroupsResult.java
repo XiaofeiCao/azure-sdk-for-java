@@ -27,10 +27,6 @@ public final class ListVpnServerConfigurationPolicyGroupsResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListVpnServerConfigurationPolicyGroupsResult class. */
-    public ListVpnServerConfigurationPolicyGroupsResult() {
-    }
-
     /**
      * Get the value property: List of VpnServerConfigurationPolicyGroups.
      *

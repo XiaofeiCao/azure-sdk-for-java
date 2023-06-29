@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for LoadBalancerBackendAddressPools Delete. */
 public final class LoadBalancerBackendAddressPoolsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerBackendAddressPoolDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerBackendAddressPoolDelete.json
      */
     /**
      * Sample code: BackendAddressPoolDelete.
@@ -20,6 +22,6 @@ public final class LoadBalancerBackendAddressPoolsDeleteSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerBackendAddressPools()
-            .delete("testrg", "lb", "backend", com.azure.core.util.Context.NONE);
+            .delete("testrg", "lb", "backend", Context.NONE);
     }
 }

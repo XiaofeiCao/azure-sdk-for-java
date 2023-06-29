@@ -36,10 +36,6 @@ public final class SecurityRuleAssociations {
     @JsonProperty(value = "effectiveSecurityRules")
     private List<EffectiveNetworkSecurityRule> effectiveSecurityRules;
 
-    /** Creates an instance of SecurityRuleAssociations class. */
-    public SecurityRuleAssociations() {
-    }
-
     /**
      * Get the networkInterfaceAssociation property: Network interface and it's custom security rules.
      *

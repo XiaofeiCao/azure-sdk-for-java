@@ -16,10 +16,6 @@ public final class ExpressRouteCircuitReference {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of ExpressRouteCircuitReference class. */
-    public ExpressRouteCircuitReference() {
-    }
-
     /**
      * Get the id property: Corresponding Express Route Circuit Id.
      *

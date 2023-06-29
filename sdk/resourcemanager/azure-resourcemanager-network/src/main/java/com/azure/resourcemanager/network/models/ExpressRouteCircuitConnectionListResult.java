@@ -16,7 +16,8 @@ import java.util.List;
 @Fluent
 public final class ExpressRouteCircuitConnectionListResult {
     /*
-     * The global reach connection associated with Private Peering in an ExpressRoute Circuit.
+     * The global reach connection associated with Private Peering in an
+     * ExpressRoute Circuit.
      */
     @JsonProperty(value = "value")
     private List<ExpressRouteCircuitConnectionInner> value;
@@ -26,10 +27,6 @@ public final class ExpressRouteCircuitConnectionListResult {
      */
     @JsonProperty(value = "nextLink")
     private String nextLink;
-
-    /** Creates an instance of ExpressRouteCircuitConnectionListResult class. */
-    public ExpressRouteCircuitConnectionListResult() {
-    }
 
     /**
      * Get the value property: The global reach connection associated with Private Peering in an ExpressRoute Circuit.

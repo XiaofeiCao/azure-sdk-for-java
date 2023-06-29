@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Possible intrusion detection bypass traffic protocols. */
+/** Defines values for FirewallPolicyIntrusionDetectionProtocol. */
 public final class FirewallPolicyIntrusionDetectionProtocol
     extends ExpandableStringEnum<FirewallPolicyIntrusionDetectionProtocol> {
     /** Static value TCP for FirewallPolicyIntrusionDetectionProtocol. */
@@ -22,15 +22,6 @@ public final class FirewallPolicyIntrusionDetectionProtocol
 
     /** Static value ANY for FirewallPolicyIntrusionDetectionProtocol. */
     public static final FirewallPolicyIntrusionDetectionProtocol ANY = fromString("ANY");
-
-    /**
-     * Creates a new instance of FirewallPolicyIntrusionDetectionProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public FirewallPolicyIntrusionDetectionProtocol() {
-    }
 
     /**
      * Creates or finds a FirewallPolicyIntrusionDetectionProtocol from its string representation.

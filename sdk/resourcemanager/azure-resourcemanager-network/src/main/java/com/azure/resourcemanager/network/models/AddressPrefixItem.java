@@ -22,10 +22,6 @@ public final class AddressPrefixItem {
     @JsonProperty(value = "addressPrefixType")
     private AddressPrefixType addressPrefixType;
 
-    /** Creates an instance of AddressPrefixItem class. */
-    public AddressPrefixItem() {
-    }
-
     /**
      * Get the addressPrefix property: Address prefix.
      *

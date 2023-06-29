@@ -22,10 +22,6 @@ public final class AzureFirewallIpGroups {
     @JsonProperty(value = "changeNumber", access = JsonProperty.Access.WRITE_ONLY)
     private String changeNumber;
 
-    /** Creates an instance of AzureFirewallIpGroups class. */
-    public AzureFirewallIpGroups() {
-    }
-
     /**
      * Get the id property: Resource ID.
      *

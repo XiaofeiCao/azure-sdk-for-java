@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Network protocol this rule applies to. */
+/** Defines values for SecurityConfigurationRuleProtocol. */
 public final class SecurityConfigurationRuleProtocol extends ExpandableStringEnum<SecurityConfigurationRuleProtocol> {
     /** Static value Tcp for SecurityConfigurationRuleProtocol. */
     public static final SecurityConfigurationRuleProtocol TCP = fromString("Tcp");
@@ -27,15 +27,6 @@ public final class SecurityConfigurationRuleProtocol extends ExpandableStringEnu
 
     /** Static value Ah for SecurityConfigurationRuleProtocol. */
     public static final SecurityConfigurationRuleProtocol AH = fromString("Ah");
-
-    /**
-     * Creates a new instance of SecurityConfigurationRuleProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public SecurityConfigurationRuleProtocol() {
-    }
 
     /**
      * Creates or finds a SecurityConfigurationRuleProtocol from its string representation.

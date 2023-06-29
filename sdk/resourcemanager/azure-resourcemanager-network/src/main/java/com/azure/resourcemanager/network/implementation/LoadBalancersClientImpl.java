@@ -76,10 +76,11 @@ public final class LoadBalancersClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface LoadBalancersService {
+    private interface LoadBalancersService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -93,7 +94,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancerInner>> getByResourceGroup(
@@ -108,7 +110,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -123,7 +126,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancerInner>> updateTags(
@@ -149,7 +153,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancerListResult>> listByResourceGroup(
@@ -162,7 +167,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses")
+            "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}"
+                + "/setLoadBalancerFrontendPublicIpAddresses")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> swapPublicIpAddresses(
@@ -176,7 +182,8 @@ public final class LoadBalancersClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping")
+            "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers"
+                + "/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listInboundNatRulePortMappings(
@@ -243,7 +250,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -294,7 +301,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -360,7 +367,7 @@ public final class LoadBalancersClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String loadBalancerName) {
-        return this.beginDeleteAsync(resourceGroupName, loadBalancerName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, loadBalancerName).getSyncPoller();
     }
 
     /**
@@ -377,7 +384,7 @@ public final class LoadBalancersClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String loadBalancerName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, loadBalancerName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, loadBalancerName, context).getSyncPoller();
     }
 
     /**
@@ -478,7 +485,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -531,7 +538,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -544,6 +551,24 @@ public final class LoadBalancersClientImpl
                 expand,
                 accept,
                 context);
+    }
+
+    /**
+     * Gets the specified load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified load balancer on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<LoadBalancerInner> getByResourceGroupAsync(
+        String resourceGroupName, String loadBalancerName, String expand) {
+        return getByResourceGroupWithResponseAsync(resourceGroupName, loadBalancerName, expand)
+            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
     }
 
     /**
@@ -568,6 +593,22 @@ public final class LoadBalancersClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified load balancer.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName) {
+        final String expand = null;
+        return getByResourceGroupAsync(resourceGroupName, loadBalancerName, expand).block();
+    }
+
+    /**
+     * Gets the specified load balancer.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
      * @param expand Expands referenced resources.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -579,22 +620,6 @@ public final class LoadBalancersClientImpl
     public Response<LoadBalancerInner> getByResourceGroupWithResponse(
         String resourceGroupName, String loadBalancerName, String expand, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, loadBalancerName, expand, context).block();
-    }
-
-    /**
-     * Gets the specified load balancer.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified load balancer.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName) {
-        final String expand = null;
-        return getByResourceGroupWithResponse(resourceGroupName, loadBalancerName, expand, Context.NONE).getValue();
     }
 
     /**
@@ -636,7 +661,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -694,7 +719,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -773,7 +798,7 @@ public final class LoadBalancersClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<LoadBalancerInner>, LoadBalancerInner> beginCreateOrUpdate(
         String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters).getSyncPoller();
     }
 
     /**
@@ -791,7 +816,7 @@ public final class LoadBalancersClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<LoadBalancerInner>, LoadBalancerInner> beginCreateOrUpdate(
         String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters, Context context) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters, context).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, loadBalancerName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -907,7 +932,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -965,7 +990,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1004,6 +1029,22 @@ public final class LoadBalancersClientImpl
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param parameters Parameters supplied to update load balancer tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return loadBalancer resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
+        return updateTagsAsync(resourceGroupName, loadBalancerName, parameters).block();
+    }
+
+    /**
+     * Updates a load balancer tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param parameters Parameters supplied to update load balancer tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1014,22 +1055,6 @@ public final class LoadBalancersClientImpl
     public Response<LoadBalancerInner> updateTagsWithResponse(
         String resourceGroupName, String loadBalancerName, TagsObject parameters, Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, loadBalancerName, parameters, context).block();
-    }
-
-    /**
-     * Updates a load balancer tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param parameters Parameters supplied to update load balancer tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return loadBalancer resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
-        return updateTagsWithResponse(resourceGroupName, loadBalancerName, parameters, Context.NONE).getValue();
     }
 
     /**
@@ -1054,7 +1079,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1097,7 +1122,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1194,7 +1219,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1249,7 +1274,7 @@ public final class LoadBalancersClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1365,7 +1390,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1416,7 +1441,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1484,7 +1509,7 @@ public final class LoadBalancersClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginSwapPublicIpAddresses(
         String location, LoadBalancerVipSwapRequest parameters) {
-        return this.beginSwapPublicIpAddressesAsync(location, parameters).getSyncPoller();
+        return beginSwapPublicIpAddressesAsync(location, parameters).getSyncPoller();
     }
 
     /**
@@ -1501,7 +1526,7 @@ public final class LoadBalancersClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginSwapPublicIpAddresses(
         String location, LoadBalancerVipSwapRequest parameters, Context context) {
-        return this.beginSwapPublicIpAddressesAsync(location, parameters, context).getSyncPoller();
+        return beginSwapPublicIpAddressesAsync(location, parameters, context).getSyncPoller();
     }
 
     /**
@@ -1616,7 +1641,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1684,7 +1709,7 @@ public final class LoadBalancersClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1788,8 +1813,7 @@ public final class LoadBalancersClientImpl
             String loadBalancerName,
             String backendPoolName,
             QueryInboundNatRulePortMappingRequest parameters) {
-        return this
-            .beginListInboundNatRulePortMappingsAsync(groupName, loadBalancerName, backendPoolName, parameters)
+        return beginListInboundNatRulePortMappingsAsync(groupName, loadBalancerName, backendPoolName, parameters)
             .getSyncPoller();
     }
 
@@ -1815,8 +1839,8 @@ public final class LoadBalancersClientImpl
             String backendPoolName,
             QueryInboundNatRulePortMappingRequest parameters,
             Context context) {
-        return this
-            .beginListInboundNatRulePortMappingsAsync(groupName, loadBalancerName, backendPoolName, parameters, context)
+        return beginListInboundNatRulePortMappingsAsync(
+                groupName, loadBalancerName, backendPoolName, parameters, context)
             .getSyncPoller();
     }
 
@@ -1917,8 +1941,7 @@ public final class LoadBalancersClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1954,8 +1977,7 @@ public final class LoadBalancersClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1992,8 +2014,7 @@ public final class LoadBalancersClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2029,8 +2050,7 @@ public final class LoadBalancersClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

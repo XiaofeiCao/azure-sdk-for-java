@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteCircuits ListArpTable. */
 public final class ExpressRouteCircuitsListArpTableSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCircuitARPTableList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCircuitARPTableList.json
      */
     /**
      * Sample code: List ARP Table.
@@ -20,6 +22,6 @@ public final class ExpressRouteCircuitsListArpTableSamples {
             .manager()
             .serviceClient()
             .getExpressRouteCircuits()
-            .listArpTable("rg1", "circuitName", "peeringName", "devicePath", com.azure.core.util.Context.NONE);
+            .listArpTable("rg1", "circuitName", "peeringName", "devicePath", Context.NONE);
     }
 }

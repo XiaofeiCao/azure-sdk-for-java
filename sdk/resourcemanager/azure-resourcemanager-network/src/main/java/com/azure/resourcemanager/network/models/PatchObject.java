@@ -19,10 +19,6 @@ public final class PatchObject {
     @JsonInclude(value = JsonInclude.Include.NON_NULL, content = JsonInclude.Include.ALWAYS)
     private Map<String, String> tags;
 
-    /** Creates an instance of PatchObject class. */
-    public PatchObject() {
-    }
-
     /**
      * Get the tags property: Resource tags.
      *

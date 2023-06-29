@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationSecurityGroups ListByResourceGroup. */
 public final class ApplicationSecurityGroupsListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationSecurityGroupList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationSecurityGroupList.json
      */
     /**
      * Sample code: List load balancers in resource group.
@@ -20,6 +22,6 @@ public final class ApplicationSecurityGroupsListByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getApplicationSecurityGroups()
-            .listByResourceGroup("rg1", com.azure.core.util.Context.NONE);
+            .listByResourceGroup("rg1", Context.NONE);
     }
 }

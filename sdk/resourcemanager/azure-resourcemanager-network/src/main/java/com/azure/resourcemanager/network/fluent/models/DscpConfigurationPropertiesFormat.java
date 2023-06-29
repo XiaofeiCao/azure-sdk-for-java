@@ -82,10 +82,6 @@ public final class DscpConfigurationPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of DscpConfigurationPropertiesFormat class. */
-    public DscpConfigurationPropertiesFormat() {
-    }
-
     /**
      * Get the markings property: List of markings to be used in the configuration.
      *

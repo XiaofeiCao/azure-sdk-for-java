@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for SecurityPartnerProviders List. */
 public final class SecurityPartnerProvidersListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/SecurityPartnerProviderListBySubscription.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/SecurityPartnerProviderListBySubscription.json
      */
     /**
      * Sample code: List all Security Partner Providers for a given subscription.
@@ -16,6 +18,6 @@ public final class SecurityPartnerProvidersListSamples {
      */
     public static void listAllSecurityPartnerProvidersForAGivenSubscription(
         com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.networks().manager().serviceClient().getSecurityPartnerProviders().list(com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getSecurityPartnerProviders().list(Context.NONE);
     }
 }

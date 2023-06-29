@@ -56,10 +56,6 @@ public final class FirewallPacketCaptureParametersFormat {
     @JsonProperty(value = "filters")
     private List<AzureFirewallPacketCaptureRule> filters;
 
-    /** Creates an instance of FirewallPacketCaptureParametersFormat class. */
-    public FirewallPacketCaptureParametersFormat() {
-    }
-
     /**
      * Get the durationInSeconds property: Duration of packet capture in seconds.
      *

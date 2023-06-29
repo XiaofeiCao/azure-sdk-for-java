@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for FirewallPolicyIdpsSignaturesOverrides Get. */
 public final class FirewallPolicyIdpsSignaturesOverridesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicySignatureOverridesGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicySignatureOverridesGet.json
      */
     /**
      * Sample code: get signature overrides.
@@ -20,6 +22,6 @@ public final class FirewallPolicyIdpsSignaturesOverridesGetSamples {
             .manager()
             .serviceClient()
             .getFirewallPolicyIdpsSignaturesOverrides()
-            .getWithResponse("rg1", "firewallPolicy", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "firewallPolicy", Context.NONE);
     }
 }

@@ -23,10 +23,6 @@ public final class NetworkSecurityGroupResult {
     @JsonProperty(value = "evaluatedNetworkSecurityGroups", access = JsonProperty.Access.WRITE_ONLY)
     private List<EvaluatedNetworkSecurityGroup> evaluatedNetworkSecurityGroups;
 
-    /** Creates an instance of NetworkSecurityGroupResult class. */
-    public NetworkSecurityGroupResult() {
-    }
-
     /**
      * Get the securityRuleAccessResult property: The network traffic is allowed or denied.
      *

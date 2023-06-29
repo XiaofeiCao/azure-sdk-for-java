@@ -150,10 +150,6 @@ public final class VirtualHubProperties {
     @JsonProperty(value = "virtualRouterAutoScaleConfiguration")
     private VirtualRouterAutoScaleConfiguration virtualRouterAutoScaleConfiguration;
 
-    /** Creates an instance of VirtualHubProperties class. */
-    public VirtualHubProperties() {
-    }
-
     /**
      * Get the virtualWan property: The VirtualWAN to which the VirtualHub belongs.
      *

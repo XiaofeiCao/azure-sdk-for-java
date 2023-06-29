@@ -24,10 +24,6 @@ public final class ListVirtualHubBgpConnectionResults {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListVirtualHubBgpConnectionResults class. */
-    public ListVirtualHubBgpConnectionResults() {
-    }
-
     /**
      * Get the value property: The list of VirtualHubBgpConnections.
      *

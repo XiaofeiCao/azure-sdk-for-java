@@ -18,10 +18,6 @@ public final class VpnClientConnectionHealthDetailListResultInner {
     @JsonProperty(value = "value")
     private List<VpnClientConnectionHealthDetail> value;
 
-    /** Creates an instance of VpnClientConnectionHealthDetailListResultInner class. */
-    public VpnClientConnectionHealthDetailListResultInner() {
-    }
-
     /**
      * Get the value property: List of vpn client connection health.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for FirewallPolicyRuleCollectionGroups Get. */
 public final class FirewallPolicyRuleCollectionGroupsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
      */
     /**
      * Sample code: Get FirewallPolicyNatRuleCollectionGroup.
@@ -20,11 +22,11 @@ public final class FirewallPolicyRuleCollectionGroupsGetSamples {
             .manager()
             .serviceClient()
             .getFirewallPolicyRuleCollectionGroups()
-            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
      */
     /**
      * Sample code: Get FirewallPolicyRuleCollectionGroup With Web Categories.
@@ -38,11 +40,11 @@ public final class FirewallPolicyRuleCollectionGroupsGetSamples {
             .manager()
             .serviceClient()
             .getFirewallPolicyRuleCollectionGroups()
-            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicyRuleCollectionGroupGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicyRuleCollectionGroupGet.json
      */
     /**
      * Sample code: Get FirewallPolicyRuleCollectionGroup.
@@ -55,11 +57,11 @@ public final class FirewallPolicyRuleCollectionGroupsGetSamples {
             .manager()
             .serviceClient()
             .getFirewallPolicyRuleCollectionGroups()
-            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "firewallPolicy", "ruleCollectionGroup1", Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
      */
     /**
      * Sample code: Get FirewallPolicyRuleCollectionGroup With IpGroups.
@@ -73,6 +75,6 @@ public final class FirewallPolicyRuleCollectionGroupsGetSamples {
             .manager()
             .serviceClient()
             .getFirewallPolicyRuleCollectionGroups()
-            .getWithResponse("rg1", "firewallPolicy", "ruleGroup1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "firewallPolicy", "ruleGroup1", Context.NONE);
     }
 }

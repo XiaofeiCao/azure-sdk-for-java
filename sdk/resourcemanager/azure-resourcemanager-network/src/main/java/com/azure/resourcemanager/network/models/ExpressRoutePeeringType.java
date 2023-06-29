@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The peering type. */
+/** Defines values for ExpressRoutePeeringType. */
 public final class ExpressRoutePeeringType extends ExpandableStringEnum<ExpressRoutePeeringType> {
     /** Static value AzurePublicPeering for ExpressRoutePeeringType. */
     public static final ExpressRoutePeeringType AZURE_PUBLIC_PEERING = fromString("AzurePublicPeering");
@@ -18,15 +18,6 @@ public final class ExpressRoutePeeringType extends ExpandableStringEnum<ExpressR
 
     /** Static value MicrosoftPeering for ExpressRoutePeeringType. */
     public static final ExpressRoutePeeringType MICROSOFT_PEERING = fromString("MicrosoftPeering");
-
-    /**
-     * Creates a new instance of ExpressRoutePeeringType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ExpressRoutePeeringType() {
-    }
 
     /**
      * Creates or finds a ExpressRoutePeeringType from its string representation.

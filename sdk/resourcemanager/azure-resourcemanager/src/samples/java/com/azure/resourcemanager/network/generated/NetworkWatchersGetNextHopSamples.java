@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.NextHopParameters;
 
 /** Samples for NetworkWatchers GetNextHop. */
 public final class NetworkWatchersGetNextHopSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherNextHopGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherNextHopGet.json
      */
     /**
      * Sample code: Get next hop.
@@ -32,6 +33,6 @@ public final class NetworkWatchersGetNextHopSamples {
                     .withDestinationIpAddress("10.0.0.10")
                     .withTargetNicResourceId(
                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

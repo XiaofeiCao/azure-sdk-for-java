@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The origin of the issue. */
+/** Defines values for Origin. */
 public final class Origin extends ExpandableStringEnum<Origin> {
     /** Static value Local for Origin. */
     public static final Origin LOCAL = fromString("Local");
@@ -18,15 +18,6 @@ public final class Origin extends ExpandableStringEnum<Origin> {
 
     /** Static value Outbound for Origin. */
     public static final Origin OUTBOUND = fromString("Outbound");
-
-    /**
-     * Creates a new instance of Origin value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public Origin() {
-    }
 
     /**
      * Creates or finds a Origin from its string representation.

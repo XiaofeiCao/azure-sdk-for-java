@@ -34,10 +34,6 @@ public final class FlowLogInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of FlowLogInner class. */
-    public FlowLogInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the flow log.
      *

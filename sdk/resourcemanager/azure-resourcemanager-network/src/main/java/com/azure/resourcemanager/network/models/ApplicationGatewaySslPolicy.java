@@ -30,7 +30,8 @@ public final class ApplicationGatewaySslPolicy {
     private ApplicationGatewaySslPolicyName policyName;
 
     /*
-     * Ssl cipher suites to be enabled in the specified order to application gateway.
+     * Ssl cipher suites to be enabled in the specified order to application
+     * gateway.
      */
     @JsonProperty(value = "cipherSuites")
     private List<ApplicationGatewaySslCipherSuite> cipherSuites;
@@ -40,10 +41,6 @@ public final class ApplicationGatewaySslPolicy {
      */
     @JsonProperty(value = "minProtocolVersion")
     private ApplicationGatewaySslProtocol minProtocolVersion;
-
-    /** Creates an instance of ApplicationGatewaySslPolicy class. */
-    public ApplicationGatewaySslPolicy() {
-    }
 
     /**
      * Get the disabledSslProtocols property: Ssl protocols to be disabled on application gateway.

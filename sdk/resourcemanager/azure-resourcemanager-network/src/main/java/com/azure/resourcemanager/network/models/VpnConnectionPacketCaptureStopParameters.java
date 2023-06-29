@@ -23,10 +23,6 @@ public final class VpnConnectionPacketCaptureStopParameters {
     @JsonProperty(value = "linkConnectionNames")
     private List<String> linkConnectionNames;
 
-    /** Creates an instance of VpnConnectionPacketCaptureStopParameters class. */
-    public VpnConnectionPacketCaptureStopParameters() {
-    }
-
     /**
      * Get the sasUrl property: SAS url for packet capture on vpn connection.
      *

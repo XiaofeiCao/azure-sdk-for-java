@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** RNM supported protocol types. */
+/** Defines values for ProtocolType. */
 public final class ProtocolType extends ExpandableStringEnum<ProtocolType> {
     /** Static value DoNotUse for ProtocolType. */
     public static final ProtocolType DO_NOT_USE = fromString("DoNotUse");
@@ -36,15 +36,6 @@ public final class ProtocolType extends ExpandableStringEnum<ProtocolType> {
 
     /** Static value All for ProtocolType. */
     public static final ProtocolType ALL = fromString("All");
-
-    /**
-     * Creates a new instance of ProtocolType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ProtocolType() {
-    }
 
     /**
      * Creates or finds a ProtocolType from its string representation.

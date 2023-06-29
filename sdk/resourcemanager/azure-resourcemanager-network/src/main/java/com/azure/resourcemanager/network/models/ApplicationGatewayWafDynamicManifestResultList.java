@@ -24,10 +24,6 @@ public final class ApplicationGatewayWafDynamicManifestResultList {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ApplicationGatewayWafDynamicManifestResultList class. */
-    public ApplicationGatewayWafDynamicManifestResultList() {
-    }
-
     /**
      * Get the value property: The list of application gateway waf manifest.
      *

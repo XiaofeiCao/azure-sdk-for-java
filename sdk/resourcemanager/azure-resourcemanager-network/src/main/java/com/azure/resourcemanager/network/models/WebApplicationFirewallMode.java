@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The mode of the policy. */
+/** Defines values for WebApplicationFirewallMode. */
 public final class WebApplicationFirewallMode extends ExpandableStringEnum<WebApplicationFirewallMode> {
     /** Static value Prevention for WebApplicationFirewallMode. */
     public static final WebApplicationFirewallMode PREVENTION = fromString("Prevention");
 
     /** Static value Detection for WebApplicationFirewallMode. */
     public static final WebApplicationFirewallMode DETECTION = fromString("Detection");
-
-    /**
-     * Creates a new instance of WebApplicationFirewallMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public WebApplicationFirewallMode() {
-    }
 
     /**
      * Creates or finds a WebApplicationFirewallMode from its string representation.

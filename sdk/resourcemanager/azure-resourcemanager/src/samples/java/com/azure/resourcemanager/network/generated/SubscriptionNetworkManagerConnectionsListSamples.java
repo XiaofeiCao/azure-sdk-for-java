@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for SubscriptionNetworkManagerConnections List. */
 public final class SubscriptionNetworkManagerConnectionsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectionSubscriptionList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectionSubscriptionList.json
      */
     /**
      * Sample code: List Subscription Network Manager Connection.
@@ -20,6 +22,6 @@ public final class SubscriptionNetworkManagerConnectionsListSamples {
             .manager()
             .serviceClient()
             .getSubscriptionNetworkManagerConnections()
-            .list(null, null, com.azure.core.util.Context.NONE);
+            .list(null, null, Context.NONE);
     }
 }

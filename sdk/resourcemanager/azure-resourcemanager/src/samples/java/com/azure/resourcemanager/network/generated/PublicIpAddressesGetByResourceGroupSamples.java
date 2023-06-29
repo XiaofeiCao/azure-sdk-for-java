@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for PublicIpAddresses GetByResourceGroup. */
 public final class PublicIpAddressesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PublicIpAddressGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PublicIpAddressGet.json
      */
     /**
      * Sample code: Get public IP address.
@@ -20,6 +22,6 @@ public final class PublicIpAddressesGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getPublicIpAddresses()
-            .getByResourceGroupWithResponse("rg1", "testDNS-ip", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "testDNS-ip", null, Context.NONE);
     }
 }

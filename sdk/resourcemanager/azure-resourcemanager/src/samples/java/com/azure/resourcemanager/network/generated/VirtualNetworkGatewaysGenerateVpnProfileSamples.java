@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.VpnClientParameters;
 
 /** Samples for VirtualNetworkGateways GenerateVpnProfile. */
 public final class VirtualNetworkGatewaysGenerateVpnProfileSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayGenerateVpnProfile.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayGenerateVpnProfile.json
      */
     /**
      * Sample code: GenerateVirtualNetworkGatewayVPNProfile.
@@ -22,6 +23,6 @@ public final class VirtualNetworkGatewaysGenerateVpnProfileSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .generateVpnProfile("rg1", "vpngw", new VpnClientParameters(), com.azure.core.util.Context.NONE);
+            .generateVpnProfile("rg1", "vpngw", new VpnClientParameters(), Context.NONE);
     }
 }

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for FlowLogs Get. */
 public final class FlowLogsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherFlowLogGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherFlowLogGet.json
      */
     /**
      * Sample code: Get flow log.
@@ -20,6 +22,6 @@ public final class FlowLogsGetSamples {
             .manager()
             .serviceClient()
             .getFlowLogs()
-            .getWithResponse("rg1", "nw1", "flowLog1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "nw1", "flowLog1", Context.NONE);
     }
 }

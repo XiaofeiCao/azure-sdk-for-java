@@ -22,10 +22,6 @@ public final class NetworkConfigurationDiagnosticResult {
     @JsonProperty(value = "networkSecurityGroupResult")
     private NetworkSecurityGroupResult networkSecurityGroupResult;
 
-    /** Creates an instance of NetworkConfigurationDiagnosticResult class. */
-    public NetworkConfigurationDiagnosticResult() {
-    }
-
     /**
      * Get the profile property: Network configuration diagnostic profile.
      *

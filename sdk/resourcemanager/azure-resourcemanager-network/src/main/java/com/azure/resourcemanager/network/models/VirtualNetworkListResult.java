@@ -24,10 +24,6 @@ public final class VirtualNetworkListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of VirtualNetworkListResult class. */
-    public VirtualNetworkListResult() {
-    }
-
     /**
      * Get the value property: A list of VirtualNetwork resources in a resource group.
      *

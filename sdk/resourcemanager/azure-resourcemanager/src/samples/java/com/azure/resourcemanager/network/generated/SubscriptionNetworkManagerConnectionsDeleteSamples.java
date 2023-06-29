@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for SubscriptionNetworkManagerConnections Delete. */
 public final class SubscriptionNetworkManagerConnectionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectionSubscriptionDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectionSubscriptionDelete.json
      */
     /**
      * Sample code: Delete Subscription Network Manager Connection.
@@ -21,6 +23,6 @@ public final class SubscriptionNetworkManagerConnectionsDeleteSamples {
             .manager()
             .serviceClient()
             .getSubscriptionNetworkManagerConnections()
-            .deleteWithResponse("TestNMConnection", com.azure.core.util.Context.NONE);
+            .deleteWithResponse("TestNMConnection", Context.NONE);
     }
 }

@@ -16,10 +16,6 @@ public final class FirewallPolicyFilterRuleCollectionAction {
     @JsonProperty(value = "type")
     private FirewallPolicyFilterRuleCollectionActionType type;
 
-    /** Creates an instance of FirewallPolicyFilterRuleCollectionAction class. */
-    public FirewallPolicyFilterRuleCollectionAction() {
-    }
-
     /**
      * Get the type property: The type of action.
      *

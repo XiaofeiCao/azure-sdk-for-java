@@ -23,10 +23,6 @@ public final class AvailableProvidersListCity {
     @JsonProperty(value = "providers")
     private List<String> providers;
 
-    /** Creates an instance of AvailableProvidersListCity class. */
-    public AvailableProvidersListCity() {
-    }
-
     /**
      * Get the cityName property: The city or town name.
      *

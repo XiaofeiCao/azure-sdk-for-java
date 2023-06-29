@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaceIpConfigurations Get. */
 public final class NetworkInterfaceIpConfigurationsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceIPConfigurationGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkInterfaceIPConfigurationGet.json
      */
     /**
      * Sample code: NetworkInterfaceIPConfigurationGet.
@@ -20,6 +22,6 @@ public final class NetworkInterfaceIpConfigurationsGetSamples {
             .manager()
             .serviceClient()
             .getNetworkInterfaceIpConfigurations()
-            .getWithResponse("testrg", "mynic", "ipconfig1", com.azure.core.util.Context.NONE);
+            .getWithResponse("testrg", "mynic", "ipconfig1", Context.NONE);
     }
 }

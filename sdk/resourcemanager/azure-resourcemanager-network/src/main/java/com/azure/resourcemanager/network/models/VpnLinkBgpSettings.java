@@ -22,10 +22,6 @@ public final class VpnLinkBgpSettings {
     @JsonProperty(value = "bgpPeeringAddress")
     private String bgpPeeringAddress;
 
-    /** Creates an instance of VpnLinkBgpSettings class. */
-    public VpnLinkBgpSettings() {
-    }
-
     /**
      * Get the asn property: The BGP speaker's ASN.
      *

@@ -29,10 +29,6 @@ public final class AvailableProvidersListState {
     @JsonProperty(value = "cities")
     private List<AvailableProvidersListCity> cities;
 
-    /** Creates an instance of AvailableProvidersListState class. */
-    public AvailableProvidersListState() {
-    }
-
     /**
      * Get the stateName property: The state name.
      *

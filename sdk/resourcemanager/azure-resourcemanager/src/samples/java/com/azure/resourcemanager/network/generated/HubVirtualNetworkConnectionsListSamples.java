@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for HubVirtualNetworkConnections List. */
 public final class HubVirtualNetworkConnectionsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/HubVirtualNetworkConnectionList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/HubVirtualNetworkConnectionList.json
      */
     /**
      * Sample code: HubVirtualNetworkConnectionList.
@@ -20,6 +22,6 @@ public final class HubVirtualNetworkConnectionsListSamples {
             .manager()
             .serviceClient()
             .getHubVirtualNetworkConnections()
-            .list("rg1", "virtualHub1", com.azure.core.util.Context.NONE);
+            .list("rg1", "virtualHub1", Context.NONE);
     }
 }

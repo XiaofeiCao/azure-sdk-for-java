@@ -24,10 +24,6 @@ public final class TroubleshootingParameters {
     @JsonProperty(value = "properties", required = true)
     private TroubleshootingProperties innerProperties = new TroubleshootingProperties();
 
-    /** Creates an instance of TroubleshootingParameters class. */
-    public TroubleshootingParameters() {
-    }
-
     /**
      * Get the targetResourceId property: The target resource to troubleshoot.
      *

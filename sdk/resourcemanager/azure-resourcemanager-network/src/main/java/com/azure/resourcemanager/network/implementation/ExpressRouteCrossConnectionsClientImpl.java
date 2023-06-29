@@ -75,7 +75,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface ExpressRouteCrossConnectionsService {
+    private interface ExpressRouteCrossConnectionsService {
         @Headers({"Content-Type: application/json"})
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections")
         @ExpectedResponses({200})
@@ -89,7 +89,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRouteCrossConnectionListResult>> listByResourceGroup(
@@ -102,7 +103,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRouteCrossConnectionInner>> getByResourceGroup(
@@ -116,7 +118,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -131,7 +134,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ExpressRouteCrossConnectionInner>> updateTags(
@@ -146,7 +150,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listArpTable(
@@ -162,7 +167,9 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary"
+                + "/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listRoutesTableSummary(
@@ -178,7 +185,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listRoutesTable(
@@ -235,7 +243,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -278,7 +286,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -380,7 +388,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -435,7 +443,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -559,7 +567,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -611,7 +619,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -647,6 +655,21 @@ public final class ExpressRouteCrossConnectionsClientImpl
      *
      * @param resourceGroupName The name of the resource group (peering location of the circuit).
      * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return details about the specified ExpressRouteCrossConnection.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ExpressRouteCrossConnectionInner getByResourceGroup(String resourceGroupName, String crossConnectionName) {
+        return getByResourceGroupAsync(resourceGroupName, crossConnectionName).block();
+    }
+
+    /**
+     * Gets details about the specified ExpressRouteCrossConnection.
+     *
+     * @param resourceGroupName The name of the resource group (peering location of the circuit).
+     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -657,21 +680,6 @@ public final class ExpressRouteCrossConnectionsClientImpl
     public Response<ExpressRouteCrossConnectionInner> getByResourceGroupWithResponse(
         String resourceGroupName, String crossConnectionName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, crossConnectionName, context).block();
-    }
-
-    /**
-     * Gets details about the specified ExpressRouteCrossConnection.
-     *
-     * @param resourceGroupName The name of the resource group (peering location of the circuit).
-     * @param crossConnectionName The name of the ExpressRouteCrossConnection (service key of the circuit).
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return details about the specified ExpressRouteCrossConnection.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCrossConnectionInner getByResourceGroup(String resourceGroupName, String crossConnectionName) {
-        return getByResourceGroupWithResponse(resourceGroupName, crossConnectionName, Context.NONE).getValue();
     }
 
     /**
@@ -714,7 +722,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -776,7 +784,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -865,7 +873,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     public SyncPoller<PollResult<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>
         beginCreateOrUpdate(
             String resourceGroupName, String crossConnectionName, ExpressRouteCrossConnectionInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters).getSyncPoller();
     }
 
     /**
@@ -887,9 +895,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
             String crossConnectionName,
             ExpressRouteCrossConnectionInner parameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters, context)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, crossConnectionName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -1015,7 +1021,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
         } else {
             crossConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1077,7 +1083,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
         } else {
             crossConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1116,6 +1122,23 @@ public final class ExpressRouteCrossConnectionsClientImpl
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @param crossConnectionParameters Parameters supplied to update express route cross connection tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return expressRouteCrossConnection resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ExpressRouteCrossConnectionInner updateTags(
+        String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
+        return updateTagsAsync(resourceGroupName, crossConnectionName, crossConnectionParameters).block();
+    }
+
+    /**
+     * Updates an express route cross connection tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param crossConnectionName The name of the cross connection.
+     * @param crossConnectionParameters Parameters supplied to update express route cross connection tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1127,24 +1150,6 @@ public final class ExpressRouteCrossConnectionsClientImpl
         String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters, Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, crossConnectionName, crossConnectionParameters, context)
             .block();
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param crossConnectionParameters Parameters supplied to update express route cross connection tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return expressRouteCrossConnection resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCrossConnectionInner updateTags(
-        String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
-        return updateTagsWithResponse(resourceGroupName, crossConnectionName, crossConnectionParameters, Context.NONE)
-            .getValue();
     }
 
     /**
@@ -1189,7 +1194,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1251,7 +1256,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1350,9 +1355,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     public SyncPoller<
             PollResult<ExpressRouteCircuitsArpTableListResultInner>, ExpressRouteCircuitsArpTableListResultInner>
         beginListArpTable(String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return this
-            .beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
-            .getSyncPoller();
+        return beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath).getSyncPoller();
     }
 
     /**
@@ -1378,8 +1381,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
             String peeringName,
             String devicePath,
             Context context) {
-        return this
-            .beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath, context)
+        return beginListArpTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath, context)
             .getSyncPoller();
     }
 
@@ -1507,7 +1509,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1569,7 +1571,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1677,8 +1679,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
             ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>
         beginListRoutesTableSummary(
             String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return this
-            .beginListRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
+        return beginListRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
             .getSyncPoller();
     }
 
@@ -1706,8 +1707,8 @@ public final class ExpressRouteCrossConnectionsClientImpl
             String peeringName,
             String devicePath,
             Context context) {
-        return this
-            .beginListRoutesTableSummaryAsync(resourceGroupName, crossConnectionName, peeringName, devicePath, context)
+        return beginListRoutesTableSummaryAsync(
+                resourceGroupName, crossConnectionName, peeringName, devicePath, context)
             .getSyncPoller();
     }
 
@@ -1836,7 +1837,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1899,7 +1900,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -2004,8 +2005,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
             PollResult<ExpressRouteCircuitsRoutesTableListResultInner>, ExpressRouteCircuitsRoutesTableListResultInner>
         beginListRoutesTable(
             String resourceGroupName, String crossConnectionName, String peeringName, String devicePath) {
-        return this
-            .beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
+        return beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath)
             .getSyncPoller();
     }
 
@@ -2033,8 +2033,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
             String peeringName,
             String devicePath,
             Context context) {
-        return this
-            .beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath, context)
+        return beginListRoutesTableAsync(resourceGroupName, crossConnectionName, peeringName, devicePath, context)
             .getSyncPoller();
     }
 
@@ -2127,8 +2126,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2164,8 +2162,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -2203,8 +2200,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2242,8 +2238,7 @@ public final class ExpressRouteCrossConnectionsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

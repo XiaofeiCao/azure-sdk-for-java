@@ -59,10 +59,11 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface LoadBalancerLoadBalancingRulesService {
+    private interface LoadBalancerLoadBalancingRulesService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}/loadBalancingRules")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancerLoadBalancingRuleListResult>> list(
@@ -76,7 +77,8 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancingRuleInner>> get(
@@ -134,7 +136,7 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -195,7 +197,7 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -325,7 +327,7 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -383,7 +385,7 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -422,6 +424,22 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param loadBalancingRuleName The name of the load balancing rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified load balancer load balancing rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LoadBalancingRuleInner get(String resourceGroupName, String loadBalancerName, String loadBalancingRuleName) {
+        return getAsync(resourceGroupName, loadBalancerName, loadBalancingRuleName).block();
+    }
+
+    /**
+     * Gets the specified load balancer load balancing rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param loadBalancingRuleName The name of the load balancing rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -435,26 +453,9 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
     }
 
     /**
-     * Gets the specified load balancer load balancing rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param loadBalancingRuleName The name of the load balancing rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified load balancer load balancing rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public LoadBalancingRuleInner get(String resourceGroupName, String loadBalancerName, String loadBalancingRuleName) {
-        return getWithResponse(resourceGroupName, loadBalancerName, loadBalancingRuleName, Context.NONE).getValue();
-    }
-
-    /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -490,8 +491,7 @@ public final class LoadBalancerLoadBalancingRulesClientImpl implements LoadBalan
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

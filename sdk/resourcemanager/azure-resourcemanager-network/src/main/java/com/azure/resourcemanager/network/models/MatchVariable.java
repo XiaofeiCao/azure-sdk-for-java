@@ -23,10 +23,6 @@ public final class MatchVariable {
     @JsonProperty(value = "selector")
     private String selector;
 
-    /** Creates an instance of MatchVariable class. */
-    public MatchVariable() {
-    }
-
     /**
      * Get the variableName property: Match Variable.
      *

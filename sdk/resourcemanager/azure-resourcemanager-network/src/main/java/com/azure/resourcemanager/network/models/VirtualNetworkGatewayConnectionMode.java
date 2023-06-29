@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Gateway connection type. */
+/** Defines values for VirtualNetworkGatewayConnectionMode. */
 public final class VirtualNetworkGatewayConnectionMode
     extends ExpandableStringEnum<VirtualNetworkGatewayConnectionMode> {
     /** Static value Default for VirtualNetworkGatewayConnectionMode. */
@@ -19,15 +19,6 @@ public final class VirtualNetworkGatewayConnectionMode
 
     /** Static value InitiatorOnly for VirtualNetworkGatewayConnectionMode. */
     public static final VirtualNetworkGatewayConnectionMode INITIATOR_ONLY = fromString("InitiatorOnly");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewayConnectionMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewayConnectionMode() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewayConnectionMode from its string representation.

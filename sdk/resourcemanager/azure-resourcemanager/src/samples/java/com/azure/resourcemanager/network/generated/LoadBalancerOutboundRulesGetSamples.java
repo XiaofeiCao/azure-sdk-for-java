@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for LoadBalancerOutboundRules Get. */
 public final class LoadBalancerOutboundRulesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerOutboundRuleGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerOutboundRuleGet.json
      */
     /**
      * Sample code: LoadBalancerOutboundRuleGet.
@@ -20,6 +22,6 @@ public final class LoadBalancerOutboundRulesGetSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerOutboundRules()
-            .getWithResponse("testrg", "lb1", "rule1", com.azure.core.util.Context.NONE);
+            .getWithResponse("testrg", "lb1", "rule1", Context.NONE);
     }
 }

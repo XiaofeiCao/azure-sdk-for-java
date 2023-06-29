@@ -24,10 +24,6 @@ public final class NetworkVirtualApplianceConnectionList {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of NetworkVirtualApplianceConnectionList class. */
-    public NetworkVirtualApplianceConnectionList() {
-    }
-
     /**
      * Get the value property: The list of NetworkVirtualAppliance connections.
      *

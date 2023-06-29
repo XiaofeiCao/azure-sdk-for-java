@@ -24,10 +24,6 @@ public final class ApplicationGatewayBackendHealthOnDemandInner {
     @JsonProperty(value = "backendHealthHttpSettings")
     private ApplicationGatewayBackendHealthHttpSettings backendHealthHttpSettings;
 
-    /** Creates an instance of ApplicationGatewayBackendHealthOnDemandInner class. */
-    public ApplicationGatewayBackendHealthOnDemandInner() {
-    }
-
     /**
      * Get the backendAddressPool property: Reference to an ApplicationGatewayBackendAddressPool resource.
      *

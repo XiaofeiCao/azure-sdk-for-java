@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for DscpConfiguration GetByResourceGroup. */
 public final class DscpConfigurationGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/DscpConfigurationGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/DscpConfigurationGet.json
      */
     /**
      * Sample code: Get Dscp Configuration.
@@ -20,6 +22,6 @@ public final class DscpConfigurationGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getDscpConfigurations()
-            .getByResourceGroupWithResponse("rg1", "mydscpConfig", com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "mydscpConfig", Context.NONE);
     }
 }

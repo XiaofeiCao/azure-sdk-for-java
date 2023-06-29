@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The IPSec encryption algorithm (IKE phase 1). */
+/** Defines values for IpsecEncryption. */
 public final class IpsecEncryption extends ExpandableStringEnum<IpsecEncryption> {
     /** Static value None for IpsecEncryption. */
     public static final IpsecEncryption NONE = fromString("None");
@@ -36,15 +36,6 @@ public final class IpsecEncryption extends ExpandableStringEnum<IpsecEncryption>
 
     /** Static value GCMAES256 for IpsecEncryption. */
     public static final IpsecEncryption GCMAES256 = fromString("GCMAES256");
-
-    /**
-     * Creates a new instance of IpsecEncryption value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public IpsecEncryption() {
-    }
 
     /**
      * Creates or finds a IpsecEncryption from its string representation.

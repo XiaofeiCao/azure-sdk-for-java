@@ -48,10 +48,6 @@ public final class NetworkManagerDeploymentStatus {
     @JsonProperty(value = "errorMessage")
     private String errorMessage;
 
-    /** Creates an instance of NetworkManagerDeploymentStatus class. */
-    public NetworkManagerDeploymentStatus() {
-    }
-
     /**
      * Get the commitTime property: Commit Time.
      *

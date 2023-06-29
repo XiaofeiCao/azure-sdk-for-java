@@ -23,9 +23,11 @@ public final class NetworkGroupProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of NetworkGroupProperties class. */
-    public NetworkGroupProperties() {
-    }
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
 
     /**
      * Get the description property: A description of the network group.
@@ -54,6 +56,15 @@ public final class NetworkGroupProperties {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
     }
 
     /**

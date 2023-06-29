@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteGatewayInner;
 import com.azure.resourcemanager.network.models.ExpressRouteGatewayPropertiesAutoScaleConfiguration;
 import com.azure.resourcemanager.network.models.ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds;
@@ -12,7 +13,7 @@ import com.azure.resourcemanager.network.models.VirtualHubId;
 /** Samples for ExpressRouteGateways CreateOrUpdate. */
 public final class ExpressRouteGatewaysCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteGatewayCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteGatewayCreate.json
      */
     /**
      * Sample code: ExpressRouteGatewayCreate.
@@ -38,6 +39,6 @@ public final class ExpressRouteGatewaysCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid/resourceGroups/resourceGroupId/providers/Microsoft.Network/virtualHubs/virtualHubName"))
                     .withAllowNonVirtualWanTraffic(false),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

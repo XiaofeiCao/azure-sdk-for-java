@@ -60,14 +60,16 @@ public final class AdminPropertiesFormat {
     private SecurityConfigurationRuleAccess access;
 
     /*
-     * The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule
-     * in the collection. The lower the priority number, the higher the priority of the rule.
+     * The priority of the rule. The value can be between 1 and 4096. The
+     * priority number must be unique for each rule in the collection. The
+     * lower the priority number, the higher the priority of the rule.
      */
     @JsonProperty(value = "priority", required = true)
     private int priority;
 
     /*
-     * Indicates if the traffic matched against the rule in inbound or outbound.
+     * Indicates if the traffic matched against the rule in inbound or
+     * outbound.
      */
     @JsonProperty(value = "direction", required = true)
     private SecurityConfigurationRuleDirection direction;
@@ -78,9 +80,11 @@ public final class AdminPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of AdminPropertiesFormat class. */
-    public AdminPropertiesFormat() {
-    }
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
 
     /**
      * Get the description property: A description for this rule. Restricted to 140 chars.
@@ -273,6 +277,15 @@ public final class AdminPropertiesFormat {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
     }
 
     /**

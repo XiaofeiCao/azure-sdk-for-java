@@ -37,10 +37,6 @@ public final class VirtualApplianceSiteInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of VirtualApplianceSiteInner class. */
-    public VirtualApplianceSiteInner() {
-    }
-
     /**
      * Get the innerProperties property: The properties of the Virtual Appliance Sites.
      *

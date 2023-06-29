@@ -66,10 +66,11 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface PacketCapturesService {
+    private interface PacketCapturesService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> create(
@@ -85,7 +86,8 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PacketCaptureResultInner>> get(
@@ -100,7 +102,8 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -115,7 +118,8 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> stop(
@@ -130,7 +134,8 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
 
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> getStatus(
@@ -145,7 +150,8 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkWatchers/{networkWatcherName}/packetCaptures")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<PacketCaptureListResult>> list(
@@ -203,7 +209,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -272,7 +278,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -363,9 +369,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<PacketCaptureResultInner>, PacketCaptureResultInner> beginCreate(
         String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
-        return this
-            .beginCreateAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters)
-            .getSyncPoller();
+        return beginCreateAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters).getSyncPoller();
     }
 
     /**
@@ -388,8 +392,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
         String packetCaptureName,
         PacketCaptureInner parameters,
         Context context) {
-        return this
-            .beginCreateAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters, context)
+        return beginCreateAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters, context)
             .getSyncPoller();
     }
 
@@ -517,7 +520,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -574,7 +577,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -613,6 +616,22 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
      * @param resourceGroupName The name of the resource group.
      * @param networkWatcherName The name of the network watcher.
      * @param packetCaptureName The name of the packet capture session.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a packet capture session by name.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PacketCaptureResultInner get(String resourceGroupName, String networkWatcherName, String packetCaptureName) {
+        return getAsync(resourceGroupName, networkWatcherName, packetCaptureName).block();
+    }
+
+    /**
+     * Gets a packet capture session by name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -623,22 +642,6 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     public Response<PacketCaptureResultInner> getWithResponse(
         String resourceGroupName, String networkWatcherName, String packetCaptureName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).block();
-    }
-
-    /**
-     * Gets a packet capture session by name.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkWatcherName The name of the network watcher.
-     * @param packetCaptureName The name of the packet capture session.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a packet capture session by name.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public PacketCaptureResultInner get(String resourceGroupName, String networkWatcherName, String packetCaptureName) {
-        return getWithResponse(resourceGroupName, networkWatcherName, packetCaptureName, Context.NONE).getValue();
     }
 
     /**
@@ -679,7 +682,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -736,7 +739,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -810,7 +813,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkWatcherName, String packetCaptureName) {
-        return this.beginDeleteAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
     }
 
     /**
@@ -828,7 +831,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkWatcherName, String packetCaptureName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).getSyncPoller();
     }
 
     /**
@@ -938,7 +941,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -995,7 +998,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1069,7 +1072,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStop(
         String resourceGroupName, String networkWatcherName, String packetCaptureName) {
-        return this.beginStopAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
+        return beginStopAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
     }
 
     /**
@@ -1087,7 +1090,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStop(
         String resourceGroupName, String networkWatcherName, String packetCaptureName, Context context) {
-        return this.beginStopAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).getSyncPoller();
+        return beginStopAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).getSyncPoller();
     }
 
     /**
@@ -1197,7 +1200,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1254,7 +1257,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1338,7 +1341,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<PacketCaptureQueryStatusResultInner>, PacketCaptureQueryStatusResultInner>
         beginGetStatus(String resourceGroupName, String networkWatcherName, String packetCaptureName) {
-        return this.beginGetStatusAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
+        return beginGetStatusAsync(resourceGroupName, networkWatcherName, packetCaptureName).getSyncPoller();
     }
 
     /**
@@ -1356,9 +1359,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<PacketCaptureQueryStatusResultInner>, PacketCaptureQueryStatusResultInner>
         beginGetStatus(String resourceGroupName, String networkWatcherName, String packetCaptureName, Context context) {
-        return this
-            .beginGetStatusAsync(resourceGroupName, networkWatcherName, packetCaptureName, context)
-            .getSyncPoller();
+        return beginGetStatusAsync(resourceGroupName, networkWatcherName, packetCaptureName, context).getSyncPoller();
     }
 
     /**
@@ -1469,7 +1470,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1525,7 +1526,7 @@ public final class PacketCapturesClientImpl implements PacketCapturesClient {
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service

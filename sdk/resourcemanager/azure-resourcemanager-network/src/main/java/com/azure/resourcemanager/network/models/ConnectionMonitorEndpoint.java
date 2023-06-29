@@ -53,10 +53,6 @@ public final class ConnectionMonitorEndpoint {
     @JsonProperty(value = "coverageLevel")
     private CoverageLevel coverageLevel;
 
-    /** Creates an instance of ConnectionMonitorEndpoint class. */
-    public ConnectionMonitorEndpoint() {
-    }
-
     /**
      * Get the name property: The name of the connection monitor endpoint.
      *

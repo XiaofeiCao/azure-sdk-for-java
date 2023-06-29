@@ -23,7 +23,8 @@ public final class CustomIpPrefixPropertiesFormat {
     private String asn;
 
     /*
-     * The prefix range in CIDR notation. Should include the start address and the prefix length.
+     * The prefix range in CIDR notation. Should include the start address and
+     * the prefix length.
      */
     @JsonProperty(value = "cidr")
     private String cidr;
@@ -105,10 +106,6 @@ public final class CustomIpPrefixPropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of CustomIpPrefixPropertiesFormat class. */
-    public CustomIpPrefixPropertiesFormat() {
-    }
 
     /**
      * Get the asn property: The ASN for CIDR advertising. Should be an integer as string.

@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NetworkManagerCommitInner;
 import com.azure.resourcemanager.network.models.ConfigurationType;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for NetworkManagerCommits Post. */
 public final class NetworkManagerCommitsPostSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerCommitPost.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerCommitPost.json
      */
     /**
      * Sample code: NetworkManageCommitPost.
@@ -34,6 +35,6 @@ public final class NetworkManagerCommitsPostSamples {
                             .asList(
                                 "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig"))
                     .withCommitType(ConfigurationType.SECURITY_ADMIN),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

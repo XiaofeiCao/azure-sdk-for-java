@@ -22,10 +22,6 @@ public final class DelegationProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of DelegationProperties class. */
-    public DelegationProperties() {
-    }
-
     /**
      * Get the serviceName property: The service name to which the NVA is delegated.
      *

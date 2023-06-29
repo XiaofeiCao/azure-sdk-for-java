@@ -55,7 +55,8 @@ public final class NetworkVirtualAppliancePropertiesFormat {
     private String cloudInitConfiguration;
 
     /*
-     * VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN are not supported.
+     * VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN
+     * are not supported.
      */
     @JsonProperty(value = "virtualApplianceAsn")
     private Long virtualApplianceAsn;
@@ -119,10 +120,6 @@ public final class NetworkVirtualAppliancePropertiesFormat {
      */
     @JsonProperty(value = "partnerManagedResource")
     private PartnerManagedResourceProperties partnerManagedResource;
-
-    /** Creates an instance of NetworkVirtualAppliancePropertiesFormat class. */
-    public NetworkVirtualAppliancePropertiesFormat() {
-    }
 
     /**
      * Get the nvaSku property: Network Virtual Appliance SKU.

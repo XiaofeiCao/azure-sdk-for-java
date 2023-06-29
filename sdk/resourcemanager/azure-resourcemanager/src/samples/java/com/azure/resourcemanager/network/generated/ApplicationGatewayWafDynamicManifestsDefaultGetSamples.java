@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGatewayWafDynamicManifestsDefault Get. */
 public final class ApplicationGatewayWafDynamicManifestsDefaultGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/GetApplicationGatewayWafDynamicManifestsDefault.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/GetApplicationGatewayWafDynamicManifestsDefault.json
      */
     /**
      * Sample code: Gets WAF default manifest.
@@ -20,6 +22,6 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultGetSamples {
             .manager()
             .serviceClient()
             .getApplicationGatewayWafDynamicManifestsDefaults()
-            .getWithResponse("westus", com.azure.core.util.Context.NONE);
+            .getWithResponse("westus", Context.NONE);
     }
 }

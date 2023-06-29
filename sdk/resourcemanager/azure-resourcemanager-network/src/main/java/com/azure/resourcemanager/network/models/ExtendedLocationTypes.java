@@ -8,19 +8,10 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources. */
+/** Defines values for ExtendedLocationTypes. */
 public final class ExtendedLocationTypes extends ExpandableStringEnum<ExtendedLocationTypes> {
     /** Static value EdgeZone for ExtendedLocationTypes. */
     public static final ExtendedLocationTypes EDGE_ZONE = fromString("EdgeZone");
-
-    /**
-     * Creates a new instance of ExtendedLocationTypes value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ExtendedLocationTypes() {
-    }
 
     /**
      * Creates or finds a ExtendedLocationTypes from its string representation.

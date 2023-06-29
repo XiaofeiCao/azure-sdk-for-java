@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualApplianceSiteInner;
 import com.azure.resourcemanager.network.models.BreakOutCategoryPolicies;
 import com.azure.resourcemanager.network.models.Office365PolicyProperties;
@@ -11,7 +12,7 @@ import com.azure.resourcemanager.network.models.Office365PolicyProperties;
 /** Samples for VirtualApplianceSites CreateOrUpdate. */
 public final class VirtualApplianceSitesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceSitePut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualApplianceSitePut.json
      */
     /**
      * Sample code: Create Network Virtual Appliance Site.
@@ -37,6 +38,6 @@ public final class VirtualApplianceSitesCreateOrUpdateSamples {
                                     .withAllow(true)
                                     .withOptimize(true)
                                     .withDefaultProperty(true))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

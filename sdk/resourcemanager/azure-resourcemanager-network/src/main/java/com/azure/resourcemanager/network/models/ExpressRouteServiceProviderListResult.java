@@ -24,10 +24,6 @@ public final class ExpressRouteServiceProviderListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ExpressRouteServiceProviderListResult class. */
-    public ExpressRouteServiceProviderListResult() {
-    }
-
     /**
      * Get the value property: A list of ExpressRouteResourceProvider resources.
      *

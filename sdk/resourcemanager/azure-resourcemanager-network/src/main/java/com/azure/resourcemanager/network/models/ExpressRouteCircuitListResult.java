@@ -24,10 +24,6 @@ public final class ExpressRouteCircuitListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ExpressRouteCircuitListResult class. */
-    public ExpressRouteCircuitListResult() {
-    }
-
     /**
      * Get the value property: A list of ExpressRouteCircuits in a resource group.
      *

@@ -23,20 +23,18 @@ public final class RoutingConfigurationNfv {
     private PropagatedRouteTableNfv propagatedRouteTables;
 
     /*
-     * The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+     * The resource id of the RouteMap associated with this
+     * RoutingConfiguration for inbound learned routes.
      */
     @JsonProperty(value = "inboundRouteMap")
     private RoutingConfigurationNfvSubResource inboundRouteMap;
 
     /*
-     * The resource id of the RouteMap associated with this RoutingConfiguration for outbound advertised routes.
+     * The resource id of the RouteMap associated with this
+     * RoutingConfiguration for outbound advertised routes.
      */
     @JsonProperty(value = "outboundRouteMap")
     private RoutingConfigurationNfvSubResource outboundRouteMap;
-
-    /** Creates an instance of RoutingConfigurationNfv class. */
-    public RoutingConfigurationNfv() {
-    }
 
     /**
      * Get the associatedRouteTable property: The resource id RouteTable associated with this RoutingConfiguration.

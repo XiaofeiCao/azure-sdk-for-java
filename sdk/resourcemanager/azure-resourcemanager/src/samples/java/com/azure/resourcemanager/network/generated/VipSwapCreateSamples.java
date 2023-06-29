@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.SwapResourceInner;
 import com.azure.resourcemanager.network.models.SlotType;
 import com.azure.resourcemanager.network.models.SwapResourceProperties;
@@ -11,7 +12,7 @@ import com.azure.resourcemanager.network.models.SwapResourceProperties;
 /** Samples for VipSwap Create. */
 public final class VipSwapCreateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/CloudServiceSwapPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/CloudServiceSwapPut.json
      */
     /**
      * Sample code: Put vip swap operation.
@@ -28,6 +29,6 @@ public final class VipSwapCreateSamples {
                 "rg1",
                 "testCloudService",
                 new SwapResourceInner().withProperties(new SwapResourceProperties().withSlotType(SlotType.PRODUCTION)),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

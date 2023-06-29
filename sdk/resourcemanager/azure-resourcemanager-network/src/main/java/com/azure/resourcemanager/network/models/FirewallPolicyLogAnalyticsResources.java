@@ -24,10 +24,6 @@ public final class FirewallPolicyLogAnalyticsResources {
     @JsonProperty(value = "defaultWorkspaceId")
     private SubResource defaultWorkspaceId;
 
-    /** Creates an instance of FirewallPolicyLogAnalyticsResources class. */
-    public FirewallPolicyLogAnalyticsResources() {
-    }
-
     /**
      * Get the workspaces property: List of workspaces for Firewall Policy Insights.
      *

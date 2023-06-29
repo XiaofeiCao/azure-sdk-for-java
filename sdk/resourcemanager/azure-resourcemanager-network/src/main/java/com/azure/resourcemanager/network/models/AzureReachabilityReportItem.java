@@ -29,10 +29,6 @@ public final class AzureReachabilityReportItem {
     @JsonProperty(value = "latencies")
     private List<AzureReachabilityReportLatencyInfo> latencies;
 
-    /** Creates an instance of AzureReachabilityReportItem class. */
-    public AzureReachabilityReportItem() {
-    }
-
     /**
      * Get the provider property: The Internet service provider.
      *

@@ -60,9 +60,11 @@ public final class ConnectivityConfigurationProperties {
     @JsonProperty(value = "deleteExistingPeering")
     private DeleteExistingPeering deleteExistingPeering;
 
-    /** Creates an instance of ConnectivityConfigurationProperties class. */
-    public ConnectivityConfigurationProperties() {
-    }
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
 
     /**
      * Get the description property: A description of the connectivity configuration.
@@ -191,6 +193,15 @@ public final class ConnectivityConfigurationProperties {
     public ConnectivityConfigurationProperties withDeleteExistingPeering(DeleteExistingPeering deleteExistingPeering) {
         this.deleteExistingPeering = deleteExistingPeering;
         return this;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
     }
 
     /**

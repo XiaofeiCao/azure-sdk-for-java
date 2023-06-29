@@ -33,7 +33,8 @@ public final class VirtualHubInner extends Resource {
     private String etag;
 
     /*
-     * Kind of service virtual hub. This is metadata used for the Azure portal experience for Route Server.
+     * Kind of service virtual hub. This is metadata used for the Azure portal
+     * experience for Route Server.
      */
     @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
     private String kind;
@@ -43,10 +44,6 @@ public final class VirtualHubInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of VirtualHubInner class. */
-    public VirtualHubInner() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the virtual hub.

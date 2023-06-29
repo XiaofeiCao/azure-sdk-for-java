@@ -43,10 +43,6 @@ public final class VirtualNetworkGatewayConnectionInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VirtualNetworkGatewayConnectionInner class. */
-    public VirtualNetworkGatewayConnectionInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the virtual network gateway connection.
      *

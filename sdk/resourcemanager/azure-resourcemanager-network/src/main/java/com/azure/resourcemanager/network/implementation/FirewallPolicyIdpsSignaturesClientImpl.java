@@ -54,10 +54,11 @@ public final class FirewallPolicyIdpsSignaturesClientImpl implements FirewallPol
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface FirewallPolicyIdpsSignaturesService {
+    private interface FirewallPolicyIdpsSignaturesService {
         @Headers({"Content-Type: application/json"})
         @Post(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/firewallPolicies/{firewallPolicyName}/listIdpsSignatures")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<QueryResultsInner>> list(
@@ -110,7 +111,7 @@ public final class FirewallPolicyIdpsSignaturesClientImpl implements FirewallPol
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -168,7 +169,7 @@ public final class FirewallPolicyIdpsSignaturesClientImpl implements FirewallPol
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -207,6 +208,22 @@ public final class FirewallPolicyIdpsSignaturesClientImpl implements FirewallPol
      * @param resourceGroupName The name of the resource group.
      * @param firewallPolicyName The name of the Firewall Policy.
      * @param parameters Will describe the query to run against the IDPS signatures DB.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return query result.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public QueryResultsInner list(String resourceGroupName, String firewallPolicyName, IdpsQueryObject parameters) {
+        return listAsync(resourceGroupName, firewallPolicyName, parameters).block();
+    }
+
+    /**
+     * Retrieves the current status of IDPS signatures for the relevant policy.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param firewallPolicyName The name of the Firewall Policy.
+     * @param parameters Will describe the query to run against the IDPS signatures DB.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -217,21 +234,5 @@ public final class FirewallPolicyIdpsSignaturesClientImpl implements FirewallPol
     public Response<QueryResultsInner> listWithResponse(
         String resourceGroupName, String firewallPolicyName, IdpsQueryObject parameters, Context context) {
         return listWithResponseAsync(resourceGroupName, firewallPolicyName, parameters, context).block();
-    }
-
-    /**
-     * Retrieves the current status of IDPS signatures for the relevant policy.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param firewallPolicyName The name of the Firewall Policy.
-     * @param parameters Will describe the query to run against the IDPS signatures DB.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return query result.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public QueryResultsInner list(String resourceGroupName, String firewallPolicyName, IdpsQueryObject parameters) {
-        return listWithResponse(resourceGroupName, firewallPolicyName, parameters, Context.NONE).getValue();
     }
 }

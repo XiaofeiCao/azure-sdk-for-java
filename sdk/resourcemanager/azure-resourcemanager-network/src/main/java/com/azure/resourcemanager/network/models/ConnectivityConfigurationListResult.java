@@ -27,10 +27,6 @@ public final class ConnectivityConfigurationListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ConnectivityConfigurationListResult class. */
-    public ConnectivityConfigurationListResult() {
-    }
-
     /**
      * Get the value property: Gets a page of Connectivity Configurations.
      *

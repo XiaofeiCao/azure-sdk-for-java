@@ -42,10 +42,6 @@ public final class ApplicationGatewayFirewallManifestRuleSet {
     @JsonProperty(value = "ruleGroups", required = true)
     private List<ApplicationGatewayFirewallRuleGroup> ruleGroups;
 
-    /** Creates an instance of ApplicationGatewayFirewallManifestRuleSet class. */
-    public ApplicationGatewayFirewallManifestRuleSet() {
-    }
-
     /**
      * Get the ruleSetType property: The type of the web application firewall rule set.
      *

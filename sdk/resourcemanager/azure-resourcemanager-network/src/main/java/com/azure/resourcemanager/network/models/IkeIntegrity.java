@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The IKE integrity algorithm (IKE phase 2). */
+/** Defines values for IkeIntegrity. */
 public final class IkeIntegrity extends ExpandableStringEnum<IkeIntegrity> {
     /** Static value MD5 for IkeIntegrity. */
     public static final IkeIntegrity MD5 = fromString("MD5");
@@ -27,15 +27,6 @@ public final class IkeIntegrity extends ExpandableStringEnum<IkeIntegrity> {
 
     /** Static value GCMAES128 for IkeIntegrity. */
     public static final IkeIntegrity GCMAES128 = fromString("GCMAES128");
-
-    /**
-     * Creates a new instance of IkeIntegrity value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public IkeIntegrity() {
-    }
 
     /**
      * Creates or finds a IkeIntegrity from its string representation.

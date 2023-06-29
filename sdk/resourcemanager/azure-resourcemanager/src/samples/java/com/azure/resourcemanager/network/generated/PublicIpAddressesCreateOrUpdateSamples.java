@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
 import com.azure.resourcemanager.network.models.IpAllocationMethod;
 import com.azure.resourcemanager.network.models.IpVersion;
@@ -16,7 +17,7 @@ import com.azure.resourcemanager.network.models.PublicIpAddressSkuTier;
 /** Samples for PublicIpAddresses CreateOrUpdate. */
 public final class PublicIpAddressesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PublicIpAddressCreateDns.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PublicIpAddressCreateDns.json
      */
     /**
      * Sample code: Create public IP address DNS.
@@ -35,11 +36,11 @@ public final class PublicIpAddressesCreateOrUpdateSamples {
                 new PublicIpAddressInner()
                     .withLocation("eastus")
                     .withDnsSettings(new PublicIpAddressDnsSettings().withDomainNameLabel("dnslbl")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PublicIpAddressCreateCustomizedValues.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PublicIpAddressCreateCustomizedValues.json
      */
     /**
      * Sample code: Create public IP address allocation method.
@@ -64,11 +65,11 @@ public final class PublicIpAddressesCreateOrUpdateSamples {
                     .withPublicIpAllocationMethod(IpAllocationMethod.STATIC)
                     .withPublicIpAddressVersion(IpVersion.IPV4)
                     .withIdleTimeoutInMinutes(10),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PublicIpAddressCreateDefaults.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PublicIpAddressCreateDefaults.json
      */
     /**
      * Sample code: Create public IP address defaults.
@@ -81,12 +82,11 @@ public final class PublicIpAddressesCreateOrUpdateSamples {
             .manager()
             .serviceClient()
             .getPublicIpAddresses()
-            .createOrUpdate(
-                "rg1", "test-ip", new PublicIpAddressInner().withLocation("eastus"), com.azure.core.util.Context.NONE);
+            .createOrUpdate("rg1", "test-ip", new PublicIpAddressInner().withLocation("eastus"), Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PublicIpAddressCreateDnsWithDomainNameLabelScope.json
      */
     /**
      * Sample code: Create public IP address DNS with Domain Name Label Scope.
@@ -109,6 +109,6 @@ public final class PublicIpAddressesCreateOrUpdateSamples {
                         new PublicIpAddressDnsSettings()
                             .withDomainNameLabel("dnslbl")
                             .withDomainNameLabelScope(PublicIpAddressDnsSettingsDomainNameLabelScope.TENANT_REUSE)),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

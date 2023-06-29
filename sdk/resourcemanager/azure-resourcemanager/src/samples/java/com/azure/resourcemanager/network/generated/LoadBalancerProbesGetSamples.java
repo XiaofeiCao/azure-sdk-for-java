@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for LoadBalancerProbes Get. */
 public final class LoadBalancerProbesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerProbeGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerProbeGet.json
      */
     /**
      * Sample code: LoadBalancerProbeGet.
@@ -20,6 +22,6 @@ public final class LoadBalancerProbesGetSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerProbes()
-            .getWithResponse("testrg", "lb", "probe1", com.azure.core.util.Context.NONE);
+            .getWithResponse("testrg", "lb", "probe1", Context.NONE);
     }
 }

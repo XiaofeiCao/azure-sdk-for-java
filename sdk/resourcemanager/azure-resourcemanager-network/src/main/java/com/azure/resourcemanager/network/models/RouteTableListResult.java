@@ -24,10 +24,6 @@ public final class RouteTableListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of RouteTableListResult class. */
-    public RouteTableListResult() {
-    }
-
     /**
      * Get the value property: A list of route tables in a resource group.
      *

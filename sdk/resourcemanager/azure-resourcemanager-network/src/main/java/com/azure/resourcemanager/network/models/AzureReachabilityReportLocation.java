@@ -29,10 +29,6 @@ public final class AzureReachabilityReportLocation {
     @JsonProperty(value = "city")
     private String city;
 
-    /** Creates an instance of AzureReachabilityReportLocation class. */
-    public AzureReachabilityReportLocation() {
-    }
-
     /**
      * Get the country property: The name of the country.
      *

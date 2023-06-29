@@ -20,7 +20,8 @@ public final class ApplicationGatewayBackendHttpSettings extends SubResource {
     private ApplicationGatewayBackendHttpSettingsPropertiesFormat innerProperties;
 
     /*
-     * Name of the backend http settings that is unique within an Application Gateway.
+     * Name of the backend http settings that is unique within an Application
+     * Gateway.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -36,10 +37,6 @@ public final class ApplicationGatewayBackendHttpSettings extends SubResource {
      */
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
-
-    /** Creates an instance of ApplicationGatewayBackendHttpSettings class. */
-    public ApplicationGatewayBackendHttpSettings() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the application gateway backend HTTP settings.

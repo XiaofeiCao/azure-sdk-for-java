@@ -40,10 +40,6 @@ public final class VpnServerConfigurationInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of VpnServerConfigurationInner class. */
-    public VpnServerConfigurationInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the P2SVpnServer configuration.
      *

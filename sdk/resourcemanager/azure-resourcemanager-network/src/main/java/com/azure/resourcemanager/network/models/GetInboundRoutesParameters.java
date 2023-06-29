@@ -17,15 +17,12 @@ public final class GetInboundRoutesParameters {
     private String resourceUri;
 
     /*
-     * The type of the specified connection resource like ExpressRouteConnection, HubVirtualNetworkConnection,
-     * VpnConnection and P2SConnection.
+     * The type of the specified connection resource like
+     * ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and
+     * P2SConnection.
      */
     @JsonProperty(value = "connectionType")
     private String connectionType;
-
-    /** Creates an instance of GetInboundRoutesParameters class. */
-    public GetInboundRoutesParameters() {
-    }
 
     /**
      * Get the resourceUri property: The connection resource whose inbound routes are being requested.

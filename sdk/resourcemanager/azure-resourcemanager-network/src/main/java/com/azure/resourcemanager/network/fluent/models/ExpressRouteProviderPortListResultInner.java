@@ -23,10 +23,6 @@ public final class ExpressRouteProviderPortListResultInner {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of ExpressRouteProviderPortListResultInner class. */
-    public ExpressRouteProviderPortListResultInner() {
-    }
-
     /**
      * Get the value property: A list of ExpressRouteProviderPort resources.
      *

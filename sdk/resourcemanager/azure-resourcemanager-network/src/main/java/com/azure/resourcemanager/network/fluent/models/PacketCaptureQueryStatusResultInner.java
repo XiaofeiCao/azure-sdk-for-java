@@ -50,10 +50,6 @@ public final class PacketCaptureQueryStatusResultInner {
     @JsonProperty(value = "packetCaptureError")
     private List<PcError> packetCaptureError;
 
-    /** Creates an instance of PacketCaptureQueryStatusResultInner class. */
-    public PacketCaptureQueryStatusResultInner() {
-    }
-
     /**
      * Get the name property: The name of the packet capture resource.
      *

@@ -30,14 +30,11 @@ public final class RouteMapRule {
     private List<Action> actions;
 
     /*
-     * Next step after rule is evaluated. Current supported behaviors are 'Continue'(to next rule) and 'Terminate'.
+     * Next step after rule is evaluated. Current supported behaviors are
+     * 'Continue'(to next rule) and 'Terminate'.
      */
     @JsonProperty(value = "nextStepIfMatched")
     private NextStep nextStepIfMatched;
-
-    /** Creates an instance of RouteMapRule class. */
-    public RouteMapRule() {
-    }
 
     /**
      * Get the name property: The unique name for the rule.

@@ -16,10 +16,6 @@ public final class AzureFirewallPublicIpAddress {
     @JsonProperty(value = "address")
     private String address;
 
-    /** Creates an instance of AzureFirewallPublicIpAddress class. */
-    public AzureFirewallPublicIpAddress() {
-    }
-
     /**
      * Get the address property: Public IP Address value.
      *

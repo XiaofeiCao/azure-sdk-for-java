@@ -27,10 +27,6 @@ public final class StaticMemberListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of StaticMemberListResult class. */
-    public StaticMemberListResult() {
-    }
-
     /**
      * Get the value property: Gets a page of StaticMember.
      *

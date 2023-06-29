@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitPeeringInner;
 
 /** Samples for ExpressRouteCircuitPeerings CreateOrUpdate. */
 public final class ExpressRouteCircuitPeeringsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCircuitPeeringCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCircuitPeeringCreate.json
      */
     /**
      * Sample code: Create ExpressRouteCircuit Peerings.
@@ -31,6 +32,6 @@ public final class ExpressRouteCircuitPeeringsCreateOrUpdateSamples {
                     .withPrimaryPeerAddressPrefix("192.168.16.252/30")
                     .withSecondaryPeerAddressPrefix("192.168.18.252/30")
                     .withVlanId(200),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

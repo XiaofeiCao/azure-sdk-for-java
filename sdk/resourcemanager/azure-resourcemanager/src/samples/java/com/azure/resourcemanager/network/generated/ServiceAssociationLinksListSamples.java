@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ServiceAssociationLinks List. */
 public final class ServiceAssociationLinksListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGetServiceAssociationLinks.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGetServiceAssociationLinks.json
      */
     /**
      * Sample code: Get Service Association Links.
@@ -20,6 +22,6 @@ public final class ServiceAssociationLinksListSamples {
             .manager()
             .serviceClient()
             .getServiceAssociationLinks()
-            .listWithResponse("rg1", "vnet", "subnet", com.azure.core.util.Context.NONE);
+            .listWithResponse("rg1", "vnet", "subnet", Context.NONE);
     }
 }

@@ -22,10 +22,6 @@ public final class OrderBy {
     @JsonProperty(value = "order")
     private FirewallPolicyIdpsQuerySortOrder order;
 
-    /** Creates an instance of OrderBy class. */
-    public OrderBy() {
-    }
-
     /**
      * Get the field property: Describes the actual column name to sort by.
      *

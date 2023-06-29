@@ -38,10 +38,6 @@ public final class AzureFirewallNetworkRuleCollectionPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of AzureFirewallNetworkRuleCollectionPropertiesFormat class. */
-    public AzureFirewallNetworkRuleCollectionPropertiesFormat() {
-    }
-
     /**
      * Get the priority property: Priority of the network rule collection resource.
      *

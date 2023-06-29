@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.AzureReachabilityReportLocation;
 import com.azure.resourcemanager.network.models.AzureReachabilityReportParameters;
 import java.time.OffsetDateTime;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 /** Samples for NetworkWatchers GetAzureReachabilityReport. */
 public final class NetworkWatchersGetAzureReachabilityReportSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherAzureReachabilityReportGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherAzureReachabilityReportGet.json
      */
     /**
      * Sample code: Get Azure Reachability Report.
@@ -35,6 +36,6 @@ public final class NetworkWatchersGetAzureReachabilityReportSamples {
                     .withAzureLocations(Arrays.asList("West US"))
                     .withStartTime(OffsetDateTime.parse("2017-09-07T00:00:00Z"))
                     .withEndTime(OffsetDateTime.parse("2017-09-10T00:00:00Z")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

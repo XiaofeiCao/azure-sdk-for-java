@@ -35,10 +35,6 @@ public final class Criterion {
     @JsonProperty(value = "matchCondition")
     private RouteMapMatchCondition matchCondition;
 
-    /** Creates an instance of Criterion class. */
-    public Criterion() {
-    }
-
     /**
      * Get the routePrefix property: List of route prefixes which this criteria matches.
      *

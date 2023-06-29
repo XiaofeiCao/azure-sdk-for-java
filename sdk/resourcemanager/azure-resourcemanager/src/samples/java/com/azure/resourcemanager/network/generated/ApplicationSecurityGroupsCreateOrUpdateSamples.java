@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ApplicationSecurityGroupInner;
 
 /** Samples for ApplicationSecurityGroups CreateOrUpdate. */
 public final class ApplicationSecurityGroupsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationSecurityGroupCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationSecurityGroupCreate.json
      */
     /**
      * Sample code: Create application security group.
@@ -23,9 +24,6 @@ public final class ApplicationSecurityGroupsCreateOrUpdateSamples {
             .serviceClient()
             .getApplicationSecurityGroups()
             .createOrUpdate(
-                "rg1",
-                "test-asg",
-                new ApplicationSecurityGroupInner().withLocation("westus"),
-                com.azure.core.util.Context.NONE);
+                "rg1", "test-asg", new ApplicationSecurityGroupInner().withLocation("westus"), Context.NONE);
     }
 }

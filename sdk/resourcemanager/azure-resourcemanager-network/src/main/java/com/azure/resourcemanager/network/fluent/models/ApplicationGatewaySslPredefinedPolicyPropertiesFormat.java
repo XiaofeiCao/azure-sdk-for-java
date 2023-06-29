@@ -14,7 +14,8 @@ import java.util.List;
 @Fluent
 public final class ApplicationGatewaySslPredefinedPolicyPropertiesFormat {
     /*
-     * Ssl cipher suites to be enabled in the specified order for application gateway.
+     * Ssl cipher suites to be enabled in the specified order for application
+     * gateway.
      */
     @JsonProperty(value = "cipherSuites")
     private List<ApplicationGatewaySslCipherSuite> cipherSuites;
@@ -24,10 +25,6 @@ public final class ApplicationGatewaySslPredefinedPolicyPropertiesFormat {
      */
     @JsonProperty(value = "minProtocolVersion")
     private ApplicationGatewaySslProtocol minProtocolVersion;
-
-    /** Creates an instance of ApplicationGatewaySslPredefinedPolicyPropertiesFormat class. */
-    public ApplicationGatewaySslPredefinedPolicyPropertiesFormat() {
-    }
 
     /**
      * Get the cipherSuites property: Ssl cipher suites to be enabled in the specified order for application gateway.

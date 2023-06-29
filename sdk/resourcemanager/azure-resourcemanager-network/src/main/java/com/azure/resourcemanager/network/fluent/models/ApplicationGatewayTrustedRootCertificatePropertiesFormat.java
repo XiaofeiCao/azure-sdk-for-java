@@ -18,7 +18,8 @@ public final class ApplicationGatewayTrustedRootCertificatePropertiesFormat {
     private String data;
 
     /*
-     * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+     * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
+     * object stored in KeyVault.
      */
     @JsonProperty(value = "keyVaultSecretId")
     private String keyVaultSecretId;
@@ -28,10 +29,6 @@ public final class ApplicationGatewayTrustedRootCertificatePropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of ApplicationGatewayTrustedRootCertificatePropertiesFormat class. */
-    public ApplicationGatewayTrustedRootCertificatePropertiesFormat() {
-    }
 
     /**
      * Get the data property: Certificate public data.

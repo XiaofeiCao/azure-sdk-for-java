@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Vpn link connection mode. */
+/** Defines values for VpnLinkConnectionMode. */
 public final class VpnLinkConnectionMode extends ExpandableStringEnum<VpnLinkConnectionMode> {
     /** Static value Default for VpnLinkConnectionMode. */
     public static final VpnLinkConnectionMode DEFAULT = fromString("Default");
@@ -18,15 +18,6 @@ public final class VpnLinkConnectionMode extends ExpandableStringEnum<VpnLinkCon
 
     /** Static value InitiatorOnly for VpnLinkConnectionMode. */
     public static final VpnLinkConnectionMode INITIATOR_ONLY = fromString("InitiatorOnly");
-
-    /**
-     * Creates a new instance of VpnLinkConnectionMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VpnLinkConnectionMode() {
-    }
 
     /**
      * Creates or finds a VpnLinkConnectionMode from its string representation.

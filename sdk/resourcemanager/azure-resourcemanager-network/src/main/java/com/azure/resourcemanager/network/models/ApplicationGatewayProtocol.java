@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Application Gateway protocol. */
+/** Defines values for ApplicationGatewayProtocol. */
 public final class ApplicationGatewayProtocol extends ExpandableStringEnum<ApplicationGatewayProtocol> {
     /** Static value Http for ApplicationGatewayProtocol. */
     public static final ApplicationGatewayProtocol HTTP = fromString("Http");
@@ -21,15 +21,6 @@ public final class ApplicationGatewayProtocol extends ExpandableStringEnum<Appli
 
     /** Static value Tls for ApplicationGatewayProtocol. */
     public static final ApplicationGatewayProtocol TLS = fromString("Tls");
-
-    /**
-     * Creates a new instance of ApplicationGatewayProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayProtocol() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayProtocol from its string representation.

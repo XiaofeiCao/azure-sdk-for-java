@@ -4,13 +4,14 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.PrivateEndpointConnectionInner;
 import com.azure.resourcemanager.network.models.PrivateLinkServiceConnectionState;
 
 /** Samples for PrivateLinkServices UpdatePrivateEndpointConnection. */
 public final class PrivateLinkServicesUpdatePrivateEndpointConnectionSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
      */
     /**
      * Sample code: approve or reject private end point connection for a private link service.
@@ -34,6 +35,6 @@ public final class PrivateLinkServicesUpdatePrivateEndpointConnectionSamples {
                         new PrivateLinkServiceConnectionState()
                             .withStatus("Approved")
                             .withDescription("approved it for some reason.")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

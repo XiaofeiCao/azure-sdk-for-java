@@ -16,10 +16,6 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfiguration {
     @JsonProperty(value = "bounds")
     private ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds bounds;
 
-    /** Creates an instance of ExpressRouteGatewayPropertiesAutoScaleConfiguration class. */
-    public ExpressRouteGatewayPropertiesAutoScaleConfiguration() {
-    }
-
     /**
      * Get the bounds property: Minimum and maximum number of scale units to deploy.
      *

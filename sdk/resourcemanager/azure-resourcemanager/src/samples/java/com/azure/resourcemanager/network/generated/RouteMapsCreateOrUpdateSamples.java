@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.RouteMapInner;
 import com.azure.resourcemanager.network.models.Action;
 import com.azure.resourcemanager.network.models.Criterion;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 /** Samples for RouteMaps CreateOrUpdate. */
 public final class RouteMapsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteMapPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RouteMapPut.json
      */
     /**
      * Sample code: RouteMapPut.
@@ -66,6 +67,6 @@ public final class RouteMapsCreateOrUpdateSamples {
                                                                     .withCommunity(Arrays.asList())
                                                                     .withAsPath(Arrays.asList("22334"))))))
                                     .withNextStepIfMatched(NextStep.CONTINUE))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

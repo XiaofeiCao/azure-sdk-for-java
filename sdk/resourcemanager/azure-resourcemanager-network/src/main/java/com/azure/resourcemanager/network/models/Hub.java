@@ -22,10 +22,6 @@ public final class Hub {
     @JsonProperty(value = "resourceType")
     private String resourceType;
 
-    /** Creates an instance of Hub class. */
-    public Hub() {
-    }
-
     /**
      * Get the resourceId property: Resource Id.
      *

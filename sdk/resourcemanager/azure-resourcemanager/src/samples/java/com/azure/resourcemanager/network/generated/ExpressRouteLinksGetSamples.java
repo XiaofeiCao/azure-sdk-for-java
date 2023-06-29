@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteLinks Get. */
 public final class ExpressRouteLinksGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteLinkGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteLinkGet.json
      */
     /**
      * Sample code: ExpressRouteLinkGet.
@@ -20,6 +22,6 @@ public final class ExpressRouteLinksGetSamples {
             .manager()
             .serviceClient()
             .getExpressRouteLinks()
-            .getWithResponse("rg1", "portName", "linkName", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "portName", "linkName", Context.NONE);
     }
 }

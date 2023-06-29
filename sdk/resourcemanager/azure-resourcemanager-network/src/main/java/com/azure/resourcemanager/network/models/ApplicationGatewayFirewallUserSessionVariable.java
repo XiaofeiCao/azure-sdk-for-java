@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** User Session clause variable. */
+/** Defines values for ApplicationGatewayFirewallUserSessionVariable. */
 public final class ApplicationGatewayFirewallUserSessionVariable
     extends ExpandableStringEnum<ApplicationGatewayFirewallUserSessionVariable> {
     /** Static value ClientAddr for ApplicationGatewayFirewallUserSessionVariable. */
@@ -19,15 +19,6 @@ public final class ApplicationGatewayFirewallUserSessionVariable
 
     /** Static value None for ApplicationGatewayFirewallUserSessionVariable. */
     public static final ApplicationGatewayFirewallUserSessionVariable NONE = fromString("None");
-
-    /**
-     * Creates a new instance of ApplicationGatewayFirewallUserSessionVariable value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayFirewallUserSessionVariable() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayFirewallUserSessionVariable from its string representation.

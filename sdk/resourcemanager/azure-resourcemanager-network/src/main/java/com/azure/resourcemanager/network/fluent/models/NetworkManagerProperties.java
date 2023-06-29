@@ -39,9 +39,11 @@ public final class NetworkManagerProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of NetworkManagerProperties class. */
-    public NetworkManagerProperties() {
-    }
+    /*
+     * Unique identifier for this resource.
+     */
+    @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
+    private String resourceGuid;
 
     /**
      * Get the description property: A description of the network manager.
@@ -112,6 +114,15 @@ public final class NetworkManagerProperties {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.resourceGuid;
     }
 
     /**

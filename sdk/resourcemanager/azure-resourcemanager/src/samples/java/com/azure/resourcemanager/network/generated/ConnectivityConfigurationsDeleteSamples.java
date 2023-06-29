@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ConnectivityConfigurations Delete. */
 public final class ConnectivityConfigurationsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectivityConfigurationDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectivityConfigurationDelete.json
      */
     /**
      * Sample code: ConnectivityConfigurationsDelete.
@@ -20,11 +22,6 @@ public final class ConnectivityConfigurationsDeleteSamples {
             .manager()
             .serviceClient()
             .getConnectivityConfigurations()
-            .delete(
-                "myResourceGroup",
-                "testNetworkManager",
-                "myTestConnectivityConfig",
-                false,
-                com.azure.core.util.Context.NONE);
+            .delete("myResourceGroup", "testNetworkManager", "myTestConnectivityConfig", false, Context.NONE);
     }
 }

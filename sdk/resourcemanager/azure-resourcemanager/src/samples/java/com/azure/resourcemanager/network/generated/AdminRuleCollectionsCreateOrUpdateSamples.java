@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.AdminRuleCollectionInner;
 import com.azure.resourcemanager.network.models.NetworkManagerSecurityGroupItem;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for AdminRuleCollections CreateOrUpdate. */
 public final class AdminRuleCollectionsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerAdminRuleCollectionPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerAdminRuleCollectionPut.json
      */
     /**
      * Sample code: Create or Update an admin rule collection.
@@ -37,6 +38,6 @@ public final class AdminRuleCollectionsCreateOrUpdateSamples {
                                 new NetworkManagerSecurityGroupItem()
                                     .withNetworkGroupId(
                                         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testGroup"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualApplianceSites Get. */
 public final class VirtualApplianceSitesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualApplianceSiteGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkVirtualApplianceSiteGet.json
      */
     /**
      * Sample code: GetNetwork Virtual Appliance Site.
@@ -20,6 +22,6 @@ public final class VirtualApplianceSitesGetSamples {
             .manager()
             .serviceClient()
             .getVirtualApplianceSites()
-            .getWithResponse("rg1", "nva", "site1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "nva", "site1", Context.NONE);
     }
 }

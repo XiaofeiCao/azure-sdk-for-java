@@ -37,10 +37,6 @@ public final class ApplicationGatewayPathRuleInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayPathRuleInner class. */
-    public ApplicationGatewayPathRuleInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the application gateway path rule.
      *

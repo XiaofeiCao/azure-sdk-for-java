@@ -18,10 +18,6 @@ public final class VirtualWanSecurityProvidersInner {
     @JsonProperty(value = "supportedProviders")
     private List<VirtualWanSecurityProvider> supportedProviders;
 
-    /** Creates an instance of VirtualWanSecurityProvidersInner class. */
-    public VirtualWanSecurityProvidersInner() {
-    }
-
     /**
      * Get the supportedProviders property: List of VirtualWAN security providers.
      *

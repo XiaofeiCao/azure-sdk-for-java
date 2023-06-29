@@ -24,10 +24,6 @@ public final class NetworkInterfaceAssociation {
     @JsonProperty(value = "securityRules")
     private List<SecurityRuleInner> securityRules;
 
-    /** Creates an instance of NetworkInterfaceAssociation class. */
-    public NetworkInterfaceAssociation() {
-    }
-
     /**
      * Get the id property: Network interface ID.
      *

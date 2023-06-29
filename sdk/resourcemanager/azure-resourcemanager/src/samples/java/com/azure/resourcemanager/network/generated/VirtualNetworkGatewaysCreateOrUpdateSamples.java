@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayInner;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayIpConfigurationInner;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayNatRuleInner;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 /** Samples for VirtualNetworkGateways CreateOrUpdate. */
 public final class VirtualNetworkGatewaysCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayUpdate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayUpdate.json
      */
     /**
      * Sample code: UpdateVirtualNetworkGateway.
@@ -79,7 +80,7 @@ public final class VirtualNetworkGatewaysCreateOrUpdateSamples {
                                         new RadiusServer()
                                             .withRadiusServerAddress("10.2.0.0")
                                             .withRadiusServerScore(20L)
-                                            .withRadiusServerSecret("fakeTokenPlaceholder"))))
+                                            .withRadiusServerSecret("radiusServerSecret"))))
                     .withBgpSettings(
                         new BgpSettings().withAsn(65515L).withBgpPeeringAddress("10.0.1.30").withPeerWeight(0))
                     .withCustomRoutes(new AddressSpace().withAddressPrefixes(Arrays.asList("101.168.0.6/32")))
@@ -112,6 +113,6 @@ public final class VirtualNetworkGatewaysCreateOrUpdateSamples {
                     .withEnableBgpRouteTranslationForNat(false)
                     .withAllowVirtualWanTraffic(false)
                     .withAllowRemoteVnetTraffic(false),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

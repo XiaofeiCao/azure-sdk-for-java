@@ -24,10 +24,6 @@ public final class VirtualRouterListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of VirtualRouterListResult class. */
-    public VirtualRouterListResult() {
-    }
-
     /**
      * Get the value property: List of Virtual Routers.
      *

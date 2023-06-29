@@ -28,10 +28,6 @@ public final class VpnDeviceScriptParameters {
     @JsonProperty(value = "firmwareVersion")
     private String firmwareVersion;
 
-    /** Creates an instance of VpnDeviceScriptParameters class. */
-    public VpnDeviceScriptParameters() {
-    }
-
     /**
      * Get the vendor property: The vendor for the vpn device.
      *

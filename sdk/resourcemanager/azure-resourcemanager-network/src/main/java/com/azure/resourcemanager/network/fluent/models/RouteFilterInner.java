@@ -32,10 +32,6 @@ public final class RouteFilterInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of RouteFilterInner class. */
-    public RouteFilterInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the route filter.
      *

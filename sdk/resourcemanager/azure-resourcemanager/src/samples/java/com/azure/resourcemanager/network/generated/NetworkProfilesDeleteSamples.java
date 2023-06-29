@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkProfiles Delete. */
 public final class NetworkProfilesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkProfileDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkProfileDelete.json
      */
     /**
      * Sample code: Delete network profile.
@@ -15,11 +17,6 @@ public final class NetworkProfilesDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteNetworkProfile(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getNetworkProfiles()
-            .delete("rg1", "networkProfile1", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getNetworkProfiles().delete("rg1", "networkProfile1", Context.NONE);
     }
 }

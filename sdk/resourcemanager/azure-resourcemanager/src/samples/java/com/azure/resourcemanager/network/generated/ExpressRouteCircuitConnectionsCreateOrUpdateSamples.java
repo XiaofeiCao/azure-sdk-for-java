@@ -5,13 +5,14 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitConnectionInner;
 import com.azure.resourcemanager.network.models.Ipv6CircuitConnectionConfig;
 
 /** Samples for ExpressRouteCircuitConnections CreateOrUpdate. */
 public final class ExpressRouteCircuitConnectionsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCircuitConnectionCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCircuitConnectionCreate.json
      */
     /**
      * Sample code: ExpressRouteCircuitConnectionCreate.
@@ -39,9 +40,9 @@ public final class ExpressRouteCircuitConnectionsCreateOrUpdateSamples {
                             .withId(
                                 "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering"))
                     .withAddressPrefix("10.0.0.0/29")
-                    .withAuthorizationKey("fakeTokenPlaceholder")
+                    .withAuthorizationKey("946a1918-b7a2-4917-b43c-8c4cdaee006a")
                     .withIpv6CircuitConnectionConfig(
                         new Ipv6CircuitConnectionConfig().withAddressPrefix("aa:bb::/125")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

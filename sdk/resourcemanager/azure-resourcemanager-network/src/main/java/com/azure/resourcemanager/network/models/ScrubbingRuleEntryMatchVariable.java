@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The variable to be scrubbed from the logs. */
+/** Defines values for ScrubbingRuleEntryMatchVariable. */
 public final class ScrubbingRuleEntryMatchVariable extends ExpandableStringEnum<ScrubbingRuleEntryMatchVariable> {
     /** Static value RequestHeaderNames for ScrubbingRuleEntryMatchVariable. */
     public static final ScrubbingRuleEntryMatchVariable REQUEST_HEADER_NAMES = fromString("RequestHeaderNames");
@@ -27,15 +27,6 @@ public final class ScrubbingRuleEntryMatchVariable extends ExpandableStringEnum<
 
     /** Static value RequestIPAddress for ScrubbingRuleEntryMatchVariable. */
     public static final ScrubbingRuleEntryMatchVariable REQUEST_IPADDRESS = fromString("RequestIPAddress");
-
-    /**
-     * Creates a new instance of ScrubbingRuleEntryMatchVariable value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ScrubbingRuleEntryMatchVariable() {
-    }
 
     /**
      * Creates or finds a ScrubbingRuleEntryMatchVariable from its string representation.

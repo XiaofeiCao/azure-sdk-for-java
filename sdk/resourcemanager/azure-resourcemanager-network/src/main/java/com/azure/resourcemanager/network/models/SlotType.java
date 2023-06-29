@@ -7,7 +7,7 @@ package com.azure.resourcemanager.network.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/** Specifies slot info on a cloud service. */
+/** Defines values for SlotType. */
 public enum SlotType {
     /** Enum value Production. */
     PRODUCTION("Production"),
@@ -30,9 +30,6 @@ public enum SlotType {
      */
     @JsonCreator
     public static SlotType fromString(String value) {
-        if (value == null) {
-            return null;
-        }
         SlotType[] items = SlotType.values();
         for (SlotType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
@@ -42,7 +39,6 @@ public enum SlotType {
         return null;
     }
 
-    /** {@inheritDoc} */
     @JsonValue
     @Override
     public String toString() {

@@ -24,10 +24,6 @@ public final class LoadBalancerVipSwapRequestFrontendIpConfiguration {
     @JsonProperty(value = "properties")
     private LoadBalancerVipSwapRequestFrontendIpConfigurationProperties innerProperties;
 
-    /** Creates an instance of LoadBalancerVipSwapRequestFrontendIpConfiguration class. */
-    public LoadBalancerVipSwapRequestFrontendIpConfiguration() {
-    }
-
     /**
      * Get the id property: The ID of frontend IP configuration resource.
      *

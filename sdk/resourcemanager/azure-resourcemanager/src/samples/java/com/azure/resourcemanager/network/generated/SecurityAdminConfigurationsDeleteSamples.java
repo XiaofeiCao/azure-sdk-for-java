@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for SecurityAdminConfigurations Delete. */
 public final class SecurityAdminConfigurationsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
      */
     /**
      * Sample code: Delete network manager security admin configuration.
@@ -21,6 +23,6 @@ public final class SecurityAdminConfigurationsDeleteSamples {
             .manager()
             .serviceClient()
             .getSecurityAdminConfigurations()
-            .delete("rg1", "testNetworkManager", "myTestSecurityConfig", false, com.azure.core.util.Context.NONE);
+            .delete("rg1", "testNetworkManager", "myTestSecurityConfig", false, Context.NONE);
     }
 }

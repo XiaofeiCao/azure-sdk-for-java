@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGatewayPrivateEndpointConnections Delete. */
 public final class ApplicationGatewayPrivateEndpointConnectionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
      */
     /**
      * Sample code: Delete Application Gateway Private Endpoint Connection.
@@ -21,6 +23,6 @@ public final class ApplicationGatewayPrivateEndpointConnectionsDeleteSamples {
             .manager()
             .serviceClient()
             .getApplicationGatewayPrivateEndpointConnections()
-            .delete("rg1", "appgw", "connection1", com.azure.core.util.Context.NONE);
+            .delete("rg1", "appgw", "connection1", Context.NONE);
     }
 }

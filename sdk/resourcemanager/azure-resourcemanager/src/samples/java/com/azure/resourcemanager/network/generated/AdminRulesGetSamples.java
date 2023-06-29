@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for AdminRules Get. */
 public final class AdminRulesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerDefaultAdminRuleGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerDefaultAdminRuleGet.json
      */
     /**
      * Sample code: Gets security default admin rule.
@@ -26,11 +28,11 @@ public final class AdminRulesGetSamples {
                 "myTestSecurityConfig",
                 "testRuleCollection",
                 "SampleDefaultAdminRule",
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerAdminRuleGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerAdminRuleGet.json
      */
     /**
      * Sample code: Gets security admin rule.
@@ -49,6 +51,6 @@ public final class AdminRulesGetSamples {
                 "myTestSecurityConfig",
                 "testRuleCollection",
                 "SampleAdminRule",
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

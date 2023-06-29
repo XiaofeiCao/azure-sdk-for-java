@@ -49,7 +49,8 @@ public final class PublicIpAddressInner extends Resource {
     private String etag;
 
     /*
-     * A list of availability zones denoting the IP allocated for the resource needs to come from.
+     * A list of availability zones denoting the IP allocated for the resource
+     * needs to come from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -59,10 +60,6 @@ public final class PublicIpAddressInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of PublicIpAddressInner class. */
-    public PublicIpAddressInner() {
-    }
 
     /**
      * Get the extendedLocation property: The extended location of the public ip address.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for DefaultSecurityRules Get. */
 public final class DefaultSecurityRulesGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/DefaultSecurityRuleGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/DefaultSecurityRuleGet.json
      */
     /**
      * Sample code: DefaultSecurityRuleGet.
@@ -20,6 +22,6 @@ public final class DefaultSecurityRulesGetSamples {
             .manager()
             .serviceClient()
             .getDefaultSecurityRules()
-            .getWithResponse("testrg", "nsg1", "AllowVnetInBound", com.azure.core.util.Context.NONE);
+            .getWithResponse("testrg", "nsg1", "AllowVnetInBound", Context.NONE);
     }
 }

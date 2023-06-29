@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The commissioned state of the Custom IP Prefix. */
+/** Defines values for CommissionedState. */
 public final class CommissionedState extends ExpandableStringEnum<CommissionedState> {
     /** Static value Provisioning for CommissionedState. */
     public static final CommissionedState PROVISIONING = fromString("Provisioning");
@@ -34,15 +34,6 @@ public final class CommissionedState extends ExpandableStringEnum<CommissionedSt
 
     /** Static value Deprovisioned for CommissionedState. */
     public static final CommissionedState DEPROVISIONED = fromString("Deprovisioned");
-
-    /**
-     * Creates a new instance of CommissionedState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public CommissionedState() {
-    }
 
     /**
      * Creates or finds a CommissionedState from its string representation.

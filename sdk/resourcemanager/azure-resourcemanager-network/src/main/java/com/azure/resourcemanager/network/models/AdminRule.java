@@ -23,10 +23,6 @@ public final class AdminRule extends BaseAdminRuleInner {
     @JsonProperty(value = "properties")
     private AdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of AdminRule class. */
-    public AdminRule() {
-    }
-
     /**
      * Get the innerProperties property: Indicates the properties of the security admin rule.
      *
@@ -254,6 +250,15 @@ public final class AdminRule extends BaseAdminRuleInner {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

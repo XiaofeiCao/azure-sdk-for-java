@@ -26,10 +26,6 @@ public final class BgpServiceCommunityInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of BgpServiceCommunityInner class. */
-    public BgpServiceCommunityInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the BGP service community.
      *

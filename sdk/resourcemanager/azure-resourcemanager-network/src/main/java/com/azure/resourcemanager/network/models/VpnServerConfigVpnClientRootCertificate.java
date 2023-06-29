@@ -22,10 +22,6 @@ public final class VpnServerConfigVpnClientRootCertificate {
     @JsonProperty(value = "publicCertData")
     private String publicCertData;
 
-    /** Creates an instance of VpnServerConfigVpnClientRootCertificate class. */
-    public VpnServerConfigVpnClientRootCertificate() {
-    }
-
     /**
      * Get the name property: The certificate name.
      *

@@ -30,7 +30,8 @@ public final class AzureFirewallInner extends Resource {
     private AzureFirewallPropertiesFormat innerProperties;
 
     /*
-     * A list of availability zones denoting where the resource needs to come from.
+     * A list of availability zones denoting where the resource needs to come
+     * from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -46,10 +47,6 @@ public final class AzureFirewallInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of AzureFirewallInner class. */
-    public AzureFirewallInner() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the azure firewall.

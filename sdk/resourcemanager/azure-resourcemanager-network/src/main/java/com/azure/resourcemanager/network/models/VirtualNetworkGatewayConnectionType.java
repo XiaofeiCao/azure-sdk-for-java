@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Gateway connection type. */
+/** Defines values for VirtualNetworkGatewayConnectionType. */
 public final class VirtualNetworkGatewayConnectionType
     extends ExpandableStringEnum<VirtualNetworkGatewayConnectionType> {
     /** Static value IPsec for VirtualNetworkGatewayConnectionType. */
@@ -22,15 +22,6 @@ public final class VirtualNetworkGatewayConnectionType
 
     /** Static value VPNClient for VirtualNetworkGatewayConnectionType. */
     public static final VirtualNetworkGatewayConnectionType VPNCLIENT = fromString("VPNClient");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewayConnectionType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewayConnectionType() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewayConnectionType from its string representation.

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for RouteFilters GetByResourceGroup. */
 public final class RouteFiltersGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RouteFilterGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RouteFilterGet.json
      */
     /**
      * Sample code: RouteFilterGet.
@@ -20,6 +22,6 @@ public final class RouteFiltersGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getRouteFilters()
-            .getByResourceGroupWithResponse("rg1", "filterName", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "filterName", null, Context.NONE);
     }
 }

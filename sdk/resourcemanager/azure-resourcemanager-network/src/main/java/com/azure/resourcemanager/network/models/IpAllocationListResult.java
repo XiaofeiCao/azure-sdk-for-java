@@ -24,10 +24,6 @@ public final class IpAllocationListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of IpAllocationListResult class. */
-    public IpAllocationListResult() {
-    }
-
     /**
      * Get the value property: A list of IpAllocation resources.
      *

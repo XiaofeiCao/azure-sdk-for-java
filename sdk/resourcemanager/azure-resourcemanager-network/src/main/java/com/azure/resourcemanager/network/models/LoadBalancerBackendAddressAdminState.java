@@ -8,10 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/**
- * A list of administrative states which once set can override health probe so that Load Balancer will always forward
- * new connections to backend, or deny new connections and reset existing connections.
- */
+/** Defines values for LoadBalancerBackendAddressAdminState. */
 public final class LoadBalancerBackendAddressAdminState
     extends ExpandableStringEnum<LoadBalancerBackendAddressAdminState> {
     /** Static value None for LoadBalancerBackendAddressAdminState. */
@@ -22,15 +19,6 @@ public final class LoadBalancerBackendAddressAdminState
 
     /** Static value Down for LoadBalancerBackendAddressAdminState. */
     public static final LoadBalancerBackendAddressAdminState DOWN = fromString("Down");
-
-    /**
-     * Creates a new instance of LoadBalancerBackendAddressAdminState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public LoadBalancerBackendAddressAdminState() {
-    }
 
     /**
      * Creates or finds a LoadBalancerBackendAddressAdminState from its string representation.

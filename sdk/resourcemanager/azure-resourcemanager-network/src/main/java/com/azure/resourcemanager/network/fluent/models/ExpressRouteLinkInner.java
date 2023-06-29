@@ -12,23 +12,18 @@ import com.azure.resourcemanager.network.models.ExpressRouteLinkMacSecConfig;
 import com.azure.resourcemanager.network.models.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * ExpressRouteLink
- *
- * <p>ExpressRouteLink child resource definition.
- */
+/** ExpressRouteLink ExpressRouteLink child resource definition. */
 @Fluent
 public final class ExpressRouteLinkInner extends SubResource {
     /*
-     * ExpressRouteLink Resource Properties
-     *
-     * ExpressRouteLink properties.
+     * ExpressRouteLink Resource Properties ExpressRouteLink properties.
      */
     @JsonProperty(value = "properties")
     private ExpressRouteLinkPropertiesFormat innerProperties;
 
     /*
-     * Name of child port resource that is unique among child port resources of the parent.
+     * Name of child port resource that is unique among child port resources of
+     * the parent.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -39,14 +34,8 @@ public final class ExpressRouteLinkInner extends SubResource {
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
-    /** Creates an instance of ExpressRouteLinkInner class. */
-    public ExpressRouteLinkInner() {
-    }
-
     /**
-     * Get the innerProperties property: ExpressRouteLink Resource Properties
-     *
-     * <p>ExpressRouteLink properties.
+     * Get the innerProperties property: ExpressRouteLink Resource Properties ExpressRouteLink properties.
      *
      * @return the innerProperties value.
      */
@@ -177,9 +166,7 @@ public final class ExpressRouteLinkInner extends SubResource {
     }
 
     /**
-     * Get the macSecConfig property: Definition of ExpressRouteLink Mac Security configuration.
-     *
-     * <p>MacSec configuration.
+     * Get the macSecConfig property: Definition of ExpressRouteLink Mac Security configuration. MacSec configuration.
      *
      * @return the macSecConfig value.
      */
@@ -188,9 +175,7 @@ public final class ExpressRouteLinkInner extends SubResource {
     }
 
     /**
-     * Set the macSecConfig property: Definition of ExpressRouteLink Mac Security configuration.
-     *
-     * <p>MacSec configuration.
+     * Set the macSecConfig property: Definition of ExpressRouteLink Mac Security configuration. MacSec configuration.
      *
      * @param macSecConfig the macSecConfig value to set.
      * @return the ExpressRouteLinkInner object itself.

@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.NatGatewayInner;
 import com.azure.resourcemanager.network.models.NatGatewaySku;
 import com.azure.resourcemanager.network.models.NatGatewaySkuName;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 /** Samples for NatGateways CreateOrUpdate. */
 public final class NatGatewaysCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NatGatewayCreateOrUpdate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NatGatewayCreateOrUpdate.json
      */
     /**
      * Sample code: Create nat gateway.
@@ -44,6 +45,6 @@ public final class NatGatewaysCreateOrUpdateSamples {
                                 new SubResource()
                                     .withId(
                                         "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

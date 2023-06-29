@@ -30,7 +30,8 @@ public final class SingleQueryResult {
     private FirewallPolicyIdpsSignatureSeverity severity;
 
     /*
-     * Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional
+     * Describes in which direction signature is being enforced: 0 - Inbound, 1
+     * - OutBound, 2 - Bidirectional
      */
     @JsonProperty(value = "direction")
     private FirewallPolicyIdpsSignatureDirection direction;
@@ -66,7 +67,8 @@ public final class SingleQueryResult {
     private List<String> destinationPorts;
 
     /*
-     * Describes the last updated time of the signature (provided from 3rd party vendor)
+     * Describes the last updated time of the signature (provided from 3rd
+     * party vendor)
      */
     @JsonProperty(value = "lastUpdated")
     private String lastUpdated;
@@ -76,10 +78,6 @@ public final class SingleQueryResult {
      */
     @JsonProperty(value = "inheritedFromParentPolicy")
     private Boolean inheritedFromParentPolicy;
-
-    /** Creates an instance of SingleQueryResult class. */
-    public SingleQueryResult() {
-    }
 
     /**
      * Get the signatureId property: The ID of the signature.

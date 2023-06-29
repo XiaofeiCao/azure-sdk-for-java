@@ -38,10 +38,6 @@ public final class ApplicationGatewayProbeInner extends SubResource {
     @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
-    /** Creates an instance of ApplicationGatewayProbeInner class. */
-    public ApplicationGatewayProbeInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the application gateway probe.
      *

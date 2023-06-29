@@ -16,7 +16,8 @@ import java.util.List;
 @Fluent
 public final class VngClientConnectionConfigurationProperties {
     /*
-     * The reference to the address space resource which represents Address space for P2S VpnClient.
+     * The reference to the address space resource which represents Address
+     * space for P2S VpnClient.
      */
     @JsonProperty(value = "vpnClientAddressPool", required = true)
     private AddressSpace vpnClientAddressPool;
@@ -32,10 +33,6 @@ public final class VngClientConnectionConfigurationProperties {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of VngClientConnectionConfigurationProperties class. */
-    public VngClientConnectionConfigurationProperties() {
-    }
 
     /**
      * Get the vpnClientAddressPool property: The reference to the address space resource which represents Address space

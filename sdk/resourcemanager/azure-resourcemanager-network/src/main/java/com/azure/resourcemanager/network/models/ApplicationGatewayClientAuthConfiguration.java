@@ -22,10 +22,6 @@ public final class ApplicationGatewayClientAuthConfiguration {
     @JsonProperty(value = "verifyClientRevocation")
     private ApplicationGatewayClientRevocationOptions verifyClientRevocation;
 
-    /** Creates an instance of ApplicationGatewayClientAuthConfiguration class. */
-    public ApplicationGatewayClientAuthConfiguration() {
-    }
-
     /**
      * Get the verifyClientCertIssuerDN property: Verify client certificate issuer name on the application gateway.
      *

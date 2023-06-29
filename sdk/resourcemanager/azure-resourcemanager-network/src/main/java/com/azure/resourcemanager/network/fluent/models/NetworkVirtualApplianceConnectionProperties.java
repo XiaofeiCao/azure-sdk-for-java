@@ -20,7 +20,8 @@ public final class NetworkVirtualApplianceConnectionProperties {
     private String name;
 
     /*
-     * The provisioning state of the NetworkVirtualApplianceConnection resource.
+     * The provisioning state of the NetworkVirtualApplianceConnection
+     * resource.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
@@ -50,14 +51,11 @@ public final class NetworkVirtualApplianceConnectionProperties {
     private Boolean enableInternetSecurity;
 
     /*
-     * The Routing Configuration indicating the associated and propagated route tables on this connection.
+     * The Routing Configuration indicating the associated and propagated route
+     * tables on this connection.
      */
     @JsonProperty(value = "routingConfiguration")
     private RoutingConfigurationNfv routingConfiguration;
-
-    /** Creates an instance of NetworkVirtualApplianceConnectionProperties class. */
-    public NetworkVirtualApplianceConnectionProperties() {
-    }
 
     /**
      * Get the name property: The name of the resource.

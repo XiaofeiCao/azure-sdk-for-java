@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The advertised public prefix state of the Peering resource. */
+/** Defines values for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
 public final class ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
     extends ExpandableStringEnum<ExpressRouteCircuitPeeringAdvertisedPublicPrefixState> {
     /** Static value NotConfigured for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
@@ -24,15 +24,6 @@ public final class ExpressRouteCircuitPeeringAdvertisedPublicPrefixState
     /** Static value ValidationNeeded for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState. */
     public static final ExpressRouteCircuitPeeringAdvertisedPublicPrefixState VALIDATION_NEEDED =
         fromString("ValidationNeeded");
-
-    /**
-     * Creates a new instance of ExpressRouteCircuitPeeringAdvertisedPublicPrefixState value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState() {
-    }
 
     /**
      * Creates or finds a ExpressRouteCircuitPeeringAdvertisedPublicPrefixState from its string representation.

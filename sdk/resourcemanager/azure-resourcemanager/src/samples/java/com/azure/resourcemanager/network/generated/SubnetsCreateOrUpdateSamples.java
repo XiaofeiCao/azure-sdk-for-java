@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.SubnetInner;
 import com.azure.resourcemanager.network.models.ServiceEndpointPropertiesFormat;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 /** Samples for Subnets CreateOrUpdate. */
 public final class SubnetsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/SubnetCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/SubnetCreate.json
      */
     /**
      * Sample code: Create subnet.
@@ -25,15 +26,11 @@ public final class SubnetsCreateOrUpdateSamples {
             .serviceClient()
             .getSubnets()
             .createOrUpdate(
-                "subnet-test",
-                "vnetname",
-                "subnet1",
-                new SubnetInner().withAddressPrefix("10.0.0.0/16"),
-                com.azure.core.util.Context.NONE);
+                "subnet-test", "vnetname", "subnet1", new SubnetInner().withAddressPrefix("10.0.0.0/16"), Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/SubnetCreateServiceEndpoint.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/SubnetCreateServiceEndpoint.json
      */
     /**
      * Sample code: Create subnet with service endpoints.
@@ -54,11 +51,11 @@ public final class SubnetsCreateOrUpdateSamples {
                     .withAddressPrefix("10.0.0.0/16")
                     .withServiceEndpoints(
                         Arrays.asList(new ServiceEndpointPropertiesFormat().withService("Microsoft.Storage"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/SubnetCreateWithDelegation.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/SubnetCreateWithDelegation.json
      */
     /**
      * Sample code: Create subnet with a delegation.
@@ -72,10 +69,6 @@ public final class SubnetsCreateOrUpdateSamples {
             .serviceClient()
             .getSubnets()
             .createOrUpdate(
-                "subnet-test",
-                "vnetname",
-                "subnet1",
-                new SubnetInner().withAddressPrefix("10.0.0.0/16"),
-                com.azure.core.util.Context.NONE);
+                "subnet-test", "vnetname", "subnet1", new SubnetInner().withAddressPrefix("10.0.0.0/16"), Context.NONE);
     }
 }

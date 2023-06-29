@@ -34,10 +34,6 @@ public final class ExpressRouteCircuitArpTable {
     @JsonProperty(value = "macAddress")
     private String macAddress;
 
-    /** Creates an instance of ExpressRouteCircuitArpTable class. */
-    public ExpressRouteCircuitArpTable() {
-    }
-
     /**
      * Get the age property: Entry age in minutes.
      *

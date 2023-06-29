@@ -69,10 +69,12 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface NetworkVirtualApplianceConnectionsService {
+    private interface NetworkVirtualApplianceConnectionsService {
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections"
+                + "/{connectionName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -89,7 +91,9 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections"
+                + "/{connectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NetworkVirtualApplianceConnectionInner>> get(
@@ -104,7 +108,9 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections"
+                + "/{connectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -119,7 +125,8 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NetworkVirtualApplianceConnectionList>> list(
@@ -195,7 +202,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         } else {
             networkVirtualApplianceConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -269,7 +276,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         } else {
             networkVirtualApplianceConnectionParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -381,8 +388,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
             String networkVirtualApplianceName,
             String connectionName,
             NetworkVirtualApplianceConnectionInner networkVirtualApplianceConnectionParameters) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName,
                 networkVirtualApplianceName,
                 connectionName,
@@ -412,8 +418,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
             String connectionName,
             NetworkVirtualApplianceConnectionInner networkVirtualApplianceConnectionParameters,
             Context context) {
-        return this
-            .beginCreateOrUpdateAsync(
+        return beginCreateOrUpdateAsync(
                 resourceGroupName,
                 networkVirtualApplianceName,
                 connectionName,
@@ -578,7 +583,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -637,7 +642,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -676,6 +681,23 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
      * @param resourceGroupName The name of the resource group.
      * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
      * @param connectionName The name of the NVA connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return networkVirtualApplianceConnection resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkVirtualApplianceConnectionInner get(
+        String resourceGroupName, String networkVirtualApplianceName, String connectionName) {
+        return getAsync(resourceGroupName, networkVirtualApplianceName, connectionName).block();
+    }
+
+    /**
+     * Retrieves the details of specified NVA connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -686,23 +708,6 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
     public Response<NetworkVirtualApplianceConnectionInner> getWithResponse(
         String resourceGroupName, String networkVirtualApplianceName, String connectionName, Context context) {
         return getWithResponseAsync(resourceGroupName, networkVirtualApplianceName, connectionName, context).block();
-    }
-
-    /**
-     * Retrieves the details of specified NVA connection.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
-     * @param connectionName The name of the NVA connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return networkVirtualApplianceConnection resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkVirtualApplianceConnectionInner get(
-        String resourceGroupName, String networkVirtualApplianceName, String connectionName) {
-        return getWithResponse(resourceGroupName, networkVirtualApplianceName, connectionName, Context.NONE).getValue();
     }
 
     /**
@@ -744,7 +749,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -802,7 +807,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
         if (connectionName == null) {
             return Mono.error(new IllegalArgumentException("Parameter connectionName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -876,7 +881,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkVirtualApplianceName, String connectionName) {
-        return this.beginDeleteAsync(resourceGroupName, networkVirtualApplianceName, connectionName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, networkVirtualApplianceName, connectionName).getSyncPoller();
     }
 
     /**
@@ -894,8 +899,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String networkVirtualApplianceName, String connectionName, Context context) {
-        return this
-            .beginDeleteAsync(resourceGroupName, networkVirtualApplianceName, connectionName, context)
+        return beginDeleteAsync(resourceGroupName, networkVirtualApplianceName, connectionName, context)
             .getSyncPoller();
     }
 
@@ -1005,7 +1009,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
                     new IllegalArgumentException(
                         "Parameter networkVirtualApplianceName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1068,7 +1072,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
                     new IllegalArgumentException(
                         "Parameter networkVirtualApplianceName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1164,8 +1168,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1201,8 +1204,7 @@ public final class NetworkVirtualApplianceConnectionsClientImpl implements Netwo
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

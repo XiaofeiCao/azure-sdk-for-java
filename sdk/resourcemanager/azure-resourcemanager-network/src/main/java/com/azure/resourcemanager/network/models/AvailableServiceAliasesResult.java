@@ -24,10 +24,6 @@ public final class AvailableServiceAliasesResult {
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
-    /** Creates an instance of AvailableServiceAliasesResult class. */
-    public AvailableServiceAliasesResult() {
-    }
-
     /**
      * Get the value property: An array of available service aliases.
      *

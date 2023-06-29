@@ -27,10 +27,6 @@ public final class ListP2SVpnGatewaysResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ListP2SVpnGatewaysResult class. */
-    public ListP2SVpnGatewaysResult() {
-    }
-
     /**
      * Get the value property: List of P2SVpnGateways.
      *

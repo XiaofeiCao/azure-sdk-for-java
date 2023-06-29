@@ -8,20 +8,11 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The action type of a rule. */
+/** Defines values for FirewallPolicyNatRuleCollectionActionType. */
 public final class FirewallPolicyNatRuleCollectionActionType
     extends ExpandableStringEnum<FirewallPolicyNatRuleCollectionActionType> {
     /** Static value DNAT for FirewallPolicyNatRuleCollectionActionType. */
     public static final FirewallPolicyNatRuleCollectionActionType DNAT = fromString("DNAT");
-
-    /**
-     * Creates a new instance of FirewallPolicyNatRuleCollectionActionType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public FirewallPolicyNatRuleCollectionActionType() {
-    }
 
     /**
      * Creates or finds a FirewallPolicyNatRuleCollectionActionType from its string representation.

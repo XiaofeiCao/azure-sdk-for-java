@@ -58,10 +58,11 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface ApplicationGatewayWafDynamicManifestsDefaultsService {
+    private interface ApplicationGatewayWafDynamicManifestsDefaultsService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault")
+            "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}"
+                + "/applicationGatewayWafDynamicManifests/dafault")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ApplicationGatewayWafDynamicManifestResultInner>> get(
@@ -100,7 +101,7 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -145,7 +146,7 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -170,6 +171,20 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultsClientImpl
      * Gets the regional application gateway waf manifest.
      *
      * @param location The region where the nrp are located at.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the regional application gateway waf manifest.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ApplicationGatewayWafDynamicManifestResultInner get(String location) {
+        return getAsync(location).block();
+    }
+
+    /**
+     * Gets the regional application gateway waf manifest.
+     *
+     * @param location The region where the nrp are located at.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -179,19 +194,5 @@ public final class ApplicationGatewayWafDynamicManifestsDefaultsClientImpl
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<ApplicationGatewayWafDynamicManifestResultInner> getWithResponse(String location, Context context) {
         return getWithResponseAsync(location, context).block();
-    }
-
-    /**
-     * Gets the regional application gateway waf manifest.
-     *
-     * @param location The region where the nrp are located at.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the regional application gateway waf manifest.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ApplicationGatewayWafDynamicManifestResultInner get(String location) {
-        return getWithResponse(location, Context.NONE).getValue();
     }
 }

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The current state of the VirtualHub to Peer. */
+/** Defines values for HubBgpConnectionStatus. */
 public final class HubBgpConnectionStatus extends ExpandableStringEnum<HubBgpConnectionStatus> {
     /** Static value Unknown for HubBgpConnectionStatus. */
     public static final HubBgpConnectionStatus UNKNOWN = fromString("Unknown");
@@ -21,15 +21,6 @@ public final class HubBgpConnectionStatus extends ExpandableStringEnum<HubBgpCon
 
     /** Static value NotConnected for HubBgpConnectionStatus. */
     public static final HubBgpConnectionStatus NOT_CONNECTED = fromString("NotConnected");
-
-    /**
-     * Creates a new instance of HubBgpConnectionStatus value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public HubBgpConnectionStatus() {
-    }
 
     /**
      * Creates or finds a HubBgpConnectionStatus from its string representation.

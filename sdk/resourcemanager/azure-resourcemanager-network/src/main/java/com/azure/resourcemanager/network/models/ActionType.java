@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Defines the action to take on rule match. */
+/** Defines values for ActionType. */
 public final class ActionType extends ExpandableStringEnum<ActionType> {
     /** Static value AnomalyScoring for ActionType. */
     public static final ActionType ANOMALY_SCORING = fromString("AnomalyScoring");
@@ -21,15 +21,6 @@ public final class ActionType extends ExpandableStringEnum<ActionType> {
 
     /** Static value Log for ActionType. */
     public static final ActionType LOG = fromString("Log");
-
-    /**
-     * Creates a new instance of ActionType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ActionType() {
-    }
 
     /**
      * Creates or finds a ActionType from its string representation.

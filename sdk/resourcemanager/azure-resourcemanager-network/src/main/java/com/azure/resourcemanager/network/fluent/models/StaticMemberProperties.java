@@ -29,10 +29,6 @@ public final class StaticMemberProperties {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of StaticMemberProperties class. */
-    public StaticMemberProperties() {
-    }
-
     /**
      * Get the resourceId property: Resource Id.
      *

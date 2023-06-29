@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for DdosProtectionPlans Delete. */
 public final class DdosProtectionPlansDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/DdosProtectionPlanDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/DdosProtectionPlanDelete.json
      */
     /**
      * Sample code: Delete DDoS protection plan.
@@ -15,11 +17,6 @@ public final class DdosProtectionPlansDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteDDoSProtectionPlan(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getDdosProtectionPlans()
-            .delete("rg1", "test-plan", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getDdosProtectionPlans().delete("rg1", "test-plan", Context.NONE);
     }
 }

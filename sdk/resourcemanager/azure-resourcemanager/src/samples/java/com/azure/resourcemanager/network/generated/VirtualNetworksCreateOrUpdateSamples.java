@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyInner;
 import com.azure.resourcemanager.network.fluent.models.SubnetInner;
 import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 /** Samples for VirtualNetworks CreateOrUpdate. */
 public final class VirtualNetworksCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateSubnet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateSubnet.json
      */
     /**
      * Sample code: Create virtual network with subnet.
@@ -38,11 +39,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                     .withLocation("eastus")
                     .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
                     .withSubnets(Arrays.asList(new SubnetInner().withName("test-1").withAddressPrefix("10.0.0.0/24"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateWithBgpCommunities.json
      */
     /**
      * Sample code: Create virtual network with Bgp Communities.
@@ -63,11 +64,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                     .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
                     .withSubnets(Arrays.asList(new SubnetInner().withName("test-1").withAddressPrefix("10.0.0.0/24")))
                     .withBgpCommunities(new VirtualNetworkBgpCommunities().withVirtualNetworkCommunity("12076:20000")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
      */
     /**
      * Sample code: Create virtual network with subnet containing address prefixes.
@@ -93,11 +94,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                                 new SubnetInner()
                                     .withName("test-2")
                                     .withAddressPrefixes(Arrays.asList("10.0.0.0/28", "10.0.1.0/28")))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
      */
     /**
      * Sample code: Create virtual network with delegated subnets.
@@ -128,11 +129,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                                                 new Delegation()
                                                     .withName("myDelegation")
                                                     .withServiceName("Microsoft.Sql/managedInstances"))))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateWithEncryption.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateWithEncryption.json
      */
     /**
      * Sample code: Create virtual network with encryption.
@@ -156,11 +157,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                         new VirtualNetworkEncryption()
                             .withEnabled(true)
                             .withEnforcement(VirtualNetworkEncryptionEnforcement.ALLOW_UNENCRYPTED)),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreate.json
      */
     /**
      * Sample code: Create virtual network.
@@ -180,11 +181,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                     .withLocation("eastus")
                     .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
                     .withFlowTimeoutInMinutes(10),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
      */
     /**
      * Sample code: Create virtual network with service endpoints and service endpoint policy.
@@ -220,11 +221,11 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                                                 new ServiceEndpointPolicyInner()
                                                     .withId(
                                                         "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"))))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkCreateServiceEndpoints.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkCreateServiceEndpoints.json
      */
     /**
      * Sample code: Create virtual network with service endpoints.
@@ -254,6 +255,6 @@ public final class VirtualNetworksCreateOrUpdateSamples {
                                             .asList(
                                                 new ServiceEndpointPropertiesFormat()
                                                     .withService("Microsoft.Storage"))))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

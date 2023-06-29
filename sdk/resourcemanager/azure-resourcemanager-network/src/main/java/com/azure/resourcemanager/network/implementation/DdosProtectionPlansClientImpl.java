@@ -72,10 +72,11 @@ public final class DdosProtectionPlansClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface DdosProtectionPlansService {
+    private interface DdosProtectionPlansService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/ddosProtectionPlans/{ddosProtectionPlanName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -89,7 +90,8 @@ public final class DdosProtectionPlansClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/ddosProtectionPlans/{ddosProtectionPlanName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<DdosProtectionPlanInner>> getByResourceGroup(
@@ -103,7 +105,8 @@ public final class DdosProtectionPlansClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/ddosProtectionPlans/{ddosProtectionPlanName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -118,7 +121,8 @@ public final class DdosProtectionPlansClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/ddosProtectionPlans/{ddosProtectionPlanName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<DdosProtectionPlanInner>> updateTags(
@@ -144,7 +148,8 @@ public final class DdosProtectionPlansClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/ddosProtectionPlans")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<DdosProtectionPlanListResult>> listByResourceGroup(
@@ -210,7 +215,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -262,7 +267,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -330,7 +335,7 @@ public final class DdosProtectionPlansClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String ddosProtectionPlanName) {
-        return this.beginDeleteAsync(resourceGroupName, ddosProtectionPlanName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, ddosProtectionPlanName).getSyncPoller();
     }
 
     /**
@@ -347,7 +352,7 @@ public final class DdosProtectionPlansClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String ddosProtectionPlanName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, ddosProtectionPlanName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, ddosProtectionPlanName, context).getSyncPoller();
     }
 
     /**
@@ -449,7 +454,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -502,7 +507,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -538,6 +543,21 @@ public final class DdosProtectionPlansClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about the specified DDoS protection plan.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DdosProtectionPlanInner getByResourceGroup(String resourceGroupName, String ddosProtectionPlanName) {
+        return getByResourceGroupAsync(resourceGroupName, ddosProtectionPlanName).block();
+    }
+
+    /**
+     * Gets information about the specified DDoS protection plan.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -548,21 +568,6 @@ public final class DdosProtectionPlansClientImpl
     public Response<DdosProtectionPlanInner> getByResourceGroupWithResponse(
         String resourceGroupName, String ddosProtectionPlanName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, ddosProtectionPlanName, context).block();
-    }
-
-    /**
-     * Gets information about the specified DDoS protection plan.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about the specified DDoS protection plan.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosProtectionPlanInner getByResourceGroup(String resourceGroupName, String ddosProtectionPlanName) {
-        return getByResourceGroupWithResponse(resourceGroupName, ddosProtectionPlanName, Context.NONE).getValue();
     }
 
     /**
@@ -606,7 +611,7 @@ public final class DdosProtectionPlansClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -666,7 +671,7 @@ public final class DdosProtectionPlansClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -749,7 +754,7 @@ public final class DdosProtectionPlansClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<DdosProtectionPlanInner>, DdosProtectionPlanInner> beginCreateOrUpdate(
         String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters).getSyncPoller();
     }
 
     /**
@@ -767,9 +772,7 @@ public final class DdosProtectionPlansClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<DdosProtectionPlanInner>, DdosProtectionPlanInner> beginCreateOrUpdate(
         String resourceGroupName, String ddosProtectionPlanName, DdosProtectionPlanInner parameters, Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters, context)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, ddosProtectionPlanName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -887,7 +890,7 @@ public final class DdosProtectionPlansClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -947,7 +950,7 @@ public final class DdosProtectionPlansClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -986,6 +989,23 @@ public final class DdosProtectionPlansClientImpl
      * @param resourceGroupName The name of the resource group.
      * @param ddosProtectionPlanName The name of the DDoS protection plan.
      * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a DDoS protection plan in a resource group.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DdosProtectionPlanInner updateTags(
+        String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
+        return updateTagsAsync(resourceGroupName, ddosProtectionPlanName, parameters).block();
+    }
+
+    /**
+     * Update a DDoS protection plan tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param ddosProtectionPlanName The name of the DDoS protection plan.
+     * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -996,23 +1016,6 @@ public final class DdosProtectionPlansClientImpl
     public Response<DdosProtectionPlanInner> updateTagsWithResponse(
         String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters, Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters, context).block();
-    }
-
-    /**
-     * Update a DDoS protection plan tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosProtectionPlanName The name of the DDoS protection plan.
-     * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return a DDoS protection plan in a resource group.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosProtectionPlanInner updateTags(
-        String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
-        return updateTagsWithResponse(resourceGroupName, ddosProtectionPlanName, parameters, Context.NONE).getValue();
     }
 
     /**
@@ -1037,7 +1040,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1080,7 +1083,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1177,7 +1180,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1232,7 +1235,7 @@ public final class DdosProtectionPlansClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1319,8 +1322,7 @@ public final class DdosProtectionPlansClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1356,8 +1358,7 @@ public final class DdosProtectionPlansClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1394,8 +1395,7 @@ public final class DdosProtectionPlansClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1432,8 +1432,7 @@ public final class DdosProtectionPlansClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

@@ -28,10 +28,6 @@ public final class PartnerManagedResourceProperties {
     @JsonProperty(value = "standardLoadBalancerId", access = JsonProperty.Access.WRITE_ONLY)
     private String standardLoadBalancerId;
 
-    /** Creates an instance of PartnerManagedResourceProperties class. */
-    public PartnerManagedResourceProperties() {
-    }
-
     /**
      * Get the id property: The partner managed resource id.
      *

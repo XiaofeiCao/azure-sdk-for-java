@@ -28,10 +28,6 @@ public final class NatRulePortMapping {
     @JsonProperty(value = "backendPort")
     private Integer backendPort;
 
-    /** Creates an instance of NatRulePortMapping class. */
-    public NatRulePortMapping() {
-    }
-
     /**
      * Get the inboundNatRuleName property: Name of inbound NAT rule.
      *

@@ -12,8 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Immutable
 public final class ApplicationSecurityGroupPropertiesFormat {
     /*
-     * The resource GUID property of the application security group resource. It uniquely identifies a resource, even
-     * if the user changes its name or migrate the resource across subscriptions or resource groups.
+     * The resource GUID property of the application security group resource.
+     * It uniquely identifies a resource, even if the user changes its name or
+     * migrate the resource across subscriptions or resource groups.
      */
     @JsonProperty(value = "resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
@@ -23,10 +24,6 @@ public final class ApplicationSecurityGroupPropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of ApplicationSecurityGroupPropertiesFormat class. */
-    public ApplicationSecurityGroupPropertiesFormat() {
-    }
 
     /**
      * Get the resourceGuid property: The resource GUID property of the application security group resource. It uniquely

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for RoutingIntent Get. */
 public final class RoutingIntentGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/RoutingIntentGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/RoutingIntentGet.json
      */
     /**
      * Sample code: RouteTableGet.
@@ -20,6 +22,6 @@ public final class RoutingIntentGetSamples {
             .manager()
             .serviceClient()
             .getRoutingIntents()
-            .getWithResponse("rg1", "virtualHub1", "Intent1", com.azure.core.util.Context.NONE);
+            .getWithResponse("rg1", "virtualHub1", "Intent1", Context.NONE);
     }
 }

@@ -23,10 +23,6 @@ public final class PropagatedRouteTableNfv {
     @JsonProperty(value = "ids")
     private List<RoutingConfigurationNfvSubResource> ids;
 
-    /** Creates an instance of PropagatedRouteTableNfv class. */
-    public PropagatedRouteTableNfv() {
-    }
-
     /**
      * Get the labels property: The list of labels.
      *

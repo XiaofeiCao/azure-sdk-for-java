@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Type of Ssl Policy. */
+/** Defines values for ApplicationGatewaySslPolicyType. */
 public final class ApplicationGatewaySslPolicyType extends ExpandableStringEnum<ApplicationGatewaySslPolicyType> {
     /** Static value Predefined for ApplicationGatewaySslPolicyType. */
     public static final ApplicationGatewaySslPolicyType PREDEFINED = fromString("Predefined");
@@ -18,15 +18,6 @@ public final class ApplicationGatewaySslPolicyType extends ExpandableStringEnum<
 
     /** Static value CustomV2 for ApplicationGatewaySslPolicyType. */
     public static final ApplicationGatewaySslPolicyType CUSTOM_V2 = fromString("CustomV2");
-
-    /**
-     * Creates a new instance of ApplicationGatewaySslPolicyType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewaySslPolicyType() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewaySslPolicyType from its string representation.

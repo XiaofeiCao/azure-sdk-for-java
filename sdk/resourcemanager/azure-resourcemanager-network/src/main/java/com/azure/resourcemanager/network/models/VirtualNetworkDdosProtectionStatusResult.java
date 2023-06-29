@@ -13,7 +13,8 @@ import java.util.List;
 @Fluent
 public final class VirtualNetworkDdosProtectionStatusResult {
     /*
-     * The Ddos Protection Status Result for each public ip under a virtual network.
+     * The Ddos Protection Status Result for each public ip under a virtual
+     * network.
      */
     @JsonProperty(value = "value")
     private List<PublicIpDdosProtectionStatusResultInner> value;
@@ -23,10 +24,6 @@ public final class VirtualNetworkDdosProtectionStatusResult {
      */
     @JsonProperty(value = "nextLink")
     private String nextLink;
-
-    /** Creates an instance of VirtualNetworkDdosProtectionStatusResult class. */
-    public VirtualNetworkDdosProtectionStatusResult() {
-    }
 
     /**
      * Get the value property: The Ddos Protection Status Result for each public ip under a virtual network.

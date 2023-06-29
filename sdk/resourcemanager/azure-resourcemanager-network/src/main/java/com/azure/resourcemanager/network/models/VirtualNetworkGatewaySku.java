@@ -28,10 +28,6 @@ public final class VirtualNetworkGatewaySku {
     @JsonProperty(value = "capacity", access = JsonProperty.Access.WRITE_ONLY)
     private Integer capacity;
 
-    /** Creates an instance of VirtualNetworkGatewaySku class. */
-    public VirtualNetworkGatewaySku() {
-    }
-
     /**
      * Get the name property: Gateway SKU name.
      *

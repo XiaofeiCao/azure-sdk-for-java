@@ -24,10 +24,6 @@ public final class AzureWebCategoryListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of AzureWebCategoryListResult class. */
-    public AzureWebCategoryListResult() {
-    }
-
     /**
      * Get the value property: List of Azure Web Categories for a given Subscription.
      *

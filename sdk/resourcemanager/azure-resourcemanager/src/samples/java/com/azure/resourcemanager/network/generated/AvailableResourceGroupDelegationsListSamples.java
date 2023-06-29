@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for AvailableResourceGroupDelegations List. */
 public final class AvailableResourceGroupDelegationsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/AvailableDelegationsResourceGroupGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/AvailableDelegationsResourceGroupGet.json
      */
     /**
      * Sample code: Get available delegations in the resource group.
@@ -20,6 +22,6 @@ public final class AvailableResourceGroupDelegationsListSamples {
             .manager()
             .serviceClient()
             .getAvailableResourceGroupDelegations()
-            .list("westcentralus", "rg1", com.azure.core.util.Context.NONE);
+            .list("westcentralus", "rg1", Context.NONE);
     }
 }

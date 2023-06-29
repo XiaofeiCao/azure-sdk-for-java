@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for VirtualNetworkGateways GetAdvertisedRoutes. */
 public final class VirtualNetworkGatewaysGetAdvertisedRoutesSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayGetAdvertisedRoutes.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayGetAdvertisedRoutes.json
      */
     /**
      * Sample code: GetVirtualNetworkGatewayAdvertisedRoutes.
@@ -20,6 +22,6 @@ public final class VirtualNetworkGatewaysGetAdvertisedRoutesSamples {
             .manager()
             .serviceClient()
             .getVirtualNetworkGateways()
-            .getAdvertisedRoutes("rg1", "vpngw", "test", com.azure.core.util.Context.NONE);
+            .getAdvertisedRoutes("rg1", "vpngw", "test", Context.NONE);
     }
 }

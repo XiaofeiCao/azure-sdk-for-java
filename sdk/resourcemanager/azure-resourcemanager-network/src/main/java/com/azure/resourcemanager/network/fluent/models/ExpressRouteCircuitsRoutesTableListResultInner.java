@@ -24,10 +24,6 @@ public final class ExpressRouteCircuitsRoutesTableListResultInner {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of ExpressRouteCircuitsRoutesTableListResultInner class. */
-    public ExpressRouteCircuitsRoutesTableListResultInner() {
-    }
-
     /**
      * Get the value property: The list of routes table.
      *

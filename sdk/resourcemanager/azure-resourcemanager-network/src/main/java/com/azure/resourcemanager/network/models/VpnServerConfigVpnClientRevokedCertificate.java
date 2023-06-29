@@ -22,10 +22,6 @@ public final class VpnServerConfigVpnClientRevokedCertificate {
     @JsonProperty(value = "thumbprint")
     private String thumbprint;
 
-    /** Creates an instance of VpnServerConfigVpnClientRevokedCertificate class. */
-    public VpnServerConfigVpnClientRevokedCertificate() {
-    }
-
     /**
      * Get the name property: The certificate name.
      *

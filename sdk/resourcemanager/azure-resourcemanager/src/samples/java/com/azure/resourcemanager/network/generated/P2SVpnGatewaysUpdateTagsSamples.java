@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.TagsObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 /** Samples for P2SVpnGateways UpdateTags. */
 public final class P2SVpnGatewaysUpdateTagsSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/P2SVpnGatewayUpdateTags.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/P2SVpnGatewayUpdateTags.json
      */
     /**
      * Sample code: P2SVpnGatewayUpdate.
@@ -28,7 +29,7 @@ public final class P2SVpnGatewaysUpdateTagsSamples {
                 "rg1",
                 "p2sVpnGateway1",
                 new TagsObject().withTags(mapOf("tag1", "value1", "tag2", "value2")),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

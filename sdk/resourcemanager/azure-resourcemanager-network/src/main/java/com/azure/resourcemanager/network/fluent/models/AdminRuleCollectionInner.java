@@ -27,10 +27,6 @@ public final class AdminRuleCollectionInner extends ChildResource {
     @JsonProperty(value = "systemData", access = JsonProperty.Access.WRITE_ONLY)
     private SystemData systemData;
 
-    /** Creates an instance of AdminRuleCollectionInner class. */
-    public AdminRuleCollectionInner() {
-    }
-
     /**
      * Get the innerProperties property: Indicates the properties for the network manager admin rule collection.
      *
@@ -102,6 +98,15 @@ public final class AdminRuleCollectionInner extends ChildResource {
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

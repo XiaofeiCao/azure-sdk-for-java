@@ -8,10 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/**
- * The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If
- * 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful.
- */
+/** Defines values for ProbeProtocol. */
 public final class ProbeProtocol extends ExpandableStringEnum<ProbeProtocol> {
     /** Static value Http for ProbeProtocol. */
     public static final ProbeProtocol HTTP = fromString("Http");
@@ -21,15 +18,6 @@ public final class ProbeProtocol extends ExpandableStringEnum<ProbeProtocol> {
 
     /** Static value Https for ProbeProtocol. */
     public static final ProbeProtocol HTTPS = fromString("Https");
-
-    /**
-     * Creates a new instance of ProbeProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ProbeProtocol() {
-    }
 
     /**
      * Creates or finds a ProbeProtocol from its string representation.

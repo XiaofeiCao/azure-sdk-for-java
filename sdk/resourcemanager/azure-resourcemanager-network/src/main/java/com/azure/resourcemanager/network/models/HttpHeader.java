@@ -22,10 +22,6 @@ public final class HttpHeader {
     @JsonProperty(value = "value")
     private String value;
 
-    /** Creates an instance of HttpHeader class. */
-    public HttpHeader() {
-    }
-
     /**
      * Get the name property: The name in HTTP header.
      *

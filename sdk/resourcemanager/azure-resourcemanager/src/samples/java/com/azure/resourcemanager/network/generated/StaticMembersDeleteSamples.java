@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for StaticMembers Delete. */
 public final class StaticMembersDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerStaticMemberDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerStaticMemberDelete.json
      */
     /**
      * Sample code: StaticMembersDelete.
@@ -20,7 +22,6 @@ public final class StaticMembersDeleteSamples {
             .manager()
             .serviceClient()
             .getStaticMembers()
-            .deleteWithResponse(
-                "SampleRG", "TestNM", "testNetworkGroup", "testStaticMember", com.azure.core.util.Context.NONE);
+            .deleteWithResponse("SampleRG", "TestNM", "testNetworkGroup", "testStaticMember", Context.NONE);
     }
 }

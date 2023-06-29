@@ -17,10 +17,6 @@ public final class SessionIds {
     @JsonProperty(value = "sessionIds")
     private List<String> sessionIds;
 
-    /** Creates an instance of SessionIds class. */
-    public SessionIds() {
-    }
-
     /**
      * Get the sessionIds property: List of session IDs.
      *

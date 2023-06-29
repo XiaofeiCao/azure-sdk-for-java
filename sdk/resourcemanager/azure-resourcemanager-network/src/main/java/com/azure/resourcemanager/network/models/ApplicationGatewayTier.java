@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Tier of an application gateway. */
+/** Defines values for ApplicationGatewayTier. */
 public final class ApplicationGatewayTier extends ExpandableStringEnum<ApplicationGatewayTier> {
     /** Static value Standard for ApplicationGatewayTier. */
     public static final ApplicationGatewayTier STANDARD = fromString("Standard");
@@ -21,15 +21,6 @@ public final class ApplicationGatewayTier extends ExpandableStringEnum<Applicati
 
     /** Static value WAF_v2 for ApplicationGatewayTier. */
     public static final ApplicationGatewayTier WAF_V2 = fromString("WAF_v2");
-
-    /**
-     * Creates a new instance of ApplicationGatewayTier value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayTier() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayTier from its string representation.

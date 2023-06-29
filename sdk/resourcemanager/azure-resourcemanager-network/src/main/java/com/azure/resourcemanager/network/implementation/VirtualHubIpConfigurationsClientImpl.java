@@ -65,10 +65,11 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface VirtualHubIpConfigurationsService {
+    private interface VirtualHubIpConfigurationsService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/ipConfigurations/{ipConfigName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<HubIpConfigurationInner>> get(
@@ -83,7 +84,8 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/ipConfigurations/{ipConfigName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -99,7 +101,8 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
 
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/ipConfigurations/{ipConfigName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -114,7 +117,8 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs"
+                + "/{virtualHubName}/ipConfigurations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ListVirtualHubIpConfigurationResults>> list(
@@ -173,7 +177,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (ipConfigName == null) {
             return Mono.error(new IllegalArgumentException("Parameter ipConfigName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -228,7 +232,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (ipConfigName == null) {
             return Mono.error(new IllegalArgumentException("Parameter ipConfigName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -267,6 +271,22 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @param ipConfigName The name of the ipconfig.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return ipConfigurations.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public HubIpConfigurationInner get(String resourceGroupName, String virtualHubName, String ipConfigName) {
+        return getAsync(resourceGroupName, virtualHubName, ipConfigName).block();
+    }
+
+    /**
+     * Retrieves the details of a Virtual Hub Ip configuration.
+     *
+     * @param resourceGroupName The resource group name of the VirtualHub.
+     * @param virtualHubName The name of the VirtualHub.
+     * @param ipConfigName The name of the ipconfig.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -277,22 +297,6 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     public Response<HubIpConfigurationInner> getWithResponse(
         String resourceGroupName, String virtualHubName, String ipConfigName, Context context) {
         return getWithResponseAsync(resourceGroupName, virtualHubName, ipConfigName, context).block();
-    }
-
-    /**
-     * Retrieves the details of a Virtual Hub Ip configuration.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param ipConfigName The name of the ipconfig.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return ipConfigurations.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public HubIpConfigurationInner get(String resourceGroupName, String virtualHubName, String ipConfigName) {
-        return getWithResponse(resourceGroupName, virtualHubName, ipConfigName, Context.NONE).getValue();
     }
 
     /**
@@ -338,7 +342,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -405,7 +409,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -499,9 +503,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<HubIpConfigurationInner>, HubIpConfigurationInner> beginCreateOrUpdate(
         String resourceGroupName, String virtualHubName, String ipConfigName, HubIpConfigurationInner parameters) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, ipConfigName, parameters)
-            .getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, ipConfigName, parameters).getSyncPoller();
     }
 
     /**
@@ -525,8 +527,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         String ipConfigName,
         HubIpConfigurationInner parameters,
         Context context) {
-        return this
-            .beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, ipConfigName, parameters, context)
+        return beginCreateOrUpdateAsync(resourceGroupName, virtualHubName, ipConfigName, parameters, context)
             .getSyncPoller();
     }
 
@@ -656,7 +657,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (ipConfigName == null) {
             return Mono.error(new IllegalArgumentException("Parameter ipConfigName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -711,7 +712,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (ipConfigName == null) {
             return Mono.error(new IllegalArgumentException("Parameter ipConfigName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -785,7 +786,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String ipConfigName) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, ipConfigName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, ipConfigName).getSyncPoller();
     }
 
     /**
@@ -803,7 +804,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(
         String resourceGroupName, String virtualHubName, String ipConfigName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, virtualHubName, ipConfigName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, virtualHubName, ipConfigName, context).getSyncPoller();
     }
 
     /**
@@ -908,7 +909,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -968,7 +969,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
         if (virtualHubName == null) {
             return Mono.error(new IllegalArgumentException("Parameter virtualHubName is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1062,8 +1063,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1099,8 +1099,7 @@ public final class VirtualHubIpConfigurationsClientImpl implements VirtualHubIpC
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

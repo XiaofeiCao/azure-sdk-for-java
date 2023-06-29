@@ -31,10 +31,6 @@ public final class ExpressRouteServiceProviderPropertiesFormat {
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
-    /** Creates an instance of ExpressRouteServiceProviderPropertiesFormat class. */
-    public ExpressRouteServiceProviderPropertiesFormat() {
-    }
-
     /**
      * Get the peeringLocations property: A list of peering locations.
      *

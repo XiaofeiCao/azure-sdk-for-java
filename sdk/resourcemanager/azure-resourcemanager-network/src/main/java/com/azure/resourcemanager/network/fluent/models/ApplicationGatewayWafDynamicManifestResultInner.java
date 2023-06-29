@@ -36,10 +36,6 @@ public final class ApplicationGatewayWafDynamicManifestResultInner {
     @JsonProperty(value = "properties")
     private ApplicationGatewayWafDynamicManifestPropertiesResult innerProperties;
 
-    /** Creates an instance of ApplicationGatewayWafDynamicManifestResultInner class. */
-    public ApplicationGatewayWafDynamicManifestResultInner() {
-    }
-
     /**
      * Get the id property: Resource ID.
      *

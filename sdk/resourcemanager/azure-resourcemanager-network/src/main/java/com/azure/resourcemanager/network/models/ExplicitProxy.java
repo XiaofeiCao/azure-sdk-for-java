@@ -17,13 +17,15 @@ public final class ExplicitProxy {
     private Boolean enableExplicitProxy;
 
     /*
-     * Port number for explicit proxy http protocol, cannot be greater than 64000.
+     * Port number for explicit proxy http protocol, cannot be greater than
+     * 64000.
      */
     @JsonProperty(value = "httpPort")
     private Integer httpPort;
 
     /*
-     * Port number for explicit proxy https protocol, cannot be greater than 64000.
+     * Port number for explicit proxy https protocol, cannot be greater than
+     * 64000.
      */
     @JsonProperty(value = "httpsPort")
     private Integer httpsPort;
@@ -45,10 +47,6 @@ public final class ExplicitProxy {
      */
     @JsonProperty(value = "pacFile")
     private String pacFile;
-
-    /** Creates an instance of ExplicitProxy class. */
-    public ExplicitProxy() {
-    }
 
     /**
      * Get the enableExplicitProxy property: When set to true, explicit proxy mode is enabled.

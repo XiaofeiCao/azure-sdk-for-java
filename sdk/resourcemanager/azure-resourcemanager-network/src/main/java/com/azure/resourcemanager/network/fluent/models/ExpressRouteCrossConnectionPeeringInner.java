@@ -23,7 +23,8 @@ public final class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     private ExpressRouteCrossConnectionPeeringProperties innerProperties;
 
     /*
-     * The name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * The name of the resource that is unique within a resource group. This
+     * name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -33,10 +34,6 @@ public final class ExpressRouteCrossConnectionPeeringInner extends SubResource {
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
-
-    /** Creates an instance of ExpressRouteCrossConnectionPeeringInner class. */
-    public ExpressRouteCrossConnectionPeeringInner() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the express route cross connection peering.

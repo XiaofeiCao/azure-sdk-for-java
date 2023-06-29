@@ -28,10 +28,6 @@ public final class BastionSessionStateInner {
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private String state;
 
-    /** Creates an instance of BastionSessionStateInner class. */
-    public BastionSessionStateInner() {
-    }
-
     /**
      * Get the sessionId property: A unique id for the session.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for HubVirtualNetworkConnections Delete. */
 public final class HubVirtualNetworkConnectionsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/HubVirtualNetworkConnectionDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/HubVirtualNetworkConnectionDelete.json
      */
     /**
      * Sample code: HubVirtualNetworkConnectionDelete.
@@ -20,6 +22,6 @@ public final class HubVirtualNetworkConnectionsDeleteSamples {
             .manager()
             .serviceClient()
             .getHubVirtualNetworkConnections()
-            .delete("rg1", "virtualHub1", "connection1", com.azure.core.util.Context.NONE);
+            .delete("rg1", "virtualHub1", "connection1", Context.NONE);
     }
 }

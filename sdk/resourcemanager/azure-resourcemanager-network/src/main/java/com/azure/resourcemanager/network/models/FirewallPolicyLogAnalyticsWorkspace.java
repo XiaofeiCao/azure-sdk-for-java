@@ -23,10 +23,6 @@ public final class FirewallPolicyLogAnalyticsWorkspace {
     @JsonProperty(value = "workspaceId")
     private SubResource workspaceId;
 
-    /** Creates an instance of FirewallPolicyLogAnalyticsWorkspace class. */
-    public FirewallPolicyLogAnalyticsWorkspace() {
-    }
-
     /**
      * Get the region property: Region to configure the Workspace.
      *

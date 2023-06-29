@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for AzureFirewalls Delete. */
 public final class AzureFirewallsDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/AzureFirewallDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/AzureFirewallDelete.json
      */
     /**
      * Sample code: Delete Azure Firewall.
@@ -15,11 +17,6 @@ public final class AzureFirewallsDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deleteAzureFirewall(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getAzureFirewalls()
-            .delete("rg1", "azurefirewall", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getAzureFirewalls().delete("rg1", "azurefirewall", Context.NONE);
     }
 }

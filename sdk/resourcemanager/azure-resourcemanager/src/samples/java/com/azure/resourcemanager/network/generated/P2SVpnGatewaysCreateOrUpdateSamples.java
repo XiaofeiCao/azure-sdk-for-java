@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.P2SVpnGatewayInner;
 import com.azure.resourcemanager.network.models.AddressSpace;
 import com.azure.resourcemanager.network.models.P2SConnectionConfiguration;
@@ -18,7 +19,7 @@ import java.util.Map;
 /** Samples for P2SVpnGateways CreateOrUpdate. */
 public final class P2SVpnGatewaysCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/P2SVpnGatewayPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/P2SVpnGatewayPut.json
      */
     /**
      * Sample code: P2SVpnGatewayPut.
@@ -79,7 +80,7 @@ public final class P2SVpnGatewaysCreateOrUpdateSamples {
                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1"))
                     .withCustomDnsServers(Arrays.asList("1.1.1.1", "2.2.2.2"))
                     .withIsRoutingPreferenceInternet(false),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 
     @SuppressWarnings("unchecked")

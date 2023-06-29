@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Type of custom IP prefix. Should be Singular, Parent, or Child. */
+/** Defines values for CustomIpPrefixType. */
 public final class CustomIpPrefixType extends ExpandableStringEnum<CustomIpPrefixType> {
     /** Static value Singular for CustomIpPrefixType. */
     public static final CustomIpPrefixType SINGULAR = fromString("Singular");
@@ -18,15 +18,6 @@ public final class CustomIpPrefixType extends ExpandableStringEnum<CustomIpPrefi
 
     /** Static value Child for CustomIpPrefixType. */
     public static final CustomIpPrefixType CHILD = fromString("Child");
-
-    /**
-     * Creates a new instance of CustomIpPrefixType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public CustomIpPrefixType() {
-    }
 
     /**
      * Creates or finds a CustomIpPrefixType from its string representation.

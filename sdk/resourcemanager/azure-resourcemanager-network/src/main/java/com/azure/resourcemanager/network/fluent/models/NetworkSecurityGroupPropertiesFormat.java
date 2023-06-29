@@ -13,8 +13,9 @@ import java.util.List;
 @Fluent
 public final class NetworkSecurityGroupPropertiesFormat {
     /*
-     * When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates.
-     * Initial enablement will trigger re-evaluation.
+     * When enabled, flows created from Network Security Group connections will
+     * be re-evaluated when rules are updates. Initial enablement will trigger
+     * re-evaluation.
      */
     @JsonProperty(value = "flushConnection")
     private Boolean flushConnection;
@@ -60,10 +61,6 @@ public final class NetworkSecurityGroupPropertiesFormat {
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
-
-    /** Creates an instance of NetworkSecurityGroupPropertiesFormat class. */
-    public NetworkSecurityGroupPropertiesFormat() {
-    }
 
     /**
      * Get the flushConnection property: When enabled, flows created from Network Security Group connections will be

@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The DDoS protection mode of the public IP. */
+/** Defines values for DdosSettingsProtectionMode. */
 public final class DdosSettingsProtectionMode extends ExpandableStringEnum<DdosSettingsProtectionMode> {
     /** Static value VirtualNetworkInherited for DdosSettingsProtectionMode. */
     public static final DdosSettingsProtectionMode VIRTUAL_NETWORK_INHERITED = fromString("VirtualNetworkInherited");
@@ -18,15 +18,6 @@ public final class DdosSettingsProtectionMode extends ExpandableStringEnum<DdosS
 
     /** Static value Disabled for DdosSettingsProtectionMode. */
     public static final DdosSettingsProtectionMode DISABLED = fromString("Disabled");
-
-    /**
-     * Creates a new instance of DdosSettingsProtectionMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public DdosSettingsProtectionMode() {
-    }
 
     /**
      * Creates or finds a DdosSettingsProtectionMode from its string representation.

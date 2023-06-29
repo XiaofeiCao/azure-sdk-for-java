@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for PacketCaptures Delete. */
 public final class PacketCapturesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkWatcherPacketCaptureDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkWatcherPacketCaptureDelete.json
      */
     /**
      * Sample code: Delete packet capture.
@@ -15,11 +17,6 @@ public final class PacketCapturesDeleteSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void deletePacketCapture(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure
-            .networks()
-            .manager()
-            .serviceClient()
-            .getPacketCaptures()
-            .delete("rg1", "nw1", "pc1", com.azure.core.util.Context.NONE);
+        azure.networks().manager().serviceClient().getPacketCaptures().delete("rg1", "nw1", "pc1", Context.NONE);
     }
 }

@@ -57,10 +57,11 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface LoadBalancerOutboundRulesService {
+    private interface LoadBalancerOutboundRulesService {
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}/outboundRules")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LoadBalancerOutboundRuleListResult>> list(
@@ -74,7 +75,8 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<OutboundRuleInner>> get(
@@ -132,7 +134,7 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -193,7 +195,7 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -321,7 +323,7 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -379,7 +381,7 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -418,6 +420,22 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
      * @param resourceGroupName The name of the resource group.
      * @param loadBalancerName The name of the load balancer.
      * @param outboundRuleName The name of the outbound rule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the specified load balancer outbound rule.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public OutboundRuleInner get(String resourceGroupName, String loadBalancerName, String outboundRuleName) {
+        return getAsync(resourceGroupName, loadBalancerName, outboundRuleName).block();
+    }
+
+    /**
+     * Gets the specified load balancer outbound rule.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param loadBalancerName The name of the load balancer.
+     * @param outboundRuleName The name of the outbound rule.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -431,26 +449,9 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
     }
 
     /**
-     * Gets the specified load balancer outbound rule.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param loadBalancerName The name of the load balancer.
-     * @param outboundRuleName The name of the outbound rule.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the specified load balancer outbound rule.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public OutboundRuleInner get(String resourceGroupName, String loadBalancerName, String outboundRuleName) {
-        return getWithResponse(resourceGroupName, loadBalancerName, outboundRuleName, Context.NONE).getValue();
-    }
-
-    /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -486,8 +487,7 @@ public final class LoadBalancerOutboundRulesClientImpl implements LoadBalancerOu
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

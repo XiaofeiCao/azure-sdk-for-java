@@ -34,10 +34,6 @@ public final class ExpressRouteCircuitStatsInner {
     @JsonProperty(value = "secondarybytesOut")
     private Long secondarybytesOut;
 
-    /** Creates an instance of ExpressRouteCircuitStatsInner class. */
-    public ExpressRouteCircuitStatsInner() {
-    }
-
     /**
      * Get the primarybytesIn property: The Primary BytesIn of the peering.
      *

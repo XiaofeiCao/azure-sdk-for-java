@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Type of Network Interface resource. */
+/** Defines values for NetworkInterfaceNicType. */
 public final class NetworkInterfaceNicType extends ExpandableStringEnum<NetworkInterfaceNicType> {
     /** Static value Standard for NetworkInterfaceNicType. */
     public static final NetworkInterfaceNicType STANDARD = fromString("Standard");
 
     /** Static value Elastic for NetworkInterfaceNicType. */
     public static final NetworkInterfaceNicType ELASTIC = fromString("Elastic");
-
-    /**
-     * Creates a new instance of NetworkInterfaceNicType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public NetworkInterfaceNicType() {
-    }
 
     /**
      * Creates or finds a NetworkInterfaceNicType from its string representation.

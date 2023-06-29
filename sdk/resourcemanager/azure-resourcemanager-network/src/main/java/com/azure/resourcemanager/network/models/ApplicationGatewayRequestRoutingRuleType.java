@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Rule type. */
+/** Defines values for ApplicationGatewayRequestRoutingRuleType. */
 public final class ApplicationGatewayRequestRoutingRuleType
     extends ExpandableStringEnum<ApplicationGatewayRequestRoutingRuleType> {
     /** Static value Basic for ApplicationGatewayRequestRoutingRuleType. */
@@ -16,15 +16,6 @@ public final class ApplicationGatewayRequestRoutingRuleType
 
     /** Static value PathBasedRouting for ApplicationGatewayRequestRoutingRuleType. */
     public static final ApplicationGatewayRequestRoutingRuleType PATH_BASED_ROUTING = fromString("PathBasedRouting");
-
-    /**
-     * Creates a new instance of ApplicationGatewayRequestRoutingRuleType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public ApplicationGatewayRequestRoutingRuleType() {
-    }
 
     /**
      * Creates or finds a ApplicationGatewayRequestRoutingRuleType from its string representation.

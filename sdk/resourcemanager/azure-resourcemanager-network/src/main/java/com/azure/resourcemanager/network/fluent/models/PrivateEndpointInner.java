@@ -42,10 +42,6 @@ public final class PrivateEndpointInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of PrivateEndpointInner class. */
-    public PrivateEndpointInner() {
-    }
-
     /**
      * Get the extendedLocation property: The extended location of the load balancer.
      *

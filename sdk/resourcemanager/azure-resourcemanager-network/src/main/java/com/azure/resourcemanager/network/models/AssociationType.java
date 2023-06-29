@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The association type of the child resource to the parent resource. */
+/** Defines values for AssociationType. */
 public final class AssociationType extends ExpandableStringEnum<AssociationType> {
     /** Static value Associated for AssociationType. */
     public static final AssociationType ASSOCIATED = fromString("Associated");
 
     /** Static value Contains for AssociationType. */
     public static final AssociationType CONTAINS = fromString("Contains");
-
-    /**
-     * Creates a new instance of AssociationType value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public AssociationType() {
-    }
 
     /**
      * Creates or finds a AssociationType from its string representation.

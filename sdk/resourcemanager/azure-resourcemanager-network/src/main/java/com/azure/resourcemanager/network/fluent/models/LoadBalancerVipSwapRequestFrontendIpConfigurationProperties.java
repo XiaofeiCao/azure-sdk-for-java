@@ -17,10 +17,6 @@ public final class LoadBalancerVipSwapRequestFrontendIpConfigurationProperties {
     @JsonProperty(value = "publicIPAddress")
     private SubResource publicIpAddress;
 
-    /** Creates an instance of LoadBalancerVipSwapRequestFrontendIpConfigurationProperties class. */
-    public LoadBalancerVipSwapRequestFrontendIpConfigurationProperties() {
-    }
-
     /**
      * Get the publicIpAddress property: A reference to public IP address resource.
      *

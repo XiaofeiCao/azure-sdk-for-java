@@ -41,10 +41,6 @@ public final class IdpsQueryObject {
     @JsonProperty(value = "skip")
     private Integer skip;
 
-    /** Creates an instance of IdpsQueryObject class. */
-    public IdpsQueryObject() {
-    }
-
     /**
      * Get the filters property: Contain all filters names and values.
      *

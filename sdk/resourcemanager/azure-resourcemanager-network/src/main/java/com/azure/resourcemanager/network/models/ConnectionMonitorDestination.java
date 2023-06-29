@@ -28,10 +28,6 @@ public final class ConnectionMonitorDestination {
     @JsonProperty(value = "port")
     private Integer port;
 
-    /** Creates an instance of ConnectionMonitorDestination class. */
-    public ConnectionMonitorDestination() {
-    }
-
     /**
      * Get the resourceId property: The ID of the resource used as the destination by connection monitor.
      *

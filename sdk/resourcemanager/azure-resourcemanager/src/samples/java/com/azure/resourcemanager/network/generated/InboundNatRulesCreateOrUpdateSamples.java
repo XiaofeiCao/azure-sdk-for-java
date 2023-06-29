@@ -5,13 +5,14 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.InboundNatRuleInner;
 import com.azure.resourcemanager.network.models.TransportProtocol;
 
 /** Samples for InboundNatRules CreateOrUpdate. */
 public final class InboundNatRulesCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/InboundNatRuleCreate.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/InboundNatRuleCreate.json
      */
     /**
      * Sample code: InboundNatRuleCreate.
@@ -39,6 +40,6 @@ public final class InboundNatRulesCreateOrUpdateSamples {
                     .withIdleTimeoutInMinutes(4)
                     .withEnableFloatingIp(false)
                     .withEnableTcpReset(false),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

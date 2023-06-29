@@ -23,10 +23,6 @@ public final class ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdmi
     @JsonProperty(value = "properties")
     private DefaultAdminPropertiesFormat innerProperties;
 
-    /** Creates an instance of ActiveDefaultSecurityAdminRule class. */
-    public ActiveDefaultSecurityAdminRule() {
-    }
-
     /**
      * Get the innerProperties property: Indicates the properties of the default security admin rule.
      *
@@ -199,6 +195,15 @@ public final class ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdmi
      */
     public ProvisioningState provisioningState() {
         return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Get the resourceGuid property: Unique identifier for this resource.
+     *
+     * @return the resourceGuid value.
+     */
+    public String resourceGuid() {
+        return this.innerProperties() == null ? null : this.innerProperties().resourceGuid();
     }
 
     /**

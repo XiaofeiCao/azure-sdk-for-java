@@ -17,10 +17,6 @@ public final class SwapResourceListResultInner {
     @JsonProperty(value = "value")
     private List<SwapResourceInner> value;
 
-    /** Creates an instance of SwapResourceListResultInner class. */
-    public SwapResourceListResultInner() {
-    }
-
     /**
      * Get the value property: The value property.
      *

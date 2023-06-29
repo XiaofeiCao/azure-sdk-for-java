@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ExpressRouteCircuitConnections Get. */
 public final class ExpressRouteCircuitConnectionsGetSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ExpressRouteCircuitConnectionGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ExpressRouteCircuitConnectionGet.json
      */
     /**
      * Sample code: ExpressRouteCircuitConnectionGet.
@@ -21,10 +23,6 @@ public final class ExpressRouteCircuitConnectionsGetSamples {
             .serviceClient()
             .getExpressRouteCircuitConnections()
             .getWithResponse(
-                "rg1",
-                "ExpressRouteARMCircuitA",
-                "AzurePrivatePeering",
-                "circuitConnectionUSAUS",
-                com.azure.core.util.Context.NONE);
+                "rg1", "ExpressRouteARMCircuitA", "AzurePrivatePeering", "circuitConnectionUSAUS", Context.NONE);
     }
 }

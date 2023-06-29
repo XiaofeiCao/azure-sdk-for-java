@@ -17,10 +17,6 @@ public final class SignatureOverridesFilterValuesResponseInner {
     @JsonProperty(value = "filterValues")
     private List<String> filterValues;
 
-    /** Creates an instance of SignatureOverridesFilterValuesResponseInner class. */
-    public SignatureOverridesFilterValuesResponseInner() {
-    }
-
     /**
      * Get the filterValues property: Describes the possible values.
      *

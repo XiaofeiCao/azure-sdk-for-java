@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Test coverage for the endpoint. */
+/** Defines values for CoverageLevel. */
 public final class CoverageLevel extends ExpandableStringEnum<CoverageLevel> {
     /** Static value Default for CoverageLevel. */
     public static final CoverageLevel DEFAULT = fromString("Default");
@@ -27,15 +27,6 @@ public final class CoverageLevel extends ExpandableStringEnum<CoverageLevel> {
 
     /** Static value Full for CoverageLevel. */
     public static final CoverageLevel FULL = fromString("Full");
-
-    /**
-     * Creates a new instance of CoverageLevel value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public CoverageLevel() {
-    }
 
     /**
      * Creates or finds a CoverageLevel from its string representation.

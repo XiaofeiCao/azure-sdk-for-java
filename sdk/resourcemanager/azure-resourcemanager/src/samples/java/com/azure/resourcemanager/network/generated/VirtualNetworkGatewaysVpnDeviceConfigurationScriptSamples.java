@@ -4,12 +4,13 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.models.VpnDeviceScriptParameters;
 
 /** Samples for VirtualNetworkGateways VpnDeviceConfigurationScript. */
 public final class VirtualNetworkGatewaysVpnDeviceConfigurationScriptSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/VirtualNetworkGatewayVpnDeviceConfigurationScript.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VirtualNetworkGatewayVpnDeviceConfigurationScript.json
      */
     /**
      * Sample code: GetVPNDeviceConfigurationScript.
@@ -29,6 +30,6 @@ public final class VirtualNetworkGatewaysVpnDeviceConfigurationScriptSamples {
                     .withVendor("Cisco")
                     .withDeviceFamily("ISR")
                     .withFirmwareVersion("IOS 15.1 (Preview)"),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

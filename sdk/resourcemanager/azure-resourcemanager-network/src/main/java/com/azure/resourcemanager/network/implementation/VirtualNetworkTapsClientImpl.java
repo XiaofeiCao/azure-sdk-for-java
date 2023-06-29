@@ -72,10 +72,11 @@ public final class VirtualNetworkTapsClientImpl
      */
     @Host("{$host}")
     @ServiceInterface(name = "NetworkManagementCli")
-    public interface VirtualNetworkTapsService {
+    private interface VirtualNetworkTapsService {
         @Headers({"Content-Type: application/json"})
         @Delete(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(
@@ -89,7 +90,8 @@ public final class VirtualNetworkTapsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<VirtualNetworkTapInner>> getByResourceGroup(
@@ -103,7 +105,8 @@ public final class VirtualNetworkTapsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Put(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(
@@ -118,7 +121,8 @@ public final class VirtualNetworkTapsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Patch(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<VirtualNetworkTapInner>> updateTags(
@@ -144,7 +148,8 @@ public final class VirtualNetworkTapsClientImpl
 
         @Headers({"Content-Type: application/json"})
         @Get(
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps")
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network"
+                + "/virtualNetworkTaps")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<VirtualNetworkTapListResult>> listByResourceGroup(
@@ -207,7 +212,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -257,7 +262,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -323,7 +328,7 @@ public final class VirtualNetworkTapsClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String tapName) {
-        return this.beginDeleteAsync(resourceGroupName, tapName).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, tapName).getSyncPoller();
     }
 
     /**
@@ -339,7 +344,7 @@ public final class VirtualNetworkTapsClientImpl
      */
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String tapName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, tapName, context).getSyncPoller();
+        return beginDeleteAsync(resourceGroupName, tapName, context).getSyncPoller();
     }
 
     /**
@@ -437,7 +442,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -488,7 +493,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -523,6 +528,21 @@ public final class VirtualNetworkTapsClientImpl
      *
      * @param resourceGroupName The name of the resource group.
      * @param tapName The name of virtual network tap.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return information about the specified virtual network tap.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VirtualNetworkTapInner getByResourceGroup(String resourceGroupName, String tapName) {
+        return getByResourceGroupAsync(resourceGroupName, tapName).block();
+    }
+
+    /**
+     * Gets information about the specified virtual network tap.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param tapName The name of virtual network tap.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -533,21 +553,6 @@ public final class VirtualNetworkTapsClientImpl
     public Response<VirtualNetworkTapInner> getByResourceGroupWithResponse(
         String resourceGroupName, String tapName, Context context) {
         return getByResourceGroupWithResponseAsync(resourceGroupName, tapName, context).block();
-    }
-
-    /**
-     * Gets information about the specified virtual network tap.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of virtual network tap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return information about the specified virtual network tap.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkTapInner getByResourceGroup(String resourceGroupName, String tapName) {
-        return getByResourceGroupWithResponse(resourceGroupName, tapName, Context.NONE).getValue();
     }
 
     /**
@@ -588,7 +593,7 @@ public final class VirtualNetworkTapsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -645,7 +650,7 @@ public final class VirtualNetworkTapsClientImpl
         } else {
             parameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -727,7 +732,7 @@ public final class VirtualNetworkTapsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<VirtualNetworkTapInner>, VirtualNetworkTapInner> beginCreateOrUpdate(
         String resourceGroupName, String tapName, VirtualNetworkTapInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, tapName, parameters).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, tapName, parameters).getSyncPoller();
     }
 
     /**
@@ -745,7 +750,7 @@ public final class VirtualNetworkTapsClientImpl
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<VirtualNetworkTapInner>, VirtualNetworkTapInner> beginCreateOrUpdate(
         String resourceGroupName, String tapName, VirtualNetworkTapInner parameters, Context context) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, tapName, parameters, context).getSyncPoller();
+        return beginCreateOrUpdateAsync(resourceGroupName, tapName, parameters, context).getSyncPoller();
     }
 
     /**
@@ -860,7 +865,7 @@ public final class VirtualNetworkTapsClientImpl
         } else {
             tapParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -917,7 +922,7 @@ public final class VirtualNetworkTapsClientImpl
         } else {
             tapParameters.validate();
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -956,6 +961,22 @@ public final class VirtualNetworkTapsClientImpl
      * @param resourceGroupName The name of the resource group.
      * @param tapName The name of the tap.
      * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return virtual Network Tap resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName, TagsObject tapParameters) {
+        return updateTagsAsync(resourceGroupName, tapName, tapParameters).block();
+    }
+
+    /**
+     * Updates an VirtualNetworkTap tags.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param tapName The name of the tap.
+     * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -966,22 +987,6 @@ public final class VirtualNetworkTapsClientImpl
     public Response<VirtualNetworkTapInner> updateTagsWithResponse(
         String resourceGroupName, String tapName, TagsObject tapParameters, Context context) {
         return updateTagsWithResponseAsync(resourceGroupName, tapName, tapParameters, context).block();
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return virtual Network Tap resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName, TagsObject tapParameters) {
-        return updateTagsWithResponse(resourceGroupName, tapName, tapParameters, Context.NONE).getValue();
     }
 
     /**
@@ -1006,7 +1011,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1049,7 +1054,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1146,7 +1151,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         return FluxUtil
             .withContext(
@@ -1201,7 +1206,7 @@ public final class VirtualNetworkTapsClientImpl
                     new IllegalArgumentException(
                         "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
-        final String apiVersion = "2022-11-01";
+        final String apiVersion = "2023-02-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
@@ -1288,8 +1293,7 @@ public final class VirtualNetworkTapsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1325,8 +1329,7 @@ public final class VirtualNetworkTapsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -1363,8 +1366,7 @@ public final class VirtualNetworkTapsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1401,8 +1403,7 @@ public final class VirtualNetworkTapsClientImpl
     /**
      * Get the next page of items.
      *
-     * @param nextLink The URL to get the next list of items
-     *     <p>The nextLink parameter.
+     * @param nextLink The nextLink parameter.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

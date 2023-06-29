@@ -19,10 +19,6 @@ public final class FirewallPacketCaptureParameters extends SubResource {
     @JsonProperty(value = "properties")
     private FirewallPacketCaptureParametersFormat innerProperties;
 
-    /** Creates an instance of FirewallPacketCaptureParameters class. */
-    public FirewallPacketCaptureParameters() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the azure firewall.
      *

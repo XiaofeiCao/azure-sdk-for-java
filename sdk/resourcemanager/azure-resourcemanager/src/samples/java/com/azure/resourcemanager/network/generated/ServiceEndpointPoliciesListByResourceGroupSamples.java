@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ServiceEndpointPolicies ListByResourceGroup. */
 public final class ServiceEndpointPoliciesListByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ServiceEndpointPolicyList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ServiceEndpointPolicyList.json
      */
     /**
      * Sample code: List resource group service endpoint policies.
@@ -20,6 +22,6 @@ public final class ServiceEndpointPoliciesListByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getServiceEndpointPolicies()
-            .listByResourceGroup("rg1", com.azure.core.util.Context.NONE);
+            .listByResourceGroup("rg1", Context.NONE);
     }
 }

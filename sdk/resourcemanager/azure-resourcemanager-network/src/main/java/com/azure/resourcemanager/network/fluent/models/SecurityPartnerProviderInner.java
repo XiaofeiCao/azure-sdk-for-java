@@ -34,10 +34,6 @@ public final class SecurityPartnerProviderInner extends Resource {
     @JsonProperty(value = "id")
     private String id;
 
-    /** Creates an instance of SecurityPartnerProviderInner class. */
-    public SecurityPartnerProviderInner() {
-    }
-
     /**
      * Get the innerProperties property: Properties of the Security Partner Provider.
      *

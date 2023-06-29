@@ -47,10 +47,6 @@ public final class QosDefinition {
     @JsonProperty(value = "protocol")
     private ProtocolType protocol;
 
-    /** Creates an instance of QosDefinition class. */
-    public QosDefinition() {
-    }
-
     /**
      * Get the markings property: List of markings to be used in the configuration.
      *

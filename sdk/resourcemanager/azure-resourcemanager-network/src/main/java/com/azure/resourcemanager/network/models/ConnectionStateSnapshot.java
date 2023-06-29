@@ -72,10 +72,6 @@ public final class ConnectionStateSnapshot {
     @JsonProperty(value = "hops", access = JsonProperty.Access.WRITE_ONLY)
     private List<ConnectivityHop> hops;
 
-    /** Creates an instance of ConnectionStateSnapshot class. */
-    public ConnectionStateSnapshot() {
-    }
-
     /**
      * Get the connectionState property: The connection state.
      *

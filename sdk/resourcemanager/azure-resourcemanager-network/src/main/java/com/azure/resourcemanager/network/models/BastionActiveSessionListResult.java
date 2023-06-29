@@ -24,10 +24,6 @@ public final class BastionActiveSessionListResult {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of BastionActiveSessionListResult class. */
-    public BastionActiveSessionListResult() {
-    }
-
     /**
      * Get the value property: List of active sessions on the bastion.
      *

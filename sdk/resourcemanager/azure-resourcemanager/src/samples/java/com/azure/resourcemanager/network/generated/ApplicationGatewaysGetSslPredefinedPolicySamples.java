@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for ApplicationGateways GetSslPredefinedPolicy. */
 public final class ApplicationGatewaysGetSslPredefinedPolicySamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
      */
     /**
      * Sample code: Get Available Ssl Predefined Policy by name.
@@ -20,6 +22,6 @@ public final class ApplicationGatewaysGetSslPredefinedPolicySamples {
             .manager()
             .serviceClient()
             .getApplicationGateways()
-            .getSslPredefinedPolicyWithResponse("AppGwSslPolicy20150501", com.azure.core.util.Context.NONE);
+            .getSslPredefinedPolicyWithResponse("AppGwSslPolicy20150501", Context.NONE);
     }
 }

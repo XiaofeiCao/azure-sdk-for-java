@@ -16,10 +16,6 @@ public final class UnprepareNetworkPoliciesRequest {
     @JsonProperty(value = "serviceName")
     private String serviceName;
 
-    /** Creates an instance of UnprepareNetworkPoliciesRequest class. */
-    public UnprepareNetworkPoliciesRequest() {
-    }
-
     /**
      * Get the serviceName property: The name of the service for which subnet is being unprepared for.
      *

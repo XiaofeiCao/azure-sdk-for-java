@@ -55,10 +55,6 @@ public final class ConnectivityInformationInner {
     @JsonProperty(value = "probesFailed", access = JsonProperty.Access.WRITE_ONLY)
     private Integer probesFailed;
 
-    /** Creates an instance of ConnectivityInformationInner class. */
-    public ConnectivityInformationInner() {
-    }
-
     /**
      * Get the hops property: List of hops between the source and the destination.
      *

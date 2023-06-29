@@ -17,10 +17,6 @@ public final class GroupByVariable {
     @JsonProperty(value = "variableName", required = true)
     private ApplicationGatewayFirewallUserSessionVariable variableName;
 
-    /** Creates an instance of GroupByVariable class. */
-    public GroupByVariable() {
-    }
-
     /**
      * Get the variableName property: User Session clause variable.
      *

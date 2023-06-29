@@ -38,7 +38,8 @@ public final class PrivateLinkServiceIpConfigurationPropertiesInner {
     private Boolean primary;
 
     /*
-     * The provisioning state of the private link service IP configuration resource.
+     * The provisioning state of the private link service IP configuration
+     * resource.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
@@ -48,10 +49,6 @@ public final class PrivateLinkServiceIpConfigurationPropertiesInner {
      */
     @JsonProperty(value = "privateIPAddressVersion")
     private IpVersion privateIpAddressVersion;
-
-    /** Creates an instance of PrivateLinkServiceIpConfigurationPropertiesInner class. */
-    public PrivateLinkServiceIpConfigurationPropertiesInner() {
-    }
 
     /**
      * Get the privateIpAddress property: The private IP address of the IP configuration.

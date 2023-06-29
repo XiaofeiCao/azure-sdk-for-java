@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** IP address allocation method. */
+/** Defines values for IpAllocationMethod. */
 public final class IpAllocationMethod extends ExpandableStringEnum<IpAllocationMethod> {
     /** Static value Static for IpAllocationMethod. */
     public static final IpAllocationMethod STATIC = fromString("Static");
 
     /** Static value Dynamic for IpAllocationMethod. */
     public static final IpAllocationMethod DYNAMIC = fromString("Dynamic");
-
-    /**
-     * Creates a new instance of IpAllocationMethod value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public IpAllocationMethod() {
-    }
 
     /**
      * Creates or finds a IpAllocationMethod from its string representation.

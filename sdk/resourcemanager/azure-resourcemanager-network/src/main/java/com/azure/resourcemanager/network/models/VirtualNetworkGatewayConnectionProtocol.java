@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Gateway connection protocol. */
+/** Defines values for VirtualNetworkGatewayConnectionProtocol. */
 public final class VirtualNetworkGatewayConnectionProtocol
     extends ExpandableStringEnum<VirtualNetworkGatewayConnectionProtocol> {
     /** Static value IKEv2 for VirtualNetworkGatewayConnectionProtocol. */
@@ -16,15 +16,6 @@ public final class VirtualNetworkGatewayConnectionProtocol
 
     /** Static value IKEv1 for VirtualNetworkGatewayConnectionProtocol. */
     public static final VirtualNetworkGatewayConnectionProtocol IKEV1 = fromString("IKEv1");
-
-    /**
-     * Creates a new instance of VirtualNetworkGatewayConnectionProtocol value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VirtualNetworkGatewayConnectionProtocol() {
-    }
 
     /**
      * Creates or finds a VirtualNetworkGatewayConnectionProtocol from its string representation.

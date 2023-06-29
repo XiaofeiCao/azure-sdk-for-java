@@ -23,6 +23,7 @@ import com.azure.resourcemanager.network.models.ApplicationGatewayRewriteRuleSet
 import com.azure.resourcemanager.network.models.ApplicationGatewayRoutingRule;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySku;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicy;
+import com.azure.resourcemanager.network.models.ApplicationGatewaySslPolicyName;
 import com.azure.resourcemanager.network.models.ApplicationGatewaySslProfile;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedClientCertificate;
 import com.azure.resourcemanager.network.models.ApplicationGatewayTrustedRootCertificate;
@@ -49,7 +50,8 @@ public final class ApplicationGatewayInner extends Resource {
     private String etag;
 
     /*
-     * A list of availability zones denoting where the resource needs to come from.
+     * A list of availability zones denoting where the resource needs to come
+     * from.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -65,10 +67,6 @@ public final class ApplicationGatewayInner extends Resource {
      */
     @JsonProperty(value = "id")
     private String id;
-
-    /** Creates an instance of ApplicationGatewayInner class. */
-    public ApplicationGatewayInner() {
-    }
 
     /**
      * Get the innerProperties property: Properties of the application gateway.
@@ -984,6 +982,16 @@ public final class ApplicationGatewayInner extends Resource {
         }
         this.innerProperties().withGlobalConfiguration(globalConfiguration);
         return this;
+    }
+
+    /**
+     * Get the defaultPredefinedSslPolicy property: The default predefined SSL Policy applied on the application gateway
+     * resource.
+     *
+     * @return the defaultPredefinedSslPolicy value.
+     */
+    public ApplicationGatewaySslPolicyName defaultPredefinedSslPolicy() {
+        return this.innerProperties() == null ? null : this.innerProperties().defaultPredefinedSslPolicy();
     }
 
     /**

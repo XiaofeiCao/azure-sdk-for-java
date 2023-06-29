@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for NetworkInterfaces GetByResourceGroup. */
 public final class NetworkInterfacesGetByResourceGroupSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkInterfaceGet.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkInterfaceGet.json
      */
     /**
      * Sample code: Get network interface.
@@ -20,6 +22,6 @@ public final class NetworkInterfacesGetByResourceGroupSamples {
             .manager()
             .serviceClient()
             .getNetworkInterfaces()
-            .getByResourceGroupWithResponse("rg1", "test-nic", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("rg1", "test-nic", null, Context.NONE);
     }
 }

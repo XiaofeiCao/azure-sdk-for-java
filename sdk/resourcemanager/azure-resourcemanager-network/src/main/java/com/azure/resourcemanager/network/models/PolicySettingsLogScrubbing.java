@@ -23,10 +23,6 @@ public final class PolicySettingsLogScrubbing {
     @JsonProperty(value = "scrubbingRules")
     private List<WebApplicationFirewallScrubbingRules> scrubbingRules;
 
-    /** Creates an instance of PolicySettingsLogScrubbing class. */
-    public PolicySettingsLogScrubbing() {
-    }
-
     /**
      * Get the state property: State of the log scrubbing config. Default value is Enabled.
      *

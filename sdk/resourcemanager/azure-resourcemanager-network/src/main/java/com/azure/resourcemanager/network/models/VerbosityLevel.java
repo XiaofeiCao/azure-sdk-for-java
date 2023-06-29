@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** Verbosity level. */
+/** Defines values for VerbosityLevel. */
 public final class VerbosityLevel extends ExpandableStringEnum<VerbosityLevel> {
     /** Static value Normal for VerbosityLevel. */
     public static final VerbosityLevel NORMAL = fromString("Normal");
@@ -18,15 +18,6 @@ public final class VerbosityLevel extends ExpandableStringEnum<VerbosityLevel> {
 
     /** Static value Full for VerbosityLevel. */
     public static final VerbosityLevel FULL = fromString("Full");
-
-    /**
-     * Creates a new instance of VerbosityLevel value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public VerbosityLevel() {
-    }
 
     /**
      * Creates or finds a VerbosityLevel from its string representation.

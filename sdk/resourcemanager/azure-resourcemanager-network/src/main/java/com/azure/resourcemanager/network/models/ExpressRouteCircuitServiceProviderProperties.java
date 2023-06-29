@@ -28,10 +28,6 @@ public final class ExpressRouteCircuitServiceProviderProperties {
     @JsonProperty(value = "bandwidthInMbps")
     private Integer bandwidthInMbps;
 
-    /** Creates an instance of ExpressRouteCircuitServiceProviderProperties class. */
-    public ExpressRouteCircuitServiceProviderProperties() {
-    }
-
     /**
      * Get the serviceProviderName property: The serviceProviderName.
      *

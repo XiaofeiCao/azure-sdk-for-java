@@ -207,6 +207,21 @@ public interface NetworkVirtualApplianceConnectionsClient {
      * @param resourceGroupName The name of the resource group.
      * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
      * @param connectionName The name of the NVA connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return networkVirtualApplianceConnection resource.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    NetworkVirtualApplianceConnectionInner get(
+        String resourceGroupName, String networkVirtualApplianceName, String connectionName);
+
+    /**
+     * Retrieves the details of specified NVA connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
@@ -216,21 +231,6 @@ public interface NetworkVirtualApplianceConnectionsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<NetworkVirtualApplianceConnectionInner> getWithResponse(
         String resourceGroupName, String networkVirtualApplianceName, String connectionName, Context context);
-
-    /**
-     * Retrieves the details of specified NVA connection.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
-     * @param connectionName The name of the NVA connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return networkVirtualApplianceConnection resource.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    NetworkVirtualApplianceConnectionInner get(
-        String resourceGroupName, String networkVirtualApplianceName, String connectionName);
 
     /**
      * Deletes a NVA connection.

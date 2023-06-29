@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.VpnServerConfigurationPolicyGroupInner;
 import com.azure.resourcemanager.network.models.VpnPolicyMemberAttributeType;
 import com.azure.resourcemanager.network.models.VpnServerConfigurationPolicyGroupMember;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 /** Samples for ConfigurationPolicyGroups CreateOrUpdate. */
 public final class ConfigurationPolicyGroupsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/ConfigurationPolicyGroupPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/ConfigurationPolicyGroupPut.json
      */
     /**
      * Sample code: ConfigurationPolicyGroupPut.
@@ -43,6 +44,6 @@ public final class ConfigurationPolicyGroupsCreateOrUpdateSamples {
                                     .withName("policy2")
                                     .withAttributeType(VpnPolicyMemberAttributeType.CERTIFICATE_GROUP_ID)
                                     .withAttributeValue("red.com"))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

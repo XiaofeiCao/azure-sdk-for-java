@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** The operation mode for Threat Intel. */
+/** Defines values for AzureFirewallThreatIntelMode. */
 public final class AzureFirewallThreatIntelMode extends ExpandableStringEnum<AzureFirewallThreatIntelMode> {
     /** Static value Alert for AzureFirewallThreatIntelMode. */
     public static final AzureFirewallThreatIntelMode ALERT = fromString("Alert");
@@ -18,15 +18,6 @@ public final class AzureFirewallThreatIntelMode extends ExpandableStringEnum<Azu
 
     /** Static value Off for AzureFirewallThreatIntelMode. */
     public static final AzureFirewallThreatIntelMode OFF = fromString("Off");
-
-    /**
-     * Creates a new instance of AzureFirewallThreatIntelMode value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public AzureFirewallThreatIntelMode() {
-    }
 
     /**
      * Creates or finds a AzureFirewallThreatIntelMode from its string representation.

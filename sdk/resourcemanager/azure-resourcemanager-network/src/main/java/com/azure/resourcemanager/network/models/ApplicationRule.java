@@ -75,10 +75,6 @@ public final class ApplicationRule extends FirewallPolicyRule {
     @JsonProperty(value = "httpHeadersToInsert")
     private List<FirewallPolicyHttpHeaderToInsert> httpHeadersToInsert;
 
-    /** Creates an instance of ApplicationRule class. */
-    public ApplicationRule() {
-    }
-
     /**
      * Get the sourceAddresses property: List of source IP addresses for this rule.
      *

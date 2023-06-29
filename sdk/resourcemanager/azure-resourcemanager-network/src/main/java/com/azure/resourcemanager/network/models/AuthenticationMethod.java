@@ -8,22 +8,13 @@ import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Collection;
 
-/** VPN client authentication method. */
+/** Defines values for AuthenticationMethod. */
 public final class AuthenticationMethod extends ExpandableStringEnum<AuthenticationMethod> {
     /** Static value EAPTLS for AuthenticationMethod. */
     public static final AuthenticationMethod EAPTLS = fromString("EAPTLS");
 
     /** Static value EAPMSCHAPv2 for AuthenticationMethod. */
     public static final AuthenticationMethod EAPMSCHAPV2 = fromString("EAPMSCHAPv2");
-
-    /**
-     * Creates a new instance of AuthenticationMethod value.
-     *
-     * @deprecated Use the {@link #fromString(String)} factory method.
-     */
-    @Deprecated
-    public AuthenticationMethod() {
-    }
 
     /**
      * Creates or finds a AuthenticationMethod from its string representation.

@@ -22,10 +22,6 @@ public final class FirewallPolicyHttpHeaderToInsert {
     @JsonProperty(value = "headerValue")
     private String headerValue;
 
-    /** Creates an instance of FirewallPolicyHttpHeaderToInsert class. */
-    public FirewallPolicyHttpHeaderToInsert() {
-    }
-
     /**
      * Get the headerName property: Contains the name of the header.
      *

@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for AdminRules Delete. */
 public final class AdminRulesDeleteSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerAdminRuleDelete.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerAdminRuleDelete.json
      */
     /**
      * Sample code: Deletes an admin rule.
@@ -27,6 +29,6 @@ public final class AdminRulesDeleteSamples {
                 "testRuleCollection",
                 "SampleAdminRule",
                 false,
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

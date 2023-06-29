@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.network.generated;
 
 import com.azure.core.management.SubResource;
+import com.azure.core.util.Context;
 import com.azure.resourcemanager.network.fluent.models.BastionHostInner;
 import com.azure.resourcemanager.network.models.BastionHostIpConfiguration;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 /** Samples for BastionHosts CreateOrUpdate. */
 public final class BastionHostsCreateOrUpdateSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/BastionHostPut.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/BastionHostPut.json
      */
     /**
      * Sample code: Create Bastion Host.
@@ -42,6 +43,6 @@ public final class BastionHostsCreateOrUpdateSamples {
                                         new SubResource()
                                             .withId(
                                                 "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pipName")))),
-                com.azure.core.util.Context.NONE);
+                Context.NONE);
     }
 }

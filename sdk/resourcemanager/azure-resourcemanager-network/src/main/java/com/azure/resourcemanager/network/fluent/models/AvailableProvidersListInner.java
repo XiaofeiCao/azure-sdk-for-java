@@ -19,10 +19,6 @@ public final class AvailableProvidersListInner {
     @JsonProperty(value = "countries", required = true)
     private List<AvailableProvidersListCountry> countries;
 
-    /** Creates an instance of AvailableProvidersListInner class. */
-    public AvailableProvidersListInner() {
-    }
-
     /**
      * Get the countries property: List of available countries.
      *

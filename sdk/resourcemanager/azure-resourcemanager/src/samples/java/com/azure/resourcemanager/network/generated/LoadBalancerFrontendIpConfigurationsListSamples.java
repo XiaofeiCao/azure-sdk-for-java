@@ -4,10 +4,12 @@
 
 package com.azure.resourcemanager.network.generated;
 
+import com.azure.core.util.Context;
+
 /** Samples for LoadBalancerFrontendIpConfigurations List. */
 public final class LoadBalancerFrontendIpConfigurationsListSamples {
     /*
-     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/LoadBalancerFrontendIPConfigurationList.json
+     * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/LoadBalancerFrontendIPConfigurationList.json
      */
     /**
      * Sample code: LoadBalancerFrontendIPConfigurationList.
@@ -20,6 +22,6 @@ public final class LoadBalancerFrontendIpConfigurationsListSamples {
             .manager()
             .serviceClient()
             .getLoadBalancerFrontendIpConfigurations()
-            .list("testrg", "lb", com.azure.core.util.Context.NONE);
+            .list("testrg", "lb", Context.NONE);
     }
 }

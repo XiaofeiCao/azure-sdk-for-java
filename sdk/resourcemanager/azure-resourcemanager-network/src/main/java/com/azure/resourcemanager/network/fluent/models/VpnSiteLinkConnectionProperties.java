@@ -126,10 +126,6 @@ public final class VpnSiteLinkConnectionProperties {
     @JsonProperty(value = "egressNatRules")
     private List<SubResource> egressNatRules;
 
-    /** Creates an instance of VpnSiteLinkConnectionProperties class. */
-    public VpnSiteLinkConnectionProperties() {
-    }
-
     /**
      * Get the vpnSiteLink property: Id of the connected vpn site link.
      *
