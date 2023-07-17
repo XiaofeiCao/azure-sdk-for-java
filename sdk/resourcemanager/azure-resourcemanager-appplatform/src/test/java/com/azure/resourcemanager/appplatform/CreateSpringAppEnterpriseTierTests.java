@@ -38,7 +38,12 @@ import java.time.Duration;
 
 /**
  * This example demonstrates how to deploy Spring App enterprise tier
- *
+ * - provision spring service
+ * - provision spring app
+ * - create default active app deployment
+ * - upload file
+ * - build file and wait
+ * - deploy app
  */
 public class CreateSpringAppEnterpriseTierTests extends AppPlatformTest {
 
