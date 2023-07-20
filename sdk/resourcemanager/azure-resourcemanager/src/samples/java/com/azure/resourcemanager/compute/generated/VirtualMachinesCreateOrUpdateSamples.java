@@ -65,6 +65,14 @@ import com.azure.resourcemanager.compute.models.WindowsPatchAssessmentMode;
 import com.azure.resourcemanager.compute.models.WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
 import com.azure.resourcemanager.compute.models.WindowsVMGuestPatchAutomaticByPlatformSettings;
 import com.azure.resourcemanager.compute.models.WindowsVMGuestPatchMode;
+import com.azure.resourcemanager.network.fluent.models.NetworkInterfaceInner;
+import com.azure.resourcemanager.network.fluent.models.NetworkInterfaceIpConfigurationInner;
+import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
+import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+import com.azure.resourcemanager.network.models.AddressSpace;
+import com.azure.resourcemanager.network.models.NetworkInterface;
+
 import java.util.Arrays;
 
 /** Samples for VirtualMachines CreateOrUpdate. */
@@ -78,6 +86,43 @@ public final class VirtualMachinesCreateOrUpdateSamples {
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void createAVMFromASharedGalleryImage(com.azure.resourcemanager.AzureResourceManager azure) {
+        // create virtual network
+        VirtualNetworkInner virtualNetwork = azure
+            .networks()
+            .manager()
+            .serviceClient()
+            .getVirtualNetworks()
+            .createOrUpdate(
+                "rg1",
+                "test-vnet",
+                new VirtualNetworkInner()
+                    .withLocation("eastus")
+                    .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16"))),
+                com.azure.core.util.Context.NONE);
+
+        // create nic in vnet above
+        NetworkInterfaceInner networkInterface = azure
+            .networks()
+            .manager()
+            .serviceClient()
+            .getNetworkInterfaces()
+            .createOrUpdate(
+                "rg1",
+                "test-nic",
+                new NetworkInterfaceInner()
+                    .withLocation("eastus")
+                    .withIpConfigurations(
+                        Arrays
+                            .asList(
+                                new NetworkInterfaceIpConfigurationInner()
+                                    .withName("ipconfig1")
+                                    .withSubnet(
+                                        new SubnetInner().withId(virtualNetwork.subnets().get(0).id()))))
+                    .withEnableAcceleratedNetworking(true)
+                    .withDisableTcpStateTracking(true),
+                com.azure.core.util.Context.NONE);
+
+        // create virtual machine using nic above
         azure
             .virtualMachines()
             .manager()
@@ -93,8 +138,10 @@ public final class VirtualMachinesCreateOrUpdateSamples {
                         new StorageProfile()
                             .withImageReference(
                                 new ImageReference()
-                                    .withSharedGalleryImageId(
-                                        "/SharedGalleries/sharedGalleryName/Images/sharedGalleryImageName/Versions/sharedGalleryImageVersionName"))
+                                    .withPublisher("MicrosoftWindowsDesktop")
+                                    .withOffer("Windows-10")
+                                    .withSku("win10-21h2-pro-g2")
+                                    .withVersion("latest"))
                             .withOsDisk(
                                 new OSDisk()
                                     .withName("myVMosdisk")
@@ -105,17 +152,17 @@ public final class VirtualMachinesCreateOrUpdateSamples {
                                             .withStorageAccountType(StorageAccountTypes.STANDARD_LRS))))
                     .withOsProfile(
                         new OSProfile()
+                            .withWindowsConfiguration(new WindowsConfiguration().withEnableAutomaticUpdates(true).withProvisionVMAgent(true))
                             .withComputerName("myVM")
                             .withAdminUsername("{your-username}")
-                            .withAdminPassword("fakeTokenPlaceholder"))
+                            .withAdminPassword("{your-strong-password}"))
                     .withNetworkProfile(
                         new NetworkProfile()
                             .withNetworkInterfaces(
                                 Arrays
                                     .asList(
                                         new NetworkInterfaceReference()
-                                            .withId(
-                                                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}")
+                                            .withId(networkInterface.id())
                                             .withPrimary(true)))),
                 com.azure.core.util.Context.NONE);
     }
