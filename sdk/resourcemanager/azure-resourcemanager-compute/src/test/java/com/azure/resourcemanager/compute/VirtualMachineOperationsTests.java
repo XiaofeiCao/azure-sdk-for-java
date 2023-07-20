@@ -171,20 +171,20 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
     @Test
     public void canCreateVirtualMachine() throws Exception {
-        // Create
+        // Create win10 virtual machine
         computeManager
             .virtualMachines()
-            .define(vmName)
-            .withRegion(region)
-            .withNewResourceGroup(rgName)
+            .define("myVM")
+            .withRegion("eastus")
+            .withNewResourceGroup("myResourceGroup")
             .withNewPrimaryNetwork("10.0.0.0/24")
             .withPrimaryPrivateIPAddressDynamic()
             .withoutPrimaryPublicIPAddress()
             .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_DESKTOP_10_20H1_PRO)
-            .withAdminUsername("Foo12")
-            .withAdminPassword(password())
+            .withAdminUsername("{your-username}")
+            .withAdminPassword("{your-strong-password}")
             .withUnmanagedDisks()
-            .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
+            .withSize(VirtualMachineSizeTypes.STANDARD_D1_V2)
             .withOSDiskCaching(CachingTypes.READ_WRITE)
             .withOSDiskName("javatest")
             .withLicenseType("Windows_Server")

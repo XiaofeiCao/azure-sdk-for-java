@@ -93,11 +93,11 @@ public final class VirtualMachinesCreateOrUpdateSamples {
             .serviceClient()
             .getVirtualNetworks()
             .createOrUpdate(
-                "rg1",
+                "myResourceGroup",
                 "test-vnet",
                 new VirtualNetworkInner()
                     .withLocation("eastus")
-                    .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16"))),
+                    .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/24"))),
                 com.azure.core.util.Context.NONE);
 
         // create nic in vnet above
@@ -107,7 +107,7 @@ public final class VirtualMachinesCreateOrUpdateSamples {
             .serviceClient()
             .getNetworkInterfaces()
             .createOrUpdate(
-                "rg1",
+                "myResourceGroup",
                 "test-nic",
                 new NetworkInterfaceInner()
                     .withLocation("eastus")
@@ -132,8 +132,9 @@ public final class VirtualMachinesCreateOrUpdateSamples {
                 "myResourceGroup",
                 "myVM",
                 new VirtualMachineInner()
-                    .withLocation("westus")
+                    .withLocation("eastus")
                     .withHardwareProfile(new HardwareProfile().withVmSize(VirtualMachineSizeTypes.STANDARD_D1_V2))
+                    .withLicenseType("Windows_Server")
                     .withStorageProfile(
                         new StorageProfile()
                             .withImageReference(
@@ -144,12 +145,9 @@ public final class VirtualMachinesCreateOrUpdateSamples {
                                     .withVersion("latest"))
                             .withOsDisk(
                                 new OSDisk()
-                                    .withName("myVMosdisk")
+                                    .withName("javatest")
                                     .withCaching(CachingTypes.READ_WRITE)
-                                    .withCreateOption(DiskCreateOptionTypes.FROM_IMAGE)
-                                    .withManagedDisk(
-                                        new ManagedDiskParameters()
-                                            .withStorageAccountType(StorageAccountTypes.STANDARD_LRS))))
+                                    .withCreateOption(DiskCreateOptionTypes.FROM_IMAGE)))
                     .withOsProfile(
                         new OSProfile()
                             .withWindowsConfiguration(new WindowsConfiguration().withEnableAutomaticUpdates(true).withProvisionVMAgent(true))
