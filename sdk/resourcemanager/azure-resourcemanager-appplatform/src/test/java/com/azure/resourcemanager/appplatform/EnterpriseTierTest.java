@@ -5,6 +5,8 @@ package com.azure.resourcemanager.appplatform;
 
 import com.azure.core.management.Region;
 import com.azure.resourcemanager.appplatform.fluent.models.BuildServiceInner;
+import com.azure.resourcemanager.appplatform.fluent.models.ServiceResourceInner;
+import com.azure.resourcemanager.appplatform.models.ClusterResourceProperties;
 import com.azure.resourcemanager.appplatform.models.ConfigurationServiceGitProperty;
 import com.azure.resourcemanager.appplatform.models.ConfigurationServiceGitRepository;
 import com.azure.resourcemanager.appplatform.models.SpringApp;
