@@ -43,6 +43,7 @@ import com.azure.resourcemanager.compute.models.VirtualMachineUnmanagedDataDisk;
 import com.azure.resourcemanager.keyvault.models.Key;
 import com.azure.resourcemanager.keyvault.models.KeyPermissions;
 import com.azure.resourcemanager.keyvault.models.Vault;
+import com.azure.resourcemanager.network.fluent.models.NetworkInterfaceIpConfigurationInner;
 import com.azure.resourcemanager.network.models.LoadBalancer;
 import com.azure.resourcemanager.network.models.LoadBalancerSkuType;
 import com.azure.resourcemanager.network.models.Network;
@@ -74,6 +75,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 public class VirtualMachineOperationsTests extends ComputeManagementTest {
     private String rgName = "";
@@ -1704,6 +1706,59 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assertions.assertEquals(DeleteOptions.DELETE, vm.primaryNetworkInterfaceDeleteOptions());
         Assertions.assertTrue(vm.networkInterfaceIds().stream().allMatch(nicId -> DeleteOptions.DELETE.equals(vm.networkInterfaceDeleteOptions(nicId))));
         Assertions.assertTrue(vm.dataDisks().values().stream().allMatch(disk -> DeleteOptions.DELETE.equals(disk.deleteOptions())));
+    }
+
+    @Test
+    public void canCreatePip() {
+        String networkName = generateRandomResourceName("network", 15);
+        String nicName = generateRandomResourceName("nic", 15);
+
+        Network network = this
+            .networkManager
+            .networks()
+            .define(networkName)
+            .withRegion(region)
+            .withNewResourceGroup(rgName)
+            .withAddressSpace("10.0.1.0/24")
+            .withSubnet("subnet1", "10.0.1.0/28")
+            .withSubnet("subnet2", "10.0.1.16/28")
+            .create();
+
+        NetworkInterface nic = networkManager.networkInterfaces()
+            .define(nicName)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withExistingPrimaryNetwork(network)
+            .withSubnet("subnet1")
+            .withPrimaryPrivateIPAddressDynamic()
+            .withNewPrimaryPublicIPAddress().create();
+
+//        Assertions.assertEquals(com.azure.resourcemanager.network.models.DeleteOptions.DETACH, nic.innerModel().ipConfigurations().stream().filter(NetworkInterfaceIpConfigurationInner::primary).findFirst().get().publicIpAddress().deleteOption());
+
+        // OS disk, primary and secondary nics, data disk delete options all set to DELETE
+        VirtualMachine vm = computeManager.virtualMachines()
+            .define(vmName)
+            .withRegion(region)
+            .withNewResourceGroup(rgName)
+            .withExistingPrimaryNetworkInterface(nic)
+            .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_20_04_LTS_GEN2)
+            .withRootUsername("Foo12")
+            .withSsh(sshPublicKey())
+            .withNewDataDisk(10, 1, new VirtualMachineDiskOptions().withDeleteOptions(DeleteOptions.DELETE))
+            .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)
+            .withPrimaryNetworkInterfaceDeleteOptions(DeleteOptions.DELETE)
+            .withOSDiskDeleteOptions(DeleteOptions.DELETE)
+            .create();
+
+        vm.update()
+            .withPrimaryNetworkInterfaceDeleteOptions(DeleteOptions.DETACH)
+            .apply();
+
+        vm.update()
+            .withPrimaryNetworkInterfaceDeleteOptions(DeleteOptions.DELETE)
+            .apply();
+        computeManager.virtualMachines().deleteById(vm.id());
+        Assertions.assertEquals(0, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
     }
 
     // *********************************** helper methods ***********************************

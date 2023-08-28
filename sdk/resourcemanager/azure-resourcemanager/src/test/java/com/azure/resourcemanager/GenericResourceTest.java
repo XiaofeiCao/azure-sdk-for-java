@@ -15,14 +15,24 @@ import com.azure.resourcemanager.appservice.fluent.models.SiteConfigResourceInne
 import com.azure.resourcemanager.appservice.models.NetFrameworkVersion;
 import com.azure.resourcemanager.appservice.models.PricingTier;
 import com.azure.resourcemanager.appservice.models.SupportedTlsVersions;
+import com.azure.resourcemanager.compute.models.DeleteOptions;
+import com.azure.resourcemanager.compute.models.KnownLinuxVirtualMachineImage;
+import com.azure.resourcemanager.compute.models.VirtualMachine;
+import com.azure.resourcemanager.compute.models.VirtualMachineDiskOptions;
+import com.azure.resourcemanager.compute.models.VirtualMachineSizeTypes;
 import com.azure.resourcemanager.network.models.Network;
+import com.azure.resourcemanager.network.models.NetworkInterface;
+import com.azure.resourcemanager.network.models.PublicIpAddress;
 import com.azure.resourcemanager.privatedns.models.PrivateDnsZone;
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
+import com.azure.resourcemanager.resources.models.Deployment;
+import com.azure.resourcemanager.resources.models.DeploymentMode;
 import com.azure.resourcemanager.resources.models.GenericResource;
 import com.azure.resourcemanager.resources.models.PolicyAssignment;
 import com.azure.resourcemanager.resources.models.PolicyDefinition;
 import com.azure.resourcemanager.resources.models.PolicyType;
+import com.azure.resourcemanager.resources.models.ResourceGroup;
 import com.azure.resourcemanager.sql.models.SqlElasticPool;
 import com.azure.resourcemanager.sql.models.SqlServer;
 import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
@@ -31,6 +41,7 @@ import com.azure.resourcemanager.test.utils.TestIdentifierProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -184,6 +195,92 @@ public class GenericResourceTest extends ResourceManagerTestProxyTestBase {
 
         GenericResource genericConfig = azureResourceManager.genericResources().getById(configInner.id());
         Assertions.assertEquals(configInner.name(), genericConfig.name());
+    }
+
+    @Test
+    public void canCreatePip() throws IOException {
+        ResourceGroup resourceGroup = azureResourceManager.resourceGroups().define(rgName).withRegion(region).create();
+
+        try {
+            String dpName = generateRandomResourceName("dp", 15);
+            String vmName = generateRandomResourceName("vm", 15);
+            String pipName = generateRandomResourceName("pip", 15);
+            String nicName = generateRandomResourceName("nic", 15);
+//            String deploymentTemplate = "{\n" +
+//                "  \"apiVersion\": \"2023-04-01\",\n" +
+//                "  \"type\": \"Microsoft.Network/publicIPAddresses\",\n" +
+//                "  \"name\": \"" + pipName + "\",\n" +
+//                "  \"location\": \"[resourceGroup().location]\",\n" +
+//                "  \"sku\": {\n" +
+//                "    \"name\": \"Standard\"\n" +
+//                "  },\n" +
+//                "  \"properties\": {\n" +
+//                "    \"publicIPAllocationMethod\": \"Static\",\n" +
+//                "    \"publicIPAddressVersion\": \"IPv4\",\n" +
+//                "    \"deleteOption\": \"Delete\"\n" +
+//                "  }\n" +
+//                "}";
+
+            String deploymentTemplate = "{\n" +
+                "  \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n" +
+                "  \"contentVersion\": \"1.0.0.0\",\n" +
+                "  \"resources\": [{\n" +
+                "    \"apiVersion\": \"2023-04-01\",\n" +
+                "    \"type\": \"Microsoft.Network/publicIPAddresses\",\n" +
+                "  \"name\": \"" + pipName + "\",\n" +
+                "    \"location\": \"[resourceGroup().location]\",\n" +
+                "    \"sku\": {\n" +
+                "      \"name\": \"Standard\"\n" +
+                "    },\n" +
+                "    \"properties\": {\n" +
+                "      \"publicIPAllocationMethod\": \"Static\",\n" +
+                "      \"publicIPAddressVersion\": \"IPv4\",\n" +
+                "      \"deleteOption\": \"Delete\"\n" +
+                "    }\n" +
+                "  }]\n" +
+                "}";
+
+            Deployment deployment = azureResourceManager.deployments()
+                .define(dpName)
+                .withExistingResourceGroup(resourceGroup)
+                .withTemplate(deploymentTemplate)
+                .withParameters("{}")
+                .withMode(DeploymentMode.COMPLETE)
+                .create();
+
+            Assertions.assertEquals(1, azureResourceManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+            PublicIpAddress pip = azureResourceManager.publicIpAddresses().getByResourceGroup(rgName, pipName);
+
+            NetworkInterface nic = azureResourceManager.networkInterfaces()
+                .define(nicName)
+                .withRegion(region)
+                .withExistingResourceGroup(rgName)
+                .withNewPrimaryNetwork("10.0.0.0/24")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingPrimaryPublicIPAddress(pip)
+                .create();
+
+            VirtualMachine vm = azureResourceManager.virtualMachines()
+                .define(vmName)
+                .withRegion(region)
+                .withExistingResourceGroup(rgName)
+                .withExistingPrimaryNetworkInterface(nic)
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_20_04_LTS_GEN2)
+                .withRootUsername("Foo12")
+                .withSsh(sshPublicKey())
+                .withNewDataDisk(10, 1, new VirtualMachineDiskOptions().withDeleteOptions(DeleteOptions.DELETE))
+                .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)
+                .withPrimaryNetworkInterfaceDeleteOptions(DeleteOptions.DELETE)
+                .withOSDiskDeleteOptions(DeleteOptions.DELETE)
+                .create();
+
+            azureResourceManager.virtualMachines().deleteById(vm.id());
+
+            Assertions.assertEquals(0, azureResourceManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+        } finally {
+            azureResourceManager.resourceGroups().beginDeleteByName(rgName);
+        }
     }
 
     private SqlElasticPool ensureElasticPoolWithSpace() {

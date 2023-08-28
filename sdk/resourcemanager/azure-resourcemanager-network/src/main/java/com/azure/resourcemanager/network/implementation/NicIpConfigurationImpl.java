@@ -9,6 +9,7 @@ import com.azure.resourcemanager.network.fluent.models.ApplicationSecurityGroupI
 import com.azure.resourcemanager.network.models.ApplicationGateway;
 import com.azure.resourcemanager.network.models.ApplicationGatewayBackendAddressPool;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
+import com.azure.resourcemanager.network.models.DeleteOptions;
 import com.azure.resourcemanager.network.models.IpAllocationMethod;
 import com.azure.resourcemanager.network.models.IpVersion;
 import com.azure.resourcemanager.network.models.LoadBalancer;
@@ -261,7 +262,7 @@ class NicIpConfigurationImpl extends NicIpConfigurationBaseImpl<NetworkInterface
         for (NicIpConfiguration nicIPConfiguration : nicIPConfigurations) {
             NicIpConfigurationImpl config = (NicIpConfigurationImpl) nicIPConfiguration;
             config.innerModel().withSubnet(config.subnetToAssociate());
-            config.innerModel().withPublicIpAddress(config.publicIPToAssociate());
+            config.innerModel().withPublicIpAddress(config.publicIPToAssociate().withDeleteOption(DeleteOptions.DELETE));
         }
     }
 

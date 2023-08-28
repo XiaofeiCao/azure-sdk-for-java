@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -512,6 +513,41 @@ public class DeploymentsTests extends ResourceManagementTest {
 
             Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
             Assertions.assertNotNull(deployment);
+        } finally {
+            resourceGroups.beginDeleteByName(rgName);
+        }
+    }
+
+    @Test
+    public void canCreatePip() throws IOException {
+        ResourceGroup resourceGroup = resourceGroups.define(rgName).withRegion(Region.US_SOUTH_CENTRAL).create();
+
+        try {
+            String dpName = generateRandomResourceName("dp", 15);
+            String deploymentTemplate = "{\n" +
+                "  \"apiVersion\": \"2020-08-01\",\n" +
+                "  \"type\": \"Microsoft.Network/publicIPAddresses\",\n" +
+                "  \"name\": \"myStandardPublicIP-nozone\",\n" +
+                "  \"location\": \"[resourceGroup().location]\",\n" +
+                "  \"sku\": {\n" +
+                "    \"name\": \"Standard\"\n" +
+                "  },\n" +
+                "  \"properties\": {\n" +
+                "    \"publicIPAllocationMethod\": \"Static\",\n" +
+                "    \"publicIPAddressVersion\": \"IPv4\",\n" +
+                "    \"deleteOption\": \"Delete\"\n" +
+                "  }";
+
+            Deployment deployment = resourceClient.deployments()
+                .define(dpName)
+                .withExistingResourceGroup(rgName)
+                .withTemplate(deploymentTemplate)
+                .withParameters("{}")
+                .withMode(DeploymentMode.COMPLETE)
+                .create();
+
+
+
         } finally {
             resourceGroups.beginDeleteByName(rgName);
         }

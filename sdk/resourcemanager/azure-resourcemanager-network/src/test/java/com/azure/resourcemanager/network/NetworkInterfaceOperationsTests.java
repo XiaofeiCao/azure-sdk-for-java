@@ -4,8 +4,11 @@
 package com.azure.resourcemanager.network;
 
 import com.azure.core.management.Region;
+import com.azure.core.util.BinaryData;
+import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.network.fluent.models.NatGatewayInner;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
+import com.azure.resourcemanager.network.models.DeleteOptions;
 import com.azure.resourcemanager.network.models.NatGatewaySku;
 import com.azure.resourcemanager.network.models.NatGatewaySkuName;
 import com.azure.resourcemanager.network.models.Network;
@@ -13,10 +16,16 @@ import com.azure.resourcemanager.network.models.NetworkInterface;
 import com.azure.resourcemanager.network.models.NetworkInterfaces;
 import com.azure.resourcemanager.network.models.Networks;
 import com.azure.resourcemanager.network.models.NicIpConfiguration;
+import com.azure.resourcemanager.network.models.ProvisioningState;
+import com.azure.resourcemanager.network.models.PublicIPSkuType;
+import com.azure.resourcemanager.network.models.PublicIpAddress;
 import com.azure.resourcemanager.network.models.Subnet;
 import com.azure.resourcemanager.resources.fluentcore.arm.ResourceUtils;
+import com.azure.resourcemanager.resources.fluentcore.model.Accepted;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.CreatedResources;
+import com.azure.resourcemanager.resources.models.Deployment;
+import com.azure.resourcemanager.resources.models.DeploymentMode;
 import com.azure.resourcemanager.resources.models.ResourceGroup;
 import com.azure.resourcemanager.resources.models.ResourceGroups;
 import org.junit.jupiter.api.Assertions;
@@ -25,14 +34,19 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -507,6 +521,382 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         Subnet subnet2 = network.subnets().get(subnet2Name);
         Assertions.assertEquals(gateway2.id(), subnet2.natGatewayId());
+    }
+
+    @Test
+    public void deploymentNicTests() throws IOException, InterruptedException {
+        String pipName1 = generateRandomResourceName("pip", 15);
+        String pipName2 = generateRandomResourceName("pip", 15);
+        String pipName3 = generateRandomResourceName("pip", 15);
+        String nicName1 = generateRandomResourceName("nic", 15);
+        String nicName2 = generateRandomResourceName("nic", 15);
+        String nicName3 = generateRandomResourceName("nic", 15);
+        String dpName1 = generateRandomResourceName("dp", 15);
+        String dpName2 = generateRandomResourceName("dp", 15);
+        String dpName3 = generateRandomResourceName("dp", 15);
+
+        String vnetName = generateRandomResourceName("net", 15);
+
+        Region region = Region.US_EAST;
+
+        Network network = networkManager
+            .networks()
+            .define(vnetName)
+            .withRegion(region)
+            .withNewResourceGroup(rgName)
+            .withAddressSpace("10.0.0.0/24")
+            .withSubnet("subnet1", "10.0.0.0/28")
+            .withSubnet("subnet2", "10.0.0.16/28")
+            .withSubnet("subnet3", "10.0.0.32/28")
+            .create();
+
+        PublicIpAddress pip1 = networkManager
+            .publicIpAddresses()
+            .define(pipName1)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+        PublicIpAddress pip2 = networkManager
+            .publicIpAddresses()
+            .define(pipName2)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+        PublicIpAddress pip3 = networkManager
+            .publicIpAddresses()
+            .define(pipName3)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+
+        String deploymentJson = "\n" +
+            "{\n" +
+            "  \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n" +
+            "  \"contentVersion\": \"1.0.0.0\",\n" +
+            "  \"parameters\":{\n" +
+            "    \"nicName\":{\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"pipId\" :{\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"subnetId\": {\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"deleteOption\": {\n" +
+            "      \"type\": \"string\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  \"resources\":[{\n" +
+            "    \"type\": \"Microsoft.Network/networkInterfaces\",\n" +
+            "    \"apiVersion\": \"2023-04-01\",\n" +
+            "    \"name\": \"[parameters('nicName')]\",\n" +
+            "    \"location\": \"[resourceGroup().location]\",\n" +
+            "    \"properties\": {\n" +
+            "        \"ipConfigurations\": [\n" +
+            "          {\n" +
+            "            \"name\": \"ipConfig\",\n" +
+            "            \"properties\": {\n" +
+            "              \"publicIPAddress\": {\n" +
+            "                \"id\": \"[parameters('pipId')]\",\n" +
+            "                  \"properties\": {\n" +
+            "                    \"deleteOption\": \"[parameters('deleteOption')]\"\n" +
+            "                  }\n" +
+            "              },\n" +
+            "              \"subnet\": {\n" +
+            "                \"id\": \"[parameters('subnetId')]\"\n" +
+            "              }\n" +
+            "            }\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}\n";
+        pip1.refresh();
+
+        // pip1, nic1
+        Map<String, Object> parameters = new HashMap<>();
+        Subnet subnet1 = network.subnets().get("subnet1");
+        parameters.put("subnetId", new HashMap<String, String>(){{this.put("value", subnet1.id());}});
+        parameters.put("nicName", new HashMap<String, String>(){{this.put("value", nicName1);}});
+        parameters.put("pipId", new HashMap<String, String>(){{this.put("value",pip1.id());}});
+        parameters.put("deleteOption", new HashMap<String, String>(){{this.put("value", DeleteOptions.DELETE.toString());}});
+        Accepted<Deployment> poller = resourceManager.deployments()
+            .define(dpName1)
+            .withExistingResourceGroup(rgName)
+            .withTemplate(deploymentJson)
+            .withParameters(parameters)
+            .withMode(DeploymentMode.COMPLETE)
+            .beginCreate();
+
+        Deployment deployment = poller.getFinalResult();
+
+        NetworkInterface nic1 = waitForCompletion(nicName1);
+
+        parameters.put("deleteOption", new HashMap<String, String>(){{this.put("value", DeleteOptions.DETACH.toString());}});
+
+        deployment.update()
+            .withParameters(deploymentJson)
+            .withParameters(parameters)
+            .withMode(DeploymentMode.INCREMENTAL)
+            .apply();
+
+        networkManager.networkInterfaces().deleteById(nic1.id());
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+        // pip2, nic2
+        parameters.clear();
+
+        pip2.refresh();
+
+        Subnet subnet2 = network.subnets().get("subnet2");
+        parameters.put("subnetId", new HashMap<String, String>(){{this.put("value", subnet2.id());}});
+        parameters.put("nicName", new HashMap<String, String>(){{this.put("value", nicName2);}});
+        parameters.put("pipId", new HashMap<String, String>(){{this.put("value",pip2.id());}});
+        parameters.put("deleteOption", new HashMap<String, String>(){{this.put("value", DeleteOptions.DETACH.toString());}});
+        resourceManager.deployments()
+            .define(dpName2)
+            .withExistingResourceGroup(rgName)
+            .withTemplate(deploymentJson)
+            .withParameters(BinaryData.fromObject(parameters).toString())
+            .withMode(DeploymentMode.COMPLETE)
+            .beginCreate();
+
+        NetworkInterface nic2 = waitForCompletion(nicName2);
+        networkManager.networkInterfaces().deleteById(nic2.id());
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+    }
+
+    @Test
+    public void updateNic() throws IOException {
+        String rg = "javanwmrg23721";
+        String nicId = "/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/javanwmrg23721/providers/Microsoft.Network/networkInterfaces/nic23751feb";
+        NetworkInterface nic = networkManager.networkInterfaces().getById(nicId);
+        String dpName1 = generateRandomResourceName("dp", 15);
+        String deploymentJson = "\n" +
+            "{\n" +
+            "  \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\",\n" +
+            "  \"contentVersion\": \"1.0.0.0\",\n" +
+            "  \"parameters\":{\n" +
+            "    \"nicName\":{\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"pipId\" :{\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"subnetId\": {\n" +
+            "      \"type\": \"string\"\n" +
+            "    },\n" +
+            "    \"deleteOption\": {\n" +
+            "      \"type\": \"string\"\n" +
+            "    }\n" +
+            "  },\n" +
+            "  \"resources\":[{\n" +
+            "    \"type\": \"Microsoft.Network/networkInterfaces\",\n" +
+            "    \"apiVersion\": \"2023-04-01\",\n" +
+            "    \"name\": \"[parameters('nicName')]\",\n" +
+            "    \"location\": \"[resourceGroup().location]\",\n" +
+            "    \"properties\": {\n" +
+            "        \"ipConfigurations\": [\n" +
+            "          {\n" +
+            "            \"name\": \"ipConfig\",\n" +
+            "            \"properties\": {\n" +
+            "              \"publicIPAddress\": {\n" +
+            "                \"id\": \"[parameters('pipId')]\",\n" +
+            "                  \"properties\": {\n" +
+            "                    \"deleteOption\": \"[parameters('deleteOption')]\"\n" +
+            "                  }\n" +
+            "              },\n" +
+            "              \"subnet\": {\n" +
+            "                \"id\": \"[parameters('subnetId')]\"\n" +
+            "              }\n" +
+            "            }\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}\n";
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("subnetId", new HashMap<String, String>(){{this.put("value", "/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/javanwmrg23721/providers/Microsoft.Network/virtualNetworks/net734904a0/subnets/subnet1");}});
+        parameters.put("nicName", new HashMap<String, String>(){{this.put("value", "nic23751feb");}});
+        parameters.put("pipId", new HashMap<String, String>(){{this.put("value","/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/javanwmrg23721/providers/Microsoft.Network/publicIPAddresses/pip39298a18");}});
+        parameters.put("deleteOption", new HashMap<String, String>(){{this.put("value", DeleteOptions.DETACH.toString());}});
+        Deployment deployment = resourceManager.deployments()
+            .define(dpName1)
+            .withExistingResourceGroup(rg)
+            .withTemplate(deploymentJson)
+            .withParameters(parameters)
+            .withMode(DeploymentMode.COMPLETE)
+            .create();
+
+        nic.refresh();
+        Assertions.assertEquals(DeleteOptions.DETACH, nic.ipConfigurations().values().iterator().next().innerModel().publicIpAddress().deleteOption());
+
+        networkManager.networkInterfaces().deleteById(nicId);
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rg).stream().count());
+    }
+
+    @Test
+    public void testPipDeleteOptions() {
+        String pipName1 = generateRandomResourceName("pip", 15);
+        String pipName2 = generateRandomResourceName("pip", 15);
+        String pipName3 = generateRandomResourceName("pip", 15);
+        String nicName1 = generateRandomResourceName("nic", 15);
+        String nicName2 = generateRandomResourceName("nic", 15);
+        String nicName3 = generateRandomResourceName("nic", 15);
+        String vmName = generateRandomResourceName("nic", 15);
+        String dpName1 = generateRandomResourceName("dp", 15);
+        String dpName2 = generateRandomResourceName("dp", 15);
+        String dpName3 = generateRandomResourceName("dp", 15);
+
+        String vnetName = generateRandomResourceName("net", 15);
+
+        Region region = Region.US_EAST;
+
+        Network network = networkManager
+            .networks()
+            .define(vnetName)
+            .withRegion(region)
+            .withNewResourceGroup(rgName)
+            .withAddressSpace("10.0.0.0/24")
+            .withSubnet("subnet1", "10.0.0.0/28")
+            .withSubnet("subnet2", "10.0.0.16/28")
+            .withSubnet("subnet3", "10.0.0.32/28")
+            .create();
+
+        PublicIpAddress pip1 = networkManager
+            .publicIpAddresses()
+            .define(pipName1)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+
+        NetworkInterface nic1 = networkManager
+            .networkInterfaces()
+            .define(nicName1)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withExistingPrimaryNetwork(network)
+            .withSubnet("subnet1")
+            .withPrimaryPrivateIPAddressDynamic()
+            .withExistingPrimaryPublicIPAddress(pip1)
+            .create();
+
+        Assertions.assertEquals(0, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+        PublicIpAddress pip2 = networkManager
+            .publicIpAddresses()
+            .define(pipName2)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+
+        NetworkInterface nic2 = networkManager
+            .networkInterfaces()
+            .define(nicName2)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withExistingPrimaryNetwork(network)
+            .withSubnet("subnet2")
+            .withPrimaryPrivateIPAddressDynamic()
+            .withExistingPrimaryPublicIPAddress(pip2)
+            .create();
+
+        nic2.innerModel().ipConfigurations().iterator().next().publicIpAddress().withDeleteOption(DeleteOptions.DETACH);
+        nic2.update().apply();
+
+        networkManager.networkInterfaces().deleteById(nic2.id());
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+        networkManager.publicIpAddresses().deleteById(pip2.id());
+        Assertions.assertEquals(0, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+        PublicIpAddress pip3 = networkManager
+            .publicIpAddresses()
+            .define(pipName3)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withStaticIP()
+            .withSku(PublicIPSkuType.STANDARD)
+            .create();
+
+        NetworkInterface nic3 = networkManager
+            .networkInterfaces()
+            .define(nicName3)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withExistingPrimaryNetwork(network)
+            .withSubnet("subnet3")
+            .withPrimaryPrivateIPAddressDynamic()
+            .withExistingPrimaryPublicIPAddress(pip3)
+            .create();
+
+        nic3.innerModel().ipConfigurations().iterator().next().publicIpAddress().withDeleteOption(DeleteOptions.DETACH);
+        nic3.update().apply();
+
+        nic3.innerModel().ipConfigurations().iterator().next().publicIpAddress().withDeleteOption(DeleteOptions.DELETE);
+        nic3.update().apply();
+
+        networkManager.networkInterfaces().deleteById(nic3.id());
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+    }
+
+    @Test
+    public void deleteTest() {
+        String rgName = "javanwmrg23721";
+        String nicId = "/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/javanwmrg23721/providers/Microsoft.Network/networkInterfaces/nic23751feb";
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+
+        networkManager.networkInterfaces().deleteById(nicId);
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
+    }
+
+    private NetworkInterface waitForCompletion(String nicName1) throws InterruptedException {
+        Optional<NetworkInterface> nicOptional;
+        while ((nicOptional = networkManager.networkInterfaces().listByResourceGroup(rgName).stream().filter(nic -> nic.name().equals(nicName1)).findAny()).isEmpty()) {
+            TimeUnit.SECONDS.sleep(1);
+        }
+
+        NetworkInterface nic1 = nicOptional.get();
+        while (nic1.innerModel().provisioningState() != ProvisioningState.SUCCEEDED) {
+            TimeUnit.SECONDS.sleep(1);
+        }
+        return nic1;
+    }
+
+    @Test
+    public void getNicTest() {
+        String nicId = "/subscriptions/ec0aa5f7-9e78-40c9-85cd-535c6305b380/resourceGroups/javanwmrg86791/providers/Microsoft.Network/networkInterfaces/nic008843cf";
+        NetworkInterface nic = networkManager.networkInterfaces().getById(nicId);
+        Assertions.assertEquals(DeleteOptions.DELETE, nic.ipConfigurations().values().iterator().next().innerModel().publicIpAddress().deleteOption());
+
+        nic.innerModel().ipConfigurations().iterator().next().publicIpAddress().withDeleteOption(DeleteOptions.DETACH);
+        nic.update().apply();
+
+        PublicIpAddress pip = networkManager.publicIpAddresses().getById(nic.ipConfigurations().values().iterator().next().innerModel().publicIpAddress().id());
+        System.out.println(pip.innerModel().deleteOption());
+
+        networkManager.networkInterfaces().deleteById(nic.id());
+
+        Assertions.assertEquals(1, networkManager.publicIpAddresses().listByResourceGroup(rgName).stream().count());
     }
 
     private NatGatewayInner createNatGateway() {
