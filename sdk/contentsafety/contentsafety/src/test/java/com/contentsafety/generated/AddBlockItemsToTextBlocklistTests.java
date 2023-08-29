@@ -6,13 +6,14 @@ package com.contentsafety.generated;
 
 import com.contentsafety.models.AddBlockItemsOptions;
 import com.contentsafety.models.AddBlockItemsResult;
+import com.contentsafety.models.TextBlockItem;
 import com.contentsafety.models.TextBlockItemInfo;
 import java.util.Arrays;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class AddBlockItemsToTextBlocklistTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
@@ -22,6 +23,11 @@ public final class AddBlockItemsToTextBlocklistTests extends ContentSafetyClient
                         "TestBlocklist",
                         new AddBlockItemsOptions(
                                 Arrays.asList(new TextBlockItemInfo("hate").setDescription("Hate word"))));
-        Assertions.assertTrue(response.getValue().size() > 0);
+        Assertions.assertNotNull(response);
+        TextBlockItem responseFirstItem = response.getValue().iterator().next();
+        Assertions.assertNotNull(responseFirstItem);
+        Assertions.assertEquals(responseFirstItem.getBlockItemId(), "9511969e-f1e3-4604-9127-05ee16c509ec");
+        Assertions.assertEquals(responseFirstItem.getDescription(), "Hate word");
+        Assertions.assertEquals(responseFirstItem.getText(), "hate");
     }
 }

@@ -10,11 +10,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class GetAllTextBlocklistsTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
     public void testGetAllTextBlocklistsTests() {
         PagedIterable<TextBlocklist> response = contentSafetyClient.listTextBlocklists();
-        Assertions.assertTrue(response.stream().count() > 0);
+        Assertions.assertEquals(200, response.iterableByPage().iterator().next().getStatusCode());
+        TextBlocklist firstItem = response.iterator().next();
+        Assertions.assertNotNull(firstItem);
+        Assertions.assertEquals(firstItem.getBlocklistName(), "TestBlocklist");
+        Assertions.assertEquals(firstItem.getDescription(), "Test Blocklist");
     }
 }

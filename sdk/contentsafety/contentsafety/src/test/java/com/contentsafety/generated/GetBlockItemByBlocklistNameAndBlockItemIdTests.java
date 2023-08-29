@@ -9,12 +9,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class GetBlockItemByBlocklistNameAndBlockItemIdTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
     public void testGetBlockItemByBlocklistNameAndBlockItemIdTests() {
         TextBlockItem response =
                 contentSafetyClient.getTextBlocklistItem("TestBlocklist", "9511969e-f1e3-4604-9127-05ee16c509ec");
-        Assertions.assertNotNull(response.getBlockItemId());
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getBlockItemId(), "9511969e-f1e3-4604-9127-05ee16c509ec");
+        Assertions.assertEquals(response.getDescription(), "Hate word");
+        Assertions.assertEquals(response.getText(), "hate");
     }
 }

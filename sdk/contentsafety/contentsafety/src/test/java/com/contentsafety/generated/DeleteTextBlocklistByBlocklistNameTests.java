@@ -7,6 +7,7 @@ package com.contentsafety.generated;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class DeleteTextBlocklistByBlocklistNameTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled

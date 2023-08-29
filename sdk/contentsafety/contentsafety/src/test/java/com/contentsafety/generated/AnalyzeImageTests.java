@@ -6,11 +6,13 @@ package com.contentsafety.generated;
 
 import com.contentsafety.models.AnalyzeImageOptions;
 import com.contentsafety.models.AnalyzeImageResult;
+import com.contentsafety.models.ImageAnalyzeSeverityResult;
 import com.contentsafety.models.ImageData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class AnalyzeImageTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
@@ -18,7 +20,18 @@ public final class AnalyzeImageTests extends ContentSafetyClientTestBase {
         AnalyzeImageResult response =
                 contentSafetyClient.analyzeImage(
                         new AnalyzeImageOptions(new ImageData().setContent("Y29udGVudDE=".getBytes())));
-        Assertions.assertNotNull(response.getHateResult());
-
+        Assertions.assertNotNull(response);
+        ImageAnalyzeSeverityResult responseHateResult = response.getHateResult();
+        Assertions.assertNotNull(responseHateResult);
+        Assertions.assertEquals(responseHateResult.getSeverity(), 0);
+        ImageAnalyzeSeverityResult responseSelfHarmResult = response.getSelfHarmResult();
+        Assertions.assertNotNull(responseSelfHarmResult);
+        Assertions.assertEquals(responseSelfHarmResult.getSeverity(), 0);
+        ImageAnalyzeSeverityResult responseSexualResult = response.getSexualResult();
+        Assertions.assertNotNull(responseSexualResult);
+        Assertions.assertEquals(responseSexualResult.getSeverity(), 0);
+        ImageAnalyzeSeverityResult responseViolenceResult = response.getViolenceResult();
+        Assertions.assertNotNull(responseViolenceResult);
+        Assertions.assertEquals(responseViolenceResult.getSeverity(), 2);
     }
 }

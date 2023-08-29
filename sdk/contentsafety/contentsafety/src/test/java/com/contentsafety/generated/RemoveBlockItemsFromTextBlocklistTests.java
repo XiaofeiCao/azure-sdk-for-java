@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class RemoveBlockItemsFromTextBlocklistTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled

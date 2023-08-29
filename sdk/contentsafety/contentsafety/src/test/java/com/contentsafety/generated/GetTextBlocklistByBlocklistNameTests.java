@@ -5,13 +5,18 @@
 package com.contentsafety.generated;
 
 import com.contentsafety.models.TextBlocklist;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class GetTextBlocklistByBlocklistNameTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
     public void testGetTextBlocklistByBlocklistNameTests() {
         TextBlocklist response = contentSafetyClient.getTextBlocklist("TestBlocklist");
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getBlocklistName(), "TestBlocklist");
+        Assertions.assertEquals(response.getDescription(), "Test Blocklist");
     }
 }

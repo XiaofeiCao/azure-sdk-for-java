@@ -6,13 +6,30 @@ package com.contentsafety.generated;
 
 import com.contentsafety.models.AnalyzeTextOptions;
 import com.contentsafety.models.AnalyzeTextResult;
+import com.contentsafety.models.TextAnalyzeSeverityResult;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public final class AnalyzeTextTests extends ContentSafetyClientTestBase {
     @Test
     @Disabled
     public void testAnalyzeTextTests() {
         AnalyzeTextResult response = contentSafetyClient.analyzeText(new AnalyzeTextOptions("This is text example"));
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(0, response.getBlocklistsMatchResults().size());
+        TextAnalyzeSeverityResult responseHateResult = response.getHateResult();
+        Assertions.assertNotNull(responseHateResult);
+        Assertions.assertEquals(responseHateResult.getSeverity(), 0);
+        TextAnalyzeSeverityResult responseSelfHarmResult = response.getSelfHarmResult();
+        Assertions.assertNotNull(responseSelfHarmResult);
+        Assertions.assertEquals(responseSelfHarmResult.getSeverity(), 0);
+        TextAnalyzeSeverityResult responseSexualResult = response.getSexualResult();
+        Assertions.assertNotNull(responseSexualResult);
+        Assertions.assertEquals(responseSexualResult.getSeverity(), 0);
+        TextAnalyzeSeverityResult responseViolenceResult = response.getViolenceResult();
+        Assertions.assertNotNull(responseViolenceResult);
+        Assertions.assertEquals(responseViolenceResult.getSeverity(), 0);
     }
 }
