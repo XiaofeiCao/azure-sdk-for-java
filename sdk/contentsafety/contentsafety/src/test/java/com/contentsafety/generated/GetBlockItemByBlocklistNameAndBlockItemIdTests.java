@@ -17,8 +17,11 @@ public final class GetBlockItemByBlocklistNameAndBlockItemIdTests extends Conten
         TextBlockItem response =
                 contentSafetyClient.getTextBlocklistItem("TestBlocklist", "9511969e-f1e3-4604-9127-05ee16c509ec");
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(response.getBlockItemId(), "9511969e-f1e3-4604-9127-05ee16c509ec");
-        Assertions.assertEquals(response.getDescription(), "Hate word");
-        Assertions.assertEquals(response.getText(), "hate");
+        String responseBlockItemId = response.getBlockItemId();
+        Assertions.assertEquals("9511969e-f1e3-4604-9127-05ee16c509ec", responseBlockItemId);
+        String responseDescription = response.getDescription();
+        Assertions.assertEquals("Hate word", responseDescription);
+        String responseText = response.getText();
+        Assertions.assertEquals("hate", responseText);
     }
 }

@@ -9,6 +9,7 @@ import com.contentsafety.models.AddBlockItemsResult;
 import com.contentsafety.models.TextBlockItem;
 import com.contentsafety.models.TextBlockItemInfo;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,10 +25,14 @@ public final class AddBlockItemsToTextBlocklistTests extends ContentSafetyClient
                         new AddBlockItemsOptions(
                                 Arrays.asList(new TextBlockItemInfo("hate").setDescription("Hate word"))));
         Assertions.assertNotNull(response);
-        TextBlockItem responseFirstItem = response.getValue().iterator().next();
-        Assertions.assertNotNull(responseFirstItem);
-        Assertions.assertEquals(responseFirstItem.getBlockItemId(), "9511969e-f1e3-4604-9127-05ee16c509ec");
-        Assertions.assertEquals(responseFirstItem.getDescription(), "Hate word");
-        Assertions.assertEquals(responseFirstItem.getText(), "hate");
+        List<TextBlockItem> responseValue = response.getValue();
+        TextBlockItem responseValueFirstItem = responseValue.iterator().next();
+        Assertions.assertNotNull(responseValueFirstItem);
+        String responseValueFirstItemBlockItemId = responseValueFirstItem.getBlockItemId();
+        Assertions.assertEquals("9511969e-f1e3-4604-9127-05ee16c509ec", responseValueFirstItemBlockItemId);
+        String responseValueFirstItemDescription = responseValueFirstItem.getDescription();
+        Assertions.assertEquals("Hate word", responseValueFirstItemDescription);
+        String responseValueFirstItemText = responseValueFirstItem.getText();
+        Assertions.assertEquals("hate", responseValueFirstItemText);
     }
 }

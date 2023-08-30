@@ -23,15 +23,27 @@ public final class AnalyzeImageTests extends ContentSafetyClientTestBase {
         Assertions.assertNotNull(response);
         ImageAnalyzeSeverityResult responseHateResult = response.getHateResult();
         Assertions.assertNotNull(responseHateResult);
-        Assertions.assertEquals(responseHateResult.getSeverity(), 0);
+        ImageCategory responseHateResultCategory = responseHateResult.getCategory();
+        Assertions.assertEquals(ImageCategory.HATE, responseHateResultCategory);
+        int responseHateResultSeverity = responseHateResult.getSeverity();
+        Assertions.assertEquals(0, responseHateResultSeverity);
         ImageAnalyzeSeverityResult responseSelfHarmResult = response.getSelfHarmResult();
         Assertions.assertNotNull(responseSelfHarmResult);
-        Assertions.assertEquals(responseSelfHarmResult.getSeverity(), 0);
+        ImageCategory responseSelfHarmResultCategory = responseSelfHarmResult.getCategory();
+        Assertions.assertEquals(ImageCategory.HATE, responseSelfHarmResultCategory);
+        int responseSelfHarmResultSeverity = responseSelfHarmResult.getSeverity();
+        Assertions.assertEquals(0, responseSelfHarmResultSeverity);
         ImageAnalyzeSeverityResult responseSexualResult = response.getSexualResult();
         Assertions.assertNotNull(responseSexualResult);
-        Assertions.assertEquals(responseSexualResult.getSeverity(), 0);
+        ImageCategory responseSexualResultCategory = responseSexualResult.getCategory();
+        Assertions.assertEquals(ImageCategory.HATE, responseSexualResultCategory);
+        int responseSexualResultSeverity = responseSexualResult.getSeverity();
+        Assertions.assertEquals(0, responseSexualResultSeverity);
         ImageAnalyzeSeverityResult responseViolenceResult = response.getViolenceResult();
         Assertions.assertNotNull(responseViolenceResult);
-        Assertions.assertEquals(responseViolenceResult.getSeverity(), 2);
+        ImageCategory responseViolenceResultCategory = responseViolenceResult.getCategory();
+        Assertions.assertEquals(ImageCategory.HATE, responseViolenceResultCategory);
+        int responseViolenceResultSeverity = responseViolenceResult.getSeverity();
+        Assertions.assertEquals(2, responseViolenceResultSeverity);
     }
 }

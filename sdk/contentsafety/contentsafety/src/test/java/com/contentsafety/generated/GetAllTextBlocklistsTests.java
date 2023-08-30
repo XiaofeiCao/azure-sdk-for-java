@@ -19,7 +19,9 @@ public final class GetAllTextBlocklistsTests extends ContentSafetyClientTestBase
         Assertions.assertEquals(200, response.iterableByPage().iterator().next().getStatusCode());
         TextBlocklist firstItem = response.iterator().next();
         Assertions.assertNotNull(firstItem);
-        Assertions.assertEquals(firstItem.getBlocklistName(), "TestBlocklist");
-        Assertions.assertEquals(firstItem.getDescription(), "Test Blocklist");
+        String firstItemBlocklistName = firstItem.getBlocklistName();
+        Assertions.assertEquals("TestBlocklist", firstItemBlocklistName);
+        String firstItemDescription = firstItem.getDescription();
+        Assertions.assertEquals("Test Blocklist", firstItemDescription);
     }
 }
