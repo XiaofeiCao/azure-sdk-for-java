@@ -2,16 +2,22 @@
 // Licensed under the MIT License.
 package com.azure.resourcemanager.compute.implementation;
 
+import com.azure.core.annotation.ReturnType;
+import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.PagedResponse;
+import com.azure.core.http.rest.PagedResponseBase;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
+import com.azure.core.util.FluxUtil;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.authorization.AuthorizationManager;
 import com.azure.resourcemanager.compute.ComputeManager;
 import com.azure.resourcemanager.compute.fluent.VirtualMachinesClient;
 import com.azure.resourcemanager.compute.fluent.models.VirtualMachineInner;
+import com.azure.resourcemanager.compute.models.ApiErrorException;
 import com.azure.resourcemanager.compute.models.ExpandTypeForListVMs;
 import com.azure.resourcemanager.compute.models.HardwareProfile;
 import com.azure.resourcemanager.compute.models.NetworkProfile;
@@ -54,6 +60,10 @@ public class VirtualMachinesImpl
     private final AuthorizationManager authorizationManager;
     private final VirtualMachineSizesImpl vmSizes;
     private final ClientLogger logger = new ClientLogger(VirtualMachinesImpl.class);
+    /** The proxy service used to perform REST calls. */
+    private final VirtualMachinesClientImpl.VirtualMachinesService service;
+    /** The service client containing this operation class. */
+    private final ComputeManagementClientImpl client;
 
     public VirtualMachinesImpl(
         ComputeManager computeManager,
@@ -65,6 +75,9 @@ public class VirtualMachinesImpl
         this.networkManager = networkManager;
         this.authorizationManager = authorizationManager;
         this.vmSizes = new VirtualMachineSizesImpl(computeManager.serviceClient().getVirtualMachineSizes());
+        this.client = (ComputeManagementClientImpl) computeManager.serviceClient();
+        this.service =
+            RestProxy.create(VirtualMachinesClientImpl.VirtualMachinesService.class, this.client.getHttpPipeline(), this.client.getSerializerAdapter());
     }
 
     // Actions
@@ -288,50 +301,15 @@ public class VirtualMachinesImpl
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "removal"})
     public PagedFlux<VirtualMachine> listByVirtualMachineScaleSetIdAsync(String vmssId) {
         if (CoreUtils.isNullOrEmpty(vmssId)) {
             return new PagedFlux<>(() -> Mono.error(
                 new IllegalArgumentException("Parameter 'vmssId' is required and cannot be null.")));
         }
-        // Hack in nextLink encoding by using reflection.
-        // Replace below hack with "listAsync()" once backend fix "nextLink" encoding issue:
-        // https://github.com/Azure/azure-rest-api-specs/issues/25640
-        Method listSinglePageAsync;
-        try {
-            listSinglePageAsync = inner().getClass().getDeclaredMethod("listByResourceGroupSinglePageAsync", String.class, String.class, ExpandTypeForListVMs.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        Method listNextSinglePageAsync;
-        try {
-            listNextSinglePageAsync = inner().getClass().getDeclaredMethod("listNextSinglePageAsync", String.class, Context.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        java.security.AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            listSinglePageAsync.setAccessible(true);
-            listNextSinglePageAsync.setAccessible(true);
-            return null;
-        });
-        return new PagedFlux<>(
-            () -> {
-                try {
-                    return (Mono<PagedResponse<VirtualMachine>>)
-                        listSinglePageAsync.invoke(inner(), ResourceUtils.groupFromResourceId(vmssId), String.format("'virtualMachineScaleSet/id' eq '%s'", vmssId), null);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                }
-            },
-            nextLink -> {
-                try {
-                    return (Mono<PagedResponse<VirtualMachine>>)
-                        // encode nextLink
-                        listNextSinglePageAsync.invoke(inner(), ResourceUtils.encodeResourceId(nextLink), Context.NONE);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+
+        return wrapPageAsync(new PagedFlux<>(
+            () -> listByResourceGroupSinglePageAsync(ResourceUtils.groupFromResourceId(vmssId), String.format("'virtualMachineScaleSet/id' eq '%s'", vmssId), null),
+            nextLink -> this.listNextSinglePageAsync(ResourceUtils.encodeResourceId(nextLink))));
     }
 
     @Override
@@ -379,5 +357,104 @@ public class VirtualMachinesImpl
             this.storageManager,
             this.networkManager,
             this.authorizationManager);
+    }
+
+    /**
+     * Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to
+     * get the next page of virtual machines.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param filter The system query option to filter VMs returned in the response. Allowed value is
+     *     'virtualMachineScaleSet/id' eq
+     *     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}'.
+     * @param expand The expand expression to apply on operation. 'instanceView' enables fetching run time status of all
+     *     Virtual Machines, this can only be specified if a valid $filter option is specified.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Virtual Machine operation response along with {@link PagedResponse} on successful completion of
+     *     {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<VirtualMachineInner>> listByResourceGroupSinglePageAsync(
+        String resourceGroupName, String filter, ExpandTypeForListVMs expand) {
+        if (this.client.getEndpoint() == null) {
+            return Mono
+                .error(
+                    new IllegalArgumentException(
+                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono
+                .error(
+                    new IllegalArgumentException(
+                        "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        final String apiVersion = "2023-07-01";
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(
+                context ->
+                    service
+                        .listByResourceGroup(
+                            this.client.getEndpoint(),
+                            resourceGroupName,
+                            filter,
+                            expand,
+                            apiVersion,
+                            this.client.getSubscriptionId(),
+                            accept,
+                            context))
+            .<PagedResponse<VirtualMachineInner>>map(
+                res ->
+                    new PagedResponseBase<>(
+                        res.getRequest(),
+                        res.getStatusCode(),
+                        res.getHeaders(),
+                        res.getValue().value(),
+                        res.getValue().nextLink(),
+                        null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Get the next page of items.
+     *
+     * @param nextLink The URL to get the next list of items
+     *     <p>The nextLink parameter.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Virtual Machine operation response along with {@link PagedResponse} on successful completion of
+     *     {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<VirtualMachineInner>> listNextSinglePageAsync(String nextLink) {
+        if (nextLink == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            return Mono
+                .error(
+                    new IllegalArgumentException(
+                        "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<VirtualMachineInner>>map(
+                res ->
+                    new PagedResponseBase<>(
+                        res.getRequest(),
+                        res.getStatusCode(),
+                        res.getHeaders(),
+                        res.getValue().value(),
+                        res.getValue().nextLink(),
+                        null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 }
