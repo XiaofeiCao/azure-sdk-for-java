@@ -6,7 +6,16 @@ package com.azure.resourcemanager.appservice;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
+import com.azure.core.management.Region;
 import com.azure.core.management.exception.ManagementException;
+import com.azure.core.management.profile.AzureProfile;
+import com.azure.resourcemanager.appcontainers.ContainerAppsApiManager;
+import com.azure.resourcemanager.appcontainers.models.AppLogsConfiguration;
+import com.azure.resourcemanager.appcontainers.models.CustomDomainConfiguration;
+import com.azure.resourcemanager.appcontainers.models.LogAnalyticsConfiguration;
+import com.azure.resourcemanager.appcontainers.models.ManagedEnvironment;
+import com.azure.resourcemanager.appcontainers.models.VnetConfiguration;
+import com.azure.resourcemanager.appcontainers.models.WorkloadProfile;
 import com.azure.resourcemanager.appservice.models.AppServicePlan;
 import com.azure.resourcemanager.appservice.models.AppSetting;
 import com.azure.resourcemanager.appservice.models.FunctionApp;
@@ -16,22 +25,24 @@ import com.azure.resourcemanager.appservice.models.FunctionEnvelope;
 import com.azure.resourcemanager.appservice.models.FunctionRuntimeStack;
 import com.azure.resourcemanager.appservice.models.PricingTier;
 import com.azure.resourcemanager.appservice.models.SkuName;
-import com.azure.resourcemanager.test.utils.TestUtilities;
-import com.azure.core.management.Region;
-import com.azure.core.management.profile.AzureProfile;
+import com.azure.resourcemanager.network.NetworkManager;
+import com.azure.resourcemanager.network.models.Network;
+import com.azure.resourcemanager.network.models.Subnet;
+import com.azure.resourcemanager.resources.fluentcore.arm.ResourceId;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
+import com.azure.resourcemanager.storage.StorageManager;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 import com.azure.resourcemanager.storage.models.StorageAccountSkuType;
-import com.azure.resourcemanager.storage.StorageManager;
+import com.azure.resourcemanager.test.utils.TestUtilities;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 public class FunctionAppsTests extends AppServiceTest {
     private String rgName1 = "";
@@ -44,6 +55,7 @@ public class FunctionAppsTests extends AppServiceTest {
     private String storageAccountName1 = "";
 
     protected StorageManager storageManager;
+    protected ContainerAppsApiManager containerAppsApiManager;
 
     @Override
     protected void initializeClients(HttpPipeline httpPipeline, AzureProfile profile) {
@@ -57,6 +69,7 @@ public class FunctionAppsTests extends AppServiceTest {
         rgName2 = generateRandomResourceName("javacsmrg", 20);
 
         storageManager = buildManager(StorageManager.class, httpPipeline, profile);
+        containerAppsApiManager = ContainerAppsApiManager.authenticate(httpPipeline, profile);
 
         super.initializeClients(httpPipeline, profile);
     }
@@ -456,6 +469,56 @@ public class FunctionAppsTests extends AppServiceTest {
         functionDeploymentSlot.refresh();
 
         Assertions.assertEquals(128, functionDeploymentSlot.containerSize());
+    }
+
+    @Test
+    public void canCreateFunctionAppWithManagedEnvironment() {
+        rgName2 = null;
+        Region region = Region.US_EAST;
+
+//        String vnetName = generateRandomResourceName("vnet", 15);
+//        Network network = networkManager
+//            .networks()
+//            .define(vnetName)
+//            .withRegion(region)
+//            .withNewResourceGroup(rgName)
+//            .withAddressSpace("10.0.0.0/23")
+//            // Provided subnet must have a size of at least /23
+//            .withSubnet("subnet1", "10.0.0.0/23")
+//            .create();
+//        Subnet subnet = network.subnets().values().iterator().next();
+
+
+        resourceManager.resourceGroups().define(rgName1).withRegion(region).create();
+
+        String managedEnvironmentId = createManagedEnvironment(rgName1, region);
+
+        FunctionApp functionApp = appServiceManager.functionApps().define(webappName1)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName1)
+            .withManagedEnvironmentId(managedEnvironmentId)
+            .withMaxReplicas(30)
+            .withMinReplicas(0)
+            .withPublicDockerHubImage("azurefunctionstest.azurecr.io/azure-functions/dotnet7-quickstart-demo:1.0")
+            .withHttpsOnly(true)
+            .create();
+
+        functionApp.refresh();
+
+        Assertions.assertEquals(managedEnvironmentId, functionApp.managedEnvironmentId());
+    }
+
+    private String createManagedEnvironment(String rgName, Region region) {
+        String environmentName = generateRandomResourceName("me", 15);
+        ManagedEnvironment managedEnvironment = containerAppsApiManager
+            .managedEnvironments()
+            .define(environmentName)
+            .withRegion(region)
+            .withExistingResourceGroup(rgName)
+            .withInfrastructureResourceGroup(rgName)
+            .withZoneRedundant(false)
+            .create();
+        return managedEnvironment.id();
     }
 
     private void assertRunning(FunctionApp functionApp) {

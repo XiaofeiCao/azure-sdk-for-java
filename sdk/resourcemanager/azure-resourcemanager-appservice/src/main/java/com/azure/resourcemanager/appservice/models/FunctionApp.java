@@ -123,6 +123,8 @@ public interface FunctionApp extends FunctionAppBasic, WebAppBase, Updatable<Fun
      */
     Mono<Void> syncTriggersAsync();
 
+    String managedEnvironmentId();
+
     /**************************************************************
      * Fluent interfaces to provision a Function App
      **************************************************************/
@@ -310,6 +312,15 @@ public interface FunctionApp extends FunctionAppBasic, WebAppBase, Updatable<Fun
              * @return the next stage of the definition
              */
             WithDockerContainerImage withNewLinuxAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable);
+
+            WithDockerContainerImageOrManagedEnvironmentConfig withManagedEnvironmentId(String environmentId);
+        }
+
+        interface WithDockerContainerImageOrManagedEnvironmentConfig extends WithDockerContainerImage {
+
+            WithDockerContainerImageOrManagedEnvironmentConfig withMaxReplicas(int maxReplicaCount);
+
+            WithDockerContainerImageOrManagedEnvironmentConfig withMinReplicas(int minReplicaCount);
         }
 
         /**
@@ -397,6 +408,7 @@ public interface FunctionApp extends FunctionAppBasic, WebAppBase, Updatable<Fun
                 DefinitionStages.WithStorageAccount,
                 DefinitionStages.WithRuntimeVersion,
                 DefinitionStages.WithDailyUsageQuota,
+                DefinitionStages.WithDockerContainerImageOrManagedEnvironmentConfig,
                 WebAppBase.DefinitionStages.WithCreate<FunctionApp> {
         }
 
@@ -728,6 +740,12 @@ public interface FunctionApp extends FunctionAppBasic, WebAppBase, Updatable<Fun
              */
             Update withCredentials(String username, String password);
         }
+
+        interface WithManagedEnvironmentConfig {
+            Update withMaxReplicas(int maxReplicas);
+
+            Update withMinReplicas(int minReplicas);
+        }
     }
 
     /** The template for a function app update operation, containing all the settings that can be modified. */
@@ -738,6 +756,7 @@ public interface FunctionApp extends FunctionAppBasic, WebAppBase, Updatable<Fun
             UpdateStages.WithStorageAccount,
             UpdateStages.WithDailyUsageQuota,
             UpdateStages.WithDockerContainerImage,
-            UpdateStages.WithCredentials {
+            UpdateStages.WithCredentials,
+            UpdateStages.WithManagedEnvironmentConfig {
     }
 }

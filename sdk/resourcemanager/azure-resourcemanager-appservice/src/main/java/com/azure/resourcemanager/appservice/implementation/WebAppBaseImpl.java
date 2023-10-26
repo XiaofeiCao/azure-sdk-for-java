@@ -5,6 +5,7 @@ package com.azure.resourcemanager.appservice.implementation;
 
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.management.AzureEnvironment;
+import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.AppServiceManager;
 import com.azure.resourcemanager.appservice.fluent.models.ConnectionStringDictionaryInner;
@@ -804,7 +805,7 @@ abstract class WebAppBaseImpl<FluentT extends WebAppBase, FluentImplT extends We
         // Site config
         lastTaskItem = sequentialTask(lastTaskItem, context -> submitSiteConfig());
         // Metadata, app settings, and connection strings
-        lastTaskItem =
+        lastTaskItem =ApplicationGatewayProbeInner
             sequentialTask(
                 lastTaskItem,
                 context ->
@@ -1865,6 +1866,10 @@ abstract class WebAppBaseImpl<FluentT extends WebAppBase, FluentImplT extends We
             );
         }
         return (FluentImplT) this;
+    }
+
+    protected boolean isManagedEnvironmentFunctionApp() {
+        return !CoreUtils.isNullOrEmpty(innerModel().managedEnvironmentId());
     }
 
     private void ensureIpSecurityRestrictions() {

@@ -20,10 +20,12 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.serializer.SerializerFactory;
+import com.azure.core.util.CoreUtils;
 import com.azure.core.util.UrlBuilder;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.AppServiceManager;
 import com.azure.resourcemanager.appservice.fluent.models.HostKeysInner;
+import com.azure.resourcemanager.appservice.fluent.models.SiteConfigInner;
 import com.azure.resourcemanager.appservice.fluent.models.SiteConfigResourceInner;
 import com.azure.resourcemanager.appservice.fluent.models.SiteInner;
 import com.azure.resourcemanager.appservice.fluent.models.SiteLogsConfigInner;
@@ -38,6 +40,7 @@ import com.azure.resourcemanager.appservice.models.OperatingSystem;
 import com.azure.resourcemanager.appservice.models.PricingTier;
 import com.azure.resourcemanager.appservice.models.SkuDescription;
 import com.azure.resourcemanager.appservice.models.SkuName;
+import com.azure.resourcemanager.appservice.models.WebAppBase;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import com.azure.resourcemanager.resources.fluentcore.policy.AuthenticationPolicy;
@@ -514,6 +517,11 @@ class FunctionAppImpl
     }
 
     @Override
+    public String managedEnvironmentId() {
+        return innerModel().managedEnvironmentId();
+    }
+
+    @Override
     public Flux<String> streamApplicationLogsAsync() {
         return functionService
             .ping(functionServiceHost)
@@ -589,6 +597,9 @@ class FunctionAppImpl
                         .randomResourceName(getStorageAccountName(), 20),
                     StorageAccountSkuType.STANDARD_LRS);
             }
+            if (isManagedEnvironmentFunctionApp()) {
+                innerModel().withKind("functionapp,linux,container,azurecontainerapps")
+            }
         }
         return super.createAsync();
     }
@@ -599,6 +610,26 @@ class FunctionAppImpl
             initializeFunctionService();
         }
         return super.afterPostRunAsync(isGroupFaulted);
+    }
+
+    @Override
+    public FunctionAppImpl withManagedEnvironmentId(String environmentId) {
+        innerModel().withManagedEnvironmentId(environmentId);
+        return this;
+    }
+
+    @Override
+    public FunctionAppImpl withMaxReplicas(int maxReplicaCount) {
+        if (CoreUtils.isNullOrEmpty(managedEnvironmentId())) {
+            throw new UnsupportedOperationException("[maxReplicas] is only supported along with managedEnvironmentId");
+        }
+
+    }
+
+    @Override
+    public FunctionAppImpl withMinReplicas(int minReplicaCount) {
+        // TODO (xiaofeicao, 2023-10-25 10:47 PM)
+        throw new UnsupportedOperationException("method [withMinReplicas] not implemented in class [com.azure.resourcemanager.appservice.implementation.FunctionAppImpl]");
     }
 
     @Host("{$host}")
