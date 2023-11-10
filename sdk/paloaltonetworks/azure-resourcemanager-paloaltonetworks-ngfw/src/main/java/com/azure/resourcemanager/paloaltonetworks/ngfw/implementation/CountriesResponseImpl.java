@@ -5,27 +5,29 @@
 package com.azure.resourcemanager.paloaltonetworks.ngfw.implementation;
 
 import com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models.CountriesResponseInner;
+import com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models.CountryInner;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.CountriesResponse;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.Country;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class CountriesResponseImpl implements CountriesResponse {
     private CountriesResponseInner innerObject;
 
     private final com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager;
 
-    CountriesResponseImpl(
-        CountriesResponseInner innerObject,
+    CountriesResponseImpl(CountriesResponseInner innerObject,
         com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }
 
     public List<Country> value() {
-        List<Country> inner = this.innerModel().value();
+        List<CountryInner> inner = this.innerModel().value();
         if (inner != null) {
-            return Collections.unmodifiableList(inner);
+            return Collections.unmodifiableList(
+                inner.stream().map(inner1 -> new CountryImpl(inner1, this.manager())).collect(Collectors.toList()));
         } else {
             return Collections.emptyList();
         }

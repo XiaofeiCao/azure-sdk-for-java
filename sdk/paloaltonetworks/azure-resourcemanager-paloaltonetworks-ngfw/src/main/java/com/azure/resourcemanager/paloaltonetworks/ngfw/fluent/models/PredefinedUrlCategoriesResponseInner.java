@@ -6,18 +6,19 @@ package com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.resourcemanager.paloaltonetworks.ngfw.models.PredefinedUrlCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** predefined url categories response. */
+/**
+ * predefined url categories response.
+ */
 @Fluent
 public final class PredefinedUrlCategoriesResponseInner {
     /*
      * predefined url categories
      */
     @JsonProperty(value = "value", required = true)
-    private List<PredefinedUrlCategory> value;
+    private List<PredefinedUrlCategoryInner> value;
 
     /*
      * next link
@@ -25,33 +26,35 @@ public final class PredefinedUrlCategoriesResponseInner {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of PredefinedUrlCategoriesResponseInner class. */
+    /**
+     * Creates an instance of PredefinedUrlCategoriesResponseInner class.
+     */
     public PredefinedUrlCategoriesResponseInner() {
     }
 
     /**
      * Get the value property: predefined url categories.
-     *
+     * 
      * @return the value value.
      */
-    public List<PredefinedUrlCategory> value() {
+    public List<PredefinedUrlCategoryInner> value() {
         return this.value;
     }
 
     /**
      * Set the value property: predefined url categories.
-     *
+     * 
      * @param value the value value to set.
      * @return the PredefinedUrlCategoriesResponseInner object itself.
      */
-    public PredefinedUrlCategoriesResponseInner withValue(List<PredefinedUrlCategory> value) {
+    public PredefinedUrlCategoriesResponseInner withValue(List<PredefinedUrlCategoryInner> value) {
         this.value = value;
         return this;
     }
 
     /**
      * Get the nextLink property: next link.
-     *
+     * 
      * @return the nextLink value.
      */
     public String nextLink() {
@@ -60,7 +63,7 @@ public final class PredefinedUrlCategoriesResponseInner {
 
     /**
      * Set the nextLink property: next link.
-     *
+     * 
      * @param nextLink the nextLink value to set.
      * @return the PredefinedUrlCategoriesResponseInner object itself.
      */
@@ -71,15 +74,13 @@ public final class PredefinedUrlCategoriesResponseInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException(
-                        "Missing required property value in model PredefinedUrlCategoriesResponseInner"));
+            throw LOGGER.logExceptionAsError(new IllegalArgumentException(
+                "Missing required property value in model PredefinedUrlCategoriesResponseInner"));
         } else {
             value().forEach(e -> e.validate());
         }

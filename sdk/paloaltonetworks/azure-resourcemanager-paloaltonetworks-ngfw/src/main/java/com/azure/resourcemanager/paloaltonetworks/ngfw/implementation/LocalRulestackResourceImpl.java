@@ -4,6 +4,7 @@
 
 package com.azure.resourcemanager.paloaltonetworks.ngfw.implementation;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.management.Region;
 import com.azure.core.management.SystemData;
@@ -11,14 +12,13 @@ import com.azure.core.util.Context;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models.LocalRulestackResourceInner;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.AzureResourceManagerManagedIdentityProperties;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.Changelog;
-import com.azure.resourcemanager.paloaltonetworks.ngfw.models.CountriesResponse;
+import com.azure.resourcemanager.paloaltonetworks.ngfw.models.Country;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.DefaultMode;
-import com.azure.resourcemanager.paloaltonetworks.ngfw.models.ListAppIdResponse;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.ListFirewallsResponse;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.LocalRulestackResource;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.LocalRulestackResourceUpdate;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.LocalRulestackResourceUpdateProperties;
-import com.azure.resourcemanager.paloaltonetworks.ngfw.models.PredefinedUrlCategoriesResponse;
+import com.azure.resourcemanager.paloaltonetworks.ngfw.models.PredefinedUrlCategory;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.ProvisioningState;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.ScopeType;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.SecurityServices;
@@ -139,25 +139,19 @@ public final class LocalRulestackResourceImpl
     }
 
     public LocalRulestackResource create() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .createOrUpdate(resourceGroupName, localRulestackName, this.innerModel(), Context.NONE);
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks().createOrUpdate(resourceGroupName,
+            localRulestackName, this.innerModel(), Context.NONE);
         return this;
     }
 
     public LocalRulestackResource create(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .createOrUpdate(resourceGroupName, localRulestackName, this.innerModel(), context);
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks().createOrUpdate(resourceGroupName,
+            localRulestackName, this.innerModel(), context);
         return this;
     }
 
-    LocalRulestackResourceImpl(
-        String name, com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager) {
+    LocalRulestackResourceImpl(String name,
+        com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager) {
         this.innerObject = new LocalRulestackResourceInner();
         this.serviceManager = serviceManager;
         this.localRulestackName = name;
@@ -169,27 +163,18 @@ public final class LocalRulestackResourceImpl
     }
 
     public LocalRulestackResource apply() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .updateWithResponse(resourceGroupName, localRulestackName, updateProperties, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks()
+            .updateWithResponse(resourceGroupName, localRulestackName, updateProperties, Context.NONE).getValue();
         return this;
     }
 
     public LocalRulestackResource apply(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .updateWithResponse(resourceGroupName, localRulestackName, updateProperties, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks()
+            .updateWithResponse(resourceGroupName, localRulestackName, updateProperties, context).getValue();
         return this;
     }
 
-    LocalRulestackResourceImpl(
-        LocalRulestackResourceInner innerObject,
+    LocalRulestackResourceImpl(LocalRulestackResourceInner innerObject,
         com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
@@ -198,22 +183,14 @@ public final class LocalRulestackResourceImpl
     }
 
     public LocalRulestackResource refresh() {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .getByResourceGroupWithResponse(resourceGroupName, localRulestackName, Context.NONE)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks()
+            .getByResourceGroupWithResponse(resourceGroupName, localRulestackName, Context.NONE).getValue();
         return this;
     }
 
     public LocalRulestackResource refresh(Context context) {
-        this.innerObject =
-            serviceManager
-                .serviceClient()
-                .getLocalRulestacks()
-                .getByResourceGroupWithResponse(resourceGroupName, localRulestackName, context)
-                .getValue();
+        this.innerObject = serviceManager.serviceClient().getLocalRulestacks()
+            .getByResourceGroupWithResponse(resourceGroupName, localRulestackName, context).getValue();
         return this;
     }
 
@@ -226,9 +203,8 @@ public final class LocalRulestackResourceImpl
     }
 
     public Response<Changelog> getChangeLogWithResponse(Context context) {
-        return serviceManager
-            .localRulestacks()
-            .getChangeLogWithResponse(resourceGroupName, localRulestackName, context);
+        return serviceManager.localRulestacks().getChangeLogWithResponse(resourceGroupName, localRulestackName,
+            context);
     }
 
     public Changelog getChangeLog() {
@@ -236,55 +212,49 @@ public final class LocalRulestackResourceImpl
     }
 
     public Response<SupportInfo> getSupportInfoWithResponse(String email, Context context) {
-        return serviceManager
-            .localRulestacks()
-            .getSupportInfoWithResponse(resourceGroupName, localRulestackName, email, context);
+        return serviceManager.localRulestacks().getSupportInfoWithResponse(resourceGroupName, localRulestackName, email,
+            context);
     }
 
     public SupportInfo getSupportInfo() {
         return serviceManager.localRulestacks().getSupportInfo(resourceGroupName, localRulestackName);
     }
 
-    public Response<ListAppIdResponse> listAppIdsWithResponse(
-        String appIdVersion, String appPrefix, String skip, Integer top, Context context) {
-        return serviceManager
-            .localRulestacks()
-            .listAppIdsWithResponse(resourceGroupName, localRulestackName, appIdVersion, appPrefix, skip, top, context);
-    }
-
-    public ListAppIdResponse listAppIds() {
+    public PagedIterable<String> listAppIds() {
         return serviceManager.localRulestacks().listAppIds(resourceGroupName, localRulestackName);
     }
 
-    public Response<CountriesResponse> listCountriesWithResponse(String skip, Integer top, Context context) {
-        return serviceManager
-            .localRulestacks()
-            .listCountriesWithResponse(resourceGroupName, localRulestackName, skip, top, context);
+    public PagedIterable<String> listAppIds(String appIdVersion, String appPrefix, String skip, Integer top,
+        Context context) {
+        return serviceManager.localRulestacks().listAppIds(resourceGroupName, localRulestackName, appIdVersion,
+            appPrefix, skip, top, context);
     }
 
-    public CountriesResponse listCountries() {
+    public PagedIterable<Country> listCountries() {
         return serviceManager.localRulestacks().listCountries(resourceGroupName, localRulestackName);
     }
 
+    public PagedIterable<Country> listCountries(String skip, Integer top, Context context) {
+        return serviceManager.localRulestacks().listCountries(resourceGroupName, localRulestackName, skip, top,
+            context);
+    }
+
     public Response<ListFirewallsResponse> listFirewallsWithResponse(Context context) {
-        return serviceManager
-            .localRulestacks()
-            .listFirewallsWithResponse(resourceGroupName, localRulestackName, context);
+        return serviceManager.localRulestacks().listFirewallsWithResponse(resourceGroupName, localRulestackName,
+            context);
     }
 
     public ListFirewallsResponse listFirewalls() {
         return serviceManager.localRulestacks().listFirewalls(resourceGroupName, localRulestackName);
     }
 
-    public Response<PredefinedUrlCategoriesResponse> listPredefinedUrlCategoriesWithResponse(
-        String skip, Integer top, Context context) {
-        return serviceManager
-            .localRulestacks()
-            .listPredefinedUrlCategoriesWithResponse(resourceGroupName, localRulestackName, skip, top, context);
+    public PagedIterable<PredefinedUrlCategory> listPredefinedUrlCategories() {
+        return serviceManager.localRulestacks().listPredefinedUrlCategories(resourceGroupName, localRulestackName);
     }
 
-    public PredefinedUrlCategoriesResponse listPredefinedUrlCategories() {
-        return serviceManager.localRulestacks().listPredefinedUrlCategories(resourceGroupName, localRulestackName);
+    public PagedIterable<PredefinedUrlCategory> listPredefinedUrlCategories(String skip, Integer top, Context context) {
+        return serviceManager.localRulestacks().listPredefinedUrlCategories(resourceGroupName, localRulestackName, skip,
+            top, context);
     }
 
     public Response<Void> revertWithResponse(Context context) {

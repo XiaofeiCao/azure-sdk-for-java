@@ -6,18 +6,19 @@ package com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.resourcemanager.paloaltonetworks.ngfw.models.Country;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-/** Countries Response Object. */
+/**
+ * Countries Response Object.
+ */
 @Fluent
 public final class CountriesResponseInner {
     /*
      * List of countries
      */
     @JsonProperty(value = "value", required = true)
-    private List<Country> value;
+    private List<CountryInner> value;
 
     /*
      * next link
@@ -25,33 +26,35 @@ public final class CountriesResponseInner {
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
-    /** Creates an instance of CountriesResponseInner class. */
+    /**
+     * Creates an instance of CountriesResponseInner class.
+     */
     public CountriesResponseInner() {
     }
 
     /**
      * Get the value property: List of countries.
-     *
+     * 
      * @return the value value.
      */
-    public List<Country> value() {
+    public List<CountryInner> value() {
         return this.value;
     }
 
     /**
      * Set the value property: List of countries.
-     *
+     * 
      * @param value the value value to set.
      * @return the CountriesResponseInner object itself.
      */
-    public CountriesResponseInner withValue(List<Country> value) {
+    public CountriesResponseInner withValue(List<CountryInner> value) {
         this.value = value;
         return this;
     }
 
     /**
      * Get the nextLink property: next link.
-     *
+     * 
      * @return the nextLink value.
      */
     public String nextLink() {
@@ -60,7 +63,7 @@ public final class CountriesResponseInner {
 
     /**
      * Set the nextLink property: next link.
-     *
+     * 
      * @param nextLink the nextLink value to set.
      * @return the CountriesResponseInner object itself.
      */
@@ -71,14 +74,13 @@ public final class CountriesResponseInner {
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
         if (value() == null) {
-            throw LOGGER
-                .logExceptionAsError(
-                    new IllegalArgumentException("Missing required property value in model CountriesResponseInner"));
+            throw LOGGER.logExceptionAsError(
+                new IllegalArgumentException("Missing required property value in model CountriesResponseInner"));
         } else {
             value().forEach(e -> e.validate());
         }

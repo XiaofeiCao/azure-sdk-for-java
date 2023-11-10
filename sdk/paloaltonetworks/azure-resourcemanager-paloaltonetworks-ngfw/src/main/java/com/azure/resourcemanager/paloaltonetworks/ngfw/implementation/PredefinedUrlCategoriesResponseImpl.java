@@ -5,27 +5,29 @@
 package com.azure.resourcemanager.paloaltonetworks.ngfw.implementation;
 
 import com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models.PredefinedUrlCategoriesResponseInner;
+import com.azure.resourcemanager.paloaltonetworks.ngfw.fluent.models.PredefinedUrlCategoryInner;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.PredefinedUrlCategoriesResponse;
 import com.azure.resourcemanager.paloaltonetworks.ngfw.models.PredefinedUrlCategory;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class PredefinedUrlCategoriesResponseImpl implements PredefinedUrlCategoriesResponse {
     private PredefinedUrlCategoriesResponseInner innerObject;
 
     private final com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager;
 
-    PredefinedUrlCategoriesResponseImpl(
-        PredefinedUrlCategoriesResponseInner innerObject,
+    PredefinedUrlCategoriesResponseImpl(PredefinedUrlCategoriesResponseInner innerObject,
         com.azure.resourcemanager.paloaltonetworks.ngfw.PaloAltoNetworksNgfwManager serviceManager) {
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
     }
 
     public List<PredefinedUrlCategory> value() {
-        List<PredefinedUrlCategory> inner = this.innerModel().value();
+        List<PredefinedUrlCategoryInner> inner = this.innerModel().value();
         if (inner != null) {
-            return Collections.unmodifiableList(inner);
+            return Collections.unmodifiableList(inner.stream()
+                .map(inner1 -> new PredefinedUrlCategoryImpl(inner1, this.manager())).collect(Collectors.toList()));
         } else {
             return Collections.emptyList();
         }
