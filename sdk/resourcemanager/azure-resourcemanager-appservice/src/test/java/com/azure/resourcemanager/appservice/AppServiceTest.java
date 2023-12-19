@@ -117,7 +117,7 @@ public class AppServiceTest extends ResourceManagerTestProxyTestBase {
     }
 
     @Test
-    public void getWebAppStacksUsingHttpPipelineTest() throws IOException {
+    public void getWebAppStacksUsingHttpPipelineTest() {
         HttpPipeline pipeline = appServiceManager.httpPipeline();
         String location = Region.US_EAST.name();
         String apiVersion = "2023-01-01";
