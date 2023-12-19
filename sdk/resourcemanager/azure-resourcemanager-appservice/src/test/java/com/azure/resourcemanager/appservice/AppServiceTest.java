@@ -122,7 +122,7 @@ public class AppServiceTest extends ResourceManagerTestProxyTestBase {
         String location = Region.US_EAST.name();
         String apiVersion = "2023-01-01";
         HttpResponse httpResponse = pipeline
-            .send(new HttpRequest(HttpMethod.GET, String.format("%s/providers/Microsoft.Web/locations/%s/webAppStacks?api-version=%s", AzureEnvironment.AZURE.getResourceManagerEndpoint(), location, apiVersion)))
+            .send(new HttpRequest(HttpMethod.GET, String.format("%s/providers/Microsoft.Web/locations/%s/webAppStacks?api-version=%s", appServiceManager.serviceClient().getEndpoint(), location, apiVersion)))
             .block();
         String responseBodyString = httpResponse.getBodyAsString().block();
         Assertions.assertEquals(200, httpResponse.getStatusCode());
