@@ -3,6 +3,16 @@
 
 package com.azure.resourcemanager.appservice;
 
+import com.azure.core.annotation.ExpectedResponses;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.HeaderParam;
+import com.azure.core.annotation.Headers;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.PathParam;
+import com.azure.core.annotation.QueryParam;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.annotation.UnexpectedResponseExceptionType;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpClient;
@@ -18,22 +28,22 @@ import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.Region;
+import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.appservice.models.AppServiceCertificateOrder;
 import com.azure.resourcemanager.appservice.models.AppServiceDomain;
+import com.azure.resourcemanager.appservice.models.DefaultErrorResponseErrorException;
+import com.azure.resourcemanager.appservice.models.ProviderStackOsType;
 import com.azure.resourcemanager.keyvault.KeyVaultManager;
 import com.azure.resourcemanager.msi.MsiManager;
+import com.azure.resourcemanager.resources.ResourceManager;
 import com.azure.resourcemanager.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.resourcemanager.resources.fluentcore.arm.CountryPhoneCode;
-import com.azure.core.management.Region;
-import com.azure.core.management.profile.AzureProfile;
-import com.azure.resourcemanager.resources.ResourceManager;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.concurrent.TimeoutException;
-
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
 import com.azure.resourcemanager.test.ResourceManagerTestProxyTestBase;
@@ -41,8 +51,16 @@ import com.azure.resourcemanager.test.policy.HttpDebugLoggingPolicy;
 import com.azure.resourcemanager.test.utils.TestDelayProvider;
 import com.azure.resourcemanager.test.utils.TestIdentifierProvider;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 /** The base for app service tests. */
 public class AppServiceTest extends ResourceManagerTestProxyTestBase {
@@ -95,7 +113,39 @@ public class AppServiceTest extends ResourceManagerTestProxyTestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().beginDeleteByName(rgName);
+//        resourceManager.resourceGroups().beginDeleteByName(rgName);
+    }
+
+    @Test
+    public void getWebAppStacksUsingHttpPipelineTest() throws IOException {
+        HttpPipeline pipeline = appServiceManager.httpPipeline();
+        String location = Region.US_EAST.name();
+        String apiVersion = "2023-01-01";
+        HttpResponse httpResponse = pipeline
+            .send(new HttpRequest(HttpMethod.GET, String.format("%s/providers/Microsoft.Web/locations/%s/webAppStacks?api-version=%s", AzureEnvironment.AZURE.getResourceManagerEndpoint(), location, apiVersion)))
+            .block();
+        String responseBodyString = httpResponse.getBodyAsString().block();
+        Assertions.assertEquals(200, httpResponse.getStatusCode());
+        Assertions.assertTrue(responseBodyString.contains("java17"));
+    }
+
+    @Test
+    public void getWebAppStacksUsingRestProxy() {
+        WebAppsClient webAppsClient = RestProxy.create(WebAppsClient.class, appServiceManager.httpPipeline());
+        Map<String, Object> responseBody = webAppsClient.getWebAppStacksForLocation(appServiceManager.serviceClient().getEndpoint(), Region.US_EAST.name(), ProviderStackOsType.LINUX, "2023-01-01", "application/json", Context.NONE).block();
+        Assertions.assertTrue(responseBody.toString().contains("java17"));
+    }
+
+    @Host("{$host}")
+    @ServiceInterface(name = "WebAppsClient")
+    interface WebAppsClient {
+        @Headers({ "Content-Type: application/json" })
+        @Get("/providers/Microsoft.Web/locations/{location}/webAppStacks")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(DefaultErrorResponseErrorException.class)
+        Mono<Map<String, Object>> getWebAppStacksForLocation(@HostParam("$host") String endpoint,
+                                                                         @PathParam("location") String location, @QueryParam("stackOsType") ProviderStackOsType stackOsType,
+                                                                         @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
     }
 
     private void useExistingDomainAndCertificate() {
