@@ -544,8 +544,57 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertEquals(5, functionApp.minReplicas());
     }
 
+    @Test
+    @Disabled
+    public void canCreateAndUpdateFunctionAppOnAcaWithPrivateRegistryImage() {
+        Region region = Region.US_EAST;
+        ResourceGroup resourceGroup = appServiceManager.resourceManager()
+            .resourceGroups()
+            .define(rgName1)
+            .withRegion(region)
+            .create();
+        webappName1 = generateRandomResourceName("java-function-", 20);
+        // function app not created, get will throw exception
+        Assertions.assertThrows(ManagementException.class, () -> appServiceManager
+            .serviceClient().getWebApps().getByResourceGroup(rgName1, webappName1));
+
+        String managedEnvironmentId = createAcaEnvironment(region, resourceGroup);
+        appServiceManager
+            .functionApps()
+            .define(webappName1)
+            .withRegion(region)
+            .withExistingResourceGroup(resourceGroup)
+            .withManagedEnvironmentId(managedEnvironmentId)
+            .withMaxReplicas(10)
+            .withMinReplicas(3)
+            .withPrivateRegistryImage("xiaofeiacr.azurecr.io/samples/nginx:latest", "xiaofeiacr.azurecr.io")
+            .withCredentials("xiaofeiacr", "PASSWORD")
+            // backend has bug, it returns Array instead of Object:
+            // https://github.com/Azure/azure-rest-api-specs/issues/27176
+//            .withConnectionString("connectionName", "connectionValue", ConnectionStringType.CUSTOM)
+            .create();
+
+        FunctionApp functionApp = appServiceManager.functionApps().getByResourceGroup(rgName1, webappName1);
+
+        Assertions.assertEquals(managedEnvironmentId, functionApp.managedEnvironmentId());
+        Assertions.assertEquals(10, functionApp.maxReplicas());
+        Assertions.assertEquals(3, functionApp.minReplicas());
+
+        String connectionString = functionApp.getAppSettings().get("AzureWebJobsStorage").value();
+
+        functionApp.update()
+            .withMaxReplicas(15)
+            .withNewStorageAccount(generateRandomResourceName("st", 15), StorageAccountSkuType.STANDARD_LRS)
+            .apply();
+
+        Assertions.assertEquals(15, functionApp.maxReplicas());
+        Assertions.assertEquals(3, functionApp.minReplicas());
+        // changed storage account, connectionString should be updated
+        Assertions.assertNotEquals(functionApp.getAppSettings().get("AzureWebJobsStorage").value(), connectionString);
+    }
+
     private String createAcaEnvironment(Region region, ResourceGroup resourceGroup) {
-        String managedEnvironmentName = generateRandomResourceName("jvacam", 15);
+        String managedEnvironmentName = generateRandomResourceName("acame", 15);
         ManagedEnvironment managedEnvironment = containerAppsApiManager.managedEnvironments()
             .define(managedEnvironmentName)
             .withRegion(region)

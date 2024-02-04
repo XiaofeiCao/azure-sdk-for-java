@@ -32,6 +32,7 @@ import com.azure.resourcemanager.appservice.fluent.models.SiteLogsConfigInner;
 import com.azure.resourcemanager.appservice.fluent.models.SitePatchResourceInner;
 import com.azure.resourcemanager.appservice.models.AppServicePlan;
 import com.azure.resourcemanager.appservice.models.AppSetting;
+import com.azure.resourcemanager.appservice.models.DaprConfig;
 import com.azure.resourcemanager.appservice.models.FunctionApp;
 import com.azure.resourcemanager.appservice.models.FunctionAuthenticationPolicy;
 import com.azure.resourcemanager.appservice.models.FunctionDeploymentSlots;
@@ -42,6 +43,7 @@ import com.azure.resourcemanager.appservice.models.OperatingSystem;
 import com.azure.resourcemanager.appservice.models.PricingTier;
 import com.azure.resourcemanager.appservice.models.SkuDescription;
 import com.azure.resourcemanager.appservice.models.SkuName;
+import com.azure.resourcemanager.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import com.azure.resourcemanager.resources.fluentcore.policy.AuthenticationPolicy;
@@ -63,6 +65,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /** The implementation for FunctionApp. */
@@ -195,55 +201,6 @@ class FunctionAppImpl
     }
 
     @Override
-    Mono<Indexable> submitAppSettings() {
-        if (storageAccountCreatable != null && this.taskResult(storageAccountCreatable.key()) != null) {
-            storageAccountToSet = this.taskResult(storageAccountCreatable.key());
-        }
-        if (storageAccountToSet == null) {
-            return super.submitAppSettings();
-        } else {
-            return storageAccountToSet
-                .getKeysAsync()
-                .flatMap(storageAccountKeys -> {
-                    StorageAccountKey key = storageAccountKeys.get(0);
-                    String connectionString = ResourceManagerUtils
-                        .getStorageConnectionString(storageAccountToSet.name(), key.value(),
-                            manager().environment());
-                    addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
-                    if (!isFunctionAppOnACA()) {
-                        // Function App on ACA only supports Application Insights as log option.
-                        // https://learn.microsoft.com/en-us/azure/azure-functions/functions-app-settings#azurewebjobsdashboard
-                        addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
-                        return this.manager().appServicePlans().getByIdAsync(this.appServicePlanId())
-                            .flatMap(appServicePlan -> {
-                                if (appServicePlan == null
-                                    || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier())) {
-
-                                    addAppSettingIfNotModified(
-                                        SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
-                                    addAppSettingIfNotModified(
-                                        SETTING_WEBSITE_CONTENTSHARE,
-                                        this.manager().resourceManager().internalContext()
-                                            .randomResourceName(name(), 32));
-                                }
-                                return FunctionAppImpl.super.submitAppSettings();
-                            });
-                    } else {
-                        return FunctionAppImpl.super.submitAppSettings();
-                    }
-                }).then(
-                    Mono
-                        .fromCallable(
-                            () -> {
-                                currentStorageAccount = storageAccountToSet;
-                                storageAccountToSet = null;
-                                storageAccountCreatable = null;
-                                return this;
-                            }));
-        }
-    }
-
-    @Override
     public OperatingSystem operatingSystem() {
         if (isFunctionAppOnACA()) {
             // TODO(xiaofei) Current Function App on ACA only supports LINUX containers.
@@ -323,14 +280,12 @@ class FunctionAppImpl
                     .withGeneralPurposeAccountKindV2()
                     .withSku(sku);
         }
-        this.addDependency(storageAccountCreatable);
         return this;
     }
 
     @Override
     public FunctionAppImpl withNewStorageAccount(Creatable<StorageAccount> storageAccount) {
         storageAccountCreatable = storageAccount;
-        this.addDependency(storageAccountCreatable);
         return this;
     }
 
@@ -415,6 +370,11 @@ class FunctionAppImpl
     public FunctionAppImpl withPrivateRegistryImage(String imageAndTag, String serverUrl) {
         ensureLinuxPlan();
         return super.withPrivateRegistryImage(imageAndTag, serverUrl);
+    }
+
+    @Override
+    public FunctionAppImpl withCredentials(String username, String password) {
+        return super.withCredentials(username, password);
     }
 
     @Override
@@ -629,25 +589,27 @@ class FunctionAppImpl
         zipDeployAsync(zipFile, length).block();
     }
 
-    @Override
-    public void beforeGroupCreateOrUpdate() {
-        // special handling for Function App on ACA
-        if (isFunctionAppOnACA()) {
-            adaptForFunctionAppOnACA();
-        }
-        super.beforeGroupCreateOrUpdate();
-    }
-
     private void adaptForFunctionAppOnACA() {
-        this.innerModel().withReserved(null);
-        if (this.siteConfig != null) {
-            SiteConfigInner siteConfigInner = new SiteConfigInner();
-            siteConfigInner.withLinuxFxVersion(this.siteConfig.linuxFxVersion());
-            siteConfigInner.withMinimumElasticInstanceCount(this.siteConfig.minimumElasticInstanceCount());
-            siteConfigInner.withFunctionAppScaleLimit(this.siteConfig.functionAppScaleLimit());
-            // TODO(xiaofei) remove after backend fix this bug
-            siteConfigInner.withAppSettings(new ArrayList<>());
-            this.innerModel().withSiteConfig(siteConfigInner);
+        if (isFunctionAppOnACA()) {
+            this.innerModel().withReserved(null);
+            if (this.siteConfig != null) {
+                SiteConfigInner siteConfigInner = new SiteConfigInner();
+                siteConfigInner.withLinuxFxVersion(this.siteConfig.linuxFxVersion());
+                siteConfigInner.withMinimumElasticInstanceCount(this.siteConfig.minimumElasticInstanceCount());
+                siteConfigInner.withFunctionAppScaleLimit(this.siteConfig.functionAppScaleLimit());
+                siteConfigInner.withAppSettings(this.siteConfig.appSettings());
+                if (!appSettingsToAdd.isEmpty() || !appSettingsToRemove.isEmpty()) {
+                    for (String settingToRemove : appSettingsToRemove) {
+                        siteConfigInner.appSettings().removeIf(kvPair -> Objects.equals(settingToRemove, kvPair.name()));
+                    }
+                    for (Map.Entry<String, String> entry : appSettingsToAdd.entrySet()) {
+                        siteConfigInner.appSettings().add(new NameValuePair().withName(entry.getKey()).withValue(entry.getValue()));
+                    }
+                }
+
+                this.innerModel().withDaprConfig(new DaprConfig().withEnabled(false));
+                this.innerModel().withSiteConfig(siteConfigInner);
+            }
         }
     }
 
@@ -664,7 +626,61 @@ class FunctionAppImpl
                     StorageAccountSkuType.STANDARD_LRS);
             }
         }
-        return super.createAsync();
+        Mono<Void> beforeCreation = Mono.empty();
+        if (this.storageAccountCreatable != null) {
+            beforeCreation = this.storageAccountCreatable
+                .createAsync()
+                .flatMap(storageAccount -> {
+                    storageAccountToSet = storageAccount;
+                    return setStorageAccountAppSettings();
+                });
+        } else if (this.storageAccountToSet != null) {
+            beforeCreation = setStorageAccountAppSettings();
+        }
+        return beforeCreation
+            .then(Mono.fromCallable(() -> {
+                adaptForFunctionAppOnACA();
+                return null;
+            }))
+            .then(super.createAsync()
+                .then(Mono.fromCallable(() -> {
+                    currentStorageAccount = storageAccountToSet;
+                    storageAccountToSet = null;
+                    storageAccountCreatable = null;
+                    return FunctionAppImpl.this;
+                })));
+    }
+
+    private Mono<Void> setStorageAccountAppSettings() {
+        return storageAccountToSet
+            .getKeysAsync()
+            .flatMap(storageAccountKeys -> {
+                StorageAccountKey key = storageAccountKeys.get(0);
+                String connectionString = ResourceManagerUtils
+                    .getStorageConnectionString(storageAccountToSet.name(), key.value(),
+                        manager().environment());
+                addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
+                if (!isFunctionAppOnACA()) {
+                    // Function App on ACA only supports Application Insights as log option.
+                    // https://learn.microsoft.com/en-us/azure/azure-functions/functions-app-settings#azurewebjobsdashboard
+                    addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
+                    return FunctionAppImpl.this.manager().appServicePlans().getByIdAsync(FunctionAppImpl.this.appServicePlanId())
+                        .flatMap(appServicePlan -> {
+                            if (appServicePlan == null
+                                || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier())) {
+
+                                addAppSettingIfNotModified(
+                                    SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
+                                addAppSettingIfNotModified(
+                                    SETTING_WEBSITE_CONTENTSHARE,
+                                    FunctionAppImpl.this.manager().resourceManager().internalContext()
+                                        .randomResourceName(name(), 32));
+                            }
+                            return Mono.empty();
+                        });
+                }
+                return Mono.empty();
+            });
     }
 
     @Override
@@ -680,6 +696,10 @@ class FunctionAppImpl
         this.innerModel().withManagedEnvironmentId(managedEnvironmentId);
         if (!CoreUtils.isNullOrEmpty(managedEnvironmentId)) {
             this.innerModel().withKind("functionapp,linux,container,azurecontainerapps");
+            if (siteConfig == null) {
+                siteConfig = new SiteConfigResourceInner();
+                siteConfig.withAppSettings(new ArrayList<>());
+            }
         }
         return this;
     }
