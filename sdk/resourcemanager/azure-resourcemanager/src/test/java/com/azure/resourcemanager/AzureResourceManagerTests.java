@@ -29,6 +29,7 @@ import com.azure.resourcemanager.containerinstance.models.ContainerGroup;
 import com.azure.resourcemanager.containerinstance.models.ContainerGroupRestartPolicy;
 import com.azure.resourcemanager.containerinstance.models.Operation;
 import com.azure.resourcemanager.containerinstance.models.ResourceIdentityType;
+import com.azure.resourcemanager.keyvault.models.Vault;
 import com.azure.resourcemanager.msi.models.Identity;
 import com.azure.resourcemanager.network.models.Access;
 import com.azure.resourcemanager.network.models.ConnectionMonitor;
@@ -1387,6 +1388,28 @@ public class AzureResourceManagerTests extends ResourceManagerTestProxyTestBase 
         }
 
         Assertions.assertTrue(sb.length() == 0, sb.toString());
+    }
+
+    @Test
+    public void canUpdateStorageAccountCmk() {
+        String resourceGroupName = "rg-xiaofei";
+        String keyVaultName = "test2024022102";
+        String msiName = "test-storage-account-msi";
+        Identity identity = azureResourceManager.identities().getByResourceGroup(resourceGroupName, msiName);
+        Vault vault = azureResourceManager.vaults().getByResourceGroup(resourceGroupName, keyVaultName);
+        StorageAccount storageAccount = azureResourceManager.storageAccounts()
+            .define(generateRandomResourceName("sa", 15))
+            .withRegion(Region.US_EAST)
+            .withExistingResourceGroup(resourceGroupName)
+            .withGeneralPurposeAccountKindV2()
+            .withSystemAssignedManagedServiceIdentity()
+            .withExistingUserAssignedManagedServiceIdentity(identity)
+            .withEncryptionKeyFromKeyVault(vault.vaultUri(), "key1", "")
+            .create();
+        try {
+        } finally {
+            azureResourceManager.storageAccounts().deleteById(storageAccount.id());
+        }
     }
 
     private static Region findByLabelOrName(String labelOrName) {
