@@ -53,12 +53,12 @@ function NpmInstallForProject([string]$workingDirectory) {
             Copy-Item -Path $emitterPackageLock -Destination "package-lock.json" -Force
         }
 
-        if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci"
-        }
-        else {
+#         if ($usingLockFile) {
+#             Invoke-LoggedCommand "npm ci"
+#         }
+#         else {
             Invoke-LoggedCommand "npm install"
-        }
+#         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
     }
