@@ -4,20 +4,18 @@
 
 package com.azure.resourcemanager.consumption.fluent.models;
 
-import com.azure.core.annotation.Fluent;
-import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.annotation.Immutable;
 import com.azure.resourcemanager.consumption.models.ReservationTransactionResource;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/** Reservation transaction resource. */
-@Fluent
+/**
+ * Reservation transaction resource.
+ */
+@Immutable
 public class ReservationTransactionInner extends ReservationTransactionResource {
-    @JsonIgnore private final ClientLogger logger = new ClientLogger(ReservationTransactionInner.class);
-
     /*
      * The properties of a legacy reservation transaction.
      */
@@ -25,8 +23,14 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
     private LegacyReservationTransactionProperties innerProperties;
 
     /**
+     * Creates an instance of ReservationTransactionInner class.
+     */
+    public ReservationTransactionInner() {
+    }
+
+    /**
      * Get the innerProperties property: The properties of a legacy reservation transaction.
-     *
+     * 
      * @return the innerProperties value.
      */
     private LegacyReservationTransactionProperties innerProperties() {
@@ -35,7 +39,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the eventDate property: The date of the transaction.
-     *
+     * 
      * @return the eventDate value.
      */
     public OffsetDateTime eventDate() {
@@ -43,10 +47,8 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
     }
 
     /**
-     * Get the reservationOrderId property: The reservation order ID is the identifier for a reservation purchase. Each
-     * reservation order ID represents a single purchase transaction. A reservation order contains reservations. The
-     * reservation order specifies the VM size and region for the reservations.
-     *
+     * Get the reservationOrderId property: The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.
+     * 
      * @return the reservationOrderId value.
      */
     public String reservationOrderId() {
@@ -55,7 +57,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the description property: The description of the transaction.
-     *
+     * 
      * @return the description value.
      */
     public String description() {
@@ -63,8 +65,8 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
     }
 
     /**
-     * Get the eventType property: The type of the transaction (Purchase, Cancel, etc.).
-     *
+     * Get the eventType property: The type of the transaction (Purchase, Cancel or Refund).
+     * 
      * @return the eventType value.
      */
     public String eventType() {
@@ -73,7 +75,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the quantity property: The quantity of the transaction.
-     *
+     * 
      * @return the quantity value.
      */
     public BigDecimal quantity() {
@@ -82,7 +84,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the amount property: The charge of the transaction.
-     *
+     * 
      * @return the amount value.
      */
     public BigDecimal amount() {
@@ -91,7 +93,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the currency property: The ISO currency in which the transaction is charged, for example, USD.
-     *
+     * 
      * @return the currency value.
      */
     public String currency() {
@@ -100,7 +102,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the reservationOrderName property: The name of the reservation order.
-     *
+     * 
      * @return the reservationOrderName value.
      */
     public String reservationOrderName() {
@@ -109,7 +111,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the purchasingEnrollment property: The purchasing enrollment.
-     *
+     * 
      * @return the purchasingEnrollment value.
      */
     public String purchasingEnrollment() {
@@ -118,7 +120,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the purchasingSubscriptionGuid property: The subscription guid that makes the transaction.
-     *
+     * 
      * @return the purchasingSubscriptionGuid value.
      */
     public UUID purchasingSubscriptionGuid() {
@@ -127,7 +129,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the purchasingSubscriptionName property: The subscription name that makes the transaction.
-     *
+     * 
      * @return the purchasingSubscriptionName value.
      */
     public String purchasingSubscriptionName() {
@@ -135,9 +137,8 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
     }
 
     /**
-     * Get the armSkuName property: This is the ARM Sku name. It can be used to join with the serviceType field in
-     * additional info in usage records.
-     *
+     * Get the armSkuName property: This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records.
+     * 
      * @return the armSkuName value.
      */
     public String armSkuName() {
@@ -146,7 +147,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the term property: This is the term of the transaction.
-     *
+     * 
      * @return the term value.
      */
     public String term() {
@@ -155,7 +156,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the region property: The region of the transaction.
-     *
+     * 
      * @return the region value.
      */
     public String region() {
@@ -164,7 +165,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the accountName property: The name of the account that makes the transaction.
-     *
+     * 
      * @return the accountName value.
      */
     public String accountName() {
@@ -173,7 +174,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the accountOwnerEmail property: The email of the account owner that makes the transaction.
-     *
+     * 
      * @return the accountOwnerEmail value.
      */
     public String accountOwnerEmail() {
@@ -182,7 +183,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the departmentName property: The department name.
-     *
+     * 
      * @return the departmentName value.
      */
     public String departmentName() {
@@ -190,9 +191,8 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
     }
 
     /**
-     * Get the costCenter property: The cost center of this department if it is a department and a cost center is
-     * provided.
-     *
+     * Get the costCenter property: The cost center of this department if it is a department and a cost center is provided.
+     * 
      * @return the costCenter value.
      */
     public String costCenter() {
@@ -201,7 +201,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the currentEnrollment property: The current enrollment.
-     *
+     * 
      * @return the currentEnrollment value.
      */
     public String currentEnrollment() {
@@ -210,7 +210,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the billingFrequency property: The billing frequency, which can be either one-time or recurring.
-     *
+     * 
      * @return the billingFrequency value.
      */
     public String billingFrequency() {
@@ -219,7 +219,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the billingMonth property: The billing month(yyyyMMdd), on which the event initiated.
-     *
+     * 
      * @return the billingMonth value.
      */
     public Integer billingMonth() {
@@ -228,7 +228,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the monetaryCommitment property: The monetary commitment amount at the enrollment scope.
-     *
+     * 
      * @return the monetaryCommitment value.
      */
     public BigDecimal monetaryCommitment() {
@@ -237,7 +237,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Get the overage property: The overage amount at the enrollment scope.
-     *
+     * 
      * @return the overage value.
      */
     public BigDecimal overage() {
@@ -246,7 +246,7 @@ public class ReservationTransactionInner extends ReservationTransactionResource 
 
     /**
      * Validates the instance.
-     *
+     * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     @Override
