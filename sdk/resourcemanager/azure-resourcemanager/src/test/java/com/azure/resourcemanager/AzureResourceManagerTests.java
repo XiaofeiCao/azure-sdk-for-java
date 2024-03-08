@@ -94,7 +94,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 public class AzureResourceManagerTests extends ResourceManagerTestProxyTestBase {
-    private AzureResourceManager azureResourceManager;
+    protected AzureResourceManager azureResourceManager;
 
     public AzureResourceManagerTests() {
         addSanitizers(
