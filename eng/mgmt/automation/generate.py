@@ -6,6 +6,9 @@ import json
 import glob
 import logging
 import argparse
+import shutil
+import subprocess
+from utils import update_version
 from typing import List
 
 pwd = os.getcwd()
@@ -50,6 +53,11 @@ def parse_args() -> (argparse.ArgumentParser, argparse.Namespace):
         '-r',
         '--readme',
         help='Readme path, Sample: "storage" or "specification/storage/resource-manager/readme.md"',
+    )
+    parser.add_argument(
+        '-l',
+        '--tsp-location',
+        help='location of tspconfig.yaml file',
     )
     parser.add_argument('-t', '--tag', help='Specific tag')
     parser.add_argument('-v', '--version', help='Specific sdk version')
@@ -210,42 +218,93 @@ def main():
     sdk_root = os.path.abspath(os.path.join(base_dir, SDK_ROOT))
     api_specs_file = os.path.join(base_dir, API_SPECS_FILE)
 
-    if not args.get('readme'):
-        parser.print_help()
-        sys.exit(0)
+    if args.get('tsp_location'):
+        tsp_location = args['tsp_location']
 
-    readme = args['readme']
-    match = re.match(
-        'specification/([^/]+)/resource-manager(/.*)*/readme.md',
-        readme,
-        re.IGNORECASE,
-    )
-    if not match:
-        spec = readme
-        readme = 'specification/{0}/resource-manager/readme.md'.format(spec)
+        succeeded = False
+        sdk_folder = None
+        service = None
+        module = None
+        try:
+            cmd = ['pwsh', './eng/common/scripts/TypeSpec-Project-Process.ps1', tsp_location]
+            logging.info('Command line: ' + ' '.join(cmd))
+            output = subprocess.check_output(cmd, cwd=sdk_root)
+            output_str = str(output, 'utf-8')
+            script_return = output_str.splitlines()[-1] # the path to sdk folder
+            sdk_folder = os.path.relpath(script_return, sdk_root)
+            logging.info('SDK folder: ' + sdk_folder)
+            if sdk_folder:
+                succeeded = True
+        except subprocess.CalledProcessError as error:
+            logging.error(f'TypeSpec-Project-Process.ps1 fail: {error}')
+
+        if succeeded:
+            # check require_sdk_integration
+            require_sdk_integration = False
+            cmd = ['git', 'add', '.']
+            check_call(cmd, sdk_root)
+            cmd = ['git', 'status', '--porcelain', os.path.join(sdk_folder, 'pom.xml')]
+            logging.info('Command line: ' + ' '.join(cmd))
+            output = subprocess.check_output(cmd, cwd=sdk_root)
+            output_str = str(output, 'utf-8')
+            git_items = output_str.splitlines()
+            if len(git_items) > 0:
+                git_pom_item = git_items[0]
+                # new pom.xml implies new SDK
+                require_sdk_integration = git_pom_item.startswith('A ')
+
+            # parse service and module
+            match = re.match(r'sdk[\\/](.*)[\\/](.*)', sdk_folder)
+            service = match.group(1)
+            module = match.group(2)
+
+            stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
+            args['version'] = current_version
+
+            if require_sdk_integration:
+                update_service_ci_and_pom(sdk_root, service, group, module)
+                update_root_pom(sdk_root, service)
+
+            update_parameters(None)
+            output_folder = OUTPUT_FOLDER_FORMAT.format(service)
+            update_version(sdk_root, output_folder)
     else:
-        spec = match.group(1)
-        spec = update_spec(spec, match.group(2))
+        if not args.get('readme'):
+            parser.print_help()
+            sys.exit(0)
 
-    args['readme'] = readme
-    args['spec'] = spec
+        readme = args['readme']
+        match = re.match(
+            'specification/([^/]+)/resource-manager(/.*)*/readme.md',
+            readme,
+            re.IGNORECASE,
+        )
+        if not match:
+            spec = readme
+            readme = 'specification/{0}/resource-manager/readme.md'.format(spec)
+        else:
+            spec = match.group(1)
+            spec = update_spec(spec, match.group(2))
 
-    update_parameters(args.get('suffix') or get_suffix_from_api_specs(api_specs_file, spec))
-    service = get_and_update_service_from_api_specs(api_specs_file, spec,
-                                                    args['service'])
-    args['service'] = service
-    module = ARTIFACT_FORMAT.format(service)
-    stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
-    args['version'] = current_version
-    output_folder = OUTPUT_FOLDER_FORMAT.format(service)
-    namespace = NAMESPACE_FORMAT.format(service)
-    succeeded = generate(
-        sdk_root,
-        module=module,
-        output_folder=output_folder,
-        namespace=namespace,
-        **args
-    )
+        args['readme'] = readme
+        args['spec'] = spec
+
+        update_parameters(args.get('suffix') or get_suffix_from_api_specs(api_specs_file, spec))
+        service = get_and_update_service_from_api_specs(api_specs_file, spec,
+                                                        args['service'])
+        args['service'] = service
+        module = ARTIFACT_FORMAT.format(service)
+        stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
+        args['version'] = current_version
+        output_folder = OUTPUT_FOLDER_FORMAT.format(service)
+        namespace = NAMESPACE_FORMAT.format(service)
+        succeeded = generate(
+            sdk_root,
+            module=module,
+            output_folder=output_folder,
+            namespace=namespace,
+            **args
+        )
 
     if succeeded:
         succeeded = compile_package(sdk_root, module)
@@ -269,6 +328,9 @@ def main():
     if not succeeded:
         raise RuntimeError('Failed to generate code or compile the package')
 
+def check_call(cmd: List[str], work_dir: str):
+    logging.info('Command line: ' + ' '.join(cmd))
+    subprocess.check_call(cmd, cwd=work_dir)
 
 if __name__ == '__main__':
     logging.basicConfig(
