@@ -43,8 +43,8 @@ public class VMWareTests extends AzureResourceManagerTests {
         AtomicInteger round = new AtomicInteger();
         AtomicInteger counter = new AtomicInteger();
         AtomicInteger failures = new AtomicInteger();
-        LOGGER.info("round: {}, request count: {}, failures: {}", round.get(), counter.get(), failures.get());
         while (true) {
+            LOGGER.info("round: {}, request count: {}, failures: {}", round.get(), counter.get(), failures.get());
             try {
                 int concurrency = 4;
                 CountDownLatch ctl = new CountDownLatch(concurrency);
