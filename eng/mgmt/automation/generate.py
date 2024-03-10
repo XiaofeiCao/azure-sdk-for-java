@@ -51,6 +51,10 @@ def parse_args() -> (argparse.ArgumentParser, argparse.Namespace):
         '--readme',
         help='Readme path, Sample: "storage" or "specification/storage/resource-manager/readme.md"',
     )
+    parser.add_argument(
+        '-l',
+        '--tsp-location'
+    )
     parser.add_argument('-t', '--tag', help='Specific tag')
     parser.add_argument('-v', '--version', help='Specific sdk version')
     parser.add_argument(
@@ -210,42 +214,62 @@ def main():
     sdk_root = os.path.abspath(os.path.join(base_dir, SDK_ROOT))
     api_specs_file = os.path.join(base_dir, API_SPECS_FILE)
 
-    if not args.get('readme'):
-        parser.print_help()
-        sys.exit(0)
+    if args.get('tsp-location'):
+        tsp_location = args['tsp-location']
 
-    readme = args['readme']
-    match = re.match(
-        'specification/([^/]+)/resource-manager(/.*)*/readme.md',
-        readme,
-        re.IGNORECASE,
-    )
-    if not match:
-        spec = readme
-        readme = 'specification/{0}/resource-manager/readme.md'.format(spec)
+        service = parse_tspconfig(tsp_location)
+        // TODO(xiaofei) this part is duplicate
+        args['service'] = service
+        module = ARTIFACT_FORMAT.format(service)
+        stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
+        args['version'] = current_version
+        output_folder = OUTPUT_FOLDER_FORMAT.format(service)
+        namespace = NAMESPACE_FORMAT.format(service)
+
+        succeeded = generate_tsp(
+            sdk_root,
+            module=module,
+            output_folder=output_folder,
+            namespace=namespace,
+            **args
+        )
     else:
-        spec = match.group(1)
-        spec = update_spec(spec, match.group(2))
+        if not args.get('readme'):
+            parser.print_help()
+            sys.exit(0)
 
-    args['readme'] = readme
-    args['spec'] = spec
+        readme = args['readme']
+        match = re.match(
+            'specification/([^/]+)/resource-manager(/.*)*/readme.md',
+            readme,
+            re.IGNORECASE,
+        )
+        if not match:
+            spec = readme
+            readme = 'specification/{0}/resource-manager/readme.md'.format(spec)
+        else:
+            spec = match.group(1)
+            spec = update_spec(spec, match.group(2))
 
-    update_parameters(args.get('suffix') or get_suffix_from_api_specs(api_specs_file, spec))
-    service = get_and_update_service_from_api_specs(api_specs_file, spec,
-                                                    args['service'])
-    args['service'] = service
-    module = ARTIFACT_FORMAT.format(service)
-    stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
-    args['version'] = current_version
-    output_folder = OUTPUT_FOLDER_FORMAT.format(service)
-    namespace = NAMESPACE_FORMAT.format(service)
-    succeeded = generate(
-        sdk_root,
-        module=module,
-        output_folder=output_folder,
-        namespace=namespace,
-        **args
-    )
+        args['readme'] = readme
+        args['spec'] = spec
+
+        update_parameters(args.get('suffix') or get_suffix_from_api_specs(api_specs_file, spec))
+        service = get_and_update_service_from_api_specs(api_specs_file, spec,
+                                                        args['service'])
+        args['service'] = service
+        module = ARTIFACT_FORMAT.format(service)
+        stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module, **args)
+        args['version'] = current_version
+        output_folder = OUTPUT_FOLDER_FORMAT.format(service)
+        namespace = NAMESPACE_FORMAT.format(service)
+        succeeded = generate(
+            sdk_root,
+            module=module,
+            output_folder=output_folder,
+            namespace=namespace,
+            **args
+        )
 
     if succeeded:
         succeeded = compile_package(sdk_root, module)
@@ -269,6 +293,27 @@ def main():
     if not succeeded:
         raise RuntimeError('Failed to generate code or compile the package')
 
+def parse_tspconfig(tsp_location: str) {
+    //TODO(xiaofei) implementation
+}
+
+def generate(
+    sdk_root: str,
+    service: str,
+    spec_root: str,
+    readme: str,
+    autorest: str,
+    use: str,
+    output_folder: str,
+    module: str,
+    namespace: str,
+    tag: str = None,
+    version: str = None,
+    autorest_options: str = '',
+    **kwargs,
+) -> bool {
+    // TODO(xiaofei) implementation
+}
 
 if __name__ == '__main__':
     logging.basicConfig(
