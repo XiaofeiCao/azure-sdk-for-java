@@ -6,7 +6,7 @@ param (
     [ValidateNotNullOrEmpty()]
     [string] $ProjectDirectory,
     [string] $TypespecAdditionalOptions = $null, ## additional typespec emitter options, separated by semicolon if more than one, e.g. option1=value1;option2=value2
-    [switch] $SaveInputs = $true ## saves the temporary files during execution, default false
+    [switch] $SaveInputs = $false ## saves the temporary files during execution, default false
 )
 
 $ErrorActionPreference = "Stop"
