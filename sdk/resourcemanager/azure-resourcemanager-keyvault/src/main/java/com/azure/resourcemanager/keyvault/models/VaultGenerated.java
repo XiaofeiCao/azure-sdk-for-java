@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /** Properties of the vault. */
 @Fluent
-public interface VaultGenerated extends GroupableResource<KeyVaultManager, VaultInner>, Refreshable<Vault>, Updatable<Vault.Update> {
+public interface VaultGenerated extends GroupableResource<KeyVaultManager, VaultInner>, Refreshable<VaultGenerated>, Updatable<VaultGenerated.Update> {
 
     /**
      * Get the sku property: SKU details.
@@ -159,10 +159,10 @@ public interface VaultGenerated extends GroupableResource<KeyVaultManager, Vault
         DefinitionStages.WithCreate {}
 
     interface DefinitionStages {
-        interface Blank extends DefinitionWithRegion<Vault.DefinitionStages.WithGroup> {
+        interface Blank extends DefinitionWithRegion<VaultGenerated.DefinitionStages.WithGroup> {
         }
 
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithTenantId>{
+        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithCreate>{
 
         }
 
@@ -303,22 +303,22 @@ public interface VaultGenerated extends GroupableResource<KeyVaultManager, Vault
         interface WithPublicNetworkAccess {
             Update withPublicNetworkAccess(String publicNetworkAccess);
         }
+    }
 
-        interface Update extends GroupableResource.UpdateWithTags<Update>,
-            Appliable<VaultGenerated>,
-            WithTenantId,
-            WithSku,
-            WithAccessPolicies,
-            WithVaultUri,
-            WithHsmPoolResourceId,
-            WithConfiguration,
-            WithSoftDeleteRetentionInDays,
-            WithRoleBasedAccessControlEnabled,
-            WithCreateMode,
-            WithNetworkRuleSet,
-            WithProvisioningState,
-            WithPrivateEndpointConnections,
-            WithPublicNetworkAccess {
-        }
+    interface Update extends GroupableResource.UpdateWithTags<Update>,
+        Appliable<VaultGenerated>,
+        UpdateStages.WithTenantId,
+        UpdateStages.WithSku,
+        UpdateStages.WithAccessPolicies,
+        UpdateStages.WithVaultUri,
+        UpdateStages.WithHsmPoolResourceId,
+        UpdateStages.WithConfiguration,
+        UpdateStages.WithSoftDeleteRetentionInDays,
+        UpdateStages.WithRoleBasedAccessControlEnabled,
+        UpdateStages.WithCreateMode,
+        UpdateStages.WithNetworkRuleSet,
+        UpdateStages.WithProvisioningState,
+        UpdateStages.WithPrivateEndpointConnections,
+        UpdateStages.WithPublicNetworkAccess {
     }
 }

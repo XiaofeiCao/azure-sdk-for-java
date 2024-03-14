@@ -12,6 +12,7 @@ import com.azure.resourcemanager.keyvault.implementation.ManagedHsmsImpl;
 import com.azure.resourcemanager.keyvault.implementation.VaultsImpl;
 import com.azure.resourcemanager.keyvault.models.ManagedHsms;
 import com.azure.resourcemanager.keyvault.models.Vaults;
+import com.azure.resourcemanager.keyvault.models.VaultsGenerated;
 import com.azure.resourcemanager.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.resourcemanager.resources.fluentcore.arm.Manager;
 import com.azure.core.management.profile.AzureProfile;
@@ -27,6 +28,7 @@ public final class KeyVaultManager extends Manager<KeyVaultManagementClient> {
     // Collections
     private Vaults vaults;
     private ManagedHsms managedHsms;
+    private VaultsGenerated vaultsGenerated;
     // Variables
     private final String tenantId;
 
@@ -115,6 +117,12 @@ public final class KeyVaultManager extends Manager<KeyVaultManagementClient> {
             managedHsms = new ManagedHsmsImpl(this, tenantId);
         }
         return managedHsms;
+    }
+
+    public VaultsGenerated vaultsGenerated() {
+        if (vaultsGenerated == null) {
+        }
+        return null;
     }
 
 //    /**

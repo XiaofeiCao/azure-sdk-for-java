@@ -5,20 +5,28 @@ package com.azure.resourcemanager.keyvault;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.exception.ManagementException;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.authorization.models.ActiveDirectoryUser;
 import com.azure.resourcemanager.authorization.models.ServicePrincipal;
 import com.azure.resourcemanager.keyvault.models.AccessPolicy;
+import com.azure.resourcemanager.keyvault.models.AccessPolicyEntry;
 import com.azure.resourcemanager.keyvault.models.CertificatePermissions;
 import com.azure.resourcemanager.keyvault.models.KeyPermissions;
 import com.azure.resourcemanager.keyvault.models.NetworkRuleBypassOptions;
+import com.azure.resourcemanager.keyvault.models.Permissions;
 import com.azure.resourcemanager.keyvault.models.SecretPermissions;
 import com.azure.resourcemanager.keyvault.models.Vault;
 import com.azure.core.management.Region;
+import com.azure.resourcemanager.keyvault.models.VaultGenerated;
 import com.azure.resourcemanager.resources.fluentcore.utils.ResourceManagerUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class VaultTests extends KeyVaultManagementTest {
     @Test
@@ -280,6 +288,33 @@ public class VaultTests extends KeyVaultManagementTest {
             authorizationManager.servicePrincipals().deleteById(servicePrincipal.id());
             // graphRbacManager.users().deleteById(user.id());
         }
+    }
+
+    @Test
+    public void vaultsGenerateTests() {
+        String vaultName = generateRandomResourceName("vt", 15);
+        Vault vault = keyVaultManager.vaults()
+            .define(vaultName)
+            .withRegion(Region.US_WEST)
+            .withNewResourceGroup()
+            .defineAccessPolicy()
+            .forObjectId(clientIdFromFile())
+            .allowCertificateAllPermissions()
+            .attach()
+            .withDeploymentEnabled()
+            .create();
+
+        VaultGenerated vaultGenerated = keyVaultManager.vaultsGenerated()
+            .define(vaultName)
+            .withRegion(Region.US_WEST)
+            .withNewResourceGroup()
+            .withAccessPolicies(Arrays.asList(
+                new AccessPolicyEntry()
+                    .withObjectId(clientIdFromFile())
+                    .withPermissions(new Permissions().withCertificates(new ArrayList<>(CertificatePermissions.values())))
+            ))
+            .withDeploymentEnabled(true)
+            .create();
     }
 
     private void assertVaultDeleted(String name, String location) {
