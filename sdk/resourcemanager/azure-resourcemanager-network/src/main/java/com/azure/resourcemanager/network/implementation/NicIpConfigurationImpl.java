@@ -9,6 +9,7 @@ import com.azure.resourcemanager.network.fluent.models.ApplicationSecurityGroupI
 import com.azure.resourcemanager.network.models.ApplicationGateway;
 import com.azure.resourcemanager.network.models.ApplicationGatewayBackendAddressPool;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
+import com.azure.resourcemanager.network.models.DeleteOptions;
 import com.azure.resourcemanager.network.models.IpAllocationMethod;
 import com.azure.resourcemanager.network.models.IpVersion;
 import com.azure.resourcemanager.network.models.LoadBalancer;
@@ -399,5 +400,11 @@ class NicIpConfigurationImpl extends NicIpConfigurationBaseImpl<NetworkInterface
             });
         }
         return this;
+    }
+
+    @Override
+    public NicIpConfigurationImpl withNewPublicIpAddress(DeleteOptions deleteOptions) {
+        // TODO (xiaofeicao, 2024-03-19 2:44 PM)
+        throw new UnsupportedOperationException("method [withNewPublicIpAddress] not implemented in class [com.azure.resourcemanager.network.implementation.NicIpConfigurationImpl]");
     }
 }

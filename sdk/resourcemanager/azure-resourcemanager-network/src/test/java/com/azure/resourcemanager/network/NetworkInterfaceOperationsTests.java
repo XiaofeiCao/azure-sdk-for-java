@@ -6,6 +6,7 @@ package com.azure.resourcemanager.network;
 import com.azure.core.management.Region;
 import com.azure.resourcemanager.network.fluent.models.NatGatewayInner;
 import com.azure.resourcemanager.network.models.ApplicationSecurityGroup;
+import com.azure.resourcemanager.network.models.DeleteOptions;
 import com.azure.resourcemanager.network.models.NatGatewaySku;
 import com.azure.resourcemanager.network.models.NatGatewaySkuName;
 import com.azure.resourcemanager.network.models.Network;
@@ -507,6 +508,25 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         Subnet subnet2 = network.subnets().get(subnet2Name);
         Assertions.assertEquals(gateway2.id(), subnet2.natGatewayId());
+    }
+
+    @Test
+    public void testCode() {
+        String nicName = "";
+        NetworkInterface nic = networkManager.networkInterfaces()
+            .define(nicName)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup()
+            .withNewPrimaryNetwork("10.0.0.0/24")
+            .withPrimaryPrivateIPAddressDynamic()
+//            .withNewPrimaryPublicIPAddress(DeleteOptions.DELETE)
+            .defineSecondaryIPConfiguration("secondary")
+                .withNewNetwork("10.0.1.0/24")
+                .withPrivateIpAddressDynamic()
+                .withNewPublicIpAddress(DeleteOptions.DELETE)
+            .attach()
+            .create();
+
     }
 
     private NatGatewayInner createNatGateway() {

@@ -201,7 +201,8 @@ public interface NicIpConfiguration
             extends Attachable.InDefinition<ParentT>,
                 WithPublicIPAddress<ParentT>,
                 WithLoadBalancer<ParentT>,
-                WithApplicationGateway<ParentT> {
+                WithApplicationGateway<ParentT>,
+                PublicIpAddressWithDeleteOptions<WithAttach<ParentT>> {
         }
     }
 
@@ -216,7 +217,8 @@ public interface NicIpConfiguration
             UpdateDefinitionStages.WithNetwork<ParentT>,
             UpdateDefinitionStages.WithPrivateIP<ParentT>,
             UpdateDefinitionStages.WithSubnet<ParentT>,
-            UpdateDefinitionStages.WithPublicIPAddress<ParentT> {
+            UpdateDefinitionStages.WithPublicIPAddress<ParentT>,
+            PublicIpAddressWithDeleteOptions<UpdateDefinitionStages.WithAttach<ParentT>> {
     }
 
     /** Grouping of network interface IP configuration definition stages. */
@@ -385,7 +387,8 @@ public interface NicIpConfiguration
             extends Attachable.InUpdate<ParentT>,
                 WithPublicIPAddress<ParentT>,
                 WithLoadBalancer<ParentT>,
-                WithApplicationGateway<ParentT> {
+                WithApplicationGateway<ParentT>,
+                PublicIpAddressWithDeleteOptions<WithAttach<ParentT>> {
         }
     }
 
@@ -396,7 +399,8 @@ public interface NicIpConfiguration
             UpdateStages.WithPrivateIP,
             UpdateStages.WithPublicIPAddress,
             UpdateStages.WithLoadBalancer,
-            UpdateStages.WithApplicationGateway {
+            UpdateStages.WithApplicationGateway,
+            PublicIpAddressWithDeleteOptions<Update> {
     }
 
     /** Grouping of network interface IP configuration update stages. */
