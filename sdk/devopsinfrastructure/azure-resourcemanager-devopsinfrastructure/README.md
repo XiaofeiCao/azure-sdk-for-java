@@ -1,8 +1,8 @@
-# Azure Resource Manager DevOpsInfrastructure client library for Java
+# Azure Resource Manager DevOps Infrastructure client library for Java
 
-Azure Resource Manager DevOpsInfrastructure client library for Java.
+Azure Resource Manager DevOps Infrastructure client library for Java.
 
-This package contains Microsoft Azure SDK for DevOpsInfrastructure Management SDK.  Package tag package-preview-2024-04. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+This package contains Microsoft Azure SDK for DevOps Infrastructure Management SDK. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
 
 ## We'd love to hear your feedback
 
