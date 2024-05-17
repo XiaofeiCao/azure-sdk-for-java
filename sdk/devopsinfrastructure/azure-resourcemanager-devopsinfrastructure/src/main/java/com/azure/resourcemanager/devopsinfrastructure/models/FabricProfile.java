@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @Immutable
 public class FabricProfile {
     /*
-     * Virtual Machine Scale Sets
+     * The kind property.
      */
     @JsonTypeId
     @JsonProperty(value = "kind", required = true)
@@ -34,7 +34,7 @@ public class FabricProfile {
     }
 
     /**
-     * Get the kind property: Virtual Machine Scale Sets.
+     * Get the kind property: The kind property.
      * 
      * @return the kind value.
      */

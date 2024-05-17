@@ -12,9 +12,9 @@ public final class ImageVersionListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         ImageVersionListResult model = BinaryData.fromString(
-            "{\"value\":[{\"properties\":{\"version\":\"tq\"},\"id\":\"iekkezz\",\"name\":\"khly\",\"type\":\"jhdgqggebdunyga\"},{\"properties\":{\"version\":\"idb\"},\"id\":\"atpxl\",\"name\":\"rxcyjmoad\",\"type\":\"uvarmywdmjsjq\"},{\"properties\":{\"version\":\"hhyxxrw\"},\"id\":\"co\",\"name\":\"uhpkxkgymar\",\"type\":\"qnajxqugj\"},{\"properties\":{\"version\":\"ycubeddgs\"},\"id\":\"fwqmzqalkrmn\",\"name\":\"i\",\"type\":\"pxacqqudfn\"}],\"nextLink\":\"xbaaabjyv\"}")
+            "{\"value\":[{\"properties\":{\"version\":\"pkii\"},\"id\":\"yexz\",\"name\":\"eli\",\"type\":\"hnrztfol\"},{\"properties\":{\"version\":\"nxknalaulp\"},\"id\":\"gdtpnapnyiro\",\"name\":\"uhpigvp\",\"type\":\"ylgqgitxmedjvcsl\"},{\"properties\":{\"version\":\"qwwncw\"},\"id\":\"hxg\",\"name\":\"trmgucnapkte\",\"type\":\"ellwptfdy\"}],\"nextLink\":\"fqbuaceopzf\"}")
             .toObject(ImageVersionListResult.class);
-        Assertions.assertEquals("tq", model.value().get(0).properties().version());
-        Assertions.assertEquals("xbaaabjyv", model.nextLink());
+        Assertions.assertEquals("pkii", model.value().get(0).properties().version());
+        Assertions.assertEquals("fqbuaceopzf", model.nextLink());
     }
 }

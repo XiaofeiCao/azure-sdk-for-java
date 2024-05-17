@@ -13,11 +13,11 @@ public final class ResourceDetailsObjectListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         ResourceDetailsObjectListResult model = BinaryData.fromString(
-            "{\"value\":[{\"properties\":{\"status\":\"PendingReimage\",\"image\":\"d\",\"imageVersion\":\"mgxcxrslpm\"},\"id\":\"wuoegrpk\",\"name\":\"jw\",\"type\":\"iyq\"},{\"properties\":{\"status\":\"Provisioning\",\"image\":\"i\",\"imageVersion\":\"pdggkzzlvm\"},\"id\":\"paxmodfvuefywsb\",\"name\":\"fvmwy\",\"type\":\"rfouyftaakcpw\"},{\"properties\":{\"status\":\"PendingReimage\",\"image\":\"vqtmnub\",\"imageVersion\":\"xkp\"},\"id\":\"smond\",\"name\":\"mquxvypo\",\"type\":\"gkopkwhojvpajqgx\"},{\"properties\":{\"status\":\"Reimaging\",\"image\":\"ocmbqfqvmkcxoza\",\"imageVersion\":\"vhelxprglyatdd\"},\"id\":\"cbcuejrjxgciqi\",\"name\":\"rhos\",\"type\":\"sdqrhzoymibmrq\"}],\"nextLink\":\"bahwfl\"}")
+            "{\"value\":[{\"properties\":{\"status\":\"PendingReimage\",\"image\":\"mvvd\",\"imageVersion\":\"watkpnpulexxb\"},\"id\":\"wtruwiqzbqjvsovm\",\"name\":\"okacspk\",\"type\":\"lhzdobp\"}],\"nextLink\":\"mflbv\"}")
             .toObject(ResourceDetailsObjectListResult.class);
         Assertions.assertEquals(ResourceStatus.PENDING_REIMAGE, model.value().get(0).properties().status());
-        Assertions.assertEquals("d", model.value().get(0).properties().image());
-        Assertions.assertEquals("mgxcxrslpm", model.value().get(0).properties().imageVersion());
-        Assertions.assertEquals("bahwfl", model.nextLink());
+        Assertions.assertEquals("mvvd", model.value().get(0).properties().image());
+        Assertions.assertEquals("watkpnpulexxb", model.value().get(0).properties().imageVersion());
+        Assertions.assertEquals("mflbv", model.nextLink());
     }
 }

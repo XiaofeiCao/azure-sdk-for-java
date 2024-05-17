@@ -12,13 +12,13 @@ public final class StatelessAgentProfileTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         StatelessAgentProfile model = BinaryData.fromString(
-            "{\"kind\":\"Stateless\",\"resourcePredictions\":\"datawpzntxhdzh\",\"resourcePredictionsProfile\":{\"kind\":\"ResourcePredictionsProfile\"}}")
+            "{\"kind\":\"Stateless\",\"resourcePredictions\":\"dataablgphuticndvk\",\"resourcePredictionsProfile\":{\"kind\":\"ResourcePredictionsProfile\"}}")
             .toObject(StatelessAgentProfile.class);
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        StatelessAgentProfile model = new StatelessAgentProfile().withResourcePredictions("datawpzntxhdzh")
+        StatelessAgentProfile model = new StatelessAgentProfile().withResourcePredictions("dataablgphuticndvk")
             .withResourcePredictionsProfile(new ResourcePredictionsProfile());
         model = BinaryData.fromObject(model).toObject(StatelessAgentProfile.class);
     }

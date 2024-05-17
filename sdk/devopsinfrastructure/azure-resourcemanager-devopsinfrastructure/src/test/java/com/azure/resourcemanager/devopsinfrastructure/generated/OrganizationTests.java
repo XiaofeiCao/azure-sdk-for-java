@@ -12,22 +12,21 @@ import org.junit.jupiter.api.Assertions;
 public final class OrganizationTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        Organization model = BinaryData.fromString(
-            "{\"url\":\"kphywpnvjto\",\"projects\":[\"rmclfplphoxu\",\"crpab\",\"ye\",\"sbj\"],\"parallelism\":300871013}")
-            .toObject(Organization.class);
-        Assertions.assertEquals("kphywpnvjto", model.url());
-        Assertions.assertEquals("rmclfplphoxu", model.projects().get(0));
-        Assertions.assertEquals(300871013, model.parallelism());
+        Organization model
+            = BinaryData.fromString("{\"url\":\"p\",\"projects\":[\"zlljfmppeebvm\"],\"parallelism\":1969125414}")
+                .toObject(Organization.class);
+        Assertions.assertEquals("p", model.url());
+        Assertions.assertEquals("zlljfmppeebvm", model.projects().get(0));
+        Assertions.assertEquals(1969125414, model.parallelism());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        Organization model = new Organization().withUrl("kphywpnvjto")
-            .withProjects(Arrays.asList("rmclfplphoxu", "crpab", "ye", "sbj"))
-            .withParallelism(300871013);
+        Organization model
+            = new Organization().withUrl("p").withProjects(Arrays.asList("zlljfmppeebvm")).withParallelism(1969125414);
         model = BinaryData.fromObject(model).toObject(Organization.class);
-        Assertions.assertEquals("kphywpnvjto", model.url());
-        Assertions.assertEquals("rmclfplphoxu", model.projects().get(0));
-        Assertions.assertEquals(300871013, model.parallelism());
+        Assertions.assertEquals("p", model.url());
+        Assertions.assertEquals("zlljfmppeebvm", model.projects().get(0));
+        Assertions.assertEquals(1969125414, model.parallelism());
     }
 }

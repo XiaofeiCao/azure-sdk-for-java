@@ -23,7 +23,7 @@ public final class ResourceDetailsListByPoolMockTests {
     @Test
     public void testListByPool() throws Exception {
         String responseStr
-            = "{\"value\":[{\"properties\":{\"status\":\"Allocated\",\"image\":\"l\",\"imageVersion\":\"h\"},\"id\":\"fwpracstwi\",\"name\":\"ykhevxccedcpnmdy\",\"type\":\"dnwzxltjcvnhltiu\"}]}";
+            = "{\"value\":[{\"properties\":{\"status\":\"PendingReimage\",\"image\":\"wdreqnovvqfovl\",\"imageVersion\":\"xywsuws\"},\"id\":\"s\",\"name\":\"dsytgadgvr\",\"type\":\"ea\"}]}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -33,10 +33,10 @@ public final class ResourceDetailsListByPoolMockTests {
                 new AzureProfile("", "", AzureEnvironment.AZURE));
 
         PagedIterable<ResourceDetailsObject> response
-            = manager.resourceDetails().listByPool("r", "tswiby", com.azure.core.util.Context.NONE);
+            = manager.resourceDetails().listByPool("joxafnndlpi", "hkoymkcdyhbp", com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals(ResourceStatus.ALLOCATED, response.iterator().next().properties().status());
-        Assertions.assertEquals("l", response.iterator().next().properties().image());
-        Assertions.assertEquals("h", response.iterator().next().properties().imageVersion());
+        Assertions.assertEquals(ResourceStatus.PENDING_REIMAGE, response.iterator().next().properties().status());
+        Assertions.assertEquals("wdreqnovvqfovl", response.iterator().next().properties().image());
+        Assertions.assertEquals("xywsuws", response.iterator().next().properties().imageVersion());
     }
 }

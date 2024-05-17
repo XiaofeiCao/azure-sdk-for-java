@@ -12,13 +12,13 @@ public final class AgentProfileTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         AgentProfile model = BinaryData.fromString(
-            "{\"kind\":\"AgentProfile\",\"resourcePredictions\":\"dataudxytlmoyrx\",\"resourcePredictionsProfile\":{\"kind\":\"ResourcePredictionsProfile\"}}")
+            "{\"kind\":\"AgentProfile\",\"resourcePredictions\":\"dataoc\",\"resourcePredictionsProfile\":{\"kind\":\"ResourcePredictionsProfile\"}}")
             .toObject(AgentProfile.class);
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        AgentProfile model = new AgentProfile().withResourcePredictions("dataudxytlmoyrx")
+        AgentProfile model = new AgentProfile().withResourcePredictions("dataoc")
             .withResourcePredictionsProfile(new ResourcePredictionsProfile());
         model = BinaryData.fromObject(model).toObject(AgentProfile.class);
     }

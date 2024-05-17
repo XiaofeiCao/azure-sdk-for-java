@@ -12,7 +12,7 @@ public final class ImageVersionPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         ImageVersionProperties model
-            = BinaryData.fromString("{\"version\":\"hsucoc\"}").toObject(ImageVersionProperties.class);
-        Assertions.assertEquals("hsucoc", model.version());
+            = BinaryData.fromString("{\"version\":\"grcfb\"}").toObject(ImageVersionProperties.class);
+        Assertions.assertEquals("grcfb", model.version());
     }
 }

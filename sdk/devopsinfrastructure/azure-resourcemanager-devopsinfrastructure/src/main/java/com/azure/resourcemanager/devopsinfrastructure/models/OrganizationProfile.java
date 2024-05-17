@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @Immutable
 public class OrganizationProfile {
     /*
-     * GitHub organization profile
+     * The kind property.
      */
     @JsonTypeId
     @JsonProperty(value = "kind", required = true)
@@ -36,7 +36,7 @@ public class OrganizationProfile {
     }
 
     /**
-     * Get the kind property: GitHub organization profile.
+     * Get the kind property: The kind property.
      * 
      * @return the kind value.
      */

@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Assertions;
 public final class UserAssignedIdentityTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
-        UserAssignedIdentity model = BinaryData.fromString("{\"clientId\":\"nsmvbxwyj\",\"principalId\":\"lh\"}")
+        UserAssignedIdentity model = BinaryData.fromString("{\"clientId\":\"fepgzgq\",\"principalId\":\"zloc\"}")
             .toObject(UserAssignedIdentity.class);
-        Assertions.assertEquals("nsmvbxwyj", model.clientId());
-        Assertions.assertEquals("lh", model.principalId());
+        Assertions.assertEquals("fepgzgq", model.clientId());
+        Assertions.assertEquals("zloc", model.principalId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        UserAssignedIdentity model = new UserAssignedIdentity().withClientId("nsmvbxwyj").withPrincipalId("lh");
+        UserAssignedIdentity model = new UserAssignedIdentity().withClientId("fepgzgq").withPrincipalId("zloc");
         model = BinaryData.fromObject(model).toObject(UserAssignedIdentity.class);
-        Assertions.assertEquals("nsmvbxwyj", model.clientId());
-        Assertions.assertEquals("lh", model.principalId());
+        Assertions.assertEquals("fepgzgq", model.clientId());
+        Assertions.assertEquals("zloc", model.principalId());
     }
 }

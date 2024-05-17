@@ -22,7 +22,7 @@ public final class SubscriptionUsagesListByLocationMockTests {
     @Test
     public void testListByLocation() throws Exception {
         String responseStr
-            = "{\"value\":[{\"properties\":{\"unit\":\"g\",\"currentValue\":6502255257044393148,\"limit\":2053138766327307707,\"name\":{\"value\":\"hftqsxhqxujxukn\",\"localizedValue\":\"digrjguufzdmsyqt\"}},\"id\":\"hwhbotzingamv\",\"name\":\"phoszqz\",\"type\":\"dphqamv\"}]}";
+            = "{\"value\":[{\"properties\":{\"unit\":\"agvrvmnpkuk\",\"currentValue\":6566741920348285642,\"limit\":3507174744748509441,\"name\":{\"value\":\"lxgwimfnjhf\",\"localizedValue\":\"wmszkk\"}},\"id\":\"qreyfkzi\",\"name\":\"fjawneaivxwczel\",\"type\":\"c\"}]}";
 
         HttpClient httpClient
             = response -> Mono.just(new MockHttpResponse(response, 200, responseStr.getBytes(StandardCharsets.UTF_8)));
@@ -32,12 +32,12 @@ public final class SubscriptionUsagesListByLocationMockTests {
                 new AzureProfile("", "", AzureEnvironment.AZURE));
 
         PagedIterable<Quota> response
-            = manager.subscriptionUsages().listByLocation("zkw", com.azure.core.util.Context.NONE);
+            = manager.subscriptionUsages().listByLocation("ohgwxrtfudxepxg", com.azure.core.util.Context.NONE);
 
-        Assertions.assertEquals("g", response.iterator().next().properties().unit());
-        Assertions.assertEquals(6502255257044393148L, response.iterator().next().properties().currentValue());
-        Assertions.assertEquals(2053138766327307707L, response.iterator().next().properties().limit());
-        Assertions.assertEquals("hftqsxhqxujxukn", response.iterator().next().properties().name().value());
-        Assertions.assertEquals("digrjguufzdmsyqt", response.iterator().next().properties().name().localizedValue());
+        Assertions.assertEquals("agvrvmnpkuk", response.iterator().next().properties().unit());
+        Assertions.assertEquals(6566741920348285642L, response.iterator().next().properties().currentValue());
+        Assertions.assertEquals(3507174744748509441L, response.iterator().next().properties().limit());
+        Assertions.assertEquals("lxgwimfnjhf", response.iterator().next().properties().name().value());
+        Assertions.assertEquals("wmszkk", response.iterator().next().properties().name().localizedValue());
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @Fluent
 public final class VmssFabricProfile extends FabricProfile {
     /*
-     * Virtual Machine Scale Sets
+     * The kind property.
      */
     @JsonTypeId
     @JsonProperty(value = "kind", required = true)
@@ -63,7 +63,7 @@ public final class VmssFabricProfile extends FabricProfile {
     }
 
     /**
-     * Get the kind property: Virtual Machine Scale Sets.
+     * Get the kind property: The kind property.
      * 
      * @return the kind value.
      */

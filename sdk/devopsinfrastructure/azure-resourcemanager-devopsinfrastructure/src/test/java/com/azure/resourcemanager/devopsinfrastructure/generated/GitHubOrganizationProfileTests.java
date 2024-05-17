@@ -14,23 +14,19 @@ public final class GitHubOrganizationProfileTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         GitHubOrganizationProfile model = BinaryData.fromString(
-            "{\"kind\":\"GitHub\",\"organizations\":[{\"url\":\"dckzywbiexz\",\"repositories\":[\"ue\",\"xibxujwbhqwalm\",\"zyoxaepdkzjan\"]},{\"url\":\"ux\",\"repositories\":[\"wbavxbniwdj\"]},{\"url\":\"wz\",\"repositories\":[\"bpg\",\"xytxhpzxbz\",\"fzab\"]},{\"url\":\"lcuhxwtctyqiklb\",\"repositories\":[\"plwzbhvgyugu\",\"svmkfssxquk\"]}]}")
+            "{\"kind\":\"GitHub\",\"organizations\":[{\"url\":\"cjrwzoxxjtfellu\",\"repositories\":[\"it\",\"np\",\"qfpjk\",\"lxofpdvhpfxxypin\"]}]}")
             .toObject(GitHubOrganizationProfile.class);
-        Assertions.assertEquals("dckzywbiexz", model.organizations().get(0).url());
-        Assertions.assertEquals("ue", model.organizations().get(0).repositories().get(0));
+        Assertions.assertEquals("cjrwzoxxjtfellu", model.organizations().get(0).url());
+        Assertions.assertEquals("it", model.organizations().get(0).repositories().get(0));
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        GitHubOrganizationProfile model = new GitHubOrganizationProfile().withOrganizations(Arrays.asList(
-            new GitHubOrganization().withUrl("dckzywbiexz")
-                .withRepositories(Arrays.asList("ue", "xibxujwbhqwalm", "zyoxaepdkzjan")),
-            new GitHubOrganization().withUrl("ux").withRepositories(Arrays.asList("wbavxbniwdj")),
-            new GitHubOrganization().withUrl("wz").withRepositories(Arrays.asList("bpg", "xytxhpzxbz", "fzab")),
-            new GitHubOrganization().withUrl("lcuhxwtctyqiklb")
-                .withRepositories(Arrays.asList("plwzbhvgyugu", "svmkfssxquk"))));
+        GitHubOrganizationProfile model = new GitHubOrganizationProfile()
+            .withOrganizations(Arrays.asList(new GitHubOrganization().withUrl("cjrwzoxxjtfellu")
+                .withRepositories(Arrays.asList("it", "np", "qfpjk", "lxofpdvhpfxxypin"))));
         model = BinaryData.fromObject(model).toObject(GitHubOrganizationProfile.class);
-        Assertions.assertEquals("dckzywbiexz", model.organizations().get(0).url());
-        Assertions.assertEquals("ue", model.organizations().get(0).repositories().get(0));
+        Assertions.assertEquals("cjrwzoxxjtfellu", model.organizations().get(0).url());
+        Assertions.assertEquals("it", model.organizations().get(0).repositories().get(0));
     }
 }

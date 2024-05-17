@@ -24,7 +24,7 @@ import java.util.List;
 @Fluent
 public final class GitHubOrganizationProfile extends OrganizationProfile {
     /*
-     * GitHub organization profile
+     * The kind property.
      */
     @JsonTypeId
     @JsonProperty(value = "kind", required = true)
@@ -43,7 +43,7 @@ public final class GitHubOrganizationProfile extends OrganizationProfile {
     }
 
     /**
-     * Get the kind property: GitHub organization profile.
+     * Get the kind property: The kind property.
      * 
      * @return the kind value.
      */

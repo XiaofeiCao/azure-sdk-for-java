@@ -12,12 +12,12 @@ public final class QuotaPropertiesTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         QuotaProperties model = BinaryData.fromString(
-            "{\"unit\":\"jrunmpxtt\",\"currentValue\":2064783824834241450,\"limit\":5727391604733227130,\"name\":{\"value\":\"l\",\"localizedValue\":\"kx\"}}")
+            "{\"unit\":\"us\",\"currentValue\":7975664751394226338,\"limit\":6111502538155343708,\"name\":{\"value\":\"aboekqv\",\"localizedValue\":\"lns\"}}")
             .toObject(QuotaProperties.class);
-        Assertions.assertEquals("jrunmpxtt", model.unit());
-        Assertions.assertEquals(2064783824834241450L, model.currentValue());
-        Assertions.assertEquals(5727391604733227130L, model.limit());
-        Assertions.assertEquals("l", model.name().value());
-        Assertions.assertEquals("kx", model.name().localizedValue());
+        Assertions.assertEquals("us", model.unit());
+        Assertions.assertEquals(7975664751394226338L, model.currentValue());
+        Assertions.assertEquals(6111502538155343708L, model.limit());
+        Assertions.assertEquals("aboekqv", model.name().value());
+        Assertions.assertEquals("lns", model.name().localizedValue());
     }
 }

@@ -12,12 +12,12 @@ public final class ResourceSkuLocationInfoTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         ResourceSkuLocationInfo model = BinaryData.fromString(
-            "{\"location\":\"pbuxwgipwhon\",\"zones\":[\"kgshwa\",\"kix\"],\"zoneDetails\":[{\"name\":[\"njeputtmrywn\",\"zoqftiyqzrnkcqvy\"],\"capabilities\":[{\"name\":\"whzlsicohoq\",\"value\":\"nwvlryavwhheunmm\"}]}]}")
+            "{\"location\":\"lmoyrx\",\"zones\":[\"fudwpznt\",\"hdzhlrqj\",\"hckfrlhrx\",\"bkyvp\"],\"zoneDetails\":[{\"name\":[\"n\",\"z\",\"p\",\"kafkuwbcrnwbm\"],\"capabilities\":[{\"name\":\"hseyvju\",\"value\":\"rts\"},{\"name\":\"hspkdeemao\",\"value\":\"mx\"}]}]}")
             .toObject(ResourceSkuLocationInfo.class);
-        Assertions.assertEquals("pbuxwgipwhon", model.location());
-        Assertions.assertEquals("kgshwa", model.zones().get(0));
-        Assertions.assertEquals("njeputtmrywn", model.zoneDetails().get(0).name().get(0));
-        Assertions.assertEquals("whzlsicohoq", model.zoneDetails().get(0).capabilities().get(0).name());
-        Assertions.assertEquals("nwvlryavwhheunmm", model.zoneDetails().get(0).capabilities().get(0).value());
+        Assertions.assertEquals("lmoyrx", model.location());
+        Assertions.assertEquals("fudwpznt", model.zones().get(0));
+        Assertions.assertEquals("n", model.zoneDetails().get(0).name().get(0));
+        Assertions.assertEquals("hseyvju", model.zoneDetails().get(0).capabilities().get(0).name());
+        Assertions.assertEquals("rts", model.zoneDetails().get(0).capabilities().get(0).value());
     }
 }

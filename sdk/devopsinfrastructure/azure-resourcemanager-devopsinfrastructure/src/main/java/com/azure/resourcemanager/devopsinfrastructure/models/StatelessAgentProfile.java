@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @Fluent
 public final class StatelessAgentProfile extends AgentProfile {
     /*
-     * Stateless profile meaning that the machines will be cleaned up after running a job.
+     * The kind property.
      */
     @JsonTypeId
     @JsonProperty(value = "kind", required = true)
@@ -31,7 +31,7 @@ public final class StatelessAgentProfile extends AgentProfile {
     }
 
     /**
-     * Get the kind property: Stateless profile meaning that the machines will be cleaned up after running a job.
+     * Get the kind property: The kind property.
      * 
      * @return the kind value.
      */

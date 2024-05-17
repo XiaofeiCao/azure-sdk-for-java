@@ -17,40 +17,40 @@ public final class StorageProfileTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         StorageProfile model = BinaryData.fromString(
-            "{\"osDiskStorageAccountType\":\"Premium\",\"dataDisks\":[{\"caching\":\"ReadWrite\",\"diskSizeGiB\":391776168,\"storageAccountType\":\"StandardSSD_ZRS\",\"driveLetter\":\"savjcbpwxqps\"},{\"caching\":\"ReadWrite\",\"diskSizeGiB\":168456950,\"storageAccountType\":\"Standard_LRS\",\"driveLetter\":\"riuhprwm\"},{\"caching\":\"None\",\"diskSizeGiB\":1468047146,\"storageAccountType\":\"Premium_LRS\",\"driveLetter\":\"riwwroy\"},{\"caching\":\"None\",\"diskSizeGiB\":1717005830,\"storageAccountType\":\"Premium_ZRS\",\"driveLetter\":\"ibycno\"}]}")
+            "{\"osDiskStorageAccountType\":\"Premium\",\"dataDisks\":[{\"caching\":\"None\",\"diskSizeGiB\":40095957,\"storageAccountType\":\"Premium_LRS\",\"driveLetter\":\"sflnrosfqp\"},{\"caching\":\"ReadWrite\",\"diskSizeGiB\":1514904394,\"storageAccountType\":\"Premium_LRS\",\"driveLetter\":\"pyqr\"},{\"caching\":\"None\",\"diskSizeGiB\":1071544180,\"storageAccountType\":\"StandardSSD_LRS\",\"driveLetter\":\"wjdk\"},{\"caching\":\"ReadOnly\",\"diskSizeGiB\":336101976,\"storageAccountType\":\"Premium_LRS\",\"driveLetter\":\"hc\"}]}")
             .toObject(StorageProfile.class);
         Assertions.assertEquals(OsDiskStorageAccountType.PREMIUM, model.osDiskStorageAccountType());
-        Assertions.assertEquals(CachingType.READ_WRITE, model.dataDisks().get(0).caching());
-        Assertions.assertEquals(391776168, model.dataDisks().get(0).diskSizeGiB());
-        Assertions.assertEquals(StorageAccountType.STANDARD_SSD_ZRS, model.dataDisks().get(0).storageAccountType());
-        Assertions.assertEquals("savjcbpwxqps", model.dataDisks().get(0).driveLetter());
+        Assertions.assertEquals(CachingType.NONE, model.dataDisks().get(0).caching());
+        Assertions.assertEquals(40095957, model.dataDisks().get(0).diskSizeGiB());
+        Assertions.assertEquals(StorageAccountType.PREMIUM_LRS, model.dataDisks().get(0).storageAccountType());
+        Assertions.assertEquals("sflnrosfqp", model.dataDisks().get(0).driveLetter());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
         StorageProfile model = new StorageProfile().withOsDiskStorageAccountType(OsDiskStorageAccountType.PREMIUM)
             .withDataDisks(Arrays.asList(
-                new DataDisk().withCaching(CachingType.READ_WRITE)
-                    .withDiskSizeGiB(391776168)
-                    .withStorageAccountType(StorageAccountType.STANDARD_SSD_ZRS)
-                    .withDriveLetter("savjcbpwxqps"),
-                new DataDisk().withCaching(CachingType.READ_WRITE)
-                    .withDiskSizeGiB(168456950)
-                    .withStorageAccountType(StorageAccountType.STANDARD_LRS)
-                    .withDriveLetter("riuhprwm"),
                 new DataDisk().withCaching(CachingType.NONE)
-                    .withDiskSizeGiB(1468047146)
+                    .withDiskSizeGiB(40095957)
                     .withStorageAccountType(StorageAccountType.PREMIUM_LRS)
-                    .withDriveLetter("riwwroy"),
+                    .withDriveLetter("sflnrosfqp"),
+                new DataDisk().withCaching(CachingType.READ_WRITE)
+                    .withDiskSizeGiB(1514904394)
+                    .withStorageAccountType(StorageAccountType.PREMIUM_LRS)
+                    .withDriveLetter("pyqr"),
                 new DataDisk().withCaching(CachingType.NONE)
-                    .withDiskSizeGiB(1717005830)
-                    .withStorageAccountType(StorageAccountType.PREMIUM_ZRS)
-                    .withDriveLetter("ibycno")));
+                    .withDiskSizeGiB(1071544180)
+                    .withStorageAccountType(StorageAccountType.STANDARD_SSD_LRS)
+                    .withDriveLetter("wjdk"),
+                new DataDisk().withCaching(CachingType.READ_ONLY)
+                    .withDiskSizeGiB(336101976)
+                    .withStorageAccountType(StorageAccountType.PREMIUM_LRS)
+                    .withDriveLetter("hc")));
         model = BinaryData.fromObject(model).toObject(StorageProfile.class);
         Assertions.assertEquals(OsDiskStorageAccountType.PREMIUM, model.osDiskStorageAccountType());
-        Assertions.assertEquals(CachingType.READ_WRITE, model.dataDisks().get(0).caching());
-        Assertions.assertEquals(391776168, model.dataDisks().get(0).diskSizeGiB());
-        Assertions.assertEquals(StorageAccountType.STANDARD_SSD_ZRS, model.dataDisks().get(0).storageAccountType());
-        Assertions.assertEquals("savjcbpwxqps", model.dataDisks().get(0).driveLetter());
+        Assertions.assertEquals(CachingType.NONE, model.dataDisks().get(0).caching());
+        Assertions.assertEquals(40095957, model.dataDisks().get(0).diskSizeGiB());
+        Assertions.assertEquals(StorageAccountType.PREMIUM_LRS, model.dataDisks().get(0).storageAccountType());
+        Assertions.assertEquals("sflnrosfqp", model.dataDisks().get(0).driveLetter());
     }
 }

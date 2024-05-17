@@ -12,13 +12,13 @@ public final class QuotaListResultTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         QuotaListResult model = BinaryData.fromString(
-            "{\"value\":[{\"properties\":{\"unit\":\"ok\",\"currentValue\":6962891099773209923,\"limit\":3975141758083406651,\"name\":{\"value\":\"yhgsy\",\"localizedValue\":\"ogjltdtbnnhad\"}},\"id\":\"crkvcikhnv\",\"name\":\"amqgxqquezikyw\",\"type\":\"gxk\"},{\"properties\":{\"unit\":\"la\",\"currentValue\":3546472897541130769,\"limit\":5499095272517586162,\"name\":{\"value\":\"ipicc\",\"localizedValue\":\"kzivgvvcnayrh\"}},\"id\":\"nxxmueedndrdv\",\"name\":\"tkwqqtchealm\",\"type\":\"mtdaa\"},{\"properties\":{\"unit\":\"dvwvgpio\",\"currentValue\":492065479137109444,\"limit\":48742555632268387,\"name\":{\"value\":\"fudxepxgyqagvrv\",\"localizedValue\":\"pkukghi\"}},\"id\":\"blxgwimf\",\"name\":\"jhfjxwm\",\"type\":\"zk\"},{\"properties\":{\"unit\":\"oqreyfkzikfjawn\",\"currentValue\":488040231209258224,\"limit\":3613181819399504746,\"name\":{\"value\":\"czelpcirel\",\"localizedValue\":\"eae\"}},\"id\":\"abfatkl\",\"name\":\"dxbjhwuaanozj\",\"type\":\"sphyoulpjrvxa\"}],\"nextLink\":\"rvimjwosytxitcsk\"}")
+            "{\"value\":[{\"properties\":{\"unit\":\"mkh\",\"currentValue\":1704288696761210454,\"limit\":3301190446287542210,\"name\":{\"value\":\"sw\",\"localizedValue\":\"tjrip\"}},\"id\":\"bpbewtghfgb\",\"name\":\"c\",\"type\":\"wxzvlvqhjkb\"},{\"properties\":{\"unit\":\"ibtnmxiebwwaloay\",\"currentValue\":831563566329829657,\"limit\":4443763316743009421,\"name\":{\"value\":\"zjuzgwyz\",\"localizedValue\":\"txon\"}},\"id\":\"ts\",\"name\":\"vjcbpwxqpsrknf\",\"type\":\"guvriuhprwmd\"},{\"properties\":{\"unit\":\"xqtayriwwro\",\"currentValue\":4284842638181152780,\"limit\":6962652464609703517,\"name\":{\"value\":\"mcqibycnojv\",\"localizedValue\":\"mefqsgzvahapjyzh\"}},\"id\":\"gqzcjr\",\"name\":\"xdjzlmwlxk\",\"type\":\"ug\"}],\"nextLink\":\"zovawjvz\"}")
             .toObject(QuotaListResult.class);
-        Assertions.assertEquals("ok", model.value().get(0).properties().unit());
-        Assertions.assertEquals(6962891099773209923L, model.value().get(0).properties().currentValue());
-        Assertions.assertEquals(3975141758083406651L, model.value().get(0).properties().limit());
-        Assertions.assertEquals("yhgsy", model.value().get(0).properties().name().value());
-        Assertions.assertEquals("ogjltdtbnnhad", model.value().get(0).properties().name().localizedValue());
-        Assertions.assertEquals("rvimjwosytxitcsk", model.nextLink());
+        Assertions.assertEquals("mkh", model.value().get(0).properties().unit());
+        Assertions.assertEquals(1704288696761210454L, model.value().get(0).properties().currentValue());
+        Assertions.assertEquals(3301190446287542210L, model.value().get(0).properties().limit());
+        Assertions.assertEquals("sw", model.value().get(0).properties().name().value());
+        Assertions.assertEquals("tjrip", model.value().get(0).properties().name().localizedValue());
+        Assertions.assertEquals("zovawjvz", model.nextLink());
     }
 }

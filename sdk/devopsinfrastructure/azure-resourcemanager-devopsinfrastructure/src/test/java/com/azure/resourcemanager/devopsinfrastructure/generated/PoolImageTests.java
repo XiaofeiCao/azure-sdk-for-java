@@ -13,24 +13,24 @@ public final class PoolImageTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         PoolImage model = BinaryData.fromString(
-            "{\"resourceId\":\"x\",\"wellKnownImageName\":\"kpycgklwndnhjd\",\"aliases\":[\"hvylwzbt\",\"h\"],\"buffer\":\"jznb\"}")
+            "{\"resourceId\":\"sszdnru\",\"wellKnownImageName\":\"guhmuouqfpr\",\"aliases\":[\"bngui\",\"nwui\",\"gazxuf\"],\"buffer\":\"uckyf\"}")
             .toObject(PoolImage.class);
-        Assertions.assertEquals("x", model.resourceId());
-        Assertions.assertEquals("kpycgklwndnhjd", model.wellKnownImageName());
-        Assertions.assertEquals("hvylwzbt", model.aliases().get(0));
-        Assertions.assertEquals("jznb", model.buffer());
+        Assertions.assertEquals("sszdnru", model.resourceId());
+        Assertions.assertEquals("guhmuouqfpr", model.wellKnownImageName());
+        Assertions.assertEquals("bngui", model.aliases().get(0));
+        Assertions.assertEquals("uckyf", model.buffer());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
-        PoolImage model = new PoolImage().withResourceId("x")
-            .withWellKnownImageName("kpycgklwndnhjd")
-            .withAliases(Arrays.asList("hvylwzbt", "h"))
-            .withBuffer("jznb");
+        PoolImage model = new PoolImage().withResourceId("sszdnru")
+            .withWellKnownImageName("guhmuouqfpr")
+            .withAliases(Arrays.asList("bngui", "nwui", "gazxuf"))
+            .withBuffer("uckyf");
         model = BinaryData.fromObject(model).toObject(PoolImage.class);
-        Assertions.assertEquals("x", model.resourceId());
-        Assertions.assertEquals("kpycgklwndnhjd", model.wellKnownImageName());
-        Assertions.assertEquals("hvylwzbt", model.aliases().get(0));
-        Assertions.assertEquals("jznb", model.buffer());
+        Assertions.assertEquals("sszdnru", model.resourceId());
+        Assertions.assertEquals("guhmuouqfpr", model.wellKnownImageName());
+        Assertions.assertEquals("bngui", model.aliases().get(0));
+        Assertions.assertEquals("uckyf", model.buffer());
     }
 }

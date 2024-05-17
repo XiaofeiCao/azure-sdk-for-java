@@ -7,7 +7,7 @@ package com.azure.resourcemanager.devopsinfrastructure.generated;
 import com.azure.core.util.BinaryData;
 import com.azure.resourcemanager.devopsinfrastructure.models.ManagedServiceIdentity;
 import com.azure.resourcemanager.devopsinfrastructure.models.ManagedServiceIdentityType;
-import com.azure.resourcemanager.devopsinfrastructure.models.UserAssignedIdentity;
+import com.azure.resourcemanager.devopsinfrastructure.models.UserAssignedIdentities;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -16,24 +16,17 @@ public final class ManagedServiceIdentityTests {
     @org.junit.jupiter.api.Test
     public void testDeserialize() throws Exception {
         ManagedServiceIdentity model = BinaryData.fromString(
-            "{\"tenantId\":\"mwlxk\",\"principalId\":\"gfhzovawjvzunlut\",\"type\":\"SystemAssigned\",\"userAssignedIdentities\":{\"ltskzbbtd\":{\"clientId\":\"nxipeil\",\"principalId\":\"zuaejxd\"},\"hkfpbs\":{\"clientId\":\"mv\",\"principalId\":\"kgpwoz\"},\"oekqvk\":{\"clientId\":\"ofd\",\"principalId\":\"uusdttouwa\"}}}")
+            "{\"tenantId\":\"rjb\",\"principalId\":\"orcjxvsnby\",\"type\":\"SystemAssigned\",\"userAssignedIdentities\":{\"\":{\"jjgpb\":{\"clientId\":\"ocpcy\",\"principalId\":\"urzafb\"}}}}")
             .toObject(ManagedServiceIdentity.class);
         Assertions.assertEquals(ManagedServiceIdentityType.SYSTEM_ASSIGNED, model.type());
-        Assertions.assertEquals("nxipeil", model.userAssignedIdentities().get("ltskzbbtd").clientId());
-        Assertions.assertEquals("zuaejxd", model.userAssignedIdentities().get("ltskzbbtd").principalId());
     }
 
     @org.junit.jupiter.api.Test
     public void testSerialize() throws Exception {
         ManagedServiceIdentity model = new ManagedServiceIdentity().withType(ManagedServiceIdentityType.SYSTEM_ASSIGNED)
-            .withUserAssignedIdentities(
-                mapOf("ltskzbbtd", new UserAssignedIdentity().withClientId("nxipeil").withPrincipalId("zuaejxd"),
-                    "hkfpbs", new UserAssignedIdentity().withClientId("mv").withPrincipalId("kgpwoz"), "oekqvk",
-                    new UserAssignedIdentity().withClientId("ofd").withPrincipalId("uusdttouwa")));
+            .withUserAssignedIdentities(new UserAssignedIdentities().withAdditionalProperties(mapOf()));
         model = BinaryData.fromObject(model).toObject(ManagedServiceIdentity.class);
         Assertions.assertEquals(ManagedServiceIdentityType.SYSTEM_ASSIGNED, model.type());
-        Assertions.assertEquals("nxipeil", model.userAssignedIdentities().get("ltskzbbtd").clientId());
-        Assertions.assertEquals("zuaejxd", model.userAssignedIdentities().get("ltskzbbtd").principalId());
     }
 
     // Use "Map.of" if available
