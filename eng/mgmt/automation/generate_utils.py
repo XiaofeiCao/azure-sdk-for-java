@@ -10,7 +10,7 @@ import requests
 import tempfile
 import subprocess
 import urllib.parse
-from typing import Tuple, List, Union
+from typing import Tuple, List, Union, Callable
 from typespec_utils import validate_tspconfig
 
 pwd = os.getcwd()
@@ -333,6 +333,51 @@ def generate_typespec_project(
     remove_before_regen: bool = False,
     group_id: str = None,
 ):
+    return generate_typespec_project0(
+        tsp_project=tsp_project,
+        sdk_root=sdk_root,
+        spec_root=spec_root,
+        head_sha=head_sha,
+        repo_url=repo_url,
+        remove_before_regen=remove_before_regen,
+        group_id=group_id,
+        error_message_func = lambda error: (
+            f"[GENERATE][Error] Code generation failed. tsp-client init fails: {error}\n"
+            "[GENERATE][Error] If TypeSpec Validation passes, you can open an issue to https://github.com/Azure/autorest.java/issues. Please include the link of this Pull Request in the issue."
+        )
+    )
+
+
+def try_generate_typespec_project(
+    tsp_project: str,
+    sdk_root: str,
+    spec_root: str = None,
+    head_sha: str = "",
+    repo_url: str = "",
+    remove_before_regen: bool = False,
+    group_id: str = None,
+):
+    return generate_typespec_project0(
+        tsp_project=tsp_project,
+        sdk_root=sdk_root,
+        spec_root=spec_root,
+        head_sha=head_sha,
+        repo_url=repo_url,
+        remove_before_regen=remove_before_regen,
+        group_id=group_id
+    )
+
+
+def generate_typespec_project0(
+    tsp_project: str,
+    sdk_root: str,
+    spec_root: str = None,
+    head_sha: str = "",
+    repo_url: str = "",
+    remove_before_regen: bool = False,
+    group_id: str = None,
+    error_message_func: Callable[[subprocess.CalledProcessError], str] = None, # a function that takes subprocess.CalledProcessError as argument and returns error message
+):
 
     if not tsp_project:
         return False
@@ -416,12 +461,10 @@ def generate_typespec_project(
                     check_call(tsp_cmd, sdk_root)
                 succeeded = True
     except subprocess.CalledProcessError as error:
-        error_message = (
-            f"[GENERATE][Error] Code generation failed. tsp-client init fails: {error}\n"
-            "[GENERATE][Error] If TypeSpec Validation passes, you can open an issue to https://github.com/Azure/autorest.java/issues. Please include the link of this Pull Request in the issue."
-        )
-        logging.error(error_message)
-        print(error_message, file=sys.stderr)
+        if error_message_func is None:
+            error_message_func = lambda err: f"tsp-client init fails: {err}"
+        logging.error(error_message_func(error))
+        print(error_message_func(error), file=sys.stderr)
 
     return succeeded, require_sdk_integration, sdk_folder, service, module
 

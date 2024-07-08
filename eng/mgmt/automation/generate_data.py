@@ -19,7 +19,7 @@ from utils import update_service_files_for_new_lib
 from utils import update_root_pom
 from utils import ListIndentDumper
 
-from generate_utils import generate_typespec_project, clean_sdk_folder_if_swagger
+from generate_utils import generate_typespec_project, clean_sdk_folder_if_swagger, try_generate_typespec_project
 
 GROUP_ID = "com.azure"
 DPG_ARGUMENTS = "--sdk-integration --generate-samples --generate-tests"
@@ -36,7 +36,7 @@ def sdk_automation_typespec_project(tsp_project: str, config: dict) -> dict:
     changelog: str = ""
     clean_sdk_folder_succeeded = False
 
-    succeeded, require_sdk_integration, sdk_folder, service, module = generate_typespec_project(
+    succeeded, require_sdk_integration, sdk_folder, service, module = try_generate_typespec_project(
         tsp_project, sdk_root, spec_root, head_sha, repo_url
     )
 
@@ -59,7 +59,7 @@ def sdk_automation_typespec_project(tsp_project: str, config: dict) -> dict:
             current_version = DEFAULT_VERSION
 
         # compile
-        succeeded = compile_package(sdk_root, GROUP_ID, module)
+        succeeded = try_compile_package(sdk_root, GROUP_ID, module)
         if succeeded:
             breaking, changelog = compare_with_maven_package(
                 sdk_root,
@@ -392,18 +392,26 @@ def generate(
 
 
 def compile_package(sdk_root: str, group_id: str, module: str) -> bool:
+    return compile_package0(sdk_root=sdk_root, group_id=group_id, module=module, error_message=(
+        "[COMPILE] Maven build fail.\n"
+        "One reason of the compilation failure is that the existing code customization in SDK repository being incompatible with the class generated from updated TypeSpec source. In such case, you can ignore the failure, and fix the customization in SDK repository.\n"
+        'You can inquire in "Language - Java" Teams channel. Please include the link of this Pull Request in the query.'
+    ))
+
+
+def try_compile_package(sdk_root: str, group_id: str, module: str) -> bool:
+    return compile_package0(sdk_root=sdk_root, group_id=group_id, module=module)
+
+
+def compile_package0(sdk_root: str, group_id: str, module: str, error_message: str = None) -> bool:
     command = "mvn --no-transfer-progress clean package -f {0}/pom.xml -Dmaven.javadoc.skip -Dgpg.skip -DskipTestCompile -Djacoco.skip -Drevapi.skip -pl {1}:{2} -am".format(
         sdk_root, group_id, module
     )
     logging.info(command)
     if os.system(command) != 0:
-        error_message = (
-            "[COMPILE] Maven build fail.\n"
-            "One reason of the compilation failure is that the existing code customization in SDK repository being incompatible with the class generated from updated TypeSpec source. In such case, you can ignore the failure, and fix the customization in SDK repository.\n"
-            'You can inquire in "Language - Java" Teams channel. Please include the link of this Pull Request in the query.'
-        )
-        logging.error(error_message)
-        print(error_message, file=sys.stderr)
+        if error_message is not None:
+            logging.error(error_message)
+            print(error_message, file=sys.stderr)
         return False
     return True
 
