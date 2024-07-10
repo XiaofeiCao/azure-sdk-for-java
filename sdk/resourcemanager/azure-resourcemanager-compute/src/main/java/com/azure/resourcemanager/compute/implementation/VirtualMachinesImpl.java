@@ -288,50 +288,12 @@ public class VirtualMachinesImpl
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "removal"})
     public PagedFlux<VirtualMachine> listByVirtualMachineScaleSetIdAsync(String vmssId) {
         if (CoreUtils.isNullOrEmpty(vmssId)) {
             return new PagedFlux<>(() -> Mono.error(
                 new IllegalArgumentException("Parameter 'vmssId' is required and cannot be null.")));
         }
-        // Hack in nextLink encoding by using reflection.
-        // Replace below hack with "listAsync()" once backend fix "nextLink" encoding issue:
-        // https://github.com/Azure/azure-rest-api-specs/issues/25640
-        Method listSinglePageAsync;
-        try {
-            listSinglePageAsync = inner().getClass().getDeclaredMethod("listByResourceGroupSinglePageAsync", String.class, String.class, ExpandTypeForListVMs.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        Method listNextSinglePageAsync;
-        try {
-            listNextSinglePageAsync = inner().getClass().getDeclaredMethod("listNextSinglePageAsync", String.class, Context.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        java.security.AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            listSinglePageAsync.setAccessible(true);
-            listNextSinglePageAsync.setAccessible(true);
-            return null;
-        });
-        return wrapPageAsync(new PagedFlux<>(
-            () -> {
-                try {
-                    return (Mono<PagedResponse<VirtualMachineInner>>)
-                        listSinglePageAsync.invoke(inner(), ResourceUtils.groupFromResourceId(vmssId), String.format("'virtualMachineScaleSet/id' eq '%s'", vmssId), null);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                }
-            },
-            nextLink -> {
-                try {
-                    return (Mono<PagedResponse<VirtualMachineInner>>)
-                        // encode nextLink
-                        listNextSinglePageAsync.invoke(inner(), ResourceUtils.encodeResourceId(nextLink), Context.NONE);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
-                }
-            }));
+        return wrapPageAsync(inner().listAsync(null, ResourceUtils.encodeResourceId(String.format("'virtualMachineScaleSet/id' eq '%s'", vmssId)), null));
     }
 
     @Override

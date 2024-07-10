@@ -293,17 +293,17 @@
       </resource>
     </resources>
 
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>${project.parent.relativePath}</directory>
-        <includes>
-          <include>simplelogger.properties</include>
-        </includes>
-      </testResource>
-    </testResources>
+<!--    <testResources>-->
+<!--      <testResource>-->
+<!--        <directory>src/test/resources</directory>-->
+<!--      </testResource>-->
+<!--      <testResource>-->
+<!--        <directory>${project.parent.relativePath}</directory>-->
+<!--        <includes>-->
+<!--          <include>simplelogger.properties</include>-->
+<!--        </includes>-->
+<!--      </testResource>-->
+<!--    </testResources>-->
 
     <plugins>
       <!-- This plugin checks dependencies for android API level compatibility -->

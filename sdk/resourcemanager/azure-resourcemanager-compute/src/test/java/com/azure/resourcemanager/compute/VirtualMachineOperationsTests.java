@@ -11,6 +11,7 @@ import com.azure.core.management.Region;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.test.annotation.DoNotRecord;
+import com.azure.core.test.annotation.LiveOnly;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
@@ -88,7 +89,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
     private String rgName = "";
     private String rgName2 = "";
-    private final Region region = Region.US_EAST;
+    private final Region region = Region.US_WEST2;
     private final Region regionProxPlacementGroup = Region.US_WEST;
     private final Region regionProxPlacementGroup2 = Region.US_EAST;
     private final String vmName = "javavm";
@@ -1807,8 +1808,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     }
 
     @Test
-    @DoNotRecord(skipInPlayback = true)
-    @Disabled("This test is for listByVirtualMachineScaleSetId nextLink encoding. Backend pageSize may change, so we don't want to assert that.")
+    @LiveOnly
+//    @Disabled("This test is for listByVirtualMachineScaleSetId nextLink encoding. Backend pageSize may change, so we don't want to assert that.")
     public void testListByVmssIdNextLink() throws Exception {
         String vmssName = generateRandomResourceName("vmss", 15);
         String vnetName = generateRandomResourceName("vnet", 15);
@@ -1852,14 +1853,16 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
         PagedIterable<VirtualMachine> vmPaged = computeManager.virtualMachines().listByVirtualMachineScaleSetId(vmss.id());
         Iterable<PagedResponse<VirtualMachine>> vmIterable = vmPaged.iterableByPage();
+        int vmCount = 0;
         int pageCount = 0;
         for (PagedResponse<VirtualMachine> response : vmIterable) {
             pageCount++;
             Assertions.assertEquals(200, response.getStatusCode());
+            vmCount += response.getValue().size();
         }
 
-        Assertions.assertEquals(vmssCapacity, vmPaged.stream().count());
         Assertions.assertEquals(2, pageCount);
+        Assertions.assertEquals(vmssCapacity, vmCount);
     }
 
     @Test
