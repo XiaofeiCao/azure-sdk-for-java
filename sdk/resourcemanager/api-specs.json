@@ -131,7 +131,7 @@
     "dir": "azure-resourcemanager-authorization",
     "source": "azure-resourcemanager-authorization/swagger/swagger.md",
     "package": "com.azure.resourcemanager.authorization",
-    "args": "--tag=v1.0 --graalvm-config-suffix=msgraph --title=MicrosoftGraphClient --models-subpackage=fluent.models --stream-style-serialization=false"
+    "args": "--tag=v1.0 --graalvm-config-suffix=msgraph --title=MicrosoftGraphClient --models-subpackage=fluent.models"
   },
   "msgraph-hybrid": {
     "dir": "../resourcemanagerhybrid/azure-resourcemanager-authorization",
