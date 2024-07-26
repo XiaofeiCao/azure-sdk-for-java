@@ -288,7 +288,7 @@
     "dir": "azure-resourcemanager-msi",
     "source": "specification/msi/resource-manager/readme.md",
     "package": "com.azure.resourcemanager.msi",
-    "args": "--tag=package-2023-01-31 --add-client-flatten=Identity --stream-style-serialization=false"
+    "args": "--tag=package-2023-01-31 --add-client-flatten=Identity"
   },
   "changes": {
     "dir": "azure-resourcemanager-resources",
