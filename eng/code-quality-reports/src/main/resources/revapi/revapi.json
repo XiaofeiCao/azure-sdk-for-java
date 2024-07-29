@@ -582,6 +582,30 @@
           "code": "java.missing.oldSuperType",
           "old": "class com.azure.resourcemanager.network.models.FirewallPacketCaptureParameters",
           "justification": "service bug fix."
+        },
+        {
+          "ignore": true,
+          "code": "java.class.removed",
+          "old": "class com.azure.resourcemanager.cosmos.models.DataTransferServiceResourceCreateUpdateParameters",
+          "justification": "Service bug fix: https://github.com/Azure/azure-rest-api-specs/pull/29346"
+        },
+        {
+          "ignore": true,
+          "code": "java.class.removed",
+          "old": "class com.azure.resourcemanager.cosmos.models.GraphApiComputeServiceResourceCreateUpdateParameters",
+          "justification": "Service bug fix: https://github.com/Azure/azure-rest-api-specs/pull/29346"
+        },
+        {
+          "ignore": true,
+          "code": "java.class.removed",
+          "old": "class com.azure.resourcemanager.cosmos.models.MaterializedViewsBuilderServiceResourceCreateUpdateParameters",
+          "justification": "Service bug fix: https://github.com/Azure/azure-rest-api-specs/pull/29346"
+        },
+        {
+          "ignore": true,
+          "code": "java.class.removed",
+          "old": "class com.azure.resourcemanager.cosmos.models.SqlDedicatedGatewayServiceResourceCreateUpdateParameters",
+          "justification": "Service bug fix: https://github.com/Azure/azure-rest-api-specs/pull/29346"
         }
       ]
     }
