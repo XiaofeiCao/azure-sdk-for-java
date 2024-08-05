@@ -870,7 +870,7 @@ class FunctionAppImpl
             @BodyParam("application/json") Object payload);
     }
 
-    private static class FunctionKeyListResult implements JsonSerializable<FunctionKeyListResult> {
+    public static class FunctionKeyListResult implements JsonSerializable<FunctionKeyListResult> {
         private List<NameValuePair> keys;
 
         @Override
