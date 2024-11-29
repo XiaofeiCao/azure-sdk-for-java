@@ -6,6 +6,7 @@ package com.azure.resourcemanager.compute.fluent.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.management.Resource;
+import com.azure.core.management.SystemData;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
@@ -27,9 +28,14 @@ public final class RollingUpgradeStatusInfoInner extends Resource {
     private RollingUpgradeStatusInfoProperties innerProperties;
 
     /*
-     * Fully qualified resource Id for the resource.
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
-    private String id;
+    private SystemData systemData;
+
+    /*
+     * The type of the resource.
+     */
+    private String type;
 
     /*
      * The name of the resource.
@@ -37,9 +43,9 @@ public final class RollingUpgradeStatusInfoInner extends Resource {
     private String name;
 
     /*
-     * The type of the resource.
+     * Fully qualified resource Id for the resource.
      */
-    private String type;
+    private String id;
 
     /**
      * Creates an instance of RollingUpgradeStatusInfoInner class.
@@ -57,13 +63,22 @@ public final class RollingUpgradeStatusInfoInner extends Resource {
     }
 
     /**
-     * Get the id property: Fully qualified resource Id for the resource.
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
      * 
-     * @return the id value.
+     * @return the systemData value.
+     */
+    public SystemData systemData() {
+        return this.systemData;
+    }
+
+    /**
+     * Get the type property: The type of the resource.
+     * 
+     * @return the type value.
      */
     @Override
-    public String id() {
-        return this.id;
+    public String type() {
+        return this.type;
     }
 
     /**
@@ -77,13 +92,13 @@ public final class RollingUpgradeStatusInfoInner extends Resource {
     }
 
     /**
-     * Get the type property: The type of the resource.
+     * Get the id property: Fully qualified resource Id for the resource.
      * 
-     * @return the type value.
+     * @return the id value.
      */
     @Override
-    public String type() {
-        return this.type;
+    public String id() {
+        return this.id;
     }
 
     /**
@@ -194,6 +209,8 @@ public final class RollingUpgradeStatusInfoInner extends Resource {
                 } else if ("properties".equals(fieldName)) {
                     deserializedRollingUpgradeStatusInfoInner.innerProperties
                         = RollingUpgradeStatusInfoProperties.fromJson(reader);
+                } else if ("systemData".equals(fieldName)) {
+                    deserializedRollingUpgradeStatusInfoInner.systemData = SystemData.fromJson(reader);
                 } else {
                     reader.skipChildren();
                 }

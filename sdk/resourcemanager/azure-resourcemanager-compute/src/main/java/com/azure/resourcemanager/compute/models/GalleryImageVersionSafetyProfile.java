@@ -69,7 +69,6 @@ public final class GalleryImageVersionSafetyProfile extends GalleryArtifactSafet
      */
     @Override
     public void validate() {
-        super.validate();
         if (policyViolations() != null) {
             policyViolations().forEach(e -> e.validate());
         }

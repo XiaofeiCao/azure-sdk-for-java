@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.compute.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
@@ -139,7 +140,7 @@ public final class VirtualMachineImageInner extends VirtualMachineImageResourceI
     }
 
     /**
-     * Get the dataDiskImages property: The dataDiskImages property.
+     * Get the dataDiskImages property: The list of data disk images information.
      * 
      * @return the dataDiskImages value.
      */
@@ -148,7 +149,7 @@ public final class VirtualMachineImageInner extends VirtualMachineImageResourceI
     }
 
     /**
-     * Set the dataDiskImages property: The dataDiskImages property.
+     * Set the dataDiskImages property: The list of data disk images information.
      * 
      * @param dataDiskImages the dataDiskImages value to set.
      * @return the VirtualMachineImageInner object itself.
@@ -307,11 +308,24 @@ public final class VirtualMachineImageInner extends VirtualMachineImageResourceI
      */
     @Override
     public void validate() {
-        super.validate();
         if (innerProperties() != null) {
             innerProperties().validate();
         }
+        if (name() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property name in model VirtualMachineImageInner"));
+        }
+        if (location() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Missing required property location in model VirtualMachineImageInner"));
+        }
+        if (extendedLocation() != null) {
+            extendedLocation().validate();
+        }
     }
+
+    private static final ClientLogger LOGGER = new ClientLogger(VirtualMachineImageInner.class);
 
     /**
      * {@inheritDoc}

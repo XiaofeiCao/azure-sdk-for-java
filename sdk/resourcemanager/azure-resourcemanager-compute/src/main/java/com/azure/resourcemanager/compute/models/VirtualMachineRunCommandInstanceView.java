@@ -77,17 +77,6 @@ public final class VirtualMachineRunCommandInstanceView
     }
 
     /**
-     * Set the executionState property: Script execution status.
-     * 
-     * @param executionState the executionState value to set.
-     * @return the VirtualMachineRunCommandInstanceView object itself.
-     */
-    public VirtualMachineRunCommandInstanceView withExecutionState(ExecutionState executionState) {
-        this.executionState = executionState;
-        return this;
-    }
-
-    /**
      * Get the executionMessage property: Communicate script configuration errors or execution messages.
      * 
      * @return the executionMessage value.
@@ -244,8 +233,6 @@ public final class VirtualMachineRunCommandInstanceView
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
-        jsonWriter.writeStringField("executionState",
-            this.executionState == null ? null : this.executionState.toString());
         jsonWriter.writeStringField("executionMessage", this.executionMessage);
         jsonWriter.writeNumberField("exitCode", this.exitCode);
         jsonWriter.writeStringField("output", this.output);

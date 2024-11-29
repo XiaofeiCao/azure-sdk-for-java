@@ -63,7 +63,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to
      * get the next page of SSH public keys.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -76,7 +76,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to
      * get the next page of SSH public keys.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -89,7 +89,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to
      * get the next page of SSH public keys.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -100,11 +100,67 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     PagedIterable<SshPublicKeyResourceInner> listByResourceGroup(String resourceGroupName, Context context);
 
     /**
+     * Retrieves information about an SSH public key.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param sshPublicKeyName The name of the SSH public key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the SSH public key along with {@link Response} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<Response<SshPublicKeyResourceInner>> getByResourceGroupWithResponseAsync(String resourceGroupName,
+        String sshPublicKeyName);
+
+    /**
+     * Retrieves information about an SSH public key.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param sshPublicKeyName The name of the SSH public key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the SSH public key on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<SshPublicKeyResourceInner> getByResourceGroupAsync(String resourceGroupName, String sshPublicKeyName);
+
+    /**
+     * Retrieves information about an SSH public key.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param sshPublicKeyName The name of the SSH public key.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the SSH public key along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Response<SshPublicKeyResourceInner> getByResourceGroupWithResponse(String resourceGroupName,
+        String sshPublicKeyName, Context context);
+
+    /**
+     * Retrieves information about an SSH public key.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param sshPublicKeyName The name of the SSH public key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the SSH public key.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    SshPublicKeyResourceInner getByResourceGroup(String resourceGroupName, String sshPublicKeyName);
+
+    /**
      * Creates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
-     * @param parameters Parameters supplied to create the SSH public key.
+     * @param resource Parameters supplied to create the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,14 +169,14 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<SshPublicKeyResourceInner>> createWithResponseAsync(String resourceGroupName, String sshPublicKeyName,
-        SshPublicKeyResourceInner parameters);
+        SshPublicKeyResourceInner resource);
 
     /**
      * Creates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
-     * @param parameters Parameters supplied to create the SSH public key.
+     * @param resource Parameters supplied to create the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -128,14 +184,14 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<SshPublicKeyResourceInner> createAsync(String resourceGroupName, String sshPublicKeyName,
-        SshPublicKeyResourceInner parameters);
+        SshPublicKeyResourceInner resource);
 
     /**
      * Creates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
-     * @param parameters Parameters supplied to create the SSH public key.
+     * @param resource Parameters supplied to create the SSH public key.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -144,14 +200,14 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     Response<SshPublicKeyResourceInner> createWithResponse(String resourceGroupName, String sshPublicKeyName,
-        SshPublicKeyResourceInner parameters, Context context);
+        SshPublicKeyResourceInner resource, Context context);
 
     /**
      * Creates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
-     * @param parameters Parameters supplied to create the SSH public key.
+     * @param resource Parameters supplied to create the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -159,12 +215,12 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     SshPublicKeyResourceInner create(String resourceGroupName, String sshPublicKeyName,
-        SshPublicKeyResourceInner parameters);
+        SshPublicKeyResourceInner resource);
 
     /**
      * Updates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to update the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -180,7 +236,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Updates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to update the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -195,7 +251,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Updates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to update the SSH public key.
      * @param context The context to associate with this operation.
@@ -211,7 +267,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Updates a new SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to update the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -226,7 +282,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Delete an SSH public key.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -239,7 +295,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Delete an SSH public key.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -252,7 +308,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Delete an SSH public key.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -266,7 +322,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     /**
      * Delete an SSH public key.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -276,66 +332,10 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
     void delete(String resourceGroupName, String sshPublicKeyName);
 
     /**
-     * Retrieves information about an SSH public key.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param sshPublicKeyName The name of the SSH public key.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the SSH public key along with {@link Response} on successful completion of
-     * {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<SshPublicKeyResourceInner>> getByResourceGroupWithResponseAsync(String resourceGroupName,
-        String sshPublicKeyName);
-
-    /**
-     * Retrieves information about an SSH public key.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param sshPublicKeyName The name of the SSH public key.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the SSH public key on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<SshPublicKeyResourceInner> getByResourceGroupAsync(String resourceGroupName, String sshPublicKeyName);
-
-    /**
-     * Retrieves information about an SSH public key.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param sshPublicKeyName The name of the SSH public key.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the SSH public key along with {@link Response}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Response<SshPublicKeyResourceInner> getByResourceGroupWithResponse(String resourceGroupName,
-        String sshPublicKeyName, Context context);
-
-    /**
-     * Retrieves information about an SSH public key.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param sshPublicKeyName The name of the SSH public key.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the SSH public key.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    SshPublicKeyResourceInner getByResourceGroup(String resourceGroupName, String sshPublicKeyName);
-
-    /**
      * Generates and returns a public/private key pair and populates the SSH public key resource with the public key.
      * The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to generate the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -352,7 +352,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Generates and returns a public/private key pair and populates the SSH public key resource with the public key.
      * The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.
@@ -367,7 +367,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Generates and returns a public/private key pair and populates the SSH public key resource with the public key.
      * The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @param parameters Parameters supplied to generate the SSH public key.
      * @param context The context to associate with this operation.
@@ -384,7 +384,7 @@ public interface SshPublicKeysClient extends InnerSupportsGet<SshPublicKeyResour
      * Generates and returns a public/private key pair and populates the SSH public key resource with the public key.
      * The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param sshPublicKeyName The name of the SSH public key.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.resourcemanager.compute.models.ApiErrorException thrown if the request is rejected by server.

@@ -5,11 +5,12 @@
 package com.azure.resourcemanager.compute.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.ProxyResource;
+import com.azure.core.management.SystemData;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.compute.models.KeyVaultSecretReference;
-import com.azure.resourcemanager.compute.models.SubResourceReadOnly;
 import java.io.IOException;
 import java.util.List;
 
@@ -17,24 +18,29 @@ import java.util.List;
  * Describes a Virtual Machine Scale Set Extension.
  */
 @Fluent
-public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
-    /*
-     * The name of the extension.
-     */
-    private String name;
-
-    /*
-     * Resource type
-     */
-    private String type;
-
+public final class VirtualMachineScaleSetExtensionInner extends ProxyResource {
     /*
      * Describes the properties of a Virtual Machine Scale Set Extension.
      */
     private VirtualMachineScaleSetExtensionProperties innerProperties;
 
     /*
-     * Resource Id
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     */
+    private SystemData systemData;
+
+    /*
+     * The type of the resource.
+     */
+    private String type;
+
+    /*
+     * The name of the resource.
+     */
+    private String name;
+
+    /*
+     * Fully qualified resource Id for the resource.
      */
     private String id;
 
@@ -42,35 +48,6 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
      * Creates an instance of VirtualMachineScaleSetExtensionInner class.
      */
     public VirtualMachineScaleSetExtensionInner() {
-    }
-
-    /**
-     * Get the name property: The name of the extension.
-     * 
-     * @return the name value.
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Set the name property: The name of the extension.
-     * 
-     * @param name the name value to set.
-     * @return the VirtualMachineScaleSetExtensionInner object itself.
-     */
-    public VirtualMachineScaleSetExtensionInner withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Get the type property: Resource type.
-     * 
-     * @return the type value.
-     */
-    public String type() {
-        return this.type;
     }
 
     /**
@@ -83,7 +60,36 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
     }
 
     /**
-     * Get the id property: Resource Id.
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     * 
+     * @return the systemData value.
+     */
+    public SystemData systemData() {
+        return this.systemData;
+    }
+
+    /**
+     * Get the type property: The type of the resource.
+     * 
+     * @return the type value.
+     */
+    @Override
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Get the name property: The name of the resource.
+     * 
+     * @return the name value.
+     */
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the id property: Fully qualified resource Id for the resource.
      * 
      * @return the id value.
      */
@@ -378,9 +384,7 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
-    @Override
     public void validate() {
-        super.validate();
         if (innerProperties() != null) {
             innerProperties().validate();
         }
@@ -392,7 +396,6 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
-        jsonWriter.writeStringField("name", this.name);
         jsonWriter.writeJsonField("properties", this.innerProperties);
         return jsonWriter.writeEndObject();
     }
@@ -403,6 +406,7 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
      * @param jsonReader The JsonReader being read.
      * @return An instance of VirtualMachineScaleSetExtensionInner if the JsonReader was pointing to an instance of it,
      * or null if it was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the VirtualMachineScaleSetExtensionInner.
      */
     public static VirtualMachineScaleSetExtensionInner fromJson(JsonReader jsonReader) throws IOException {
@@ -422,6 +426,8 @@ public final class VirtualMachineScaleSetExtensionInner extends SubResourceReadO
                 } else if ("properties".equals(fieldName)) {
                     deserializedVirtualMachineScaleSetExtensionInner.innerProperties
                         = VirtualMachineScaleSetExtensionProperties.fromJson(reader);
+                } else if ("systemData".equals(fieldName)) {
+                    deserializedVirtualMachineScaleSetExtensionInner.systemData = SystemData.fromJson(reader);
                 } else {
                     reader.skipChildren();
                 }

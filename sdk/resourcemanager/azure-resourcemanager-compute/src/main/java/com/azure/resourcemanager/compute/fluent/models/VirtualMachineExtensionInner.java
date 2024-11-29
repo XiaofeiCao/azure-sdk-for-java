@@ -5,11 +5,12 @@
 package com.azure.resourcemanager.compute.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.Resource;
+import com.azure.core.management.SystemData;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.compute.models.KeyVaultSecretReference;
-import com.azure.resourcemanager.compute.models.ResourceWithOptionalLocation;
 import com.azure.resourcemanager.compute.models.VirtualMachineExtensionInstanceView;
 import java.io.IOException;
 import java.util.List;
@@ -19,16 +20,21 @@ import java.util.Map;
  * Describes a Virtual Machine Extension.
  */
 @Fluent
-public final class VirtualMachineExtensionInner extends ResourceWithOptionalLocation {
+public final class VirtualMachineExtensionInner extends Resource {
     /*
      * Describes the properties of a Virtual Machine Extension.
      */
     private VirtualMachineExtensionProperties innerProperties;
 
     /*
-     * Fully qualified resource Id for the resource.
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
      */
-    private String id;
+    private SystemData systemData;
+
+    /*
+     * The type of the resource.
+     */
+    private String type;
 
     /*
      * The name of the resource.
@@ -36,9 +42,9 @@ public final class VirtualMachineExtensionInner extends ResourceWithOptionalLoca
     private String name;
 
     /*
-     * The type of the resource.
+     * Fully qualified resource Id for the resource.
      */
-    private String type;
+    private String id;
 
     /**
      * Creates an instance of VirtualMachineExtensionInner class.
@@ -56,13 +62,22 @@ public final class VirtualMachineExtensionInner extends ResourceWithOptionalLoca
     }
 
     /**
-     * Get the id property: Fully qualified resource Id for the resource.
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
      * 
-     * @return the id value.
+     * @return the systemData value.
+     */
+    public SystemData systemData() {
+        return this.systemData;
+    }
+
+    /**
+     * Get the type property: The type of the resource.
+     * 
+     * @return the type value.
      */
     @Override
-    public String id() {
-        return this.id;
+    public String type() {
+        return this.type;
     }
 
     /**
@@ -76,13 +91,13 @@ public final class VirtualMachineExtensionInner extends ResourceWithOptionalLoca
     }
 
     /**
-     * Get the type property: The type of the resource.
+     * Get the id property: Fully qualified resource Id for the resource.
      * 
-     * @return the type value.
+     * @return the id value.
      */
     @Override
-    public String type() {
-        return this.type;
+    public String id() {
+        return this.id;
     }
 
     /**
@@ -412,9 +427,7 @@ public final class VirtualMachineExtensionInner extends ResourceWithOptionalLoca
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
-    @Override
     public void validate() {
-        super.validate();
         if (innerProperties() != null) {
             innerProperties().validate();
         }
@@ -462,6 +475,8 @@ public final class VirtualMachineExtensionInner extends ResourceWithOptionalLoca
                 } else if ("properties".equals(fieldName)) {
                     deserializedVirtualMachineExtensionInner.innerProperties
                         = VirtualMachineExtensionProperties.fromJson(reader);
+                } else if ("systemData".equals(fieldName)) {
+                    deserializedVirtualMachineExtensionInner.systemData = SystemData.fromJson(reader);
                 } else {
                     reader.skipChildren();
                 }
