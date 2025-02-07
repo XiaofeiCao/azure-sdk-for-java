@@ -2089,16 +2089,10 @@ class VirtualMachineImpl
     }
 
     public Accepted<VirtualMachine> beginCreate() {
-        return AcceptedImpl.<VirtualMachine, VirtualMachineInner>newAccepted(logger,
-            this.manager().serviceClient().getHttpPipeline(), this.manager().serviceClient().getDefaultPollInterval(),
-            () -> this.manager()
-                .serviceClient()
-                .getVirtualMachines()
-                .createOrUpdateWithResponseAsync(resourceGroupName(), vmName, innerModel(), null, null)
-                .block(),
+        return AcceptedImpl.newAcceptedSync(logger, this.manager().serviceClient().getHttpPipeline(), this.manager().serviceClient().getDefaultPollInterval(),
+            () -> this.manager().serviceClient().getVirtualMachines().createOrUpdateWithResponse(resourceGroupName(), vmName, innerModel()),
             inner -> new VirtualMachineImpl(inner.name(), inner, this.manager(), this.storageManager,
-                this.networkManager, this.authorizationManager),
-            VirtualMachineInner.class, () -> {
+                this.networkManager, this.authorizationManager), VirtualMachineInner.class, () -> {
                 Flux<Indexable> dependencyTasksAsync
                     = taskGroup().invokeDependencyAsync(taskGroup().newInvocationContext());
                 dependencyTasksAsync.blockLast();

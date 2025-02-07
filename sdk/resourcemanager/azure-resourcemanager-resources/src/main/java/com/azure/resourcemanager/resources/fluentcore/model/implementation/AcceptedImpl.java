@@ -12,7 +12,9 @@ import com.azure.core.management.exception.ManagementError;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.polling.PollerFactory;
+import com.azure.core.management.polling.SyncPollerFactory;
 import com.azure.core.management.serializer.SerializerFactory;
+import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.FluxUtil;
@@ -134,6 +136,100 @@ public class AcceptedImpl<InnerT, T> implements Accepted<T> {
         return syncPoller;
     }
 
+    public static <T extends HasInnerModel<InnerT>, InnerT> Accepted<T> newAcceptedSync(ClientLogger logger,
+                                                  HttpPipeline httpPipeline, Duration pollInterval, Supplier<Response<BinaryData>> activationOperation,
+                                                  Function<InnerT, T> convertOperation, Class<InnerT> innerType, Runnable preActivation, Consumer<InnerT> postActivation,
+                                                  Context context) {
+        if (preActivation != null) {
+            preActivation.run();
+        }
+
+        Accepted<T> accepted = new Accepted<T>() {
+            SyncPoller<PollResult<Void>, InnerT> innerPoller;
+            ActivationResponse<T> innerActivationResponse;
+
+            @Override
+            public ActivationResponse<T> getActivationResponse() {
+                if (innerActivationResponse == null) {
+                    getSyncPoller();
+                }
+                return innerActivationResponse;
+            }
+
+            @Override
+            public SyncPoller<Void, T> getSyncPoller() {
+                if (this.innerPoller == null) {
+                    SerializerAdapter adapter = SerializerFactory.createDefaultManagementSerializerAdapter();
+                    this.innerPoller =
+                        SyncPollerFactory.create(adapter, httpPipeline, Void.class, innerType, pollInterval, new Supplier<Response<BinaryData>>() {
+                            @Override
+                            public Response<BinaryData> get() {
+                                Response<BinaryData> response = activationOperation.get();
+                                try {
+                                    innerActivationResponse = new ActivationResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), convertOperation.apply(adapter.deserialize(response.getValue().toString(), innerType, SerializerEncoding.JSON)), getActivationResponseStatus(response, adapter), getRetryAfter(response.getHeaders()));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                return response;
+                            }
+                        });
+                }
+                return new SyncPoller<Void, T>() {
+                    @Override
+                    public PollResponse<Void> poll() {
+                        PollResponse<PollResult<Void>> response = innerPoller.poll();
+                        return getVoidPollResponse(response);
+                    }
+
+                    private static PollResponse<Void> getVoidPollResponse(PollResponse<PollResult<Void>> response) {
+                        return new PollResponse<>(response.getStatus(), response.getValue().getValue(), response.getRetryAfter());
+                    }
+
+                    @Override
+                    public PollResponse<Void> waitForCompletion() {
+                        return getVoidPollResponse(innerPoller.waitForCompletion());
+                    }
+
+                    @Override
+                    public PollResponse<Void> waitForCompletion(Duration duration) {
+                        return getVoidPollResponse(innerPoller.waitForCompletion(duration));
+                    }
+
+                    @Override
+                    public PollResponse<Void> waitUntil(LongRunningOperationStatus longRunningOperationStatus) {
+                        return getVoidPollResponse(innerPoller.waitUntil(longRunningOperationStatus));
+                    }
+
+                    @Override
+                    public PollResponse<Void> waitUntil(Duration duration, LongRunningOperationStatus longRunningOperationStatus) {
+                        return getVoidPollResponse(innerPoller.waitUntil(duration, longRunningOperationStatus));
+                    }
+
+                    @Override
+                    public T getFinalResult() {
+                        return convertOperation.apply(innerPoller.getFinalResult());
+                    }
+
+                    @Override
+                    public void cancelOperation() {
+                        innerPoller.cancelOperation();
+                    }
+                };
+            }
+
+            @Override
+            public T getFinalResult() {
+                return convertOperation.apply(innerPoller.getFinalResult());
+            }
+        };
+
+        if (postActivation != null) {
+            postActivation.accept(accepted.getActivationResponse().getValue().innerModel());
+        }
+
+        return accepted;
+    }
+
     private PollerFlux<PollResult<InnerT>, InnerT> getPollerFlux() {
         if (pollerFlux == null) {
             Flux<ByteBuffer> content = Flux.just(ByteBuffer.wrap(getResponse()));
@@ -148,6 +244,36 @@ public class AcceptedImpl<InnerT, T> implements Accepted<T> {
     @Override
     public T getFinalResult() {
         return this.getSyncPoller().getFinalResult();
+    }
+
+    private static LongRunningOperationStatus getActivationResponseStatus(Response<BinaryData> activationResponse, SerializerAdapter serializerAdapter) {
+
+        String responseBody = activationResponse.getValue().toString();
+        String provisioningState = null;
+        // try get "provisioningState" property.
+        if (!CoreUtils.isNullOrEmpty(responseBody)) {
+            try {
+                ResourceWithProvisioningState resource = serializerAdapter.deserialize(responseBody,
+                    ResourceWithProvisioningState.class, SerializerEncoding.JSON);
+                provisioningState = resource != null ? resource.getProvisioningState() : null;
+            } catch (IOException ignored) {
+
+            }
+        }
+
+        // get LRO status, default is IN_PROGRESS
+        LongRunningOperationStatus status = LongRunningOperationStatus.IN_PROGRESS;
+        if (!CoreUtils.isNullOrEmpty(provisioningState)) {
+            // LRO status based on provisioningState.
+            status = toLongRunningOperationStatus(provisioningState);
+        } else {
+            // LRO status based on status code.
+            int statusCode = activationResponse.getStatusCode();
+            if (statusCode == 200 || statusCode == 201 || statusCode == 204) {
+                status = LongRunningOperationStatus.SUCCESSFULLY_COMPLETED;
+            }
+        }
+        return status;
     }
 
     private LongRunningOperationStatus getActivationResponseStatus() {
@@ -208,8 +334,8 @@ public class AcceptedImpl<InnerT, T> implements Accepted<T> {
         }
         return responseBytes;
     }
-
     private static class SyncPollerImpl<InnerT, T> implements SyncPoller<Void, T> {
+
 
         private final SyncPoller<PollResult<InnerT>, InnerT> syncPoller;
         private final Function<InnerT, T> wrapOperation;
