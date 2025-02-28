@@ -29,8 +29,11 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.polling.PollResult;
+import com.azure.core.management.polling.SyncPollerFactory;
+import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.mediaservices.fluent.LiveEventsClient;
@@ -90,6 +93,15 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<LiveEventListResult> listSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
@@ -100,10 +112,31 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<LiveEventInner> getSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
         @ExpectedResponses({ 200, 201 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> create(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @QueryParam("autoStart") Boolean autoStart, @BodyParam("application/json") LiveEventInner parameters,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
+        @ExpectedResponses({ 200, 201 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> createSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
@@ -122,10 +155,31 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> updateSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @BodyParam("application/json") LiveEventInner parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
         @ExpectedResponses({ 200, 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}")
+        @ExpectedResponses({ 200, 202, 204 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> deleteSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
@@ -142,10 +196,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/allocate")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> allocateSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/start")
         @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> start(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/start")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> startSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
@@ -163,10 +237,31 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/stop")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> stopSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @BodyParam("application/json") LiveEventActionInput parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/reset")
         @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> reset(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/reset")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> resetSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
@@ -183,10 +278,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getStatus")
+        @ExpectedResponses({ 200, 202, 304 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> listGetStatusSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getStreamEvents")
         @ExpectedResponses({ 200, 202, 304 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> listGetStreamEvents(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getStreamEvents")
+        @ExpectedResponses({ 200, 202, 304 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> listGetStreamEventsSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
@@ -203,10 +318,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/getTrackIngestHeartbeats")
+        @ExpectedResponses({ 200, 202, 304 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> listGetTrackIngestHeartbeatsSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEventOperations/{operationId}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AsyncOperationResultInner>> asyncOperation(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("operationId") String operationId, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEventOperations/{operationId}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<AsyncOperationResultInner> asyncOperationSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("operationId") String operationId, @QueryParam("api-version") String apiVersion,
@@ -223,10 +358,27 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/operationLocations/{operationId}")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<LiveEventInner> operationLocationSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("liveEventName") String liveEventName, @PathParam("operationId") String operationId,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LiveEventListResult>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("$host") String endpoint, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<LiveEventListResult> listNextSync(@PathParam(value = "nextLink", encoded = true) String nextLink,
             @HostParam("$host") String endpoint, @HeaderParam("Accept") String accept, Context context);
     }
 
@@ -245,19 +397,22 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<LiveEventInner>> listSinglePageAsync(String resourceGroupName, String accountName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -286,19 +441,22 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventInner>> listSinglePageAsync(String resourceGroupName, String accountName,
         Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -357,11 +515,94 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return liveEventListResult along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventInner> listSinglePage(String resourceGroupName, String accountName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<LiveEventListResult> res = service.listSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, apiVersion, accept, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            res.getValue().odataNextLink(), null);
+    }
+
+    /**
+     * List live events
+     * 
+     * Lists all the live events in the account.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return liveEventListResult along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventInner> listSinglePage(String resourceGroupName, String accountName,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<LiveEventListResult> res = service.listSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, apiVersion, accept, context);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            res.getValue().odataNextLink(), null);
+    }
+
+    /**
+     * List live events
+     * 
+     * Lists all the live events in the account.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return liveEventListResult as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventInner> list(String resourceGroupName, String accountName) {
-        return new PagedIterable<>(listAsync(resourceGroupName, accountName));
+        return new PagedIterable<>(() -> listSinglePage(resourceGroupName, accountName, Context.NONE),
+            nextLink -> listNextSinglePage(nextLink));
     }
 
     /**
@@ -379,7 +620,8 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventInner> list(String resourceGroupName, String accountName, Context context) {
-        return new PagedIterable<>(listAsync(resourceGroupName, accountName, context));
+        return new PagedIterable<>(() -> listSinglePage(resourceGroupName, accountName, context),
+            nextLink -> listNextSinglePage(nextLink, context));
     }
 
     /**
@@ -399,22 +641,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<LiveEventInner>> getWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -442,22 +688,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<LiveEventInner>> getWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -502,7 +752,32 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<LiveEventInner> getWithResponse(String resourceGroupName, String accountName, String liveEventName,
         Context context) {
-        return getWithResponseAsync(resourceGroupName, accountName, liveEventName, context).block();
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.getSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, context);
     }
 
     /**
@@ -542,25 +817,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> createWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventInner parameters, Boolean autoStart) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -592,25 +872,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> createWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventInner parameters, Boolean autoStart, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -618,6 +903,111 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.create(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, autoStart, parameters, accept, context);
+    }
+
+    /**
+     * Create Live Event
+     * 
+     * Creates a new live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters Live event properties needed for creation.
+     * @param autoStart The flag indicates if the resource should be automatically started on creation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the live event along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> createWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventInner parameters, Boolean autoStart) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.createSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, autoStart, parameters, accept, Context.NONE);
+    }
+
+    /**
+     * Create Live Event
+     * 
+     * Creates a new live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters Live event properties needed for creation.
+     * @param autoStart The flag indicates if the resource should be automatically started on creation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the live event along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> createWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventInner parameters, Boolean autoStart, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.createSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, liveEventName, apiVersion, autoStart, parameters, accept, context);
     }
 
@@ -704,6 +1094,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      * @param accountName The Media Services account name.
      * @param liveEventName The name of the live event, maximum length is 32.
      * @param parameters Live event properties needed for creation.
+     * @param autoStart The flag indicates if the resource should be automatically started on creation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of the live event.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<LiveEventInner>, LiveEventInner> beginCreate(String resourceGroupName,
+        String accountName, String liveEventName, LiveEventInner parameters, Boolean autoStart) {
+        Response<BinaryData> response
+            = createWithResponse(resourceGroupName, accountName, liveEventName, parameters, autoStart);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            LiveEventInner.class, LiveEventInner.class, this.client.getDefaultPollInterval(), () -> response);
+    }
+
+    /**
+     * Create Live Event
+     * 
+     * Creates a new live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters Live event properties needed for creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -713,8 +1127,10 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     public SyncPoller<PollResult<LiveEventInner>, LiveEventInner> beginCreate(String resourceGroupName,
         String accountName, String liveEventName, LiveEventInner parameters) {
         final Boolean autoStart = null;
-        return this.beginCreateAsync(resourceGroupName, accountName, liveEventName, parameters, autoStart)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = createWithResponse(resourceGroupName, accountName, liveEventName, parameters, autoStart);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            LiveEventInner.class, LiveEventInner.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -736,8 +1152,10 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<LiveEventInner>, LiveEventInner> beginCreate(String resourceGroupName,
         String accountName, String liveEventName, LiveEventInner parameters, Boolean autoStart, Context context) {
-        return this.beginCreateAsync(resourceGroupName, accountName, liveEventName, parameters, autoStart, context)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = createWithResponse(resourceGroupName, accountName, liveEventName, parameters, autoStart, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            LiveEventInner.class, LiveEventInner.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -825,7 +1243,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     public LiveEventInner create(String resourceGroupName, String accountName, String liveEventName,
         LiveEventInner parameters) {
         final Boolean autoStart = null;
-        return createAsync(resourceGroupName, accountName, liveEventName, parameters, autoStart).block();
+        return beginCreate(resourceGroupName, accountName, liveEventName, parameters, autoStart).getFinalResult();
     }
 
     /**
@@ -847,7 +1265,8 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public LiveEventInner create(String resourceGroupName, String accountName, String liveEventName,
         LiveEventInner parameters, Boolean autoStart, Context context) {
-        return createAsync(resourceGroupName, accountName, liveEventName, parameters, autoStart, context).block();
+        return beginCreate(resourceGroupName, accountName, liveEventName, parameters, autoStart, context)
+            .getFinalResult();
     }
 
     /**
@@ -866,25 +1285,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventInner parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -913,25 +1337,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventInner parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -939,6 +1368,105 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, parameters, accept, context);
+    }
+
+    /**
+     * Updates settings on an existing live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters Live event properties needed for patch.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the live event along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventInner parameters) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.updateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, parameters, accept, Context.NONE);
+    }
+
+    /**
+     * Updates settings on an existing live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters Live event properties needed for patch.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the live event along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventInner parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.updateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, liveEventName, apiVersion, parameters, accept, context);
     }
 
@@ -1001,7 +1529,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<LiveEventInner>, LiveEventInner> beginUpdate(String resourceGroupName,
         String accountName, String liveEventName, LiveEventInner parameters) {
-        return this.beginUpdateAsync(resourceGroupName, accountName, liveEventName, parameters).getSyncPoller();
+        Response<BinaryData> response = updateWithResponse(resourceGroupName, accountName, liveEventName, parameters);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            LiveEventInner.class, LiveEventInner.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1020,8 +1550,10 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<LiveEventInner>, LiveEventInner> beginUpdate(String resourceGroupName,
         String accountName, String liveEventName, LiveEventInner parameters, Context context) {
-        return this.beginUpdateAsync(resourceGroupName, accountName, liveEventName, parameters, context)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = updateWithResponse(resourceGroupName, accountName, liveEventName, parameters, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            LiveEventInner.class, LiveEventInner.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -1078,7 +1610,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public LiveEventInner update(String resourceGroupName, String accountName, String liveEventName,
         LiveEventInner parameters) {
-        return updateAsync(resourceGroupName, accountName, liveEventName, parameters).block();
+        return beginUpdate(resourceGroupName, accountName, liveEventName, parameters).getFinalResult();
     }
 
     /**
@@ -1097,7 +1629,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public LiveEventInner update(String resourceGroupName, String accountName, String liveEventName,
         LiveEventInner parameters, Context context) {
-        return updateAsync(resourceGroupName, accountName, liveEventName, parameters, context).block();
+        return beginUpdate(resourceGroupName, accountName, liveEventName, parameters, context).getFinalResult();
     }
 
     /**
@@ -1117,22 +1649,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -1160,27 +1696,120 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, context);
+    }
+
+    /**
+     * Delete Live Event
+     * 
+     * Deletes a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> deleteWithResponse(String resourceGroupName, String accountName,
+        String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.deleteSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Delete Live Event
+     * 
+     * Deletes a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> deleteWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.deleteSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, liveEventName, apiVersion, accept, context);
     }
 
@@ -1245,7 +1874,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String accountName,
         String liveEventName) {
-        return this.beginDeleteAsync(resourceGroupName, accountName, liveEventName).getSyncPoller();
+        Response<BinaryData> response = deleteWithResponse(resourceGroupName, accountName, liveEventName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1265,7 +1896,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, accountName, liveEventName, context).getSyncPoller();
+        Response<BinaryData> response = deleteWithResponse(resourceGroupName, accountName, liveEventName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -1322,7 +1955,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String accountName, String liveEventName) {
-        deleteAsync(resourceGroupName, accountName, liveEventName).block();
+        beginDelete(resourceGroupName, accountName, liveEventName).getFinalResult();
     }
 
     /**
@@ -1340,7 +1973,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String accountName, String liveEventName, Context context) {
-        deleteAsync(resourceGroupName, accountName, liveEventName, context).block();
+        beginDelete(resourceGroupName, accountName, liveEventName, context).getFinalResult();
     }
 
     /**
@@ -1360,22 +1993,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> allocateWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -1403,27 +2040,120 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> allocateWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.allocate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, context);
+    }
+
+    /**
+     * Allocate resources for a live event
+     * 
+     * A live event is in StandBy state after allocation completes, and is ready to start.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> allocateWithResponse(String resourceGroupName, String accountName,
+        String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.allocateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Allocate resources for a live event
+     * 
+     * A live event is in StandBy state after allocation completes, and is ready to start.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> allocateWithResponse(String resourceGroupName, String accountName,
+        String liveEventName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.allocateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, liveEventName, apiVersion, accept, context);
     }
 
@@ -1489,7 +2219,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginAllocate(String resourceGroupName, String accountName,
         String liveEventName) {
-        return this.beginAllocateAsync(resourceGroupName, accountName, liveEventName).getSyncPoller();
+        Response<BinaryData> response = allocateWithResponse(resourceGroupName, accountName, liveEventName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1509,7 +2241,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginAllocate(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return this.beginAllocateAsync(resourceGroupName, accountName, liveEventName, context).getSyncPoller();
+        Response<BinaryData> response = allocateWithResponse(resourceGroupName, accountName, liveEventName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -1566,7 +2300,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void allocate(String resourceGroupName, String accountName, String liveEventName) {
-        allocateAsync(resourceGroupName, accountName, liveEventName).block();
+        beginAllocate(resourceGroupName, accountName, liveEventName).getFinalResult();
     }
 
     /**
@@ -1584,7 +2318,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void allocate(String resourceGroupName, String accountName, String liveEventName, Context context) {
-        allocateAsync(resourceGroupName, accountName, liveEventName, context).block();
+        beginAllocate(resourceGroupName, accountName, liveEventName, context).getFinalResult();
     }
 
     /**
@@ -1604,22 +2338,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> startWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -1647,28 +2385,120 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> startWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.start(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, accountName,
             liveEventName, apiVersion, accept, context);
+    }
+
+    /**
+     * Start Live Event
+     * 
+     * A live event in Stopped or StandBy state will be in Running state after the start operation completes.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> startWithResponse(String resourceGroupName, String accountName, String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.startSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Start Live Event
+     * 
+     * A live event in Stopped or StandBy state will be in Running state after the start operation completes.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> startWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.startSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, context);
     }
 
     /**
@@ -1732,7 +2562,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStart(String resourceGroupName, String accountName,
         String liveEventName) {
-        return this.beginStartAsync(resourceGroupName, accountName, liveEventName).getSyncPoller();
+        Response<BinaryData> response = startWithResponse(resourceGroupName, accountName, liveEventName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1752,7 +2584,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStart(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return this.beginStartAsync(resourceGroupName, accountName, liveEventName, context).getSyncPoller();
+        Response<BinaryData> response = startWithResponse(resourceGroupName, accountName, liveEventName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -1808,7 +2642,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void start(String resourceGroupName, String accountName, String liveEventName) {
-        startAsync(resourceGroupName, accountName, liveEventName).block();
+        beginStart(resourceGroupName, accountName, liveEventName).getFinalResult();
     }
 
     /**
@@ -1826,7 +2660,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void start(String resourceGroupName, String accountName, String liveEventName, Context context) {
-        startAsync(resourceGroupName, accountName, liveEventName, context).block();
+        beginStart(resourceGroupName, accountName, liveEventName, context).getFinalResult();
     }
 
     /**
@@ -1847,25 +2681,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> stopWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventActionInput parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -1896,25 +2735,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> stopWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, LiveEventActionInput parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -1923,6 +2767,109 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
         context = this.client.mergeContext(context);
         return service.stop(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, accountName,
             liveEventName, apiVersion, parameters, accept, context);
+    }
+
+    /**
+     * Stop Live Event
+     * 
+     * Stops a running live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters LiveEvent stop parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> stopWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventActionInput parameters) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.stopSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, parameters, accept, Context.NONE);
+    }
+
+    /**
+     * Stop Live Event
+     * 
+     * Stops a running live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param parameters LiveEvent stop parameters.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> stopWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        LiveEventActionInput parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.stopSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, parameters, accept, context);
     }
 
     /**
@@ -1990,7 +2937,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStop(String resourceGroupName, String accountName,
         String liveEventName, LiveEventActionInput parameters) {
-        return this.beginStopAsync(resourceGroupName, accountName, liveEventName, parameters).getSyncPoller();
+        Response<BinaryData> response = stopWithResponse(resourceGroupName, accountName, liveEventName, parameters);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -2011,7 +2960,10 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginStop(String resourceGroupName, String accountName,
         String liveEventName, LiveEventActionInput parameters, Context context) {
-        return this.beginStopAsync(resourceGroupName, accountName, liveEventName, parameters, context).getSyncPoller();
+        Response<BinaryData> response
+            = stopWithResponse(resourceGroupName, accountName, liveEventName, parameters, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -2073,7 +3025,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void stop(String resourceGroupName, String accountName, String liveEventName,
         LiveEventActionInput parameters) {
-        stopAsync(resourceGroupName, accountName, liveEventName, parameters).block();
+        beginStop(resourceGroupName, accountName, liveEventName, parameters).getFinalResult();
     }
 
     /**
@@ -2093,7 +3045,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void stop(String resourceGroupName, String accountName, String liveEventName,
         LiveEventActionInput parameters, Context context) {
-        stopAsync(resourceGroupName, accountName, liveEventName, parameters, context).block();
+        beginStop(resourceGroupName, accountName, liveEventName, parameters, context).getFinalResult();
     }
 
     /**
@@ -2115,22 +3067,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> resetWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2160,28 +3116,124 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<Flux<ByteBuffer>>> resetWithResponseAsync(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.reset(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, accountName,
             liveEventName, apiVersion, accept, context);
+    }
+
+    /**
+     * Reset Live Event
+     * 
+     * Resets an existing live event. All live outputs for the live event are deleted and the live event is stopped and
+     * will be started again. All assets used by the live outputs and streaming locators created on these assets are
+     * unaffected.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> resetWithResponse(String resourceGroupName, String accountName, String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.resetSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Reset Live Event
+     * 
+     * Resets an existing live event. All live outputs for the live event are deleted and the live event is stopped and
+     * will be started again. All assets used by the live outputs and streaming locators created on these assets are
+     * unaffected.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> resetWithResponse(String resourceGroupName, String accountName, String liveEventName,
+        Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.resetSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, liveEventName, apiVersion, accept, context);
     }
 
     /**
@@ -2251,7 +3303,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginReset(String resourceGroupName, String accountName,
         String liveEventName) {
-        return this.beginResetAsync(resourceGroupName, accountName, liveEventName).getSyncPoller();
+        Response<BinaryData> response = resetWithResponse(resourceGroupName, accountName, liveEventName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -2273,7 +3327,9 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginReset(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return this.beginResetAsync(resourceGroupName, accountName, liveEventName, context).getSyncPoller();
+        Response<BinaryData> response = resetWithResponse(resourceGroupName, accountName, liveEventName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -2335,7 +3391,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void reset(String resourceGroupName, String accountName, String liveEventName) {
-        resetAsync(resourceGroupName, accountName, liveEventName).block();
+        beginReset(resourceGroupName, accountName, liveEventName).getFinalResult();
     }
 
     /**
@@ -2355,7 +3411,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void reset(String resourceGroupName, String accountName, String liveEventName, Context context) {
-        resetAsync(resourceGroupName, accountName, liveEventName, context).block();
+        beginReset(resourceGroupName, accountName, liveEventName, context).getFinalResult();
     }
 
     /**
@@ -2376,22 +3432,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventStatusInner>> listGetStatusSinglePageAsync(String resourceGroupName,
         String accountName, String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2431,22 +3491,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventStatusInner>> listGetStatusSinglePageAsync(String resourceGroupName,
         String accountName, String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2517,12 +3581,114 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return status telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventStatusInner> listGetStatusSinglePage(String resourceGroupName, String accountName,
+        String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res = service.listGetStatusSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, liveEventName, apiVersion, accept, Context.NONE);
+        LiveEventGetStatusResult result = SyncPollerFactory
+            .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), LiveEventGetStatusResult.class,
+                LiveEventGetStatusResult.class, this.client.getDefaultPollInterval(), () -> res, Context.NONE)
+            .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get status of one live event
+     * 
+     * Gets status telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return status telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventStatusInner> listGetStatusSinglePage(String resourceGroupName, String accountName,
+        String liveEventName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res = service.listGetStatusSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, liveEventName, apiVersion, accept, context);
+        LiveEventGetStatusResult result = SyncPollerFactory
+            .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), LiveEventGetStatusResult.class,
+                LiveEventGetStatusResult.class, this.client.getDefaultPollInterval(), () -> res, context)
+            .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get status of one live event
+     * 
+     * Gets status telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return status telemetry of a live event as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventStatusInner> listGetStatus(String resourceGroupName, String accountName,
         String liveEventName) {
-        return new PagedIterable<>(listGetStatusAsync(resourceGroupName, accountName, liveEventName));
+        return new PagedIterable<>(
+            () -> listGetStatusSinglePage(resourceGroupName, accountName, liveEventName, Context.NONE));
     }
 
     /**
@@ -2542,7 +3708,8 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventStatusInner> listGetStatus(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return new PagedIterable<>(listGetStatusAsync(resourceGroupName, accountName, liveEventName, context));
+        return new PagedIterable<>(
+            () -> listGetStatusSinglePage(resourceGroupName, accountName, liveEventName, context));
     }
 
     /**
@@ -2563,22 +3730,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventStreamEventInner>> listGetStreamEventsSinglePageAsync(String resourceGroupName,
         String accountName, String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2619,22 +3790,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventStreamEventInner>> listGetStreamEventsSinglePageAsync(String resourceGroupName,
         String accountName, String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2707,12 +3882,120 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return stream events telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventStreamEventInner> listGetStreamEventsSinglePage(String resourceGroupName,
+        String accountName, String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res
+            = service.listGetStreamEventsSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, accountName, liveEventName, apiVersion, accept, Context.NONE);
+        LiveEventGetStreamEventsResult result
+            = SyncPollerFactory
+                .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+                    LiveEventGetStreamEventsResult.class, LiveEventGetStreamEventsResult.class,
+                    this.client.getDefaultPollInterval(), () -> res, Context.NONE)
+                .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get stream events of one live event
+     * 
+     * Get stream events telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return stream events telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventStreamEventInner> listGetStreamEventsSinglePage(String resourceGroupName,
+        String accountName, String liveEventName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res
+            = service.listGetStreamEventsSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, accountName, liveEventName, apiVersion, accept, context);
+        LiveEventGetStreamEventsResult result
+            = SyncPollerFactory
+                .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+                    LiveEventGetStreamEventsResult.class, LiveEventGetStreamEventsResult.class,
+                    this.client.getDefaultPollInterval(), () -> res, context)
+                .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get stream events of one live event
+     * 
+     * Get stream events telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return stream events telemetry of a live event as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventStreamEventInner> listGetStreamEvents(String resourceGroupName, String accountName,
         String liveEventName) {
-        return new PagedIterable<>(listGetStreamEventsAsync(resourceGroupName, accountName, liveEventName));
+        return new PagedIterable<>(
+            () -> listGetStreamEventsSinglePage(resourceGroupName, accountName, liveEventName, Context.NONE));
     }
 
     /**
@@ -2732,7 +4015,8 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventStreamEventInner> listGetStreamEvents(String resourceGroupName, String accountName,
         String liveEventName, Context context) {
-        return new PagedIterable<>(listGetStreamEventsAsync(resourceGroupName, accountName, liveEventName, context));
+        return new PagedIterable<>(
+            () -> listGetStreamEventsSinglePage(resourceGroupName, accountName, liveEventName, context));
     }
 
     /**
@@ -2753,22 +4037,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventTrackEventInner>> listGetTrackIngestHeartbeatsSinglePageAsync(
         String resourceGroupName, String accountName, String liveEventName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2810,22 +4098,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<PagedResponse<LiveEventTrackEventInner>> listGetTrackIngestHeartbeatsSinglePageAsync(
         String resourceGroupName, String accountName, String liveEventName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2898,12 +4190,120 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return track ingest heartbeat events telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventTrackEventInner> listGetTrackIngestHeartbeatsSinglePage(String resourceGroupName,
+        String accountName, String liveEventName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res
+            = service.listGetTrackIngestHeartbeatsSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, accountName, liveEventName, apiVersion, accept, Context.NONE);
+        LiveEventGetTrackIngestHeartbeatsResult result
+            = SyncPollerFactory
+                .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+                    LiveEventGetTrackIngestHeartbeatsResult.class, LiveEventGetTrackIngestHeartbeatsResult.class,
+                    this.client.getDefaultPollInterval(), () -> res, Context.NONE)
+                .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get track events of one live event
+     * 
+     * Get track ingest heartbeat events telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return track ingest heartbeat events telemetry of a live event along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventTrackEventInner> listGetTrackIngestHeartbeatsSinglePage(String resourceGroupName,
+        String accountName, String liveEventName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        Response<BinaryData> res
+            = service.listGetTrackIngestHeartbeatsSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+                resourceGroupName, accountName, liveEventName, apiVersion, accept, context);
+        LiveEventGetTrackIngestHeartbeatsResult result
+            = SyncPollerFactory
+                .create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+                    LiveEventGetTrackIngestHeartbeatsResult.class, LiveEventGetTrackIngestHeartbeatsResult.class,
+                    this.client.getDefaultPollInterval(), () -> res, context)
+                .getFinalResult();
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), result.value(), null,
+            null);
+    }
+
+    /**
+     * Get track events of one live event
+     * 
+     * Get track ingest heartbeat events telemetry of a live event.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param liveEventName The name of the live event, maximum length is 32.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return track ingest heartbeat events telemetry of a live event as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<LiveEventTrackEventInner> listGetTrackIngestHeartbeats(String resourceGroupName,
         String accountName, String liveEventName) {
-        return new PagedIterable<>(listGetTrackIngestHeartbeatsAsync(resourceGroupName, accountName, liveEventName));
+        return new PagedIterable<>(
+            () -> listGetTrackIngestHeartbeatsSinglePage(resourceGroupName, accountName, liveEventName, Context.NONE));
     }
 
     /**
@@ -2924,7 +4324,7 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     public PagedIterable<LiveEventTrackEventInner> listGetTrackIngestHeartbeats(String resourceGroupName,
         String accountName, String liveEventName, Context context) {
         return new PagedIterable<>(
-            listGetTrackIngestHeartbeatsAsync(resourceGroupName, accountName, liveEventName, context));
+            () -> listGetTrackIngestHeartbeatsSinglePage(resourceGroupName, accountName, liveEventName, context));
     }
 
     /**
@@ -2944,22 +4344,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<AsyncOperationResultInner>> asyncOperationWithResponseAsync(String resourceGroupName,
         String accountName, String operationId) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -2987,22 +4391,26 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<AsyncOperationResultInner>> asyncOperationWithResponseAsync(String resourceGroupName,
         String accountName, String operationId, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -3048,7 +4456,32 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<AsyncOperationResultInner> asyncOperationWithResponse(String resourceGroupName, String accountName,
         String operationId, Context context) {
-        return asyncOperationWithResponseAsync(resourceGroupName, accountName, operationId, context).block();
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (operationId == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.asyncOperationSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, operationId, apiVersion, accept, context);
     }
 
     /**
@@ -3087,25 +4520,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<LiveEventInner>> operationLocationWithResponseAsync(String resourceGroupName,
         String accountName, String liveEventName, String operationId) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -3135,25 +4573,30 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     private Mono<Response<LiveEventInner>> operationLocationWithResponseAsync(String resourceGroupName,
         String accountName, String liveEventName, String operationId, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (liveEventName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-11-01";
         final String accept = "application/json";
@@ -3201,8 +4644,36 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<LiveEventInner> operationLocationWithResponse(String resourceGroupName, String accountName,
         String liveEventName, String operationId, Context context) {
-        return operationLocationWithResponseAsync(resourceGroupName, accountName, liveEventName, operationId, context)
-            .block();
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (liveEventName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter liveEventName is required and cannot be null."));
+        }
+        if (operationId == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+        }
+        final String apiVersion = "2022-11-01";
+        final String accept = "application/json";
+        return service.operationLocationSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, liveEventName, operationId, apiVersion, accept, context);
     }
 
     /**
@@ -3238,11 +4709,13 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<LiveEventInner>> listNextSinglePageAsync(String nextLink) {
         if (nextLink == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil.withContext(context -> service.listNext(nextLink, this.client.getEndpoint(), accept, context))
@@ -3264,11 +4737,13 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<LiveEventInner>> listNextSinglePageAsync(String nextLink, Context context) {
         if (nextLink == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
         }
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
@@ -3276,4 +4751,60 @@ public final class LiveEventsClientImpl implements LiveEventsClient {
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
                 res.getValue().value(), res.getValue().odataNextLink(), null));
     }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return liveEventListResult along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventInner> listNextSinglePage(String nextLink) {
+        if (nextLink == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        Response<LiveEventListResult> res
+            = service.listNextSync(nextLink, this.client.getEndpoint(), accept, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            res.getValue().odataNextLink(), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return liveEventListResult along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<LiveEventInner> listNextSinglePage(String nextLink, Context context) {
+        if (nextLink == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        Response<LiveEventListResult> res = service.listNextSync(nextLink, this.client.getEndpoint(), accept, context);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            res.getValue().odataNextLink(), null);
+    }
+
+    private static final ClientLogger LOGGER = new ClientLogger(LiveEventsClientImpl.class);
 }

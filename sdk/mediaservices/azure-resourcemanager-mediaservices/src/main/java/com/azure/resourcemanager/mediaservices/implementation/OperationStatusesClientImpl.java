@@ -21,6 +21,7 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.mediaservices.fluent.OperationStatusesClient;
 import com.azure.resourcemanager.mediaservices.fluent.models.AssetTrackOperationStatusInner;
 import reactor.core.publisher.Mono;
@@ -67,6 +68,17 @@ public final class OperationStatusesClientImpl implements OperationStatusesClien
             @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
             @PathParam("operationId") String operationId, @QueryParam("api-version") String apiVersion,
             @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}/operationStatuses/{operationId}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<AssetTrackOperationStatusInner> getSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @PathParam("operationId") String operationId, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
@@ -88,28 +100,34 @@ public final class OperationStatusesClientImpl implements OperationStatusesClien
     private Mono<Response<AssetTrackOperationStatusInner>> getWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName, String operationId) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -139,28 +157,34 @@ public final class OperationStatusesClientImpl implements OperationStatusesClien
     private Mono<Response<AssetTrackOperationStatusInner>> getWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName, String operationId, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (operationId == null) {
-            return Mono.error(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -210,7 +234,40 @@ public final class OperationStatusesClientImpl implements OperationStatusesClien
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<AssetTrackOperationStatusInner> getWithResponse(String resourceGroupName, String accountName,
         String assetName, String trackName, String operationId, Context context) {
-        return getWithResponseAsync(resourceGroupName, accountName, assetName, trackName, operationId, context).block();
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        if (operationId == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter operationId is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.getSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, operationId, apiVersion, accept, context);
     }
 
     /**
@@ -234,4 +291,6 @@ public final class OperationStatusesClientImpl implements OperationStatusesClien
         return getWithResponse(resourceGroupName, accountName, assetName, trackName, operationId, Context.NONE)
             .getValue();
     }
+
+    private static final ClientLogger LOGGER = new ClientLogger(OperationStatusesClientImpl.class);
 }

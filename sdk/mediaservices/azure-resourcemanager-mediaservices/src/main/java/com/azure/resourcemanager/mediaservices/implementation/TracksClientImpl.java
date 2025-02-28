@@ -29,8 +29,11 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.polling.PollResult;
+import com.azure.core.management.polling.SyncPollerFactory;
+import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.mediaservices.fluent.TracksClient;
@@ -82,10 +85,30 @@ public final class TracksClientImpl implements TracksClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<AssetTrackCollection> listSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @QueryParam("api-version") String apiVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<AssetTrackInner>> get(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<AssetTrackInner> getSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
@@ -103,10 +126,31 @@ public final class TracksClientImpl implements TracksClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
+        @ExpectedResponses({ 200, 201 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> createOrUpdateSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @QueryParam("api-version") String apiVersion, @BodyParam("application/json") AssetTrackInner parameters,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
         @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
+        @ExpectedResponses({ 202, 204 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> deleteSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
@@ -124,10 +168,31 @@ public final class TracksClientImpl implements TracksClient {
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> updateSync(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @QueryParam("api-version") String apiVersion, @BodyParam("application/json") AssetTrackInner parameters,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}/updateTrackData")
         @ExpectedResponses({ 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> updateTrackData(@HostParam("$host") String endpoint,
+            @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
+            @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}/updateTrackData")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Response<BinaryData> updateTrackDataSync(@HostParam("$host") String endpoint,
             @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName,
             @PathParam("assetName") String assetName, @PathParam("trackName") String trackName,
@@ -152,22 +217,26 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<PagedResponse<AssetTrackInner>> listSinglePageAsync(String resourceGroupName, String accountName,
         String assetName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -198,22 +267,26 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<PagedResponse<AssetTrackInner>> listSinglePageAsync(String resourceGroupName, String accountName,
         String assetName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -274,11 +347,105 @@ public final class TracksClientImpl implements TracksClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a collection of AssetTrack items along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<AssetTrackInner> listSinglePage(String resourceGroupName, String accountName,
+        String assetName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        Response<AssetTrackCollection> res
+            = service.listSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+                accountName, assetName, apiVersion, accept, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            null, null);
+    }
+
+    /**
+     * List Tracks in the Asset
+     * 
+     * Lists the Tracks in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a collection of AssetTrack items along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<AssetTrackInner> listSinglePage(String resourceGroupName, String accountName,
+        String assetName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        Response<AssetTrackCollection> res = service.listSync(this.client.getEndpoint(),
+            this.client.getSubscriptionId(), resourceGroupName, accountName, assetName, apiVersion, accept, context);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(), res.getValue().value(),
+            null, null);
+    }
+
+    /**
+     * List Tracks in the Asset
+     * 
+     * Lists the Tracks in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return a collection of AssetTrack items as paginated response with {@link PagedIterable}.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<AssetTrackInner> list(String resourceGroupName, String accountName, String assetName) {
-        return new PagedIterable<>(listAsync(resourceGroupName, accountName, assetName));
+        return new PagedIterable<>(() -> listSinglePage(resourceGroupName, accountName, assetName, Context.NONE));
     }
 
     /**
@@ -298,7 +465,7 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<AssetTrackInner> list(String resourceGroupName, String accountName, String assetName,
         Context context) {
-        return new PagedIterable<>(listAsync(resourceGroupName, accountName, assetName, context));
+        return new PagedIterable<>(() -> listSinglePage(resourceGroupName, accountName, assetName, context));
     }
 
     /**
@@ -319,25 +486,30 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<AssetTrackInner>> getWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -366,25 +538,30 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<AssetTrackInner>> getWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -432,7 +609,36 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<AssetTrackInner> getWithResponse(String resourceGroupName, String accountName, String assetName,
         String trackName, Context context) {
-        return getWithResponseAsync(resourceGroupName, accountName, assetName, trackName, context).block();
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.getSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, accept, context);
     }
 
     /**
@@ -473,28 +679,34 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -526,28 +738,34 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -555,6 +773,119 @@ public final class TracksClientImpl implements TracksClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, parameters, accept, context);
+    }
+
+    /**
+     * Create or update a Track
+     * 
+     * Create or update a Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param parameters The request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an Asset Track resource along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> createOrUpdateWithResponse(String resourceGroupName, String accountName,
+        String assetName, String trackName, AssetTrackInner parameters) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.createOrUpdateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, parameters, accept, Context.NONE);
+    }
+
+    /**
+     * Create or update a Track
+     * 
+     * Create or update a Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param parameters The request parameters.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an Asset Track resource along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> createOrUpdateWithResponse(String resourceGroupName, String accountName,
+        String assetName, String trackName, AssetTrackInner parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.createOrUpdateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, assetName, trackName, apiVersion, parameters, accept, context);
     }
 
@@ -626,8 +957,10 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AssetTrackInner>, AssetTrackInner> beginCreateOrUpdate(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = createOrUpdateWithResponse(resourceGroupName, accountName, assetName, trackName, parameters);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            AssetTrackInner.class, AssetTrackInner.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -649,8 +982,11 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AssetTrackInner>, AssetTrackInner> beginCreateOrUpdate(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters, Context context) {
-        return this.beginCreateOrUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters, context)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = createOrUpdateWithResponse(resourceGroupName, accountName, assetName, trackName, parameters, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            AssetTrackInner.class, AssetTrackInner.class, this.client.getDefaultPollInterval(), () -> response,
+            context);
     }
 
     /**
@@ -717,7 +1053,7 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public AssetTrackInner createOrUpdate(String resourceGroupName, String accountName, String assetName,
         String trackName, AssetTrackInner parameters) {
-        return createOrUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters).block();
+        return beginCreateOrUpdate(resourceGroupName, accountName, assetName, trackName, parameters).getFinalResult();
     }
 
     /**
@@ -739,7 +1075,8 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public AssetTrackInner createOrUpdate(String resourceGroupName, String accountName, String assetName,
         String trackName, AssetTrackInner parameters, Context context) {
-        return createOrUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters, context).block();
+        return beginCreateOrUpdate(resourceGroupName, accountName, assetName, trackName, parameters, context)
+            .getFinalResult();
     }
 
     /**
@@ -760,25 +1097,30 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -807,30 +1149,134 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, accept, context);
+    }
+
+    /**
+     * Delete a Track
+     * 
+     * Deletes a Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> deleteWithResponse(String resourceGroupName, String accountName, String assetName,
+        String trackName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.deleteSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Delete a Track
+     * 
+     * Deletes a Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> deleteWithResponse(String resourceGroupName, String accountName, String assetName,
+        String trackName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.deleteSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, assetName, trackName, apiVersion, accept, context);
     }
 
@@ -899,7 +1345,9 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String accountName,
         String assetName, String trackName) {
-        return this.beginDeleteAsync(resourceGroupName, accountName, assetName, trackName).getSyncPoller();
+        Response<BinaryData> response = deleteWithResponse(resourceGroupName, accountName, assetName, trackName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -920,7 +1368,10 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginDelete(String resourceGroupName, String accountName,
         String assetName, String trackName, Context context) {
-        return this.beginDeleteAsync(resourceGroupName, accountName, assetName, trackName, context).getSyncPoller();
+        Response<BinaryData> response
+            = deleteWithResponse(resourceGroupName, accountName, assetName, trackName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -980,7 +1431,7 @@ public final class TracksClientImpl implements TracksClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String accountName, String assetName, String trackName) {
-        deleteAsync(resourceGroupName, accountName, assetName, trackName).block();
+        beginDelete(resourceGroupName, accountName, assetName, trackName).getFinalResult();
     }
 
     /**
@@ -1000,7 +1451,7 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String accountName, String assetName, String trackName,
         Context context) {
-        deleteAsync(resourceGroupName, accountName, assetName, trackName, context).block();
+        beginDelete(resourceGroupName, accountName, assetName, trackName, context).getFinalResult();
     }
 
     /**
@@ -1022,28 +1473,34 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName, AssetTrackInner parameters) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -1075,28 +1532,34 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String accountName,
         String assetName, String trackName, AssetTrackInner parameters, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
         } else {
             parameters.validate();
         }
@@ -1104,6 +1567,119 @@ public final class TracksClientImpl implements TracksClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, parameters, accept, context);
+    }
+
+    /**
+     * Update an Track
+     * 
+     * Updates an existing Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param parameters The request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an Asset Track resource along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateWithResponse(String resourceGroupName, String accountName, String assetName,
+        String trackName, AssetTrackInner parameters) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.updateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
+            accountName, assetName, trackName, apiVersion, parameters, accept, Context.NONE);
+    }
+
+    /**
+     * Update an Track
+     * 
+     * Updates an existing Track in the asset.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param parameters The request parameters.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return an Asset Track resource along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateWithResponse(String resourceGroupName, String accountName, String assetName,
+        String trackName, AssetTrackInner parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.updateSync(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, assetName, trackName, apiVersion, parameters, accept, context);
     }
 
@@ -1175,7 +1751,10 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AssetTrackInner>, AssetTrackInner> beginUpdate(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters) {
-        return this.beginUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters).getSyncPoller();
+        Response<BinaryData> response
+            = updateWithResponse(resourceGroupName, accountName, assetName, trackName, parameters);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            AssetTrackInner.class, AssetTrackInner.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1197,8 +1776,11 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<AssetTrackInner>, AssetTrackInner> beginUpdate(String resourceGroupName,
         String accountName, String assetName, String trackName, AssetTrackInner parameters, Context context) {
-        return this.beginUpdateAsync(resourceGroupName, accountName, assetName, trackName, parameters, context)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = updateWithResponse(resourceGroupName, accountName, assetName, trackName, parameters, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(),
+            AssetTrackInner.class, AssetTrackInner.class, this.client.getDefaultPollInterval(), () -> response,
+            context);
     }
 
     /**
@@ -1264,7 +1846,7 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public AssetTrackInner update(String resourceGroupName, String accountName, String assetName, String trackName,
         AssetTrackInner parameters) {
-        return updateAsync(resourceGroupName, accountName, assetName, trackName, parameters).block();
+        return beginUpdate(resourceGroupName, accountName, assetName, trackName, parameters).getFinalResult();
     }
 
     /**
@@ -1286,7 +1868,7 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public AssetTrackInner update(String resourceGroupName, String accountName, String assetName, String trackName,
         AssetTrackInner parameters, Context context) {
-        return updateAsync(resourceGroupName, accountName, assetName, trackName, parameters, context).block();
+        return beginUpdate(resourceGroupName, accountName, assetName, trackName, parameters, context).getFinalResult();
     }
 
     /**
@@ -1310,25 +1892,30 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> updateTrackDataWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
@@ -1360,31 +1947,141 @@ public final class TracksClientImpl implements TracksClient {
     private Mono<Response<Flux<ByteBuffer>>> updateTrackDataWithResponseAsync(String resourceGroupName,
         String accountName, String assetName, String trackName, Context context) {
         if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
         }
         if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
         }
         if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (accountName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
         }
         if (assetName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
         }
         if (trackName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
         }
         final String apiVersion = "2022-08-01";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.updateTrackData(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
             accountName, assetName, trackName, apiVersion, accept, context);
+    }
+
+    /**
+     * Update the track data
+     * 
+     * Update the track data. Call this API after any changes are made to the track data stored in the asset container.
+     * For example, you have modified the WebVTT captions file in the Azure blob storage container for the asset,
+     * viewers will not see the new version of the captions unless this API is called. Note, the changes may not be
+     * reflected immediately. CDN cache may also need to be purged if applicable.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateTrackDataWithResponse(String resourceGroupName, String accountName,
+        String assetName, String trackName) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.updateTrackDataSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, assetName, trackName, apiVersion, accept, Context.NONE);
+    }
+
+    /**
+     * Update the track data
+     * 
+     * Update the track data. Call this API after any changes are made to the track data stored in the asset container.
+     * For example, you have modified the WebVTT captions file in the Azure blob storage container for the asset,
+     * viewers will not see the new version of the captions unless this API is called. Note, the changes may not be
+     * reflected immediately. CDN cache may also need to be purged if applicable.
+     * 
+     * @param resourceGroupName The name of the resource group within the Azure subscription.
+     * @param accountName The Media Services account name.
+     * @param assetName The Asset name.
+     * @param trackName The Asset Track name.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the response body along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Response<BinaryData> updateTrackDataWithResponse(String resourceGroupName, String accountName,
+        String assetName, String trackName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException(
+                    "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (accountName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+        }
+        if (assetName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter assetName is required and cannot be null."));
+        }
+        if (trackName == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Parameter trackName is required and cannot be null."));
+        }
+        final String apiVersion = "2022-08-01";
+        final String accept = "application/json";
+        return service.updateTrackDataSync(this.client.getEndpoint(), this.client.getSubscriptionId(),
+            resourceGroupName, accountName, assetName, trackName, apiVersion, accept, context);
     }
 
     /**
@@ -1461,7 +2158,10 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginUpdateTrackData(String resourceGroupName, String accountName,
         String assetName, String trackName) {
-        return this.beginUpdateTrackDataAsync(resourceGroupName, accountName, assetName, trackName).getSyncPoller();
+        Response<BinaryData> response
+            = updateTrackDataWithResponse(resourceGroupName, accountName, assetName, trackName);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response);
     }
 
     /**
@@ -1485,8 +2185,10 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
     public SyncPoller<PollResult<Void>, Void> beginUpdateTrackData(String resourceGroupName, String accountName,
         String assetName, String trackName, Context context) {
-        return this.beginUpdateTrackDataAsync(resourceGroupName, accountName, assetName, trackName, context)
-            .getSyncPoller();
+        Response<BinaryData> response
+            = updateTrackDataWithResponse(resourceGroupName, accountName, assetName, trackName, context);
+        return SyncPollerFactory.create(this.client.getSerializerAdapter(), this.client.getHttpPipeline(), Void.class,
+            Void.class, this.client.getDefaultPollInterval(), () -> response, context);
     }
 
     /**
@@ -1556,7 +2258,7 @@ public final class TracksClientImpl implements TracksClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateTrackData(String resourceGroupName, String accountName, String assetName, String trackName) {
-        updateTrackDataAsync(resourceGroupName, accountName, assetName, trackName).block();
+        beginUpdateTrackData(resourceGroupName, accountName, assetName, trackName).getFinalResult();
     }
 
     /**
@@ -1579,6 +2281,8 @@ public final class TracksClientImpl implements TracksClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateTrackData(String resourceGroupName, String accountName, String assetName, String trackName,
         Context context) {
-        updateTrackDataAsync(resourceGroupName, accountName, assetName, trackName, context).block();
+        beginUpdateTrackData(resourceGroupName, accountName, assetName, trackName, context).getFinalResult();
     }
+
+    private static final ClientLogger LOGGER = new ClientLogger(TracksClientImpl.class);
 }
