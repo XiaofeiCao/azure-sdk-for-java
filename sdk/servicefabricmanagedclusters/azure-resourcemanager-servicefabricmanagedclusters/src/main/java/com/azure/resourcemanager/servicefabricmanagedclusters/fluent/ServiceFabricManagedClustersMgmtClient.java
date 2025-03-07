@@ -12,7 +12,7 @@ import java.time.Duration;
  */
 public interface ServiceFabricManagedClustersMgmtClient {
     /**
-     * Gets The customer subscription identifier.
+     * Gets The ID of the target subscription.
      * 
      * @return the subscriptionId value.
      */
@@ -47,6 +47,48 @@ public interface ServiceFabricManagedClustersMgmtClient {
     Duration getDefaultPollInterval();
 
     /**
+     * Gets the OperationsClient object to access its operations.
+     * 
+     * @return the OperationsClient object.
+     */
+    OperationsClient getOperations();
+
+    /**
+     * Gets the ManagedClusterVersionsClient object to access its operations.
+     * 
+     * @return the ManagedClusterVersionsClient object.
+     */
+    ManagedClusterVersionsClient getManagedClusterVersions();
+
+    /**
+     * Gets the OperationResultsClient object to access its operations.
+     * 
+     * @return the OperationResultsClient object.
+     */
+    OperationResultsClient getOperationResults();
+
+    /**
+     * Gets the OperationStatusClient object to access its operations.
+     * 
+     * @return the OperationStatusClient object.
+     */
+    OperationStatusClient getOperationStatus();
+
+    /**
+     * Gets the ManagedUnsupportedVMSizesClient object to access its operations.
+     * 
+     * @return the ManagedUnsupportedVMSizesClient object.
+     */
+    ManagedUnsupportedVMSizesClient getManagedUnsupportedVMSizes();
+
+    /**
+     * Gets the ManagedClustersClient object to access its operations.
+     * 
+     * @return the ManagedClustersClient object.
+     */
+    ManagedClustersClient getManagedClusters();
+
+    /**
      * Gets the ApplicationTypesClient object to access its operations.
      * 
      * @return the ApplicationTypesClient object.
@@ -75,18 +117,11 @@ public interface ServiceFabricManagedClustersMgmtClient {
     ServicesClient getServices();
 
     /**
-     * Gets the ManagedClustersClient object to access its operations.
+     * Gets the ManagedApplyMaintenanceWindowsClient object to access its operations.
      * 
-     * @return the ManagedClustersClient object.
+     * @return the ManagedApplyMaintenanceWindowsClient object.
      */
-    ManagedClustersClient getManagedClusters();
-
-    /**
-     * Gets the ManagedAzResiliencyStatusesClient object to access its operations.
-     * 
-     * @return the ManagedAzResiliencyStatusesClient object.
-     */
-    ManagedAzResiliencyStatusesClient getManagedAzResiliencyStatuses();
+    ManagedApplyMaintenanceWindowsClient getManagedApplyMaintenanceWindows();
 
     /**
      * Gets the ManagedMaintenanceWindowStatusesClient object to access its operations.
@@ -96,46 +131,11 @@ public interface ServiceFabricManagedClustersMgmtClient {
     ManagedMaintenanceWindowStatusesClient getManagedMaintenanceWindowStatuses();
 
     /**
-     * Gets the ManagedApplyMaintenanceWindowsClient object to access its operations.
+     * Gets the ManagedAzResiliencyStatusesClient object to access its operations.
      * 
-     * @return the ManagedApplyMaintenanceWindowsClient object.
+     * @return the ManagedAzResiliencyStatusesClient object.
      */
-    ManagedApplyMaintenanceWindowsClient getManagedApplyMaintenanceWindows();
-
-    /**
-     * Gets the ManagedClusterVersionsClient object to access its operations.
-     * 
-     * @return the ManagedClusterVersionsClient object.
-     */
-    ManagedClusterVersionsClient getManagedClusterVersions();
-
-    /**
-     * Gets the ManagedUnsupportedVMSizesClient object to access its operations.
-     * 
-     * @return the ManagedUnsupportedVMSizesClient object.
-     */
-    ManagedUnsupportedVMSizesClient getManagedUnsupportedVMSizes();
-
-    /**
-     * Gets the OperationStatusClient object to access its operations.
-     * 
-     * @return the OperationStatusClient object.
-     */
-    OperationStatusClient getOperationStatus();
-
-    /**
-     * Gets the OperationResultsClient object to access its operations.
-     * 
-     * @return the OperationResultsClient object.
-     */
-    OperationResultsClient getOperationResults();
-
-    /**
-     * Gets the OperationsClient object to access its operations.
-     * 
-     * @return the OperationsClient object.
-     */
-    OperationsClient getOperations();
+    ManagedAzResiliencyStatusesClient getManagedAzResiliencyStatuses();
 
     /**
      * Gets the NodeTypesClient object to access its operations.

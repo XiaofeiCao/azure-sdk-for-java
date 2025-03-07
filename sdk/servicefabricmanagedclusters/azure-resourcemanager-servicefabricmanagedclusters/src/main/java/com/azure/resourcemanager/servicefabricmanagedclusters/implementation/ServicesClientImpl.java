@@ -72,57 +72,55 @@ public final class ServicesClientImpl implements ServicesClient {
     @ServiceInterface(name = "ServiceFabricManaged")
     public interface ServicesService {
         @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<ServiceResourceList>> listByApplications(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("applicationName") String applicationName, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ServiceResourceInner>> get(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationName") String applicationName, @PathParam("serviceName") String serviceName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
         @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationName") String applicationName, @PathParam("serviceName") String serviceName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ServiceResourceInner parameters, @HeaderParam("Accept") String accept,
             Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ServiceResourceInner>> update(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationName") String applicationName, @PathParam("serviceName") String serviceName,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ServiceUpdateParameters parameters, @HeaderParam("Accept") String accept,
             Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
-        @ExpectedResponses({ 200, 202, 204 })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}")
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationName") String applicationName, @PathParam("serviceName") String serviceName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services")
-        @ExpectedResponses({ 200 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ServiceResourceList>> listByApplications(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("applicationName") String applicationName, @QueryParam("api-version") String apiVersion,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -135,12 +133,180 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Gets a Service Fabric managed service resource.
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
      * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<ServiceResourceInner>> listByApplicationsSinglePageAsync(String resourceGroupName,
+        String clusterName, String applicationName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (applicationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listByApplications(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, accept, context))
+            .<PagedResponse<ServiceResourceInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<ServiceResourceInner>> listByApplicationsSinglePageAsync(String resourceGroupName,
+        String clusterName, String applicationName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (applicationName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listByApplications(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+                resourceGroupName, clusterName, applicationName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<ServiceResourceInner> listByApplicationsAsync(String resourceGroupName, String clusterName,
+        String applicationName) {
+        return new PagedFlux<>(() -> listByApplicationsSinglePageAsync(resourceGroupName, clusterName, applicationName),
+            nextLink -> listByApplicationsNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<ServiceResourceInner> listByApplicationsAsync(String resourceGroupName, String clusterName,
+        String applicationName, Context context) {
+        return new PagedFlux<>(
+            () -> listByApplicationsSinglePageAsync(resourceGroupName, clusterName, applicationName, context),
+            nextLink -> listByApplicationsNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ServiceResourceInner> listByApplications(String resourceGroupName, String clusterName,
+        String applicationName) {
+        return new PagedIterable<>(listByApplicationsAsync(resourceGroupName, clusterName, applicationName));
+    }
+
+    /**
+     * Gets all service resources created or in the process of being created in the Service Fabric managed application
+     * resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationName The name of the application resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all service resources created or in the process of being created in the Service Fabric managed
+     * application resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ServiceResourceInner> listByApplications(String resourceGroupName, String clusterName,
+        String applicationName, Context context) {
+        return new PagedIterable<>(listByApplicationsAsync(resourceGroupName, clusterName, applicationName, context));
+    }
+
+    /**
      * Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed
      * application resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -177,19 +343,17 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    clusterName, applicationName, serviceName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, serviceName, accept,
+                context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Gets a Service Fabric managed service resource.
-     * 
      * Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed
      * application resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -227,17 +391,15 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, clusterName,
-            applicationName, serviceName, this.client.getApiVersion(), accept, context);
+        return service.get(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationName, serviceName, accept, context);
     }
 
     /**
-     * Gets a Service Fabric managed service resource.
-     * 
      * Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed
      * application resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -255,12 +417,10 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Gets a Service Fabric managed service resource.
-     * 
      * Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed
      * application resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -278,12 +438,10 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Gets a Service Fabric managed service resource.
-     * 
      * Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed
      * application resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -300,11 +458,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -346,18 +502,16 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, applicationName, serviceName, this.client.getApiVersion(), parameters,
-                accept, context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, serviceName,
+                parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -401,16 +555,15 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationName, serviceName, this.client.getApiVersion(), parameters, accept, context);
+        return service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, serviceName, parameters,
+            accept, context);
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -431,11 +584,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -458,11 +609,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -481,11 +630,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -506,11 +653,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -528,11 +673,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -551,11 +694,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -572,11 +713,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric managed service resource.
-     * 
      * Create or update a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -597,7 +736,7 @@ public final class ServicesClientImpl implements ServicesClient {
     /**
      * Updates the tags of a service resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -639,16 +778,16 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, applicationName, serviceName, this.client.getApiVersion(), parameters,
-                accept, context))
+            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, serviceName,
+                parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Updates the tags of a service resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -691,14 +830,14 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationName, serviceName, this.client.getApiVersion(), parameters, accept, context);
+        return service.update(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationName, serviceName, parameters, accept, context);
     }
 
     /**
      * Updates the tags of a service resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -718,7 +857,7 @@ public final class ServicesClientImpl implements ServicesClient {
     /**
      * Updates the tags of a service resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -739,7 +878,7 @@ public final class ServicesClientImpl implements ServicesClient {
     /**
      * Updates the tags of a service resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -757,11 +896,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -797,18 +934,16 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    clusterName, applicationName, serviceName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationName, serviceName, accept,
+                context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -845,16 +980,14 @@ public final class ServicesClientImpl implements ServicesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationName, serviceName, this.client.getApiVersion(), accept, context);
+        return service.delete(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationName, serviceName, accept, context);
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -873,11 +1006,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -898,11 +1029,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -918,11 +1047,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -940,11 +1067,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -961,11 +1086,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -983,11 +1106,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -1001,11 +1122,9 @@ public final class ServicesClientImpl implements ServicesClient {
     }
 
     /**
-     * Deletes a Service Fabric managed service resource.
-     * 
      * Delete a Service Fabric managed service resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationName The name of the application resource.
      * @param serviceName The name of the service resource in the format of {applicationName}~{serviceName}.
@@ -1018,189 +1137,6 @@ public final class ServicesClientImpl implements ServicesClient {
     public void delete(String resourceGroupName, String clusterName, String applicationName, String serviceName,
         Context context) {
         deleteAsync(resourceGroupName, clusterName, applicationName, serviceName, context).block();
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ServiceResourceInner>> listByApplicationsSinglePageAsync(String resourceGroupName,
-        String clusterName, String applicationName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (applicationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(
-                context -> service.listByApplications(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                    resourceGroupName, clusterName, applicationName, this.client.getApiVersion(), accept, context))
-            .<PagedResponse<ServiceResourceInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ServiceResourceInner>> listByApplicationsSinglePageAsync(String resourceGroupName,
-        String clusterName, String applicationName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (applicationName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter applicationName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service
-            .listByApplications(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                clusterName, applicationName, this.client.getApiVersion(), accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ServiceResourceInner> listByApplicationsAsync(String resourceGroupName, String clusterName,
-        String applicationName) {
-        return new PagedFlux<>(() -> listByApplicationsSinglePageAsync(resourceGroupName, clusterName, applicationName),
-            nextLink -> listByApplicationsNextSinglePageAsync(nextLink));
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ServiceResourceInner> listByApplicationsAsync(String resourceGroupName, String clusterName,
-        String applicationName, Context context) {
-        return new PagedFlux<>(
-            () -> listByApplicationsSinglePageAsync(resourceGroupName, clusterName, applicationName, context),
-            nextLink -> listByApplicationsNextSinglePageAsync(nextLink, context));
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ServiceResourceInner> listByApplications(String resourceGroupName, String clusterName,
-        String applicationName) {
-        return new PagedIterable<>(listByApplicationsAsync(resourceGroupName, clusterName, applicationName));
-    }
-
-    /**
-     * Gets the list of service resources created in the specified Service Fabric managed application resource.
-     * 
-     * Gets all service resources created or in the process of being created in the Service Fabric managed application
-     * resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationName The name of the application resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all service resources created or in the process of being created in the Service Fabric managed
-     * application resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ServiceResourceInner> listByApplications(String resourceGroupName, String clusterName,
-        String applicationName, Context context) {
-        return new PagedIterable<>(listByApplicationsAsync(resourceGroupName, clusterName, applicationName, context));
     }
 
     /**

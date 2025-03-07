@@ -9,8 +9,8 @@ import java.util.Collection;
 
 /**
  * The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
- * Rollback specifies that the upgrade will start rolling back automatically.
- * Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+ * Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back
+ * automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
  */
 public final class FailureAction extends ExpandableStringEnum<FailureAction> {
     /**

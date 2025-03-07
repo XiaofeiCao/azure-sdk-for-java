@@ -17,7 +17,7 @@ import java.io.IOException;
 @Fluent
 public final class AveragePartitionLoadScalingTrigger extends ScalingTrigger {
     /*
-     * Specifies the trigger associated with this scaling policy.
+     * Enumerates the ways that a service can be partitioned.
      */
     private ServiceScalingTriggerKind kind = ServiceScalingTriggerKind.AVERAGE_PARTITION_LOAD_TRIGGER;
 
@@ -49,7 +49,7 @@ public final class AveragePartitionLoadScalingTrigger extends ScalingTrigger {
     }
 
     /**
-     * Get the kind property: Specifies the trigger associated with this scaling policy.
+     * Get the kind property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the kind value.
      */

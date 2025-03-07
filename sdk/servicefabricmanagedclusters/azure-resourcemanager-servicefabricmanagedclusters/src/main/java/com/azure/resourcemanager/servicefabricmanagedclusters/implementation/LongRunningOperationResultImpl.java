@@ -4,8 +4,8 @@
 
 package com.azure.resourcemanager.servicefabricmanagedclusters.implementation;
 
-import com.azure.core.management.exception.ManagementError;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models.LongRunningOperationResultInner;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.ErrorModelError;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.LongRunningOperationResult;
 import java.time.OffsetDateTime;
 
@@ -40,7 +40,7 @@ public final class LongRunningOperationResultImpl implements LongRunningOperatio
         return this.innerModel().status();
     }
 
-    public ManagementError error() {
+    public ErrorModelError error() {
         return this.innerModel().error();
     }
 

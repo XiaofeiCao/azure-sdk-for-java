@@ -5,12 +5,12 @@
 package com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.management.exception.ManagementError;
 import com.azure.core.util.CoreUtils;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.ErrorModelError;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +48,7 @@ public final class LongRunningOperationResultInner implements JsonSerializable<L
     /*
      * The operation error.
      */
-    private ManagementError error;
+    private ErrorModelError error;
 
     /**
      * Creates an instance of LongRunningOperationResultInner class.
@@ -161,7 +161,7 @@ public final class LongRunningOperationResultInner implements JsonSerializable<L
      * 
      * @return the error value.
      */
-    public ManagementError error() {
+    public ErrorModelError error() {
         return this.error;
     }
 
@@ -171,7 +171,7 @@ public final class LongRunningOperationResultInner implements JsonSerializable<L
      * @param error the error value to set.
      * @return the LongRunningOperationResultInner object itself.
      */
-    public LongRunningOperationResultInner withError(ManagementError error) {
+    public LongRunningOperationResultInner withError(ErrorModelError error) {
         this.error = error;
         return this;
     }
@@ -182,6 +182,9 @@ public final class LongRunningOperationResultInner implements JsonSerializable<L
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
+        if (error() != null) {
+            error().validate();
+        }
     }
 
     /**
@@ -231,7 +234,7 @@ public final class LongRunningOperationResultInner implements JsonSerializable<L
                 } else if ("status".equals(fieldName)) {
                     deserializedLongRunningOperationResultInner.status = reader.getString();
                 } else if ("error".equals(fieldName)) {
-                    deserializedLongRunningOperationResultInner.error = ManagementError.fromJson(reader);
+                    deserializedLongRunningOperationResultInner.error = ErrorModelError.fromJson(reader);
                 } else {
                     reader.skipChildren();
                 }

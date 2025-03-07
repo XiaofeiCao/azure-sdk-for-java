@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.servicefabricmanagedclusters.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
@@ -19,12 +20,12 @@ import java.util.List;
 @Fluent
 public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSizesResult> {
     /*
-     * List of Managed VM Sizes for Service Fabric Managed Clusters.
+     * The ManagedVMSize items on this page
      */
     private List<ManagedVMSizeInner> value;
 
     /*
-     * URL to get the next set of Managed VM Sizes if there are any.
+     * The link to the next page of items
      */
     private String nextLink;
 
@@ -35,7 +36,7 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
     }
 
     /**
-     * Get the value property: List of Managed VM Sizes for Service Fabric Managed Clusters.
+     * Get the value property: The ManagedVMSize items on this page.
      * 
      * @return the value value.
      */
@@ -44,7 +45,7 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
     }
 
     /**
-     * Set the value property: List of Managed VM Sizes for Service Fabric Managed Clusters.
+     * Set the value property: The ManagedVMSize items on this page.
      * 
      * @param value the value value to set.
      * @return the ManagedVMSizesResult object itself.
@@ -55,7 +56,7 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
     }
 
     /**
-     * Get the nextLink property: URL to get the next set of Managed VM Sizes if there are any.
+     * Get the nextLink property: The link to the next page of items.
      * 
      * @return the nextLink value.
      */
@@ -64,15 +65,31 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
     }
 
     /**
+     * Set the nextLink property: The link to the next page of items.
+     * 
+     * @param nextLink the nextLink value to set.
+     * @return the ManagedVMSizesResult object itself.
+     */
+    public ManagedVMSizesResult withNextLink(String nextLink) {
+        this.nextLink = nextLink;
+        return this;
+    }
+
+    /**
      * Validates the instance.
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
-        if (value() != null) {
+        if (value() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model ManagedVMSizesResult"));
+        } else {
             value().forEach(e -> e.validate());
         }
     }
+
+    private static final ClientLogger LOGGER = new ClientLogger(ManagedVMSizesResult.class);
 
     /**
      * {@inheritDoc}
@@ -81,6 +98,7 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
         jsonWriter.writeArrayField("value", this.value, (writer, element) -> writer.writeJson(element));
+        jsonWriter.writeStringField("nextLink", this.nextLink);
         return jsonWriter.writeEndObject();
     }
 
@@ -90,6 +108,7 @@ public final class ManagedVMSizesResult implements JsonSerializable<ManagedVMSiz
      * @param jsonReader The JsonReader being read.
      * @return An instance of ManagedVMSizesResult if the JsonReader was pointing to an instance of it, or null if it
      * was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the ManagedVMSizesResult.
      */
     public static ManagedVMSizesResult fromJson(JsonReader jsonReader) throws IOException {

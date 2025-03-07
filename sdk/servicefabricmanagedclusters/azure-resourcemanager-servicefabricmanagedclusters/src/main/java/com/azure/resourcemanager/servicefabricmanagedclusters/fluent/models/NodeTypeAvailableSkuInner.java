@@ -19,7 +19,7 @@ import java.io.IOException;
 @Immutable
 public final class NodeTypeAvailableSkuInner implements JsonSerializable<NodeTypeAvailableSkuInner> {
     /*
-     * The type of resource the sku applies to. <br /><br />Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
+     * The type of resource the sku applies to. Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
      */
     private String resourceType;
 
@@ -40,7 +40,7 @@ public final class NodeTypeAvailableSkuInner implements JsonSerializable<NodeTyp
     }
 
     /**
-     * Get the resourceType property: The type of resource the sku applies to. &lt;br /&gt;&lt;br /&gt;Value:
+     * Get the resourceType property: The type of resource the sku applies to. Value:
      * Microsoft.ServiceFabric/managedClusters/nodeTypes.
      * 
      * @return the resourceType value.

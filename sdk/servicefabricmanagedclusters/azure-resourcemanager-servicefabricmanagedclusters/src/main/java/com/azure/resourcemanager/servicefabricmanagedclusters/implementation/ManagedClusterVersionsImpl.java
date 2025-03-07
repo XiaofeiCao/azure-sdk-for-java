@@ -30,24 +30,31 @@ public final class ManagedClusterVersionsImpl implements ManagedClusterVersions 
         this.serviceManager = serviceManager;
     }
 
-    public Response<ManagedClusterCodeVersionResult> getWithResponse(String location, String clusterVersion,
-        Context context) {
-        Response<ManagedClusterCodeVersionResultInner> inner
-            = this.serviceClient().getWithResponse(location, clusterVersion, context);
+    public Response<List<ManagedClusterCodeVersionResult>> listByEnvironmentWithResponse(String location,
+        ManagedClusterVersionEnvironment environment, Context context) {
+        Response<List<ManagedClusterCodeVersionResultInner>> inner
+            = this.serviceClient().listByEnvironmentWithResponse(location, environment, context);
         if (inner != null) {
             return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
-                new ManagedClusterCodeVersionResultImpl(inner.getValue(), this.manager()));
+                inner.getValue()
+                    .stream()
+                    .map(inner1 -> new ManagedClusterCodeVersionResultImpl(inner1, this.manager()))
+                    .collect(Collectors.toList()));
         } else {
             return null;
         }
     }
 
-    public ManagedClusterCodeVersionResult get(String location, String clusterVersion) {
-        ManagedClusterCodeVersionResultInner inner = this.serviceClient().get(location, clusterVersion);
+    public List<ManagedClusterCodeVersionResult> listByEnvironment(String location,
+        ManagedClusterVersionEnvironment environment) {
+        List<ManagedClusterCodeVersionResultInner> inner
+            = this.serviceClient().listByEnvironment(location, environment);
         if (inner != null) {
-            return new ManagedClusterCodeVersionResultImpl(inner, this.manager());
+            return Collections.unmodifiableList(inner.stream()
+                .map(inner1 -> new ManagedClusterCodeVersionResultImpl(inner1, this.manager()))
+                .collect(Collectors.toList()));
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -99,31 +106,24 @@ public final class ManagedClusterVersionsImpl implements ManagedClusterVersions 
         }
     }
 
-    public Response<List<ManagedClusterCodeVersionResult>> listByEnvironmentWithResponse(String location,
-        ManagedClusterVersionEnvironment environment, Context context) {
-        Response<List<ManagedClusterCodeVersionResultInner>> inner
-            = this.serviceClient().listByEnvironmentWithResponse(location, environment, context);
+    public Response<ManagedClusterCodeVersionResult> getWithResponse(String location, String clusterVersion,
+        Context context) {
+        Response<ManagedClusterCodeVersionResultInner> inner
+            = this.serviceClient().getWithResponse(location, clusterVersion, context);
         if (inner != null) {
             return new SimpleResponse<>(inner.getRequest(), inner.getStatusCode(), inner.getHeaders(),
-                inner.getValue()
-                    .stream()
-                    .map(inner1 -> new ManagedClusterCodeVersionResultImpl(inner1, this.manager()))
-                    .collect(Collectors.toList()));
+                new ManagedClusterCodeVersionResultImpl(inner.getValue(), this.manager()));
         } else {
             return null;
         }
     }
 
-    public List<ManagedClusterCodeVersionResult> listByEnvironment(String location,
-        ManagedClusterVersionEnvironment environment) {
-        List<ManagedClusterCodeVersionResultInner> inner
-            = this.serviceClient().listByEnvironment(location, environment);
+    public ManagedClusterCodeVersionResult get(String location, String clusterVersion) {
+        ManagedClusterCodeVersionResultInner inner = this.serviceClient().get(location, clusterVersion);
         if (inner != null) {
-            return Collections.unmodifiableList(inner.stream()
-                .map(inner1 -> new ManagedClusterCodeVersionResultImpl(inner1, this.manager()))
-                .collect(Collectors.toList()));
+            return new ManagedClusterCodeVersionResultImpl(inner, this.manager());
         } else {
-            return Collections.emptyList();
+            return null;
         }
     }
 

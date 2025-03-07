@@ -17,7 +17,7 @@ import java.io.IOException;
 @Immutable
 public class ScalingTrigger implements JsonSerializable<ScalingTrigger> {
     /*
-     * Specifies the trigger associated with this scaling policy.
+     * Enumerates the ways that a service can be partitioned.
      */
     private ServiceScalingTriggerKind kind = ServiceScalingTriggerKind.fromString("ScalingTrigger");
 
@@ -28,7 +28,7 @@ public class ScalingTrigger implements JsonSerializable<ScalingTrigger> {
     }
 
     /**
-     * Get the kind property: Specifies the trigger associated with this scaling policy.
+     * Get the kind property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the kind value.
      */

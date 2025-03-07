@@ -11,6 +11,7 @@ import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.OsType;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 
 /**
  * The result of the Service Fabric runtime versions.
@@ -141,7 +142,7 @@ public final class ManagedClusterCodeVersionResultInner
      * 
      * @return the supportExpiryUtc value.
      */
-    public String supportExpiryUtc() {
+    public OffsetDateTime supportExpiryUtc() {
         return this.innerProperties() == null ? null : this.innerProperties().supportExpiryUtc();
     }
 
@@ -151,7 +152,7 @@ public final class ManagedClusterCodeVersionResultInner
      * @param supportExpiryUtc the supportExpiryUtc value to set.
      * @return the ManagedClusterCodeVersionResultInner object itself.
      */
-    public ManagedClusterCodeVersionResultInner withSupportExpiryUtc(String supportExpiryUtc) {
+    public ManagedClusterCodeVersionResultInner withSupportExpiryUtc(OffsetDateTime supportExpiryUtc) {
         if (this.innerProperties() == null) {
             this.innerProperties = new ManagedClusterVersionDetails();
         }

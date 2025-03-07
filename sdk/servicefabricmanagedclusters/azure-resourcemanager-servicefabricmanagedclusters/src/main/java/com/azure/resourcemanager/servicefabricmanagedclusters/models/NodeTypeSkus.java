@@ -12,11 +12,9 @@ import com.azure.core.util.Context;
  */
 public interface NodeTypeSkus {
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -27,11 +25,9 @@ public interface NodeTypeSkus {
     PagedIterable<NodeTypeAvailableSku> list(String resourceGroupName, String clusterName, String nodeTypeName);
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.

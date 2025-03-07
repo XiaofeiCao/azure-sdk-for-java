@@ -16,7 +16,7 @@ public interface OperationResultsClient {
     /**
      * Get long running operation result.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -30,7 +30,7 @@ public interface OperationResultsClient {
     /**
      * Get long running operation result.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.

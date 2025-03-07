@@ -8,8 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
- * Managed data disk type. IOPS and throughput are given by the disk size, to see more information go to
- * https://docs.microsoft.com/en-us/azure/virtual-machines/disks-types.
+ * Managed data disk type. Specifies the storage account type for the managed disk.
  */
 public final class DiskType extends ExpandableStringEnum<DiskType> {
     /**
@@ -26,6 +25,21 @@ public final class DiskType extends ExpandableStringEnum<DiskType> {
      * Static value Premium_LRS for DiskType.
      */
     public static final DiskType PREMIUM_LRS = fromString("Premium_LRS");
+
+    /**
+     * Static value PremiumV2_LRS for DiskType.
+     */
+    public static final DiskType PREMIUM_V2_LRS = fromString("PremiumV2_LRS");
+
+    /**
+     * Static value StandardSSD_ZRS for DiskType.
+     */
+    public static final DiskType STANDARD_SSD_ZRS = fromString("StandardSSD_ZRS");
+
+    /**
+     * Static value Premium_ZRS for DiskType.
+     */
+    public static final DiskType PREMIUM_ZRS = fromString("Premium_ZRS");
 
     /**
      * Creates a new instance of DiskType value.

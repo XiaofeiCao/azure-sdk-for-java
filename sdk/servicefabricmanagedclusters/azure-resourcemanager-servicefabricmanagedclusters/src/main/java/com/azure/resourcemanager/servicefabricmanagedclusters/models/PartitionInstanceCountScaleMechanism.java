@@ -16,7 +16,7 @@ import java.io.IOException;
 @Fluent
 public final class PartitionInstanceCountScaleMechanism extends ScalingMechanism {
     /*
-     * Specifies the mechanism associated with this scaling policy.
+     * Enumerates the ways that a service can be partitioned.
      */
     private ServiceScalingMechanismKind kind = ServiceScalingMechanismKind.SCALE_PARTITION_INSTANCE_COUNT;
 
@@ -42,7 +42,7 @@ public final class PartitionInstanceCountScaleMechanism extends ScalingMechanism
     }
 
     /**
-     * Get the kind property: Specifies the mechanism associated with this scaling policy.
+     * Get the kind property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the kind value.
      */

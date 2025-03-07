@@ -22,6 +22,7 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.util.Configuration;
+import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.ServiceFabricManagedClustersMgmtClient;
 import com.azure.resourcemanager.servicefabricmanagedclusters.implementation.ApplicationTypeVersionsImpl;
@@ -59,6 +60,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -67,6 +69,18 @@ import java.util.stream.Collectors;
  * Service Fabric Managed Clusters Management Client.
  */
 public final class ServiceFabricManagedClustersManager {
+    private Operations operations;
+
+    private ManagedClusterVersions managedClusterVersions;
+
+    private OperationResults operationResults;
+
+    private OperationStatus operationStatus;
+
+    private ManagedUnsupportedVMSizes managedUnsupportedVMSizes;
+
+    private ManagedClusters managedClusters;
+
     private ApplicationTypes applicationTypes;
 
     private ApplicationTypeVersions applicationTypeVersions;
@@ -75,23 +89,11 @@ public final class ServiceFabricManagedClustersManager {
 
     private Services services;
 
-    private ManagedClusters managedClusters;
-
-    private ManagedAzResiliencyStatuses managedAzResiliencyStatuses;
+    private ManagedApplyMaintenanceWindows managedApplyMaintenanceWindows;
 
     private ManagedMaintenanceWindowStatuses managedMaintenanceWindowStatuses;
 
-    private ManagedApplyMaintenanceWindows managedApplyMaintenanceWindows;
-
-    private ManagedClusterVersions managedClusterVersions;
-
-    private ManagedUnsupportedVMSizes managedUnsupportedVMSizes;
-
-    private OperationStatus operationStatus;
-
-    private OperationResults operationResults;
-
-    private Operations operations;
+    private ManagedAzResiliencyStatuses managedAzResiliencyStatuses;
 
     private NodeTypes nodeTypes;
 
@@ -151,6 +153,9 @@ public final class ServiceFabricManagedClustersManager {
      */
     public static final class Configurable {
         private static final ClientLogger LOGGER = new ClientLogger(Configurable.class);
+        private static final String SDK_VERSION = "version";
+        private static final Map<String, String> PROPERTIES
+            = CoreUtils.getProperties("azure-resourcemanager-servicefabricmanagedclusters.properties");
 
         private HttpClient httpClient;
         private HttpLogOptions httpLogOptions;
@@ -258,12 +263,14 @@ public final class ServiceFabricManagedClustersManager {
             Objects.requireNonNull(credential, "'credential' cannot be null.");
             Objects.requireNonNull(profile, "'profile' cannot be null.");
 
+            String clientVersion = PROPERTIES.getOrDefault(SDK_VERSION, "UnknownVersion");
+
             StringBuilder userAgentBuilder = new StringBuilder();
             userAgentBuilder.append("azsdk-java")
                 .append("-")
                 .append("com.azure.resourcemanager.servicefabricmanagedclusters")
                 .append("/")
-                .append("1.0.0");
+                .append(clientVersion);
             if (!Configuration.getGlobalConfiguration().get("AZURE_TELEMETRY_DISABLED", false)) {
                 userAgentBuilder.append(" (")
                     .append(Configuration.getGlobalConfiguration().get("java.version"))
@@ -307,6 +314,80 @@ public final class ServiceFabricManagedClustersManager {
                 .build();
             return new ServiceFabricManagedClustersManager(httpPipeline, profile, defaultPollInterval);
         }
+    }
+
+    /**
+     * Gets the resource collection API of Operations.
+     * 
+     * @return Resource collection API of Operations.
+     */
+    public Operations operations() {
+        if (this.operations == null) {
+            this.operations = new OperationsImpl(clientObject.getOperations(), this);
+        }
+        return operations;
+    }
+
+    /**
+     * Gets the resource collection API of ManagedClusterVersions.
+     * 
+     * @return Resource collection API of ManagedClusterVersions.
+     */
+    public ManagedClusterVersions managedClusterVersions() {
+        if (this.managedClusterVersions == null) {
+            this.managedClusterVersions
+                = new ManagedClusterVersionsImpl(clientObject.getManagedClusterVersions(), this);
+        }
+        return managedClusterVersions;
+    }
+
+    /**
+     * Gets the resource collection API of OperationResults.
+     * 
+     * @return Resource collection API of OperationResults.
+     */
+    public OperationResults operationResults() {
+        if (this.operationResults == null) {
+            this.operationResults = new OperationResultsImpl(clientObject.getOperationResults(), this);
+        }
+        return operationResults;
+    }
+
+    /**
+     * Gets the resource collection API of OperationStatus.
+     * 
+     * @return Resource collection API of OperationStatus.
+     */
+    public OperationStatus operationStatus() {
+        if (this.operationStatus == null) {
+            this.operationStatus = new OperationStatusImpl(clientObject.getOperationStatus(), this);
+        }
+        return operationStatus;
+    }
+
+    /**
+     * Gets the resource collection API of ManagedUnsupportedVMSizes.
+     * 
+     * @return Resource collection API of ManagedUnsupportedVMSizes.
+     */
+    public ManagedUnsupportedVMSizes managedUnsupportedVMSizes() {
+        if (this.managedUnsupportedVMSizes == null) {
+            this.managedUnsupportedVMSizes
+                = new ManagedUnsupportedVMSizesImpl(clientObject.getManagedUnsupportedVMSizes(), this);
+        }
+        return managedUnsupportedVMSizes;
+    }
+
+    /**
+     * Gets the resource collection API of ManagedClusters. It manages ManagedCluster.
+     * 
+     * @return Resource collection API of ManagedClusters.
+     */
+    public ManagedClusters managedClusters() {
+        if (this.managedClusters == null) {
+            this.managedClusters = new ManagedClustersImpl(clientObject.getManagedClusters(), this);
+        }
+        return managedClusters;
     }
 
     /**
@@ -359,28 +440,16 @@ public final class ServiceFabricManagedClustersManager {
     }
 
     /**
-     * Gets the resource collection API of ManagedClusters. It manages ManagedCluster.
+     * Gets the resource collection API of ManagedApplyMaintenanceWindows.
      * 
-     * @return Resource collection API of ManagedClusters.
+     * @return Resource collection API of ManagedApplyMaintenanceWindows.
      */
-    public ManagedClusters managedClusters() {
-        if (this.managedClusters == null) {
-            this.managedClusters = new ManagedClustersImpl(clientObject.getManagedClusters(), this);
+    public ManagedApplyMaintenanceWindows managedApplyMaintenanceWindows() {
+        if (this.managedApplyMaintenanceWindows == null) {
+            this.managedApplyMaintenanceWindows
+                = new ManagedApplyMaintenanceWindowsImpl(clientObject.getManagedApplyMaintenanceWindows(), this);
         }
-        return managedClusters;
-    }
-
-    /**
-     * Gets the resource collection API of ManagedAzResiliencyStatuses.
-     * 
-     * @return Resource collection API of ManagedAzResiliencyStatuses.
-     */
-    public ManagedAzResiliencyStatuses managedAzResiliencyStatuses() {
-        if (this.managedAzResiliencyStatuses == null) {
-            this.managedAzResiliencyStatuses
-                = new ManagedAzResiliencyStatusesImpl(clientObject.getManagedAzResiliencyStatuses(), this);
-        }
-        return managedAzResiliencyStatuses;
+        return managedApplyMaintenanceWindows;
     }
 
     /**
@@ -397,78 +466,16 @@ public final class ServiceFabricManagedClustersManager {
     }
 
     /**
-     * Gets the resource collection API of ManagedApplyMaintenanceWindows.
+     * Gets the resource collection API of ManagedAzResiliencyStatuses.
      * 
-     * @return Resource collection API of ManagedApplyMaintenanceWindows.
+     * @return Resource collection API of ManagedAzResiliencyStatuses.
      */
-    public ManagedApplyMaintenanceWindows managedApplyMaintenanceWindows() {
-        if (this.managedApplyMaintenanceWindows == null) {
-            this.managedApplyMaintenanceWindows
-                = new ManagedApplyMaintenanceWindowsImpl(clientObject.getManagedApplyMaintenanceWindows(), this);
+    public ManagedAzResiliencyStatuses managedAzResiliencyStatuses() {
+        if (this.managedAzResiliencyStatuses == null) {
+            this.managedAzResiliencyStatuses
+                = new ManagedAzResiliencyStatusesImpl(clientObject.getManagedAzResiliencyStatuses(), this);
         }
-        return managedApplyMaintenanceWindows;
-    }
-
-    /**
-     * Gets the resource collection API of ManagedClusterVersions.
-     * 
-     * @return Resource collection API of ManagedClusterVersions.
-     */
-    public ManagedClusterVersions managedClusterVersions() {
-        if (this.managedClusterVersions == null) {
-            this.managedClusterVersions
-                = new ManagedClusterVersionsImpl(clientObject.getManagedClusterVersions(), this);
-        }
-        return managedClusterVersions;
-    }
-
-    /**
-     * Gets the resource collection API of ManagedUnsupportedVMSizes.
-     * 
-     * @return Resource collection API of ManagedUnsupportedVMSizes.
-     */
-    public ManagedUnsupportedVMSizes managedUnsupportedVMSizes() {
-        if (this.managedUnsupportedVMSizes == null) {
-            this.managedUnsupportedVMSizes
-                = new ManagedUnsupportedVMSizesImpl(clientObject.getManagedUnsupportedVMSizes(), this);
-        }
-        return managedUnsupportedVMSizes;
-    }
-
-    /**
-     * Gets the resource collection API of OperationStatus.
-     * 
-     * @return Resource collection API of OperationStatus.
-     */
-    public OperationStatus operationStatus() {
-        if (this.operationStatus == null) {
-            this.operationStatus = new OperationStatusImpl(clientObject.getOperationStatus(), this);
-        }
-        return operationStatus;
-    }
-
-    /**
-     * Gets the resource collection API of OperationResults.
-     * 
-     * @return Resource collection API of OperationResults.
-     */
-    public OperationResults operationResults() {
-        if (this.operationResults == null) {
-            this.operationResults = new OperationResultsImpl(clientObject.getOperationResults(), this);
-        }
-        return operationResults;
-    }
-
-    /**
-     * Gets the resource collection API of Operations.
-     * 
-     * @return Resource collection API of Operations.
-     */
-    public Operations operations() {
-        if (this.operations == null) {
-            this.operations = new OperationsImpl(clientObject.getOperations(), this);
-        }
-        return operations;
+        return managedAzResiliencyStatuses;
     }
 
     /**

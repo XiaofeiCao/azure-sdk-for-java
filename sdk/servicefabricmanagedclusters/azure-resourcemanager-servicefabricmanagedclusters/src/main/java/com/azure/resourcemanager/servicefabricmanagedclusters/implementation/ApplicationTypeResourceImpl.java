@@ -31,10 +31,6 @@ public final class ApplicationTypeResourceImpl
         return this.innerModel().type();
     }
 
-    public String location() {
-        return this.innerModel().location();
-    }
-
     public Map<String, String> tags() {
         Map<String, String> inner = this.innerModel().tags();
         if (inner != null) {
@@ -42,6 +38,10 @@ public final class ApplicationTypeResourceImpl
         } else {
             return Collections.emptyMap();
         }
+    }
+
+    public String location() {
+        return this.innerModel().location();
     }
 
     public SystemData systemData() {
@@ -80,7 +80,7 @@ public final class ApplicationTypeResourceImpl
 
     private ApplicationTypeUpdateParameters updateParameters;
 
-    public ApplicationTypeResourceImpl withExistingManagedcluster(String resourceGroupName, String clusterName) {
+    public ApplicationTypeResourceImpl withExistingManagedCluster(String resourceGroupName, String clusterName) {
         this.resourceGroupName = resourceGroupName;
         this.clusterName = clusterName;
         return this;
@@ -136,7 +136,7 @@ public final class ApplicationTypeResourceImpl
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
         this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedclusters");
+        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedClusters");
         this.applicationTypeName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "applicationTypes");
     }
 

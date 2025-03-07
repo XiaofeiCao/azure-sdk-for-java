@@ -19,8 +19,8 @@ import java.util.Map;
 public final class ApplicationsCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * ApplicationPutOperation_example_max.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/ApplicationPutOperation_example_max.json
      */
     /**
      * Sample code: Put an application with maximum parameters.
@@ -31,7 +31,7 @@ public final class ApplicationsCreateOrUpdateSamples {
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.applications()
             .define("myApp")
-            .withExistingManagedcluster("resRg", "myCluster")
+            .withExistingManagedCluster("resRg", "myCluster")
             .withRegion("eastus")
             .withTags(mapOf("a", "b"))
             .withVersion(
@@ -64,8 +64,8 @@ public final class ApplicationsCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * ApplicationPutOperation_example_min.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/ApplicationPutOperation_example_min.json
      */
     /**
      * Sample code: Put an application with minimum parameters.
@@ -76,7 +76,7 @@ public final class ApplicationsCreateOrUpdateSamples {
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.applications()
             .define("myApp")
-            .withExistingManagedcluster("resRg", "myCluster")
+            .withExistingManagedCluster("resRg", "myCluster")
             .withRegion("eastus")
             .withVersion(
                 "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.ServiceFabric/managedclusters/myCluster/applicationTypes/myAppType/versions/1.0")

@@ -28,30 +28,15 @@ public final class ApplicationsImpl implements Applications {
         this.serviceManager = serviceManager;
     }
 
-    public void readUpgrade(String resourceGroupName, String clusterName, String applicationName) {
-        this.serviceClient().readUpgrade(resourceGroupName, clusterName, applicationName);
+    public PagedIterable<ApplicationResource> list(String resourceGroupName, String clusterName) {
+        PagedIterable<ApplicationResourceInner> inner = this.serviceClient().list(resourceGroupName, clusterName);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ApplicationResourceImpl(inner1, this.manager()));
     }
 
-    public void readUpgrade(String resourceGroupName, String clusterName, String applicationName, Context context) {
-        this.serviceClient().readUpgrade(resourceGroupName, clusterName, applicationName, context);
-    }
-
-    public void startRollback(String resourceGroupName, String clusterName, String applicationName) {
-        this.serviceClient().startRollback(resourceGroupName, clusterName, applicationName);
-    }
-
-    public void startRollback(String resourceGroupName, String clusterName, String applicationName, Context context) {
-        this.serviceClient().startRollback(resourceGroupName, clusterName, applicationName, context);
-    }
-
-    public void resumeUpgrade(String resourceGroupName, String clusterName, String applicationName,
-        RuntimeResumeApplicationUpgradeParameters parameters) {
-        this.serviceClient().resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters);
-    }
-
-    public void resumeUpgrade(String resourceGroupName, String clusterName, String applicationName,
-        RuntimeResumeApplicationUpgradeParameters parameters, Context context) {
-        this.serviceClient().resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters, context);
+    public PagedIterable<ApplicationResource> list(String resourceGroupName, String clusterName, Context context) {
+        PagedIterable<ApplicationResourceInner> inner
+            = this.serviceClient().list(resourceGroupName, clusterName, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ApplicationResourceImpl(inner1, this.manager()));
     }
 
     public Response<ApplicationResource> getWithResponse(String resourceGroupName, String clusterName,
@@ -83,15 +68,30 @@ public final class ApplicationsImpl implements Applications {
         this.serviceClient().delete(resourceGroupName, clusterName, applicationName, context);
     }
 
-    public PagedIterable<ApplicationResource> list(String resourceGroupName, String clusterName) {
-        PagedIterable<ApplicationResourceInner> inner = this.serviceClient().list(resourceGroupName, clusterName);
-        return ResourceManagerUtils.mapPage(inner, inner1 -> new ApplicationResourceImpl(inner1, this.manager()));
+    public void readUpgrade(String resourceGroupName, String clusterName, String applicationName) {
+        this.serviceClient().readUpgrade(resourceGroupName, clusterName, applicationName);
     }
 
-    public PagedIterable<ApplicationResource> list(String resourceGroupName, String clusterName, Context context) {
-        PagedIterable<ApplicationResourceInner> inner
-            = this.serviceClient().list(resourceGroupName, clusterName, context);
-        return ResourceManagerUtils.mapPage(inner, inner1 -> new ApplicationResourceImpl(inner1, this.manager()));
+    public void readUpgrade(String resourceGroupName, String clusterName, String applicationName, Context context) {
+        this.serviceClient().readUpgrade(resourceGroupName, clusterName, applicationName, context);
+    }
+
+    public void resumeUpgrade(String resourceGroupName, String clusterName, String applicationName,
+        RuntimeResumeApplicationUpgradeParameters parameters) {
+        this.serviceClient().resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters);
+    }
+
+    public void resumeUpgrade(String resourceGroupName, String clusterName, String applicationName,
+        RuntimeResumeApplicationUpgradeParameters parameters, Context context) {
+        this.serviceClient().resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters, context);
+    }
+
+    public void startRollback(String resourceGroupName, String clusterName, String applicationName) {
+        this.serviceClient().startRollback(resourceGroupName, clusterName, applicationName);
+    }
+
+    public void startRollback(String resourceGroupName, String clusterName, String applicationName, Context context) {
+        this.serviceClient().startRollback(resourceGroupName, clusterName, applicationName, context);
     }
 
     public ApplicationResource getById(String id) {
@@ -100,10 +100,10 @@ public final class ApplicationsImpl implements Applications {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -119,10 +119,10 @@ public final class ApplicationsImpl implements Applications {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -138,10 +138,10 @@ public final class ApplicationsImpl implements Applications {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -157,10 +157,10 @@ public final class ApplicationsImpl implements Applications {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {

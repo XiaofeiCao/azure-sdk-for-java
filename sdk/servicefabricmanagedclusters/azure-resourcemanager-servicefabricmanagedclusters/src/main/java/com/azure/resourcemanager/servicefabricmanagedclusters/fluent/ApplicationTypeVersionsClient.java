@@ -19,12 +19,45 @@ import com.azure.resourcemanager.servicefabricmanagedclusters.models.Application
  */
 public interface ApplicationTypeVersionsClient {
     /**
-     * Gets a Service Fabric managed application type version resource.
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
      * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
+        String clusterName, String applicationTypeName);
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
+        String clusterName, String applicationTypeName, Context context);
+
+    /**
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -40,12 +73,10 @@ public interface ApplicationTypeVersionsClient {
         String applicationTypeName, String version, Context context);
 
     /**
-     * Gets a Service Fabric managed application type version resource.
-     * 
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -60,11 +91,9 @@ public interface ApplicationTypeVersionsClient {
         String version);
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -81,11 +110,9 @@ public interface ApplicationTypeVersionsClient {
             ApplicationTypeVersionResourceInner parameters);
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -103,11 +130,9 @@ public interface ApplicationTypeVersionsClient {
             ApplicationTypeVersionResourceInner parameters, Context context);
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -122,11 +147,9 @@ public interface ApplicationTypeVersionsClient {
         String applicationTypeName, String version, ApplicationTypeVersionResourceInner parameters);
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -144,7 +167,7 @@ public interface ApplicationTypeVersionsClient {
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -163,7 +186,7 @@ public interface ApplicationTypeVersionsClient {
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -178,11 +201,9 @@ public interface ApplicationTypeVersionsClient {
         String version, ApplicationTypeVersionUpdateParameters parameters);
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -196,11 +217,9 @@ public interface ApplicationTypeVersionsClient {
         String applicationTypeName, String version);
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -215,11 +234,9 @@ public interface ApplicationTypeVersionsClient {
         String applicationTypeName, String version, Context context);
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -231,11 +248,9 @@ public interface ApplicationTypeVersionsClient {
     void delete(String resourceGroupName, String clusterName, String applicationTypeName, String version);
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -247,45 +262,4 @@ public interface ApplicationTypeVersionsClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     void delete(String resourceGroupName, String clusterName, String applicationTypeName, String version,
         Context context);
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
-        String clusterName, String applicationTypeName);
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
-        String clusterName, String applicationTypeName, Context context);
 }

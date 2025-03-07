@@ -54,12 +54,12 @@ import reactor.core.publisher.Mono;
 @ServiceClient(builder = ServiceFabricManagedClustersMgmtClientBuilder.class)
 public final class ServiceFabricManagedClustersMgmtClientImpl implements ServiceFabricManagedClustersMgmtClient {
     /**
-     * The customer subscription identifier.
+     * The ID of the target subscription.
      */
     private final String subscriptionId;
 
     /**
-     * Gets The customer subscription identifier.
+     * Gets The ID of the target subscription.
      * 
      * @return the subscriptionId value.
      */
@@ -138,6 +138,90 @@ public final class ServiceFabricManagedClustersMgmtClientImpl implements Service
     }
 
     /**
+     * The OperationsClient object to access its operations.
+     */
+    private final OperationsClient operations;
+
+    /**
+     * Gets the OperationsClient object to access its operations.
+     * 
+     * @return the OperationsClient object.
+     */
+    public OperationsClient getOperations() {
+        return this.operations;
+    }
+
+    /**
+     * The ManagedClusterVersionsClient object to access its operations.
+     */
+    private final ManagedClusterVersionsClient managedClusterVersions;
+
+    /**
+     * Gets the ManagedClusterVersionsClient object to access its operations.
+     * 
+     * @return the ManagedClusterVersionsClient object.
+     */
+    public ManagedClusterVersionsClient getManagedClusterVersions() {
+        return this.managedClusterVersions;
+    }
+
+    /**
+     * The OperationResultsClient object to access its operations.
+     */
+    private final OperationResultsClient operationResults;
+
+    /**
+     * Gets the OperationResultsClient object to access its operations.
+     * 
+     * @return the OperationResultsClient object.
+     */
+    public OperationResultsClient getOperationResults() {
+        return this.operationResults;
+    }
+
+    /**
+     * The OperationStatusClient object to access its operations.
+     */
+    private final OperationStatusClient operationStatus;
+
+    /**
+     * Gets the OperationStatusClient object to access its operations.
+     * 
+     * @return the OperationStatusClient object.
+     */
+    public OperationStatusClient getOperationStatus() {
+        return this.operationStatus;
+    }
+
+    /**
+     * The ManagedUnsupportedVMSizesClient object to access its operations.
+     */
+    private final ManagedUnsupportedVMSizesClient managedUnsupportedVMSizes;
+
+    /**
+     * Gets the ManagedUnsupportedVMSizesClient object to access its operations.
+     * 
+     * @return the ManagedUnsupportedVMSizesClient object.
+     */
+    public ManagedUnsupportedVMSizesClient getManagedUnsupportedVMSizes() {
+        return this.managedUnsupportedVMSizes;
+    }
+
+    /**
+     * The ManagedClustersClient object to access its operations.
+     */
+    private final ManagedClustersClient managedClusters;
+
+    /**
+     * Gets the ManagedClustersClient object to access its operations.
+     * 
+     * @return the ManagedClustersClient object.
+     */
+    public ManagedClustersClient getManagedClusters() {
+        return this.managedClusters;
+    }
+
+    /**
      * The ApplicationTypesClient object to access its operations.
      */
     private final ApplicationTypesClient applicationTypes;
@@ -194,31 +278,17 @@ public final class ServiceFabricManagedClustersMgmtClientImpl implements Service
     }
 
     /**
-     * The ManagedClustersClient object to access its operations.
+     * The ManagedApplyMaintenanceWindowsClient object to access its operations.
      */
-    private final ManagedClustersClient managedClusters;
+    private final ManagedApplyMaintenanceWindowsClient managedApplyMaintenanceWindows;
 
     /**
-     * Gets the ManagedClustersClient object to access its operations.
+     * Gets the ManagedApplyMaintenanceWindowsClient object to access its operations.
      * 
-     * @return the ManagedClustersClient object.
+     * @return the ManagedApplyMaintenanceWindowsClient object.
      */
-    public ManagedClustersClient getManagedClusters() {
-        return this.managedClusters;
-    }
-
-    /**
-     * The ManagedAzResiliencyStatusesClient object to access its operations.
-     */
-    private final ManagedAzResiliencyStatusesClient managedAzResiliencyStatuses;
-
-    /**
-     * Gets the ManagedAzResiliencyStatusesClient object to access its operations.
-     * 
-     * @return the ManagedAzResiliencyStatusesClient object.
-     */
-    public ManagedAzResiliencyStatusesClient getManagedAzResiliencyStatuses() {
-        return this.managedAzResiliencyStatuses;
+    public ManagedApplyMaintenanceWindowsClient getManagedApplyMaintenanceWindows() {
+        return this.managedApplyMaintenanceWindows;
     }
 
     /**
@@ -236,87 +306,17 @@ public final class ServiceFabricManagedClustersMgmtClientImpl implements Service
     }
 
     /**
-     * The ManagedApplyMaintenanceWindowsClient object to access its operations.
+     * The ManagedAzResiliencyStatusesClient object to access its operations.
      */
-    private final ManagedApplyMaintenanceWindowsClient managedApplyMaintenanceWindows;
+    private final ManagedAzResiliencyStatusesClient managedAzResiliencyStatuses;
 
     /**
-     * Gets the ManagedApplyMaintenanceWindowsClient object to access its operations.
+     * Gets the ManagedAzResiliencyStatusesClient object to access its operations.
      * 
-     * @return the ManagedApplyMaintenanceWindowsClient object.
+     * @return the ManagedAzResiliencyStatusesClient object.
      */
-    public ManagedApplyMaintenanceWindowsClient getManagedApplyMaintenanceWindows() {
-        return this.managedApplyMaintenanceWindows;
-    }
-
-    /**
-     * The ManagedClusterVersionsClient object to access its operations.
-     */
-    private final ManagedClusterVersionsClient managedClusterVersions;
-
-    /**
-     * Gets the ManagedClusterVersionsClient object to access its operations.
-     * 
-     * @return the ManagedClusterVersionsClient object.
-     */
-    public ManagedClusterVersionsClient getManagedClusterVersions() {
-        return this.managedClusterVersions;
-    }
-
-    /**
-     * The ManagedUnsupportedVMSizesClient object to access its operations.
-     */
-    private final ManagedUnsupportedVMSizesClient managedUnsupportedVMSizes;
-
-    /**
-     * Gets the ManagedUnsupportedVMSizesClient object to access its operations.
-     * 
-     * @return the ManagedUnsupportedVMSizesClient object.
-     */
-    public ManagedUnsupportedVMSizesClient getManagedUnsupportedVMSizes() {
-        return this.managedUnsupportedVMSizes;
-    }
-
-    /**
-     * The OperationStatusClient object to access its operations.
-     */
-    private final OperationStatusClient operationStatus;
-
-    /**
-     * Gets the OperationStatusClient object to access its operations.
-     * 
-     * @return the OperationStatusClient object.
-     */
-    public OperationStatusClient getOperationStatus() {
-        return this.operationStatus;
-    }
-
-    /**
-     * The OperationResultsClient object to access its operations.
-     */
-    private final OperationResultsClient operationResults;
-
-    /**
-     * Gets the OperationResultsClient object to access its operations.
-     * 
-     * @return the OperationResultsClient object.
-     */
-    public OperationResultsClient getOperationResults() {
-        return this.operationResults;
-    }
-
-    /**
-     * The OperationsClient object to access its operations.
-     */
-    private final OperationsClient operations;
-
-    /**
-     * Gets the OperationsClient object to access its operations.
-     * 
-     * @return the OperationsClient object.
-     */
-    public OperationsClient getOperations() {
-        return this.operations;
+    public ManagedAzResiliencyStatusesClient getManagedAzResiliencyStatuses() {
+        return this.managedAzResiliencyStatuses;
     }
 
     /**
@@ -354,7 +354,7 @@ public final class ServiceFabricManagedClustersMgmtClientImpl implements Service
      * @param serializerAdapter The serializer to serialize an object into a string.
      * @param defaultPollInterval The default poll interval for long-running operation.
      * @param environment The Azure environment.
-     * @param subscriptionId The customer subscription identifier.
+     * @param subscriptionId The ID of the target subscription.
      * @param endpoint server parameter.
      */
     ServiceFabricManagedClustersMgmtClientImpl(HttpPipeline httpPipeline, SerializerAdapter serializerAdapter,
@@ -364,20 +364,20 @@ public final class ServiceFabricManagedClustersMgmtClientImpl implements Service
         this.defaultPollInterval = defaultPollInterval;
         this.subscriptionId = subscriptionId;
         this.endpoint = endpoint;
-        this.apiVersion = "2024-04-01";
+        this.apiVersion = "2024-11-01-preview";
+        this.operations = new OperationsClientImpl(this);
+        this.managedClusterVersions = new ManagedClusterVersionsClientImpl(this);
+        this.operationResults = new OperationResultsClientImpl(this);
+        this.operationStatus = new OperationStatusClientImpl(this);
+        this.managedUnsupportedVMSizes = new ManagedUnsupportedVMSizesClientImpl(this);
+        this.managedClusters = new ManagedClustersClientImpl(this);
         this.applicationTypes = new ApplicationTypesClientImpl(this);
         this.applicationTypeVersions = new ApplicationTypeVersionsClientImpl(this);
         this.applications = new ApplicationsClientImpl(this);
         this.services = new ServicesClientImpl(this);
-        this.managedClusters = new ManagedClustersClientImpl(this);
-        this.managedAzResiliencyStatuses = new ManagedAzResiliencyStatusesClientImpl(this);
-        this.managedMaintenanceWindowStatuses = new ManagedMaintenanceWindowStatusesClientImpl(this);
         this.managedApplyMaintenanceWindows = new ManagedApplyMaintenanceWindowsClientImpl(this);
-        this.managedClusterVersions = new ManagedClusterVersionsClientImpl(this);
-        this.managedUnsupportedVMSizes = new ManagedUnsupportedVMSizesClientImpl(this);
-        this.operationStatus = new OperationStatusClientImpl(this);
-        this.operationResults = new OperationResultsClientImpl(this);
-        this.operations = new OperationsClientImpl(this);
+        this.managedMaintenanceWindowStatuses = new ManagedMaintenanceWindowStatusesClientImpl(this);
+        this.managedAzResiliencyStatuses = new ManagedAzResiliencyStatusesClientImpl(this);
         this.nodeTypes = new NodeTypesClientImpl(this);
         this.nodeTypeSkus = new NodeTypeSkusClientImpl(this);
     }

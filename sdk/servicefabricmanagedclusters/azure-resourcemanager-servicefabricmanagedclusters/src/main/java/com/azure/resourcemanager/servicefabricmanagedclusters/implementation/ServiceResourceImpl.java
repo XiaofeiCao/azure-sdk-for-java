@@ -35,10 +35,6 @@ public final class ServiceResourceImpl implements ServiceResource, ServiceResour
         return this.innerModel().properties();
     }
 
-    public String location() {
-        return this.innerModel().location();
-    }
-
     public Map<String, String> tags() {
         Map<String, String> inner = this.innerModel().tags();
         if (inner != null) {
@@ -46,6 +42,10 @@ public final class ServiceResourceImpl implements ServiceResource, ServiceResour
         } else {
             return Collections.emptyMap();
         }
+    }
+
+    public String location() {
+        return this.innerModel().location();
     }
 
     public SystemData systemData() {
@@ -139,7 +139,7 @@ public final class ServiceResourceImpl implements ServiceResource, ServiceResour
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
         this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedclusters");
+        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedClusters");
         this.applicationName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "applications");
         this.serviceName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "services");
     }

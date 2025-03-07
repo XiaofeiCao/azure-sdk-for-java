@@ -62,15 +62,15 @@ public final class OperationStatusClientImpl implements OperationStatusClient {
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<LongRunningOperationResultInner>> get(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId, @PathParam("location") String location,
-            @PathParam("operationId") String operationId, @QueryParam("api-version") String apiVersion,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("location") String location, @PathParam("operationId") String operationId,
             @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
      * Get long running operation status.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -95,15 +95,15 @@ public final class OperationStatusClientImpl implements OperationStatusClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), location,
-                operationId, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), location, operationId, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Get long running operation status.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -130,14 +130,14 @@ public final class OperationStatusClientImpl implements OperationStatusClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), location, operationId,
-            this.client.getApiVersion(), accept, context);
+        return service.get(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            location, operationId, accept, context);
     }
 
     /**
      * Get long running operation status.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -152,7 +152,7 @@ public final class OperationStatusClientImpl implements OperationStatusClient {
     /**
      * Get long running operation status.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -169,7 +169,7 @@ public final class OperationStatusClientImpl implements OperationStatusClient {
     /**
      * Get long running operation status.
      * 
-     * @param location The location for the cluster code versions. This is different from cluster location.
+     * @param location The name of Azure region.
      * @param operationId operation identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.

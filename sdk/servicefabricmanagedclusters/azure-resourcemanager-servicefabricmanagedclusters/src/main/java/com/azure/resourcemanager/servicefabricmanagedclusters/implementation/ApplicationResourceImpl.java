@@ -13,6 +13,7 @@ import com.azure.resourcemanager.servicefabricmanagedclusters.models.Application
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.ApplicationUpgradePolicy;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.ApplicationUserAssignedIdentity;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.ManagedIdentity;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.RuntimeResumeApplicationUpgradeParameters;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -35,14 +36,6 @@ public final class ApplicationResourceImpl
         return this.innerModel().type();
     }
 
-    public ManagedIdentity identity() {
-        return this.innerModel().identity();
-    }
-
-    public String location() {
-        return this.innerModel().location();
-    }
-
     public Map<String, String> tags() {
         Map<String, String> inner = this.innerModel().tags();
         if (inner != null) {
@@ -50,6 +43,14 @@ public final class ApplicationResourceImpl
         } else {
             return Collections.emptyMap();
         }
+    }
+
+    public ManagedIdentity identity() {
+        return this.innerModel().identity();
+    }
+
+    public String location() {
+        return this.innerModel().location();
     }
 
     public SystemData systemData() {
@@ -114,7 +115,7 @@ public final class ApplicationResourceImpl
 
     private ApplicationUpdateParameters updateParameters;
 
-    public ApplicationResourceImpl withExistingManagedcluster(String resourceGroupName, String clusterName) {
+    public ApplicationResourceImpl withExistingManagedCluster(String resourceGroupName, String clusterName) {
         this.resourceGroupName = resourceGroupName;
         this.clusterName = clusterName;
         return this;
@@ -167,7 +168,7 @@ public final class ApplicationResourceImpl
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
         this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedclusters");
+        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedClusters");
         this.applicationName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "applications");
     }
 
@@ -185,6 +186,31 @@ public final class ApplicationResourceImpl
             .getWithResponse(resourceGroupName, clusterName, applicationName, context)
             .getValue();
         return this;
+    }
+
+    public void readUpgrade() {
+        serviceManager.applications().readUpgrade(resourceGroupName, clusterName, applicationName);
+    }
+
+    public void readUpgrade(Context context) {
+        serviceManager.applications().readUpgrade(resourceGroupName, clusterName, applicationName, context);
+    }
+
+    public void resumeUpgrade(RuntimeResumeApplicationUpgradeParameters parameters) {
+        serviceManager.applications().resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters);
+    }
+
+    public void resumeUpgrade(RuntimeResumeApplicationUpgradeParameters parameters, Context context) {
+        serviceManager.applications()
+            .resumeUpgrade(resourceGroupName, clusterName, applicationName, parameters, context);
+    }
+
+    public void startRollback() {
+        serviceManager.applications().startRollback(resourceGroupName, clusterName, applicationName);
+    }
+
+    public void startRollback(Context context) {
+        serviceManager.applications().startRollback(resourceGroupName, clusterName, applicationName, context);
     }
 
     public ApplicationResourceImpl withRegion(Region location) {

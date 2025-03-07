@@ -73,57 +73,55 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     @ServiceInterface(name = "ServiceFabricManaged")
     public interface ApplicationTypeVersionsService {
         @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<ApplicationTypeVersionResourceList>> listByApplicationTypes(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("applicationTypeName") String applicationTypeName, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ApplicationTypeVersionResourceInner>> get(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationTypeName") String applicationTypeName, @PathParam("version") String version,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
         @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationTypeName") String applicationTypeName, @PathParam("version") String version,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ApplicationTypeVersionResourceInner parameters,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<ApplicationTypeVersionResourceInner>> update(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationTypeName") String applicationTypeName, @PathParam("version") String version,
-            @QueryParam("api-version") String apiVersion,
             @BodyParam("application/json") ApplicationTypeVersionUpdateParameters parameters,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
-        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
-        @ExpectedResponses({ 200, 202, 204 })
+        @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}/versions/{version}")
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
             @PathParam("applicationTypeName") String applicationTypeName, @PathParam("version") String version,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}/versions")
-        @ExpectedResponses({ 200 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<ApplicationTypeVersionResourceList>> listByApplicationTypes(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("applicationTypeName") String applicationTypeName, @QueryParam("api-version") String apiVersion,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -136,12 +134,183 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Gets a Service Fabric managed application type version resource.
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
      * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<ApplicationTypeVersionResourceInner>> listByApplicationTypesSinglePageAsync(
+        String resourceGroupName, String clusterName, String applicationTypeName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (applicationTypeName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter applicationTypeName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listByApplicationTypes(this.client.getEndpoint(),
+                this.client.getApiVersion(), this.client.getSubscriptionId(), resourceGroupName, clusterName,
+                applicationTypeName, accept, context))
+            .<PagedResponse<ApplicationTypeVersionResourceInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<ApplicationTypeVersionResourceInner>> listByApplicationTypesSinglePageAsync(
+        String resourceGroupName, String clusterName, String applicationTypeName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (applicationTypeName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter applicationTypeName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listByApplicationTypes(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<ApplicationTypeVersionResourceInner> listByApplicationTypesAsync(String resourceGroupName,
+        String clusterName, String applicationTypeName) {
+        return new PagedFlux<>(
+            () -> listByApplicationTypesSinglePageAsync(resourceGroupName, clusterName, applicationTypeName),
+            nextLink -> listByApplicationTypesNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<ApplicationTypeVersionResourceInner> listByApplicationTypesAsync(String resourceGroupName,
+        String clusterName, String applicationTypeName, Context context) {
+        return new PagedFlux<>(
+            () -> listByApplicationTypesSinglePageAsync(resourceGroupName, clusterName, applicationTypeName, context),
+            nextLink -> listByApplicationTypesNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
+        String clusterName, String applicationTypeName) {
+        return new PagedIterable<>(listByApplicationTypesAsync(resourceGroupName, clusterName, applicationTypeName));
+    }
+
+    /**
+     * Gets all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param applicationTypeName The name of the application type name resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type version resources created or in the process of being created in the Service Fabric
+     * managed application type name resource as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
+        String clusterName, String applicationTypeName, Context context) {
+        return new PagedIterable<>(
+            listByApplicationTypesAsync(resourceGroupName, clusterName, applicationTypeName, context));
+    }
+
+    /**
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -179,19 +348,17 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    clusterName, applicationTypeName, version, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, version, accept,
+                context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Gets a Service Fabric managed application type version resource.
-     * 
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -230,17 +397,15 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, clusterName,
-            applicationTypeName, version, this.client.getApiVersion(), accept, context);
+        return service.get(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationTypeName, version, accept, context);
     }
 
     /**
-     * Gets a Service Fabric managed application type version resource.
-     * 
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -258,12 +423,10 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Gets a Service Fabric managed application type version resource.
-     * 
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -281,12 +444,10 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Gets a Service Fabric managed application type version resource.
-     * 
      * Get a Service Fabric managed application type version resource created or in the process of being created in the
      * Service Fabric managed application type name resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -303,11 +464,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -351,18 +510,16 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, applicationTypeName, version, this.client.getApiVersion(), parameters,
-                accept, context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, version,
+                parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -407,16 +564,15 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationTypeName, version, this.client.getApiVersion(), parameters, accept, context);
+        return service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, version, parameters,
+            accept, context);
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -439,11 +595,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -468,11 +622,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -492,11 +644,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -518,11 +668,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -541,11 +689,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -565,11 +711,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -586,11 +730,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Creates or updates a Service Fabric managed application type version resource.
-     * 
      * Create or update a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -611,7 +753,7 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -655,16 +797,16 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, applicationTypeName, version, this.client.getApiVersion(), parameters,
-                accept, context))
+            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, version,
+                parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -709,14 +851,14 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationTypeName, version, this.client.getApiVersion(), parameters, accept, context);
+        return service.update(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationTypeName, version, parameters, accept, context);
     }
 
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -737,7 +879,7 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -760,7 +902,7 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     /**
      * Updates the tags of an application type version resource of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -778,11 +920,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -818,18 +958,16 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    clusterName, applicationTypeName, version, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, applicationTypeName, version, accept,
+                context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -866,16 +1004,14 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, applicationTypeName, version, this.client.getApiVersion(), accept, context);
+        return service.delete(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, applicationTypeName, version, accept, context);
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -894,11 +1030,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -919,11 +1053,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -939,11 +1071,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -961,11 +1091,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -982,11 +1110,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -1004,11 +1130,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -1022,11 +1146,9 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     }
 
     /**
-     * Deletes a Service Fabric managed application type version resource.
-     * 
      * Delete a Service Fabric managed application type version resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param version The application type version.
@@ -1039,197 +1161,6 @@ public final class ApplicationTypeVersionsClientImpl implements ApplicationTypeV
     public void delete(String resourceGroupName, String clusterName, String applicationTypeName, String version,
         Context context) {
         deleteAsync(resourceGroupName, clusterName, applicationTypeName, version, context).block();
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ApplicationTypeVersionResourceInner>> listByApplicationTypesSinglePageAsync(
-        String resourceGroupName, String clusterName, String applicationTypeName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (applicationTypeName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter applicationTypeName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(
-                context -> service.listByApplicationTypes(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                    resourceGroupName, clusterName, applicationTypeName, this.client.getApiVersion(), accept, context))
-            .<PagedResponse<ApplicationTypeVersionResourceInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource along with {@link PagedResponse} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<ApplicationTypeVersionResourceInner>> listByApplicationTypesSinglePageAsync(
-        String resourceGroupName, String clusterName, String applicationTypeName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (applicationTypeName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter applicationTypeName is required and cannot be null."));
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service
-            .listByApplicationTypes(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                clusterName, applicationTypeName, this.client.getApiVersion(), accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ApplicationTypeVersionResourceInner> listByApplicationTypesAsync(String resourceGroupName,
-        String clusterName, String applicationTypeName) {
-        return new PagedFlux<>(
-            () -> listByApplicationTypesSinglePageAsync(resourceGroupName, clusterName, applicationTypeName),
-            nextLink -> listByApplicationTypesNextSinglePageAsync(nextLink));
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<ApplicationTypeVersionResourceInner> listByApplicationTypesAsync(String resourceGroupName,
-        String clusterName, String applicationTypeName, Context context) {
-        return new PagedFlux<>(
-            () -> listByApplicationTypesSinglePageAsync(resourceGroupName, clusterName, applicationTypeName, context),
-            nextLink -> listByApplicationTypesNextSinglePageAsync(nextLink, context));
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
-        String clusterName, String applicationTypeName) {
-        return new PagedIterable<>(listByApplicationTypesAsync(resourceGroupName, clusterName, applicationTypeName));
-    }
-
-    /**
-     * Gets the list of application type version resources created in the specified Service Fabric managed application
-     * type name resource.
-     * 
-     * Gets all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param applicationTypeName The name of the application type name resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type version resources created or in the process of being created in the Service Fabric
-     * managed application type name resource as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<ApplicationTypeVersionResourceInner> listByApplicationTypes(String resourceGroupName,
-        String clusterName, String applicationTypeName, Context context) {
-        return new PagedIterable<>(
-            listByApplicationTypesAsync(resourceGroupName, clusterName, applicationTypeName, context));
     }
 
     /**

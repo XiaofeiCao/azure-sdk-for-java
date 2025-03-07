@@ -4,7 +4,6 @@
 
 package com.azure.resourcemanager.servicefabricmanagedclusters.models;
 
-import com.azure.core.management.exception.ManagementError;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models.LongRunningOperationResultInner;
 import java.time.OffsetDateTime;
 
@@ -52,7 +51,7 @@ public interface LongRunningOperationResult {
      * 
      * @return the error value.
      */
-    ManagementError error();
+    ErrorModelError error();
 
     /**
      * Gets the inner

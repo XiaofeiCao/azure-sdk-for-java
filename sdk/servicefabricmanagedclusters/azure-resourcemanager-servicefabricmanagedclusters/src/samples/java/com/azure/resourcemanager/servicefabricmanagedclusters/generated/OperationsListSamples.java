@@ -10,15 +10,15 @@ package com.azure.resourcemanager.servicefabricmanagedclusters.generated;
 public final class OperationsListSamples {
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * Operations_example.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/OperationsList_example.json
      */
     /**
-     * Sample code: List available operations.
+     * Sample code: List the operations for the provider.
      * 
      * @param manager Entry point to ServiceFabricManagedClustersManager.
      */
-    public static void listAvailableOperations(
+    public static void listTheOperationsForTheProvider(
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.operations().list(com.azure.core.util.Context.NONE);
     }

@@ -11,7 +11,7 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * ServicePlacementNonPartiallyPlaceServicePolicy.
+ * The type of placement policy for a service fabric service. Following are the possible values.
  */
 @Immutable
 public final class ServicePlacementNonPartiallyPlaceServicePolicy extends ServicePlacementPolicy {

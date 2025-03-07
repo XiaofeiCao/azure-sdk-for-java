@@ -16,7 +16,7 @@ import java.io.IOException;
 @Fluent
 public final class UniformInt64RangePartitionScheme extends Partition {
     /*
-     * Specifies how the service is partitioned.
+     * Enumerates the ways that a service can be partitioned.
      */
     private PartitionScheme partitionScheme = PartitionScheme.UNIFORM_INT64RANGE;
 
@@ -44,7 +44,7 @@ public final class UniformInt64RangePartitionScheme extends Partition {
     }
 
     /**
-     * Get the partitionScheme property: Specifies how the service is partitioned.
+     * Get the partitionScheme property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the partitionScheme value.
      */

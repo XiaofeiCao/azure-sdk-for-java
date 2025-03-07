@@ -5,6 +5,7 @@
 package com.azure.resourcemanager.servicefabricmanagedclusters.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
@@ -19,12 +20,12 @@ import java.util.List;
 @Fluent
 public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeListSkuResult> {
     /*
-     * The list of available node type SKUs.
+     * The NodeTypeAvailableSku items on this page
      */
     private List<NodeTypeAvailableSkuInner> value;
 
     /*
-     * The URL to use for getting the next set of results.
+     * The link to the next page of items
      */
     private String nextLink;
 
@@ -35,7 +36,7 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
     }
 
     /**
-     * Get the value property: The list of available node type SKUs.
+     * Get the value property: The NodeTypeAvailableSku items on this page.
      * 
      * @return the value value.
      */
@@ -44,7 +45,7 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
     }
 
     /**
-     * Set the value property: The list of available node type SKUs.
+     * Set the value property: The NodeTypeAvailableSku items on this page.
      * 
      * @param value the value value to set.
      * @return the NodeTypeListSkuResult object itself.
@@ -55,7 +56,7 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
     }
 
     /**
-     * Get the nextLink property: The URL to use for getting the next set of results.
+     * Get the nextLink property: The link to the next page of items.
      * 
      * @return the nextLink value.
      */
@@ -64,7 +65,7 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
     }
 
     /**
-     * Set the nextLink property: The URL to use for getting the next set of results.
+     * Set the nextLink property: The link to the next page of items.
      * 
      * @param nextLink the nextLink value to set.
      * @return the NodeTypeListSkuResult object itself.
@@ -80,10 +81,15 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
     public void validate() {
-        if (value() != null) {
+        if (value() == null) {
+            throw LOGGER.atError()
+                .log(new IllegalArgumentException("Missing required property value in model NodeTypeListSkuResult"));
+        } else {
             value().forEach(e -> e.validate());
         }
     }
+
+    private static final ClientLogger LOGGER = new ClientLogger(NodeTypeListSkuResult.class);
 
     /**
      * {@inheritDoc}
@@ -102,6 +108,7 @@ public final class NodeTypeListSkuResult implements JsonSerializable<NodeTypeLis
      * @param jsonReader The JsonReader being read.
      * @return An instance of NodeTypeListSkuResult if the JsonReader was pointing to an instance of it, or null if it
      * was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the NodeTypeListSkuResult.
      */
     public static NodeTypeListSkuResult fromJson(JsonReader jsonReader) throws IOException {

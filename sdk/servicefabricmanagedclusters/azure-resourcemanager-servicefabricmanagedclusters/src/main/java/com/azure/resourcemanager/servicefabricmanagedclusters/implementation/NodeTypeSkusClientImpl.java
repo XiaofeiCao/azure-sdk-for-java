@@ -67,10 +67,9 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NodeTypeListSkuResult>> list(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @PathParam("nodeTypeName") String nodeTypeName, @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
@@ -81,11 +80,9 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -117,19 +114,17 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.list(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, accept, context))
             .<PagedResponse<NodeTypeAvailableSkuInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
                 res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -163,18 +158,16 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .list(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, clusterName,
-                nodeTypeName, this.client.getApiVersion(), accept, context)
+            .list(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+                resourceGroupName, clusterName, nodeTypeName, accept, context)
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
                 res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -190,11 +183,9 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -211,11 +202,9 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -230,11 +219,9 @@ public final class NodeTypeSkusClientImpl implements NodeTypeSkusClient {
     }
 
     /**
-     * Gets a Service Fabric node type SKUs.
-     * 
      * Get a Service Fabric node type supported SKUs.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.

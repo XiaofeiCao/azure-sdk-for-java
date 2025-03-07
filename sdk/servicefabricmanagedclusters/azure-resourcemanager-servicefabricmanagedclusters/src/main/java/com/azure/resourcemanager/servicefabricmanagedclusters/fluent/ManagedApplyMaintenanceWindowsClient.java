@@ -17,7 +17,7 @@ public interface ManagedApplyMaintenanceWindowsClient {
      * Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be
      * applied.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -32,7 +32,7 @@ public interface ManagedApplyMaintenanceWindowsClient {
      * Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be
      * applied.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.

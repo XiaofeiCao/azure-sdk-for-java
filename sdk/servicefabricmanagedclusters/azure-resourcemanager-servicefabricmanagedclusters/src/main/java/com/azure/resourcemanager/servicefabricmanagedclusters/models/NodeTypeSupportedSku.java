@@ -22,7 +22,7 @@ public final class NodeTypeSupportedSku implements JsonSerializable<NodeTypeSupp
     private String name;
 
     /*
-     * Specifies the tier of the node type. <br /><br /> Possible Values:<br /> **Standard**
+     * Specifies the tier of the node type. Possible Values: **Standard**
      */
     private String tier;
 
@@ -42,8 +42,7 @@ public final class NodeTypeSupportedSku implements JsonSerializable<NodeTypeSupp
     }
 
     /**
-     * Get the tier property: Specifies the tier of the node type. &lt;br /&gt;&lt;br /&gt; Possible Values:&lt;br /&gt;
-     * **Standard**.
+     * Get the tier property: Specifies the tier of the node type. Possible Values: **Standard**.
      * 
      * @return the tier value.
      */

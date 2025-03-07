@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
- * The IP address type.
+ * The IP address type of this frontend configuration. If omitted the default value is IPv4.
  */
 public final class IpAddressType extends ExpandableStringEnum<IpAddressType> {
     /**

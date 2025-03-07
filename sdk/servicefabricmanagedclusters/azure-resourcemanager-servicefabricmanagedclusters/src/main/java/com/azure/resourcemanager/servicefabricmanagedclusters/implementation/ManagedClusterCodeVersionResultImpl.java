@@ -7,6 +7,7 @@ package com.azure.resourcemanager.servicefabricmanagedclusters.implementation;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models.ManagedClusterCodeVersionResultInner;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.ManagedClusterCodeVersionResult;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.OsType;
+import java.time.OffsetDateTime;
 
 public final class ManagedClusterCodeVersionResultImpl implements ManagedClusterCodeVersionResult {
     private ManagedClusterCodeVersionResultInner innerObject;
@@ -35,7 +36,7 @@ public final class ManagedClusterCodeVersionResultImpl implements ManagedCluster
         return this.innerModel().clusterCodeVersion();
     }
 
-    public String supportExpiryUtc() {
+    public OffsetDateTime supportExpiryUtc() {
         return this.innerModel().supportExpiryUtc();
     }
 

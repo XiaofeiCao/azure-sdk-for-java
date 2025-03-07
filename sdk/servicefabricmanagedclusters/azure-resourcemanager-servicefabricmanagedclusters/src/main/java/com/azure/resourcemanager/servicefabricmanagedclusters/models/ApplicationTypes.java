@@ -13,12 +13,39 @@ import com.azure.core.util.Context;
  */
 public interface ApplicationTypes {
     /**
-     * Gets a Service Fabric managed application type name resource.
+     * Gets all application type name resources created or in the process of being created in the Service Fabric managed
+     * cluster resource.
      * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type name resources created or in the process of being created in the Service Fabric
+     * managed cluster resource as paginated response with {@link PagedIterable}.
+     */
+    PagedIterable<ApplicationTypeResource> list(String resourceGroupName, String clusterName);
+
+    /**
+     * Gets all application type name resources created or in the process of being created in the Service Fabric managed
+     * cluster resource.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return all application type name resources created or in the process of being created in the Service Fabric
+     * managed cluster resource as paginated response with {@link PagedIterable}.
+     */
+    PagedIterable<ApplicationTypeResource> list(String resourceGroupName, String clusterName, Context context);
+
+    /**
      * Get a Service Fabric application type name resource created or in the process of being created in the Service
      * Fabric managed cluster resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param context The context to associate with this operation.
@@ -32,12 +59,10 @@ public interface ApplicationTypes {
         String applicationTypeName, Context context);
 
     /**
-     * Gets a Service Fabric managed application type name resource.
-     * 
      * Get a Service Fabric application type name resource created or in the process of being created in the Service
      * Fabric managed cluster resource.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -49,11 +74,9 @@ public interface ApplicationTypes {
     ApplicationTypeResource get(String resourceGroupName, String clusterName, String applicationTypeName);
 
     /**
-     * Deletes a Service Fabric managed application type name resource.
-     * 
      * Delete a Service Fabric managed application type name resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -63,11 +86,9 @@ public interface ApplicationTypes {
     void delete(String resourceGroupName, String clusterName, String applicationTypeName);
 
     /**
-     * Deletes a Service Fabric managed application type name resource.
-     * 
      * Delete a Service Fabric managed application type name resource with the specified name.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param applicationTypeName The name of the application type name resource.
      * @param context The context to associate with this operation.
@@ -78,43 +99,6 @@ public interface ApplicationTypes {
     void delete(String resourceGroupName, String clusterName, String applicationTypeName, Context context);
 
     /**
-     * Gets the list of application type name resources created in the specified Service Fabric managed cluster
-     * resource.
-     * 
-     * Gets all application type name resources created or in the process of being created in the Service Fabric managed
-     * cluster resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type name resources created or in the process of being created in the Service Fabric
-     * managed cluster resource as paginated response with {@link PagedIterable}.
-     */
-    PagedIterable<ApplicationTypeResource> list(String resourceGroupName, String clusterName);
-
-    /**
-     * Gets the list of application type name resources created in the specified Service Fabric managed cluster
-     * resource.
-     * 
-     * Gets all application type name resources created or in the process of being created in the Service Fabric managed
-     * cluster resource.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws com.azure.core.management.exception.ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return all application type name resources created or in the process of being created in the Service Fabric
-     * managed cluster resource as paginated response with {@link PagedIterable}.
-     */
-    PagedIterable<ApplicationTypeResource> list(String resourceGroupName, String clusterName, Context context);
-
-    /**
-     * Gets a Service Fabric managed application type name resource.
-     * 
      * Get a Service Fabric application type name resource created or in the process of being created in the Service
      * Fabric managed cluster resource.
      * 
@@ -128,8 +112,6 @@ public interface ApplicationTypes {
     ApplicationTypeResource getById(String id);
 
     /**
-     * Gets a Service Fabric managed application type name resource.
-     * 
      * Get a Service Fabric application type name resource created or in the process of being created in the Service
      * Fabric managed cluster resource.
      * 
@@ -144,8 +126,6 @@ public interface ApplicationTypes {
     Response<ApplicationTypeResource> getByIdWithResponse(String id, Context context);
 
     /**
-     * Deletes a Service Fabric managed application type name resource.
-     * 
      * Delete a Service Fabric managed application type name resource with the specified name.
      * 
      * @param id the resource ID.
@@ -156,8 +136,6 @@ public interface ApplicationTypes {
     void deleteById(String id);
 
     /**
-     * Deletes a Service Fabric managed application type name resource.
-     * 
      * Delete a Service Fabric managed application type name resource with the specified name.
      * 
      * @param id the resource ID.

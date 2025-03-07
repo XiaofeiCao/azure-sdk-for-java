@@ -34,7 +34,11 @@ import com.azure.core.util.FluxUtil;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.NodeTypesClient;
+import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models.FaultSimulationInner;
 import com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models.NodeTypeInner;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.FaultSimulationContent;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.FaultSimulationIdContent;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.FaultSimulationListResult;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.NodeTypeActionParameters;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.NodeTypeListResult;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.NodeTypeUpdateParameters;
@@ -79,84 +83,156 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NodeTypeListResult>> listByManagedClusters(@HostParam("$host") String endpoint,
-            @PathParam("resourceGroupName") String resourceGroupName,
-            @PathParam("subscriptionId") String subscriptionId, @PathParam("clusterName") String clusterName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart")
-        @ExpectedResponses({ 200, 202 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> restart(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
-            Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage")
-        @ExpectedResponses({ 200, 202 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> reimage(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
-            Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deleteNode")
-        @ExpectedResponses({ 200, 202 })
-        @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<Flux<ByteBuffer>>> deleteNode(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
-            Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<NodeTypeInner>> get(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @PathParam("nodeTypeName") String nodeTypeName, @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}")
         @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") NodeTypeInner parameters, @HeaderParam("Accept") String accept,
-            Context context);
+            @PathParam("nodeTypeName") String nodeTypeName, @BodyParam("application/json") NodeTypeInner parameters,
+            @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}")
-        @ExpectedResponses({ 200 })
+        @ExpectedResponses({ 200, 202 })
         @UnexpectedResponseExceptionType(ManagementException.class)
-        Mono<Response<NodeTypeInner>> update(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<Flux<ByteBuffer>>> update(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
+            @PathParam("nodeTypeName") String nodeTypeName,
             @BodyParam("application/json") NodeTypeUpdateParameters parameters, @HeaderParam("Accept") String accept,
             Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}")
-        @ExpectedResponses({ 200, 202, 204 })
+        @ExpectedResponses({ 202, 204 })
         @UnexpectedResponseExceptionType(ManagementException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
-            @PathParam("nodeTypeName") String nodeTypeName, @QueryParam("api-version") String apiVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @PathParam("nodeTypeName") String nodeTypeName, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deallocate")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> deallocate(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deleteNode")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> deleteNode(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/getFaultSimulation")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<FaultSimulationInner>> getFaultSimulation(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") FaultSimulationIdContent parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/listFaultSimulation")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<FaultSimulationListResult>> listFaultSimulation(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName, @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/redeploy")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> redeploy(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> reimage(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> restart(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/start")
+        @ExpectedResponses({ 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> start(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") NodeTypeActionParameters parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/startFaultSimulation")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> startFaultSimulation(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") FaultSimulationContent parameters, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/stopFaultSimulation")
+        @ExpectedResponses({ 200, 202 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> stopFaultSimulation(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("clusterName") String clusterName,
+            @PathParam("nodeTypeName") String nodeTypeName,
+            @BodyParam("application/json") FaultSimulationIdContent parameters, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
@@ -165,14 +241,20 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         Mono<Response<NodeTypeListResult>> listByManagedClustersNext(
             @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
             @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<FaultSimulationListResult>> listFaultSimulationNext(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("$host") String endpoint,
+            @HeaderParam("Accept") String accept, Context context);
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -187,32 +269,31 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
             return Mono.error(
                 new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
         if (this.client.getSubscriptionId() == null) {
             return Mono.error(new IllegalArgumentException(
                 "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (clusterName == null) {
             return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.listByManagedClusters(this.client.getEndpoint(), resourceGroupName,
-                this.client.getSubscriptionId(), clusterName, this.client.getApiVersion(), accept, context))
+            .withContext(
+                context -> service.listByManagedClusters(this.client.getEndpoint(), this.client.getApiVersion(),
+                    this.client.getSubscriptionId(), resourceGroupName, clusterName, accept, context))
             .<PagedResponse<NodeTypeInner>>map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(),
                 res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -228,13 +309,13 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
             return Mono.error(
                 new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
         }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
         if (this.client.getSubscriptionId() == null) {
             return Mono.error(new IllegalArgumentException(
                 "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
         }
         if (clusterName == null) {
             return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
@@ -242,18 +323,16 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service
-            .listByManagedClusters(this.client.getEndpoint(), resourceGroupName, this.client.getSubscriptionId(),
-                clusterName, this.client.getApiVersion(), accept, context)
+            .listByManagedClusters(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, accept, context)
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
                 res.getValue().value(), res.getValue().nextLink(), null));
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -267,11 +346,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -287,11 +364,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
@@ -304,11 +379,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Gets the list of Node types of the specified managed cluster.
-     * 
      * Gets all Node types of the specified managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -323,839 +396,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> restartWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.restart(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> restartWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.restart(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context);
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginRestartAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = restartWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            this.client.getContext());
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginRestartAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = restartWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            context);
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginRestart(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        return this.beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginRestart(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        return this.beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
-            .getSyncPoller();
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> restartAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        return beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> restartAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        return beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void restart(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        restartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
-    }
-
-    /**
-     * Restarts one or more nodes on the node type.
-     * 
-     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for restart action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void restart(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        restartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> reimageWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.reimage(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> reimageWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.reimage(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context);
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginReimageAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = reimageWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            this.client.getContext());
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginReimageAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = reimageWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            context);
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginReimage(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        return this.beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginReimage(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        return this.beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
-            .getSyncPoller();
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> reimageAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        return beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> reimageAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        return beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void reimage(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        reimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
-    }
-
-    /**
-     * Reimages one or more nodes on the node type.
-     * 
-     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
-     * activate the nodes back again.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for reimage action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void reimage(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        reimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteNodeWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.deleteNode(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<Flux<ByteBuffer>>> deleteNodeWithResponseAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (clusterName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
-        }
-        if (nodeTypeName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
-        }
-        if (parameters == null) {
-            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
-        } else {
-            parameters.validate();
-        }
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.deleteNode(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context);
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteNodeAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = deleteNodeWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            this.client.getContext());
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link PollerFlux} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    private PollerFlux<PollResult<Void>, Void> beginDeleteNodeAsync(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        context = this.client.mergeContext(context);
-        Mono<Response<Flux<ByteBuffer>>> mono
-            = deleteNodeWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
-        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
-            context);
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteNode(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters) {
-        return this.beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the {@link SyncPoller} for polling of long-running operation.
-     */
-    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
-    public SyncPoller<PollResult<Void>, Void> beginDeleteNode(String resourceGroupName, String clusterName,
-        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
-        return this.beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
-            .getSyncPoller();
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteNodeAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        return beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return A {@link Mono} that completes when a successful response is received.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Void> deleteNodeAsync(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        return beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
-            .flatMap(this.client::getLroFinalResultOrError);
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteNode(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters) {
-        deleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
-    }
-
-    /**
-     * Deletes one or more nodes on the node type.
-     * 
-     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
-     * removes the state from the cluster.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param clusterName The name of the cluster resource.
-     * @param nodeTypeName The name of the node type.
-     * @param parameters parameters for delete action.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ManagementException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteNode(String resourceGroupName, String clusterName, String nodeTypeName,
-        NodeTypeActionParameters parameters, Context context) {
-        deleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
-    }
-
-    /**
-     * Gets a Service Fabric node type.
-     * 
      * Get a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1187,17 +430,15 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Gets a Service Fabric node type.
-     * 
      * Get a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1230,16 +471,14 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, clusterName,
-            nodeTypeName, this.client.getApiVersion(), accept, context);
+        return service.get(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, accept, context);
     }
 
     /**
-     * Gets a Service Fabric node type.
-     * 
      * Get a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1254,11 +493,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Gets a Service Fabric node type.
-     * 
      * Get a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1274,11 +511,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Gets a Service Fabric node type.
-     * 
      * Get a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1292,11 +527,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1334,17 +567,16 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1383,16 +615,14 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context);
+        return service.createOrUpdate(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1412,11 +642,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1438,11 +666,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1459,11 +685,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1482,11 +706,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1504,11 +726,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1527,11 +747,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1547,11 +765,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Creates or updates a Service Fabric node type.
-     * 
      * Create or update a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The node type resource.
@@ -1568,11 +784,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Update the tags of a node type resource of a given managed cluster.
-     * 
      * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The parameters to update the node type configuration.
@@ -1583,7 +797,7 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
      * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<NodeTypeInner>> updateWithResponseAsync(String resourceGroupName, String clusterName,
+    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String clusterName,
         String nodeTypeName, NodeTypeUpdateParameters parameters) {
         if (this.client.getEndpoint() == null) {
             return Mono.error(
@@ -1609,18 +823,15 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
             parameters.validate();
         }
         final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context))
+        return FluxUtil.withContext(context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Update the tags of a node type resource of a given managed cluster.
-     * 
      * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The parameters to update the node type configuration.
@@ -1632,7 +843,7 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
      * with {@link Response} on successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<NodeTypeInner>> updateWithResponseAsync(String resourceGroupName, String clusterName,
+    private Mono<Response<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String clusterName,
         String nodeTypeName, NodeTypeUpdateParameters parameters, Context context) {
         if (this.client.getEndpoint() == null) {
             return Mono.error(
@@ -1659,16 +870,99 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), parameters, accept, context);
+        return service.update(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
     }
 
     /**
-     * Update the tags of a node type resource of a given managed cluster.
-     * 
      * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters The parameters to update the node type configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of describes a node type in the cluster, each node type represents sub
+     * set of nodes in the cluster.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<NodeTypeInner>, NodeTypeInner> beginUpdateAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, NodeTypeUpdateParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = updateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<NodeTypeInner, NodeTypeInner>getLroResult(mono, this.client.getHttpPipeline(),
+            NodeTypeInner.class, NodeTypeInner.class, this.client.getContext());
+    }
+
+    /**
+     * Update the configuration of a node type of a given managed cluster, only updating tags.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters The parameters to update the node type configuration.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of describes a node type in the cluster, each node type represents sub
+     * set of nodes in the cluster.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<NodeTypeInner>, NodeTypeInner> beginUpdateAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, NodeTypeUpdateParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = updateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<NodeTypeInner, NodeTypeInner>getLroResult(mono, this.client.getHttpPipeline(),
+            NodeTypeInner.class, NodeTypeInner.class, context);
+    }
+
+    /**
+     * Update the configuration of a node type of a given managed cluster, only updating tags.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters The parameters to update the node type configuration.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of describes a node type in the cluster, each node type represents sub
+     * set of nodes in the cluster.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<NodeTypeInner>, NodeTypeInner> beginUpdate(String resourceGroupName,
+        String clusterName, String nodeTypeName, NodeTypeUpdateParameters parameters) {
+        return this.beginUpdateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Update the configuration of a node type of a given managed cluster, only updating tags.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters The parameters to update the node type configuration.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of describes a node type in the cluster, each node type represents sub
+     * set of nodes in the cluster.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<NodeTypeInner>, NodeTypeInner> beginUpdate(String resourceGroupName,
+        String clusterName, String nodeTypeName, NodeTypeUpdateParameters parameters, Context context) {
+        return this.beginUpdateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).getSyncPoller();
+    }
+
+    /**
+     * Update the configuration of a node type of a given managed cluster, only updating tags.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The parameters to update the node type configuration.
@@ -1681,16 +975,14 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<NodeTypeInner> updateAsync(String resourceGroupName, String clusterName, String nodeTypeName,
         NodeTypeUpdateParameters parameters) {
-        return updateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters)
-            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
+        return beginUpdateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
-     * Update the tags of a node type resource of a given managed cluster.
-     * 
      * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The parameters to update the node type configuration.
@@ -1698,21 +990,20 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return describes a node type in the cluster, each node type represents sub set of nodes in the cluster along
-     * with {@link Response}.
+     * @return describes a node type in the cluster, each node type represents sub set of nodes in the cluster on
+     * successful completion of {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<NodeTypeInner> updateWithResponse(String resourceGroupName, String clusterName, String nodeTypeName,
+    private Mono<NodeTypeInner> updateAsync(String resourceGroupName, String clusterName, String nodeTypeName,
         NodeTypeUpdateParameters parameters, Context context) {
-        return updateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+        return beginUpdateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
     }
 
     /**
-     * Update the tags of a node type resource of a given managed cluster.
-     * 
      * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param parameters The parameters to update the node type configuration.
@@ -1724,15 +1015,32 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NodeTypeInner update(String resourceGroupName, String clusterName, String nodeTypeName,
         NodeTypeUpdateParameters parameters) {
-        return updateWithResponse(resourceGroupName, clusterName, nodeTypeName, parameters, Context.NONE).getValue();
+        return updateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
     }
 
     /**
-     * Deletes a Service Fabric node type.
+     * Update the configuration of a node type of a given managed cluster, only updating tags.
      * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters The parameters to update the node type configuration.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return describes a node type in the cluster, each node type represents sub set of nodes in the cluster.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NodeTypeInner update(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeUpdateParameters parameters, Context context) {
+        return updateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1763,17 +1071,15 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, clusterName, nodeTypeName, this.client.getApiVersion(), accept, context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1805,16 +1111,14 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         }
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            clusterName, nodeTypeName, this.client.getApiVersion(), accept, context);
+        return service.delete(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, accept, context);
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1831,11 +1135,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1855,11 +1157,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1874,11 +1174,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1894,11 +1192,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1913,11 +1209,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1933,11 +1227,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -1950,11 +1242,9 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
-     * Deletes a Service Fabric node type.
-     * 
      * Delete a Service Fabric node type of a given managed cluster.
      * 
-     * @param resourceGroupName The name of the resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param clusterName The name of the cluster resource.
      * @param nodeTypeName The name of the node type.
      * @param context The context to associate with this operation.
@@ -1968,13 +1258,2360 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
     }
 
     /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> deallocateWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.deallocate(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> deallocateWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.deallocate(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginDeallocateAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deallocateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginDeallocateAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deallocateWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginDeallocate(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginDeallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginDeallocate(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginDeallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> deallocateAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginDeallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> deallocateAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginDeallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deallocate(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        deallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs
+     * and release them from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for deallocate action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deallocate(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        deallocateAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> deleteNodeWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.deleteNode(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> deleteNodeWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.deleteNode(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginDeleteNodeAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteNodeWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginDeleteNodeAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = deleteNodeWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginDeleteNode(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginDeleteNode(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> deleteNodeAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> deleteNodeAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginDeleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deleteNode(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        deleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and
+     * removes the state from the cluster.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for delete action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deleteNode(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        deleteNodeAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Gets a fault simulation by the simulationId.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a fault simulation by the simulationId along with {@link Response} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<FaultSimulationInner>> getFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationIdContent parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.getFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets a fault simulation by the simulationId.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a fault simulation by the simulationId along with {@link Response} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<FaultSimulationInner>> getFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationIdContent parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.getFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Gets a fault simulation by the simulationId.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a fault simulation by the simulationId on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<FaultSimulationInner> getFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationIdContent parameters) {
+        return getFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters)
+            .flatMap(res -> Mono.justOrEmpty(res.getValue()));
+    }
+
+    /**
+     * Gets a fault simulation by the simulationId.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a fault simulation by the simulationId along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<FaultSimulationInner> getFaultSimulationWithResponse(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationIdContent parameters, Context context) {
+        return getFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .block();
+    }
+
+    /**
+     * Gets a fault simulation by the simulationId.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return a fault simulation by the simulationId.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FaultSimulationInner getFaultSimulation(String resourceGroupName, String clusterName, String nodeTypeName,
+        FaultSimulationIdContent parameters) {
+        return getFaultSimulationWithResponse(resourceGroupName, clusterName, nodeTypeName, parameters, Context.NONE)
+            .getValue();
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type along with {@link PagedResponse} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<FaultSimulationInner>> listFaultSimulationSinglePageAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.listFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, accept, context))
+            .<PagedResponse<FaultSimulationInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type along with {@link PagedResponse} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<FaultSimulationInner>> listFaultSimulationSinglePageAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<FaultSimulationInner> listFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName) {
+        return new PagedFlux<>(() -> listFaultSimulationSinglePageAsync(resourceGroupName, clusterName, nodeTypeName),
+            nextLink -> listFaultSimulationNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<FaultSimulationInner> listFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, Context context) {
+        return new PagedFlux<>(
+            () -> listFaultSimulationSinglePageAsync(resourceGroupName, clusterName, nodeTypeName, context),
+            nextLink -> listFaultSimulationNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<FaultSimulationInner> listFaultSimulation(String resourceGroupName, String clusterName,
+        String nodeTypeName) {
+        return new PagedIterable<>(listFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName));
+    }
+
+    /**
+     * Gets the list of recent fault simulations for the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the list of recent fault simulations for the node type as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<FaultSimulationInner> listFaultSimulation(String resourceGroupName, String clusterName,
+        String nodeTypeName, Context context) {
+        return new PagedIterable<>(listFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, context));
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> redeployWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.redeploy(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> redeployWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.redeploy(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginRedeployAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = redeployWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginRedeployAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = redeployWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginRedeploy(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginRedeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginRedeploy(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginRedeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> redeployAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginRedeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> redeployAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginRedeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void redeploy(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        redeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs,
+     * move them to a new node, and power them back on.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for redeploy action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void redeploy(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        redeployAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> reimageWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.reimage(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> reimageWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.reimage(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginReimageAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = reimageWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginReimageAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = reimageWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginReimage(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginReimage(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> reimageAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> reimageAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginReimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void reimage(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        reimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for reimage action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void reimage(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        reimageAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> restartWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.restart(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> restartWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.restart(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginRestartAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = restartWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginRestartAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = restartWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginRestart(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginRestart(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> restartAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> restartAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginRestartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void restart(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        restartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and
+     * activate the nodes back again.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for restart action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void restart(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        restartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> startWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.start(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> startWithResponseAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.start(this.client.getEndpoint(), this.client.getApiVersion(), this.client.getSubscriptionId(),
+            resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginStartAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = startWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            this.client.getContext());
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<Void>, Void> beginStartAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = startWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<Void, Void>getLroResult(mono, this.client.getHttpPipeline(), Void.class, Void.class,
+            context);
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginStart(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters) {
+        return this.beginStartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).getSyncPoller();
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of long-running operation.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<Void>, Void> beginStart(String resourceGroupName, String clusterName,
+        String nodeTypeName, NodeTypeActionParameters parameters, Context context) {
+        return this.beginStartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).getSyncPoller();
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> startAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        return beginStartAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return A {@link Mono} that completes when a successful response is received.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Void> startAsync(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        return beginStartAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void start(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters) {
+        startAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and
+     * activate them.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters for start action.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void start(String resourceGroupName, String clusterName, String nodeTypeName,
+        NodeTypeActionParameters parameters, Context context) {
+        startAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status along with {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> startFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationContent parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.startFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status along with {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> startFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationContent parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.startFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStartFaultSimulationAsync(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationContent parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = startFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<FaultSimulationInner, FaultSimulationInner>getLroResult(mono, this.client.getHttpPipeline(),
+            FaultSimulationInner.class, FaultSimulationInner.class, this.client.getContext());
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStartFaultSimulationAsync(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationContent parameters,
+        Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = startFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<FaultSimulationInner, FaultSimulationInner>getLroResult(mono, this.client.getHttpPipeline(),
+            FaultSimulationInner.class, FaultSimulationInner.class, context);
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStartFaultSimulation(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationContent parameters) {
+        return this.beginStartFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters)
+            .getSyncPoller();
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStartFaultSimulation(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationContent parameters,
+        Context context) {
+        return this.beginStartFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<FaultSimulationInner> startFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationContent parameters) {
+        return beginStartFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<FaultSimulationInner> startFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationContent parameters, Context context) {
+        return beginStartFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FaultSimulationInner startFaultSimulation(String resourceGroupName, String clusterName, String nodeTypeName,
+        FaultSimulationContent parameters) {
+        return startFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Starts a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameters describing the fault simulation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FaultSimulationInner startFaultSimulation(String resourceGroupName, String clusterName, String nodeTypeName,
+        FaultSimulationContent parameters, Context context) {
+        return startFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status along with {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> stopFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationIdContent parameters) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.stopFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+                this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status along with {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<Flux<ByteBuffer>>> stopFaultSimulationWithResponseAsync(String resourceGroupName,
+        String clusterName, String nodeTypeName, FaultSimulationIdContent parameters, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (clusterName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter clusterName is required and cannot be null."));
+        }
+        if (nodeTypeName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nodeTypeName is required and cannot be null."));
+        }
+        if (parameters == null) {
+            return Mono.error(new IllegalArgumentException("Parameter parameters is required and cannot be null."));
+        } else {
+            parameters.validate();
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.stopFaultSimulation(this.client.getEndpoint(), this.client.getApiVersion(),
+            this.client.getSubscriptionId(), resourceGroupName, clusterName, nodeTypeName, parameters, accept, context);
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStopFaultSimulationAsync(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationIdContent parameters) {
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = stopFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters);
+        return this.client.<FaultSimulationInner, FaultSimulationInner>getLroResult(mono, this.client.getHttpPipeline(),
+            FaultSimulationInner.class, FaultSimulationInner.class, this.client.getContext());
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link PollerFlux} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    private PollerFlux<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStopFaultSimulationAsync(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationIdContent parameters,
+        Context context) {
+        context = this.client.mergeContext(context);
+        Mono<Response<Flux<ByteBuffer>>> mono
+            = stopFaultSimulationWithResponseAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context);
+        return this.client.<FaultSimulationInner, FaultSimulationInner>getLroResult(mono, this.client.getHttpPipeline(),
+            FaultSimulationInner.class, FaultSimulationInner.class, context);
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStopFaultSimulation(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationIdContent parameters) {
+        return this.beginStopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters)
+            .getSyncPoller();
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the {@link SyncPoller} for polling of fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.LONG_RUNNING_OPERATION)
+    public SyncPoller<PollResult<FaultSimulationInner>, FaultSimulationInner> beginStopFaultSimulation(
+        String resourceGroupName, String clusterName, String nodeTypeName, FaultSimulationIdContent parameters,
+        Context context) {
+        return this.beginStopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context)
+            .getSyncPoller();
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<FaultSimulationInner> stopFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationIdContent parameters) {
+        return beginStopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<FaultSimulationInner> stopFaultSimulationAsync(String resourceGroupName, String clusterName,
+        String nodeTypeName, FaultSimulationIdContent parameters, Context context) {
+        return beginStopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).last()
+            .flatMap(this.client::getLroFinalResultOrError);
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FaultSimulationInner stopFaultSimulation(String resourceGroupName, String clusterName, String nodeTypeName,
+        FaultSimulationIdContent parameters) {
+        return stopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters).block();
+    }
+
+    /**
+     * Stops a fault simulation on the node type.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the cluster resource.
+     * @param nodeTypeName The name of the node type.
+     * @param parameters parameter with fault simulation id.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation object with status.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public FaultSimulationInner stopFaultSimulation(String resourceGroupName, String clusterName, String nodeTypeName,
+        FaultSimulationIdContent parameters, Context context) {
+        return stopFaultSimulationAsync(resourceGroupName, clusterName, nodeTypeName, parameters, context).block();
+    }
+
+    /**
      * Get the next page of items.
      * 
      * @param nextLink The URL to get the next list of items.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return node type list results along with {@link PagedResponse} on successful completion of {@link Mono}.
+     * @return the response of a NodeType list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<NodeTypeInner>> listByManagedClustersNextSinglePageAsync(String nextLink) {
@@ -2002,7 +3639,8 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return node type list results along with {@link PagedResponse} on successful completion of {@link Mono}.
+     * @return the response of a NodeType list operation along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     private Mono<PagedResponse<NodeTypeInner>> listByManagedClustersNextSinglePageAsync(String nextLink,
@@ -2017,6 +3655,60 @@ public final class NodeTypesClientImpl implements NodeTypesClient {
         final String accept = "application/json";
         context = this.client.mergeContext(context);
         return service.listByManagedClustersNext(nextLink, this.client.getEndpoint(), accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation list results along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<FaultSimulationInner>> listFaultSimulationNextSinglePageAsync(String nextLink) {
+        if (nextLink == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(
+                context -> service.listFaultSimulationNext(nextLink, this.client.getEndpoint(), accept, context))
+            .<PagedResponse<FaultSimulationInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink The URL to get the next list of items.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ManagementException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return fault simulation list results along with {@link PagedResponse} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<FaultSimulationInner>> listFaultSimulationNextSinglePageAsync(String nextLink,
+        Context context) {
+        if (nextLink == null) {
+            return Mono.error(new IllegalArgumentException("Parameter nextLink is required and cannot be null."));
+        }
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.listFaultSimulationNext(nextLink, this.client.getEndpoint(), accept, context)
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
                 res.getValue().value(), res.getValue().nextLink(), null));
     }

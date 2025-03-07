@@ -8,7 +8,7 @@ import com.azure.core.util.ExpandableStringEnum;
 import java.util.Collection;
 
 /**
- * the reference to the load balancer probe used by the load balancing rule.
+ * The reference to the load balancer probe used by the load balancing rule.
  */
 public final class ProbeProtocol extends ExpandableStringEnum<ProbeProtocol> {
     /**

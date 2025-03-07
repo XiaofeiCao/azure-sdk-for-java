@@ -11,12 +11,12 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * SingletonPartitionScheme.
+ * Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
  */
 @Immutable
 public final class SingletonPartitionScheme extends Partition {
     /*
-     * Specifies how the service is partitioned.
+     * Enumerates the ways that a service can be partitioned.
      */
     private PartitionScheme partitionScheme = PartitionScheme.SINGLETON;
 
@@ -27,7 +27,7 @@ public final class SingletonPartitionScheme extends Partition {
     }
 
     /**
-     * Get the partitionScheme property: Specifies how the service is partitioned.
+     * Get the partitionScheme property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the partitionScheme value.
      */

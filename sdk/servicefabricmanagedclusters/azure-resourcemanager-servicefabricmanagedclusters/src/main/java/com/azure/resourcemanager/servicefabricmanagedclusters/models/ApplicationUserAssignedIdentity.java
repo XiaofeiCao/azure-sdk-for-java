@@ -13,7 +13,7 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * The ApplicationUserAssignedIdentity model.
+ * User assigned identity for the application.
  */
 @Fluent
 public final class ApplicationUserAssignedIdentity implements JsonSerializable<ApplicationUserAssignedIdentity> {

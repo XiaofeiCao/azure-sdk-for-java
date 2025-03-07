@@ -31,10 +31,6 @@ public final class ApplicationTypeVersionResourceImpl implements ApplicationType
         return this.innerModel().type();
     }
 
-    public String location() {
-        return this.innerModel().location();
-    }
-
     public Map<String, String> tags() {
         Map<String, String> inner = this.innerModel().tags();
         if (inner != null) {
@@ -42,6 +38,10 @@ public final class ApplicationTypeVersionResourceImpl implements ApplicationType
         } else {
             return Collections.emptyMap();
         }
+    }
+
+    public String location() {
+        return this.innerModel().location();
     }
 
     public SystemData systemData() {
@@ -143,7 +143,7 @@ public final class ApplicationTypeVersionResourceImpl implements ApplicationType
         this.innerObject = innerObject;
         this.serviceManager = serviceManager;
         this.resourceGroupName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "resourceGroups");
-        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedclusters");
+        this.clusterName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "managedClusters");
         this.applicationTypeName = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "applicationTypes");
         this.version = ResourceManagerUtils.getValueFromIdByName(innerObject.id(), "versions");
     }

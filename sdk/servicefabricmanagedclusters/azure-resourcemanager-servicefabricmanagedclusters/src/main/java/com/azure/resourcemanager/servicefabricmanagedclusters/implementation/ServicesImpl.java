@@ -27,6 +27,20 @@ public final class ServicesImpl implements Services {
         this.serviceManager = serviceManager;
     }
 
+    public PagedIterable<ServiceResource> listByApplications(String resourceGroupName, String clusterName,
+        String applicationName) {
+        PagedIterable<ServiceResourceInner> inner
+            = this.serviceClient().listByApplications(resourceGroupName, clusterName, applicationName);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ServiceResourceImpl(inner1, this.manager()));
+    }
+
+    public PagedIterable<ServiceResource> listByApplications(String resourceGroupName, String clusterName,
+        String applicationName, Context context) {
+        PagedIterable<ServiceResourceInner> inner
+            = this.serviceClient().listByApplications(resourceGroupName, clusterName, applicationName, context);
+        return ResourceManagerUtils.mapPage(inner, inner1 -> new ServiceResourceImpl(inner1, this.manager()));
+    }
+
     public Response<ServiceResource> getWithResponse(String resourceGroupName, String clusterName,
         String applicationName, String serviceName, Context context) {
         Response<ServiceResourceInner> inner = this.serviceClient()
@@ -59,30 +73,16 @@ public final class ServicesImpl implements Services {
         this.serviceClient().delete(resourceGroupName, clusterName, applicationName, serviceName, context);
     }
 
-    public PagedIterable<ServiceResource> listByApplications(String resourceGroupName, String clusterName,
-        String applicationName) {
-        PagedIterable<ServiceResourceInner> inner
-            = this.serviceClient().listByApplications(resourceGroupName, clusterName, applicationName);
-        return ResourceManagerUtils.mapPage(inner, inner1 -> new ServiceResourceImpl(inner1, this.manager()));
-    }
-
-    public PagedIterable<ServiceResource> listByApplications(String resourceGroupName, String clusterName,
-        String applicationName, Context context) {
-        PagedIterable<ServiceResourceInner> inner
-            = this.serviceClient().listByApplications(resourceGroupName, clusterName, applicationName, context);
-        return ResourceManagerUtils.mapPage(inner, inner1 -> new ServiceResourceImpl(inner1, this.manager()));
-    }
-
     public ServiceResource getById(String id) {
         String resourceGroupName = ResourceManagerUtils.getValueFromIdByName(id, "resourceGroups");
         if (resourceGroupName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -104,10 +104,10 @@ public final class ServicesImpl implements Services {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -128,10 +128,10 @@ public final class ServicesImpl implements Services {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {
@@ -152,10 +152,10 @@ public final class ServicesImpl implements Services {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
                 String.format("The resource ID '%s' is not valid. Missing path segment 'resourceGroups'.", id)));
         }
-        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedclusters");
+        String clusterName = ResourceManagerUtils.getValueFromIdByName(id, "managedClusters");
         if (clusterName == null) {
             throw LOGGER.logExceptionAsError(new IllegalArgumentException(
-                String.format("The resource ID '%s' is not valid. Missing path segment 'managedclusters'.", id)));
+                String.format("The resource ID '%s' is not valid. Missing path segment 'managedClusters'.", id)));
         }
         String applicationName = ResourceManagerUtils.getValueFromIdByName(id, "applications");
         if (applicationName == null) {

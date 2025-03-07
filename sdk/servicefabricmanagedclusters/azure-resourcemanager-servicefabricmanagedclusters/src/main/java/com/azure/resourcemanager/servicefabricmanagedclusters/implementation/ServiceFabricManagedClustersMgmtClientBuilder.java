@@ -20,12 +20,12 @@ import java.time.Duration;
 @ServiceClientBuilder(serviceClients = { ServiceFabricManagedClustersMgmtClientImpl.class })
 public final class ServiceFabricManagedClustersMgmtClientBuilder {
     /*
-     * The customer subscription identifier.
+     * The ID of the target subscription.
      */
     private String subscriptionId;
 
     /**
-     * Sets The customer subscription identifier.
+     * Sets The ID of the target subscription.
      * 
      * @param subscriptionId the subscriptionId value.
      * @return the ServiceFabricManagedClustersMgmtClientBuilder.

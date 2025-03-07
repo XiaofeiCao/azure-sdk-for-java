@@ -10,8 +10,8 @@ package com.azure.resourcemanager.servicefabricmanagedclusters.generated;
 public final class ApplicationTypesCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * ApplicationTypeNamePutOperation_example.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/ApplicationTypeNamePutOperation_example.json
      */
     /**
      * Sample code: Put an application type.
@@ -22,7 +22,7 @@ public final class ApplicationTypesCreateOrUpdateSamples {
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.applicationTypes()
             .define("myAppType")
-            .withExistingManagedcluster("resRg", "myCluster")
+            .withExistingManagedCluster("resRg", "myCluster")
             .withRegion("eastus")
             .create();
     }

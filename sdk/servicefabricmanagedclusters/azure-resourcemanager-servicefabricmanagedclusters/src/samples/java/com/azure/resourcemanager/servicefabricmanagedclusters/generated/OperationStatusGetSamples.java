@@ -10,15 +10,15 @@ package com.azure.resourcemanager.servicefabricmanagedclusters.generated;
 public final class OperationStatusGetSamples {
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * Long_running_operation_status_succeeded.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/OperationStatusSucceeded_example.json
      */
     /**
-     * Sample code: Get succeeded operation result.
+     * Sample code: OK. The request has succeeded.
      * 
      * @param manager Entry point to ServiceFabricManagedClustersManager.
      */
-    public static void getSucceededOperationResult(
+    public static void okTheRequestHasSucceeded(
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.operationStatus()
             .getWithResponse("eastus", "00000000-0000-0000-0000-000000001234", com.azure.core.util.Context.NONE);
@@ -26,15 +26,15 @@ public final class OperationStatusGetSamples {
 
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * Long_running_operation_status_failed.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/OperationStatusFailed_example.json
      */
     /**
-     * Sample code: Get failed operation status.
+     * Sample code: Error response describing why the operation failed.
      * 
      * @param manager Entry point to ServiceFabricManagedClustersManager.
      */
-    public static void getFailedOperationStatus(
+    public static void errorResponseDescribingWhyTheOperationFailed(
         com.azure.resourcemanager.servicefabricmanagedclusters.ServiceFabricManagedClustersManager manager) {
         manager.operationStatus()
             .getWithResponse("eastus", "00000000-0000-0000-0000-000000001234", com.azure.core.util.Context.NONE);

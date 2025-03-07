@@ -17,7 +17,7 @@ import java.io.IOException;
 @Immutable
 public class Partition implements JsonSerializable<Partition> {
     /*
-     * Specifies how the service is partitioned.
+     * Enumerates the ways that a service can be partitioned.
      */
     private PartitionScheme partitionScheme = PartitionScheme.fromString("Partition");
 
@@ -28,7 +28,7 @@ public class Partition implements JsonSerializable<Partition> {
     }
 
     /**
-     * Get the partitionScheme property: Specifies how the service is partitioned.
+     * Get the partitionScheme property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the partitionScheme value.
      */

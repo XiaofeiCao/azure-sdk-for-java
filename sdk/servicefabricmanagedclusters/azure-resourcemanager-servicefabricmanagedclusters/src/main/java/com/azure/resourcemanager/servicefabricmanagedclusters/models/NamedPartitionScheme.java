@@ -18,7 +18,7 @@ import java.util.List;
 @Fluent
 public final class NamedPartitionScheme extends Partition {
     /*
-     * Specifies how the service is partitioned.
+     * Enumerates the ways that a service can be partitioned.
      */
     private PartitionScheme partitionScheme = PartitionScheme.NAMED;
 
@@ -34,7 +34,7 @@ public final class NamedPartitionScheme extends Partition {
     }
 
     /**
-     * Get the partitionScheme property: Specifies how the service is partitioned.
+     * Get the partitionScheme property: Enumerates the ways that a service can be partitioned.
      * 
      * @return the partitionScheme value.
      */

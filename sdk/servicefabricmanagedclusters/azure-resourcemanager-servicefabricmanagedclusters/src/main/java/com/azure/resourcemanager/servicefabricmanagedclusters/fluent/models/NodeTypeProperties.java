@@ -19,6 +19,7 @@ import com.azure.resourcemanager.servicefabricmanagedclusters.models.NetworkSecu
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.NodeTypeNatConfig;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.SecurityType;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.VaultSecretGroup;
+import com.azure.resourcemanager.servicefabricmanagedclusters.models.VmApplication;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.VmImagePlan;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.VmManagedIdentity;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.VmSetupAction;
@@ -40,8 +41,8 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
     private boolean isPrimary;
 
     /*
-     * The number of nodes in the node type. <br /><br />**Values:** <br />-1 - Use when auto scale rules are configured
-     * or sku.capacity is defined <br /> 0 - Not supported <br /> >0 - Use for manual scale.
+     * The number of nodes in the node type. **Values:** -1 - Use when auto scale rules are configured or sku.capacity
+     * is defined 0 - Not supported >0 - Use for manual scale.
      */
     private int vmInstanceCount;
 
@@ -307,6 +308,11 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
      */
     private String computerNamePrefix;
 
+    /*
+     * Specifies the gallery applications that should be made available to the underlying VMSS.
+     */
+    private List<VmApplication> vmApplications;
+
     /**
      * Creates an instance of NodeTypeProperties class.
      */
@@ -336,9 +342,8 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
     }
 
     /**
-     * Get the vmInstanceCount property: The number of nodes in the node type. &lt;br /&gt;&lt;br /&gt;**Values:**
-     * &lt;br /&gt;-1 - Use when auto scale rules are configured or sku.capacity is defined &lt;br /&gt; 0 - Not
-     * supported &lt;br /&gt; &gt;0 - Use for manual scale.
+     * Get the vmInstanceCount property: The number of nodes in the node type. **Values:** -1 - Use when auto scale
+     * rules are configured or sku.capacity is defined 0 - Not supported &gt;0 - Use for manual scale.
      * 
      * @return the vmInstanceCount value.
      */
@@ -347,9 +352,8 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
     }
 
     /**
-     * Set the vmInstanceCount property: The number of nodes in the node type. &lt;br /&gt;&lt;br /&gt;**Values:**
-     * &lt;br /&gt;-1 - Use when auto scale rules are configured or sku.capacity is defined &lt;br /&gt; 0 - Not
-     * supported &lt;br /&gt; &gt;0 - Use for manual scale.
+     * Set the vmInstanceCount property: The number of nodes in the node type. **Values:** -1 - Use when auto scale
+     * rules are configured or sku.capacity is defined 0 - Not supported &gt;0 - Use for manual scale.
      * 
      * @param vmInstanceCount the vmInstanceCount value to set.
      * @return the NodeTypeProperties object itself.
@@ -1384,6 +1388,28 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
     }
 
     /**
+     * Get the vmApplications property: Specifies the gallery applications that should be made available to the
+     * underlying VMSS.
+     * 
+     * @return the vmApplications value.
+     */
+    public List<VmApplication> vmApplications() {
+        return this.vmApplications;
+    }
+
+    /**
+     * Set the vmApplications property: Specifies the gallery applications that should be made available to the
+     * underlying VMSS.
+     * 
+     * @param vmApplications the vmApplications value to set.
+     * @return the NodeTypeProperties object itself.
+     */
+    public NodeTypeProperties withVmApplications(List<VmApplication> vmApplications) {
+        this.vmApplications = vmApplications;
+        return this;
+    }
+
+    /**
      * Validates the instance.
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
@@ -1421,6 +1447,9 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
         }
         if (additionalNetworkInterfaceConfigurations() != null) {
             additionalNetworkInterfaceConfigurations().forEach(e -> e.validate());
+        }
+        if (vmApplications() != null) {
+            vmApplications().forEach(e -> e.validate());
         }
     }
 
@@ -1486,6 +1515,8 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
         jsonWriter.writeArrayField("additionalNetworkInterfaceConfigurations",
             this.additionalNetworkInterfaceConfigurations, (writer, element) -> writer.writeJson(element));
         jsonWriter.writeStringField("computerNamePrefix", this.computerNamePrefix);
+        jsonWriter.writeArrayField("vmApplications", this.vmApplications,
+            (writer, element) -> writer.writeJson(element));
         return jsonWriter.writeEndObject();
     }
 
@@ -1624,6 +1655,9 @@ public final class NodeTypeProperties implements JsonSerializable<NodeTypeProper
                         = additionalNetworkInterfaceConfigurations;
                 } else if ("computerNamePrefix".equals(fieldName)) {
                     deserializedNodeTypeProperties.computerNamePrefix = reader.getString();
+                } else if ("vmApplications".equals(fieldName)) {
+                    List<VmApplication> vmApplications = reader.readArray(reader1 -> VmApplication.fromJson(reader1));
+                    deserializedNodeTypeProperties.vmApplications = vmApplications;
                 } else {
                     reader.skipChildren();
                 }

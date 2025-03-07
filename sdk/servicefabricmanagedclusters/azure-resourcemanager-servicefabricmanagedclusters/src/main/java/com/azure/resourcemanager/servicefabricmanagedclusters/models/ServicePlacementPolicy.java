@@ -85,10 +85,10 @@ public class ServicePlacementPolicy implements JsonSerializable<ServicePlacement
                     return ServicePlacementNonPartiallyPlaceServicePolicy.fromJson(readerToUse.reset());
                 } else if ("PreferredPrimaryDomain".equals(discriminatorValue)) {
                     return ServicePlacementPreferPrimaryDomainPolicy.fromJson(readerToUse.reset());
-                } else if ("RequiredDomain".equals(discriminatorValue)) {
-                    return ServicePlacementRequiredDomainPolicy.fromJson(readerToUse.reset());
                 } else if ("RequiredDomainDistribution".equals(discriminatorValue)) {
                     return ServicePlacementRequireDomainDistributionPolicy.fromJson(readerToUse.reset());
+                } else if ("RequiredDomain".equals(discriminatorValue)) {
+                    return ServicePlacementRequiredDomainPolicy.fromJson(readerToUse.reset());
                 } else {
                     return fromJsonKnownDiscriminator(readerToUse.reset());
                 }

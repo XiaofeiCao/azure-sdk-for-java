@@ -5,12 +5,15 @@
 package com.azure.resourcemanager.servicefabricmanagedclusters.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.util.CoreUtils;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.servicefabricmanagedclusters.models.OsType;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The detail of the Service Fabric runtime version result.
@@ -25,7 +28,7 @@ public final class ManagedClusterVersionDetails implements JsonSerializable<Mana
     /*
      * The date of expiry of support of the version.
      */
-    private String supportExpiryUtc;
+    private OffsetDateTime supportExpiryUtc;
 
     /*
      * Cluster operating system, the default will be Windows
@@ -63,7 +66,7 @@ public final class ManagedClusterVersionDetails implements JsonSerializable<Mana
      * 
      * @return the supportExpiryUtc value.
      */
-    public String supportExpiryUtc() {
+    public OffsetDateTime supportExpiryUtc() {
         return this.supportExpiryUtc;
     }
 
@@ -73,7 +76,7 @@ public final class ManagedClusterVersionDetails implements JsonSerializable<Mana
      * @param supportExpiryUtc the supportExpiryUtc value to set.
      * @return the ManagedClusterVersionDetails object itself.
      */
-    public ManagedClusterVersionDetails withSupportExpiryUtc(String supportExpiryUtc) {
+    public ManagedClusterVersionDetails withSupportExpiryUtc(OffsetDateTime supportExpiryUtc) {
         this.supportExpiryUtc = supportExpiryUtc;
         return this;
     }
@@ -113,7 +116,10 @@ public final class ManagedClusterVersionDetails implements JsonSerializable<Mana
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
         jsonWriter.writeStringField("clusterCodeVersion", this.clusterCodeVersion);
-        jsonWriter.writeStringField("supportExpiryUtc", this.supportExpiryUtc);
+        jsonWriter.writeStringField("supportExpiryUtc",
+            this.supportExpiryUtc == null
+                ? null
+                : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(this.supportExpiryUtc));
         jsonWriter.writeStringField("osType", this.osType == null ? null : this.osType.toString());
         return jsonWriter.writeEndObject();
     }
@@ -136,7 +142,8 @@ public final class ManagedClusterVersionDetails implements JsonSerializable<Mana
                 if ("clusterCodeVersion".equals(fieldName)) {
                     deserializedManagedClusterVersionDetails.clusterCodeVersion = reader.getString();
                 } else if ("supportExpiryUtc".equals(fieldName)) {
-                    deserializedManagedClusterVersionDetails.supportExpiryUtc = reader.getString();
+                    deserializedManagedClusterVersionDetails.supportExpiryUtc = reader
+                        .getNullable(nonNullReader -> CoreUtils.parseBestOffsetDateTime(nonNullReader.getString()));
                 } else if ("osType".equals(fieldName)) {
                     deserializedManagedClusterVersionDetails.osType = OsType.fromString(reader.getString());
                 } else {

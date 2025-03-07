@@ -14,8 +14,8 @@ import java.util.Arrays;
 public final class NodeTypesReimageSamples {
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * ReimageNodes_example.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/ReimageNodes_example.json
      */
     /**
      * Sample code: Reimage nodes.
@@ -32,11 +32,11 @@ public final class NodeTypesReimageSamples {
 
     /*
      * x-ms-original-file:
-     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/
-     * ReimageNodes_UD_example.json
+     * specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-11-01-preview/
+     * examples/ReimageNodes_UD_example.json
      */
     /**
-     * Sample code: Reimage all nodes By upgrade domain.
+     * Sample code: Reimage all nodes by upgrade domain.
      * 
      * @param manager Entry point to ServiceFabricManagedClustersManager.
      */
