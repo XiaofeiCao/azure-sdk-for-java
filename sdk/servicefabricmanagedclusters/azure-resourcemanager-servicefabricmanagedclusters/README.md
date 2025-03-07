@@ -1,8 +1,8 @@
-# Azure Resource Manager Service Fabric Managed Clusters client library for Java
+# Azure Resource Manager servicefabricmanagedclusters client library for Java
 
-Azure Resource Manager Service Fabric Managed Clusters client library for Java.
+Azure Resource Manager servicefabricmanagedclusters client library for Java.
 
-This package contains Microsoft Azure SDK for Service Fabric Managed Clusters Management SDK. Service Fabric Managed Clusters Management Client. Package tag package-2024-11-preview. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+This package contains Microsoft Azure SDK for servicefabricmanagedclusters Management SDK. Service Fabric Managed Clusters Management Client. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
 
 ## We'd love to hear your feedback
 
@@ -56,7 +56,7 @@ AzureProfile profile = new AzureProfile(AzureCloud.AZURE_PUBLIC_CLOUD);
 TokenCredential credential = new DefaultAzureCredentialBuilder()
     .authorityHost(profile.getEnvironment().getActiveDirectoryEndpoint())
     .build();
-ServiceFabricManagedClustersManager manager = ServiceFabricManagedClustersManager
+ServicefabricmanagedclustersManager manager = ServicefabricmanagedclustersManager
     .authenticate(credential, profile);
 ```
 
