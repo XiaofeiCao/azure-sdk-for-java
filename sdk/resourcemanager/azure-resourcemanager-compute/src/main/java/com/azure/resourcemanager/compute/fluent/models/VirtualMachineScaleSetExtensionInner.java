@@ -84,7 +84,6 @@ public final class VirtualMachineScaleSetExtensionInner extends ProxyResource {
      * 
      * @return the extensionType value.
      */
-    @Override
     public String extensionType() {
         return this.extensionType;
     }
@@ -431,9 +430,9 @@ public final class VirtualMachineScaleSetExtensionInner extends ProxyResource {
                 if ("id".equals(fieldName)) {
                     deserializedVirtualMachineScaleSetExtensionInner.id = reader.getString();
                 } else if ("name".equals(fieldName)) {
-                    deserializedVirtualMachineScaleSetExtensionInner.name = reader.getString();
+                    deserializedVirtualMachineScaleSetExtensionInner.extensionName = reader.getString();
                 } else if ("type".equals(fieldName)) {
-                    deserializedVirtualMachineScaleSetExtensionInner.type = reader.getString();
+                    deserializedVirtualMachineScaleSetExtensionInner.extensionType = reader.getString();
                 } else if ("properties".equals(fieldName)) {
                     deserializedVirtualMachineScaleSetExtensionInner.innerProperties
                         = VirtualMachineScaleSetExtensionProperties.fromJson(reader);

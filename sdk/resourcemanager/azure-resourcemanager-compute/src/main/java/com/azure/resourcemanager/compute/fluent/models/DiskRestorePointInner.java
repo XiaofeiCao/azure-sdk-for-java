@@ -91,7 +91,6 @@ public final class DiskRestorePointInner extends ProxyResource {
      * 
      * @return the resourceType value.
      */
-    @Override
     public String resourceType() {
         return this.resourceType;
     }
@@ -101,7 +100,6 @@ public final class DiskRestorePointInner extends ProxyResource {
      * 
      * @return the resourceId value.
      */
-    @Override
     public String resourceId() {
         return this.resourceId;
     }
@@ -450,11 +448,11 @@ public final class DiskRestorePointInner extends ProxyResource {
                 reader.nextToken();
 
                 if ("id".equals(fieldName)) {
-                    deserializedDiskRestorePointInner.id = reader.getString();
+                    deserializedDiskRestorePointInner.resourceId = reader.getString();
                 } else if ("name".equals(fieldName)) {
-                    deserializedDiskRestorePointInner.name = reader.getString();
+                    deserializedDiskRestorePointInner.resourceName = reader.getString();
                 } else if ("type".equals(fieldName)) {
-                    deserializedDiskRestorePointInner.type = reader.getString();
+                    deserializedDiskRestorePointInner.resourceType = reader.getString();
                 } else if ("properties".equals(fieldName)) {
                     deserializedDiskRestorePointInner.innerProperties = DiskRestorePointProperties.fromJson(reader);
                 } else if ("name".equals(fieldName)) {

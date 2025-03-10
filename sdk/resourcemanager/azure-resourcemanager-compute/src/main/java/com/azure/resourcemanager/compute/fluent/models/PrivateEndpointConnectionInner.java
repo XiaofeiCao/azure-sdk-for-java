@@ -85,7 +85,6 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
      * 
      * @return the connectionType value.
      */
-    @Override
     public String connectionType() {
         return this.connectionType;
     }
@@ -95,7 +94,6 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
      * 
      * @return the connectionId value.
      */
-    @Override
     public String connectionId() {
         return this.connectionId;
     }
@@ -193,11 +191,11 @@ public final class PrivateEndpointConnectionInner extends ProxyResource {
                 reader.nextToken();
 
                 if ("id".equals(fieldName)) {
-                    deserializedPrivateEndpointConnectionInner.id = reader.getString();
+                    deserializedPrivateEndpointConnectionInner.connectionId = reader.getString();
                 } else if ("name".equals(fieldName)) {
-                    deserializedPrivateEndpointConnectionInner.name = reader.getString();
+                    deserializedPrivateEndpointConnectionInner.connectionName = reader.getString();
                 } else if ("type".equals(fieldName)) {
-                    deserializedPrivateEndpointConnectionInner.type = reader.getString();
+                    deserializedPrivateEndpointConnectionInner.connectionType = reader.getString();
                 } else if ("properties".equals(fieldName)) {
                     deserializedPrivateEndpointConnectionInner.innerProperties
                         = PrivateEndpointConnectionProperties.fromJson(reader);

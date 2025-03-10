@@ -1215,7 +1215,8 @@ public class VirtualMachineScaleSetImpl extends
 
     @Override
     public VirtualMachineScaleSetExtensionImpl defineNewExtension(String name) {
-        return new VirtualMachineScaleSetExtensionImpl(new VirtualMachineScaleSetExtensionInner().withName(name), this);
+        return new VirtualMachineScaleSetExtensionImpl(
+            new VirtualMachineScaleSetExtensionInner().withExtensionName(name), this);
     }
 
     protected VirtualMachineScaleSetImpl withExtension(VirtualMachineScaleSetExtensionImpl extension) {
