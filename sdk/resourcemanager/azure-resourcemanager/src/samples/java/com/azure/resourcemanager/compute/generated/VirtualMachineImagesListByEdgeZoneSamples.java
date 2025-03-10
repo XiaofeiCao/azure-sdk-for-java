@@ -14,7 +14,7 @@ public final class VirtualMachineImagesListByEdgeZoneSamples {
      * virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.
+     * Sample code: virtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -33,7 +33,7 @@ public final class VirtualMachineImagesListByEdgeZoneSamples {
      * virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.
+     * Sample code: virtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

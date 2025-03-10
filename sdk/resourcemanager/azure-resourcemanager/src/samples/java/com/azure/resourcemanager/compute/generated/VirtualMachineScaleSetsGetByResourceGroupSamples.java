@@ -13,49 +13,10 @@ public final class VirtualMachineScaleSetsGetByResourceGroupSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
-     */
-    /**
-     * Sample code: Get a virtual machine scale set placed on a dedicated host group through automatic placement.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getVirtualMachineScaleSets()
-            .getByResourceGroupWithResponse("myResourceGroup", "myVirtualMachineScaleSet", null,
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
-     */
-    /**
-     * Sample code: Get a virtual machine scale set.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void getAVirtualMachineScaleSet(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getVirtualMachineScaleSets()
-            .getByResourceGroupWithResponse("myResourceGroup", "myVirtualMachineScaleSet", null,
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
      */
     /**
-     * Sample code: Get a virtual machine scale set with UserData.
+     * Sample code: get a virtual machine scale set with UserData.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -74,7 +35,7 @@ public final class VirtualMachineScaleSetsGetByResourceGroupSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
      */
     /**
-     * Sample code: Get VM scale set VM with Disk Controller Type.
+     * Sample code: get VM scale set VM with Disk Controller Type.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -85,5 +46,44 @@ public final class VirtualMachineScaleSetsGetByResourceGroupSamples {
             .getVirtualMachineScaleSets()
             .getByResourceGroupWithResponse("myResourceGroup", "myVirtualMachineScaleSet",
                 ExpandTypesForGetVMScaleSets.USER_DATA, com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
+     */
+    /**
+     * Sample code: get a virtual machine scale set.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void getAVirtualMachineScaleSet(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getVirtualMachineScaleSets()
+            .getByResourceGroupWithResponse("myResourceGroup", "myVirtualMachineScaleSet", null,
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
+     */
+    /**
+     * Sample code: get a virtual machine scale set placed on a dedicated host group through automatic placement.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(
+        com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getVirtualMachineScaleSets()
+            .getByResourceGroupWithResponse("myResourceGroup", "myVirtualMachineScaleSet", null,
+                com.azure.core.util.Context.NONE);
     }
 }

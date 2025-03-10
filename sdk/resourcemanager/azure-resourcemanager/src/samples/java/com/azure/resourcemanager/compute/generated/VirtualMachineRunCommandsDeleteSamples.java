@@ -14,7 +14,7 @@ public final class VirtualMachineRunCommandsDeleteSamples {
      * VirtualMachineRunCommand_Delete.json
      */
     /**
-     * Sample code: Delete a run command.
+     * Sample code: delete a run command.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

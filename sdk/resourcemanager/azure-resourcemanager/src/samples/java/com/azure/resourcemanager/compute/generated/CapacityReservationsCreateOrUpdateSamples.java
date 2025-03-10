@@ -20,7 +20,7 @@ public final class CapacityReservationsCreateOrUpdateSamples {
      * capacityReservationExamples/CapacityReservation_CreateOrUpdate.json
      */
     /**
-     * Sample code: Create or update a capacity reservation .
+     * Sample code: create or update a capacity reservation .
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

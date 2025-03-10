@@ -11,15 +11,15 @@ public final class VirtualMachineScaleSetsGetInstanceViewSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void
-        virtualMachineScaleSetGetInstanceViewMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        virtualMachineScaleSetGetInstanceViewMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
@@ -30,15 +30,15 @@ public final class VirtualMachineScaleSetsGetInstanceViewSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void
-        virtualMachineScaleSetGetInstanceViewMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        virtualMachineScaleSetGetInstanceViewMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()

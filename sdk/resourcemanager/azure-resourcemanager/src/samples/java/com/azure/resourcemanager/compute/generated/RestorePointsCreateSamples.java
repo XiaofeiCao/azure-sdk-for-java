@@ -15,31 +15,10 @@ public final class RestorePointsCreateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * restorePointExamples/RestorePoint_Copy_BetweenRegions.json
-     */
-    /**
-     * Sample code: Copy a restore point to a different region.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void copyARestorePointToADifferentRegion(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getRestorePoints()
-            .create("myResourceGroup", "rpcName", "rpName",
-                new RestorePointInner().withSourceRestorePoint(new ApiEntityReference().withId(
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName")),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * restorePointExamples/RestorePoint_Create.json
      */
     /**
-     * Sample code: Create a restore point.
+     * Sample code: create a restore point.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -51,6 +30,27 @@ public final class RestorePointsCreateSamples {
             .create("myResourceGroup", "rpcName", "rpName",
                 new RestorePointInner().withExcludeDisks(Arrays.asList(new ApiEntityReference().withId(
                     "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"))),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+     */
+    /**
+     * Sample code: copy a restore point to a different region.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void copyARestorePointToADifferentRegion(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getRestorePoints()
+            .create("myResourceGroup", "rpcName", "rpName",
+                new RestorePointInner().withSourceRestorePoint(new ApiEntityReference().withId(
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName")),
                 com.azure.core.util.Context.NONE);
     }
 }

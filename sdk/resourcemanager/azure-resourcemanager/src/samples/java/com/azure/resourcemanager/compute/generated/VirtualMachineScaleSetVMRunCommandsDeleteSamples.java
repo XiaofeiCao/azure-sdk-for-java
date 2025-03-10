@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMRunCommandsDeleteSamples {
      * VirtualMachineScaleSetVMRunCommand_Delete.json
      */
     /**
-     * Sample code: Delete VirtualMachineScaleSet VM run command.
+     * Sample code: delete VirtualMachineScaleSet VM run command.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

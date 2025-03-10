@@ -14,7 +14,7 @@ public final class ImagesGetByResourceGroupSamples {
      * Image_Get.json
      */
     /**
-     * Sample code: Get information about a virtual machine image.
+     * Sample code: get information about a virtual machine image.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

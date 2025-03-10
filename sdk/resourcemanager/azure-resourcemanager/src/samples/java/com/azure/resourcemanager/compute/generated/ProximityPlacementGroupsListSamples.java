@@ -14,7 +14,7 @@ public final class ProximityPlacementGroupsListSamples {
      * proximityPlacementGroupExamples/ProximityPlacementGroup_ListBySubscription.json
      */
     /**
-     * Sample code: List proximity placement groups.
+     * Sample code: list proximity placement groups.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

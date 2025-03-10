@@ -14,7 +14,7 @@ public final class VirtualMachineExtensionImagesListTypesSamples {
      * virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.
+     * Sample code: virtualMachineExtensionImage_ListTypes_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -33,7 +33,7 @@ public final class VirtualMachineExtensionImagesListTypesSamples {
      * virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.
+     * Sample code: virtualMachineExtensionImage_ListTypes_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -16,7 +16,7 @@ public final class SshPublicKeysCreateSamples {
      * sshPublicKeyExamples/SshPublicKey_Create.json
      */
     /**
-     * Sample code: Create a new SSH public key resource.
+     * Sample code: create a new SSH public key resource.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

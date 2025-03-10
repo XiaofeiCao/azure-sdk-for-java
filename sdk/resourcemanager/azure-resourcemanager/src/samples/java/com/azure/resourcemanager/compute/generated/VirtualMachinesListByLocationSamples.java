@@ -14,7 +14,7 @@ public final class VirtualMachinesListByLocationSamples {
      * virtualMachineExamples/VirtualMachine_ListBySubscription_ByLocation.json
      */
     /**
-     * Sample code: Lists all the virtual machines under the specified subscription for the specified location.
+     * Sample code: lists all the virtual machines under the specified subscription for the specified location.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

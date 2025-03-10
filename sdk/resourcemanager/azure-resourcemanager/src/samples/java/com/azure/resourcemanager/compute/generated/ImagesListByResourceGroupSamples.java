@@ -14,7 +14,7 @@ public final class ImagesListByResourceGroupSamples {
      * Image_ListByResourceGroup.json
      */
     /**
-     * Sample code: List all virtual machine images in a resource group.
+     * Sample code: list all virtual machine images in a resource group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -26,6 +26,7 @@ import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
+import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
@@ -74,41 +75,49 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     @ServiceInterface(name = "ComputeManagementCli")
     public interface GalleryApplicationVersionsService {
         @Headers({ "Content-Type: application/json" })
-        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
-        @ExpectedResponses({ 200, 201, 202 })
-        @UnexpectedResponseExceptionType(ApiErrorException.class)
-        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
-            @PathParam("galleryApplicationName") String galleryApplicationName,
-            @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
-            @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") GalleryApplicationVersionInner galleryApplicationVersion,
-            @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ApiErrorException.class)
-        Mono<Response<Flux<ByteBuffer>>> update(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+        Mono<Response<GalleryApplicationVersionList>> listByGalleryApplication(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
-            @PathParam("galleryApplicationName") String galleryApplicationName,
-            @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
-            @QueryParam("api-version") String apiVersion,
-            @BodyParam("application/json") GalleryApplicationVersionUpdate galleryApplicationVersion,
-            @HeaderParam("Accept") String accept, Context context);
+            @PathParam("galleryApplicationName") String galleryApplicationName, @HeaderParam("Accept") String accept,
+            Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(ApiErrorException.class)
         Mono<Response<GalleryApplicationVersionInner>> get(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
             @PathParam("galleryApplicationName") String galleryApplicationName,
             @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
-            @QueryParam("$expand") ReplicationStatusTypes expand, @QueryParam("api-version") String apiVersion,
+            @QueryParam("$expand") ReplicationStatusTypes expand, @HeaderParam("Accept") String accept,
+            Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
+        @ExpectedResponses({ 200, 201, 202 })
+        @UnexpectedResponseExceptionType(ApiErrorException.class)
+        Mono<Response<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
+            @PathParam("galleryApplicationName") String galleryApplicationName,
+            @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
+            @BodyParam("application/json") GalleryApplicationVersionInner galleryApplicationVersion,
+            @HeaderParam("Accept") String accept, Context context);
+
+        @Headers({ "Content-Type: application/json" })
+        @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(ManagementException.class)
+        Mono<Response<Flux<ByteBuffer>>> update(@HostParam("$host") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
+            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
+            @PathParam("galleryApplicationName") String galleryApplicationName,
+            @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
+            @BodyParam("application/json") GalleryApplicationVersionUpdate galleryApplicationVersion,
             @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
@@ -116,21 +125,11 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         @ExpectedResponses({ 200, 202, 204 })
         @UnexpectedResponseExceptionType(ApiErrorException.class)
         Mono<Response<Flux<ByteBuffer>>> delete(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
+            @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId,
             @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
             @PathParam("galleryApplicationName") String galleryApplicationName,
             @PathParam("galleryApplicationVersionName") String galleryApplicationVersionName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
-
-        @Headers({ "Content-Type: application/json" })
-        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions")
-        @ExpectedResponses({ 200 })
-        @UnexpectedResponseExceptionType(ApiErrorException.class)
-        Mono<Response<GalleryApplicationVersionList>> listByGalleryApplication(@HostParam("$host") String endpoint,
-            @PathParam("subscriptionId") String subscriptionId,
-            @PathParam("resourceGroupName") String resourceGroupName, @PathParam("galleryName") String galleryName,
-            @PathParam("galleryApplicationName") String galleryApplicationName,
-            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept, Context context);
+            @HeaderParam("Accept") String accept, Context context);
 
         @Headers({ "Content-Type: application/json" })
         @Get("{nextLink}")
@@ -142,15 +141,339 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     }
 
     /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response along with {@link PagedResponse} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<GalleryApplicationVersionInner>> listByGalleryApplicationSinglePageAsync(
+        String resourceGroupName, String galleryName, String galleryApplicationName) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (galleryName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
+        }
+        if (galleryApplicationName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
+        }
+        final String apiVersion = "2024-03-03";
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.listByGalleryApplication(this.client.getEndpoint(), apiVersion,
+            this.client.getSubscriptionId(), resourceGroupName, galleryName, galleryApplicationName, accept, context))
+            .<PagedResponse<GalleryApplicationVersionInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
+                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response along with {@link PagedResponse} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<GalleryApplicationVersionInner>> listByGalleryApplicationSinglePageAsync(
+        String resourceGroupName, String galleryName, String galleryApplicationName, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (galleryName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
+        }
+        if (galleryApplicationName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
+        }
+        final String apiVersion = "2024-03-03";
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service
+            .listByGalleryApplication(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+                resourceGroupName, galleryName, galleryApplicationName, accept, context)
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                res.getValue().value(), res.getValue().nextLink(), null));
+    }
+
+    /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<GalleryApplicationVersionInner> listByGalleryApplicationAsync(String resourceGroupName,
+        String galleryName, String galleryApplicationName) {
+        return new PagedFlux<>(
+            () -> listByGalleryApplicationSinglePageAsync(resourceGroupName, galleryName, galleryApplicationName),
+            nextLink -> listByGalleryApplicationNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private PagedFlux<GalleryApplicationVersionInner> listByGalleryApplicationAsync(String resourceGroupName,
+        String galleryName, String galleryApplicationName, Context context) {
+        return new PagedFlux<>(() -> listByGalleryApplicationSinglePageAsync(resourceGroupName, galleryName,
+            galleryApplicationName, context),
+            nextLink -> listByGalleryApplicationNextSinglePageAsync(nextLink, context));
+    }
+
+    /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<GalleryApplicationVersionInner> listByGalleryApplication(String resourceGroupName,
+        String galleryName, String galleryApplicationName) {
+        return new PagedIterable<>(
+            listByGalleryApplicationAsync(resourceGroupName, galleryName, galleryApplicationName));
+    }
+
+    /**
+     * List gallery Application Versions in a gallery Application Definition.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return the List Gallery Application version operation response as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<GalleryApplicationVersionInner> listByGalleryApplication(String resourceGroupName,
+        String galleryName, String galleryApplicationName, Context context) {
+        return new PagedIterable<>(
+            listByGalleryApplicationAsync(resourceGroupName, galleryName, galleryApplicationName, context));
+    }
+
+    /**
+     * Retrieves information about a gallery Application Version.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+     * @param expand The expand expression to apply on the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the gallery Application Version that you want to create or update along with
+     * {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<GalleryApplicationVersionInner>> getWithResponseAsync(String resourceGroupName,
+        String galleryName, String galleryApplicationName, String galleryApplicationVersionName,
+        ReplicationStatusTypes expand) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (galleryName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
+        }
+        if (galleryApplicationName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
+        }
+        if (galleryApplicationVersionName == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter galleryApplicationVersionName is required and cannot be null."));
+        }
+        final String apiVersion = "2024-03-03";
+        final String accept = "application/json";
+        return FluxUtil
+            .withContext(context -> service.get(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+                resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, expand, accept,
+                context))
+            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
+    }
+
+    /**
+     * Retrieves information about a gallery Application Version.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+     * @param expand The expand expression to apply on the operation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the gallery Application Version that you want to create or update along with
+     * {@link Response} on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<Response<GalleryApplicationVersionInner>> getWithResponseAsync(String resourceGroupName,
+        String galleryName, String galleryApplicationName, String galleryApplicationVersionName,
+        ReplicationStatusTypes expand, Context context) {
+        if (this.client.getEndpoint() == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
+        }
+        if (this.client.getSubscriptionId() == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
+        }
+        if (resourceGroupName == null) {
+            return Mono
+                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
+        }
+        if (galleryName == null) {
+            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
+        }
+        if (galleryApplicationName == null) {
+            return Mono.error(
+                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
+        }
+        if (galleryApplicationVersionName == null) {
+            return Mono.error(new IllegalArgumentException(
+                "Parameter galleryApplicationVersionName is required and cannot be null."));
+        }
+        final String apiVersion = "2024-03-03";
+        final String accept = "application/json";
+        context = this.client.mergeContext(context);
+        return service.get(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+            galleryName, galleryApplicationName, galleryApplicationVersionName, expand, accept, context);
+    }
+
+    /**
+     * Retrieves information about a gallery Application Version.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the gallery Application Version that you want to create or update on
+     * successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<GalleryApplicationVersionInner> getAsync(String resourceGroupName, String galleryName,
+        String galleryApplicationName, String galleryApplicationVersionName) {
+        final ReplicationStatusTypes expand = null;
+        return getWithResponseAsync(resourceGroupName, galleryName, galleryApplicationName,
+            galleryApplicationVersionName, expand).flatMap(res -> Mono.justOrEmpty(res.getValue()));
+    }
+
+    /**
+     * Retrieves information about a gallery Application Version.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+     * @param expand The expand expression to apply on the operation.
+     * @param context The context to associate with this operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the gallery Application Version that you want to create or update along with
+     * {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<GalleryApplicationVersionInner> getWithResponse(String resourceGroupName, String galleryName,
+        String galleryApplicationName, String galleryApplicationVersionName, ReplicationStatusTypes expand,
+        Context context) {
+        return getWithResponseAsync(resourceGroupName, galleryName, galleryApplicationName,
+            galleryApplicationVersionName, expand, context).block();
+    }
+
+    /**
+     * Retrieves information about a gallery Application Version.
+     * 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     * @return specifies information about the gallery Application Version that you want to create or update.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public GalleryApplicationVersionInner get(String resourceGroupName, String galleryName,
+        String galleryApplicationName, String galleryApplicationVersionName) {
+        final ReplicationStatusTypes expand = null;
+        return getWithResponse(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName,
+            expand, Context.NONE).getValue();
+    }
+
+    /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -195,22 +518,19 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion,
-                galleryApplicationVersion, accept, context))
+            .withContext(context -> service.createOrUpdate(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, galleryName, galleryApplicationName,
+                galleryApplicationVersionName, galleryApplicationVersion, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @param context The context to associate with this operation.
@@ -256,21 +576,18 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.createOrUpdate(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion,
-            accept, context);
+        return service.createOrUpdate(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(),
+            resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName,
+            galleryApplicationVersion, accept, context);
     }
 
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -293,13 +610,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @param context The context to associate with this operation.
@@ -325,13 +639,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -353,13 +664,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @param context The context to associate with this operation.
@@ -383,13 +691,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -410,13 +715,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @param context The context to associate with this operation.
@@ -438,13 +740,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -463,13 +762,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Create or update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be created.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be created. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application Version
      * operation.
      * @param context The context to associate with this operation.
@@ -489,16 +785,13 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update along with
      * {@link Response} on successful completion of {@link Mono}.
@@ -539,26 +832,23 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(context -> service.update(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion,
-                galleryApplicationVersion, accept, context))
+            .withContext(context -> service.update(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, galleryName, galleryApplicationName,
+                galleryApplicationVersionName, galleryApplicationVersion, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update along with
      * {@link Response} on successful completion of {@link Mono}.
@@ -599,24 +889,21 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.update(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion,
-            accept, context);
+        return service.update(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+            galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion, accept,
+            context);
     }
 
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of specifies information about the gallery Application Version that
      * you want to create or update.
@@ -635,17 +922,14 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link PollerFlux} for polling of specifies information about the gallery Application Version that
      * you want to create or update.
@@ -666,16 +950,13 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of specifies information about the gallery Application Version that
      * you want to create or update.
@@ -693,17 +974,14 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the {@link SyncPoller} for polling of specifies information about the gallery Application Version that
      * you want to create or update.
@@ -722,16 +1000,13 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update on
      * successful completion of {@link Mono}.
@@ -747,17 +1022,14 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update on
      * successful completion of {@link Mono}.
@@ -773,16 +1045,13 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update.
      */
@@ -797,17 +1066,14 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Update a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is
-     * to be updated.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow
-     * semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a
-     * 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
+     * @throws ManagementException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return specifies information about the gallery Application Version that you want to create or update.
      */
@@ -820,181 +1086,12 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     }
 
     /**
-     * Retrieves information about a gallery Application Version.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-     * @param expand The expand expression to apply on the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the gallery Application Version that you want to create or update along with
-     * {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<GalleryApplicationVersionInner>> getWithResponseAsync(String resourceGroupName,
-        String galleryName, String galleryApplicationName, String galleryApplicationVersionName,
-        ReplicationStatusTypes expand) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (galleryName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
-        }
-        if (galleryApplicationName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
-        }
-        if (galleryApplicationVersionName == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter galleryApplicationVersionName is required and cannot be null."));
-        }
-        final String apiVersion = "2024-03-03";
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(context -> service.get(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, expand,
-                apiVersion, accept, context))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * Retrieves information about a gallery Application Version.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-     * @param expand The expand expression to apply on the operation.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the gallery Application Version that you want to create or update along with
-     * {@link Response} on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<Response<GalleryApplicationVersionInner>> getWithResponseAsync(String resourceGroupName,
-        String galleryName, String galleryApplicationName, String galleryApplicationVersionName,
-        ReplicationStatusTypes expand, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (galleryName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
-        }
-        if (galleryApplicationName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
-        }
-        if (galleryApplicationVersionName == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter galleryApplicationVersionName is required and cannot be null."));
-        }
-        final String apiVersion = "2024-03-03";
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service.get(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName, galleryName,
-            galleryApplicationName, galleryApplicationVersionName, expand, apiVersion, accept, context);
-    }
-
-    /**
-     * Retrieves information about a gallery Application Version.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the gallery Application Version that you want to create or update on
-     * successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<GalleryApplicationVersionInner> getAsync(String resourceGroupName, String galleryName,
-        String galleryApplicationName, String galleryApplicationVersionName) {
-        final ReplicationStatusTypes expand = null;
-        return getWithResponseAsync(resourceGroupName, galleryName, galleryApplicationName,
-            galleryApplicationVersionName, expand).flatMap(res -> Mono.justOrEmpty(res.getValue()));
-    }
-
-    /**
-     * Retrieves information about a gallery Application Version.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-     * @param expand The expand expression to apply on the operation.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the gallery Application Version that you want to create or update along with
-     * {@link Response}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<GalleryApplicationVersionInner> getWithResponse(String resourceGroupName, String galleryName,
-        String galleryApplicationName, String galleryApplicationVersionName, ReplicationStatusTypes expand,
-        Context context) {
-        return getWithResponseAsync(resourceGroupName, galleryName, galleryApplicationName,
-            galleryApplicationVersionName, expand, context).block();
-    }
-
-    /**
-     * Retrieves information about a gallery Application Version.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return specifies information about the gallery Application Version that you want to create or update.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public GalleryApplicationVersionInner get(String resourceGroupName, String galleryName,
-        String galleryApplicationName, String galleryApplicationVersionName) {
-        final ReplicationStatusTypes expand = null;
-        return getWithResponse(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName,
-            expand, Context.NONE).getValue();
-    }
-
-    /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1029,20 +1126,19 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         return FluxUtil
-            .withContext(
-                context -> service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                    galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, accept, context))
+            .withContext(context -> service.delete(this.client.getEndpoint(), apiVersion,
+                this.client.getSubscriptionId(), resourceGroupName, galleryName, galleryApplicationName,
+                galleryApplicationVersionName, accept, context))
             .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
     }
 
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
@@ -1078,18 +1174,17 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         final String apiVersion = "2024-03-03";
         final String accept = "application/json";
         context = this.client.mergeContext(context);
-        return service.delete(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-            galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, accept, context);
+        return service.delete(this.client.getEndpoint(), apiVersion, this.client.getSubscriptionId(), resourceGroupName,
+            galleryName, galleryApplicationName, galleryApplicationVersionName, accept, context);
     }
 
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1107,11 +1202,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
@@ -1131,11 +1225,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1152,11 +1245,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
@@ -1175,11 +1267,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1196,11 +1287,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
@@ -1217,11 +1307,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1235,11 +1324,10 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
     /**
      * Delete a gallery Application Version.
      * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version
-     * resides.
-     * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param galleryName The name of the Shared Image Gallery.
+     * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ApiErrorException thrown if the request is rejected by server.
@@ -1250,178 +1338,6 @@ public final class GalleryApplicationVersionsClientImpl implements GalleryApplic
         String galleryApplicationVersionName, Context context) {
         deleteAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, context)
             .block();
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response along with {@link PagedResponse} on successful
-     * completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GalleryApplicationVersionInner>> listByGalleryApplicationSinglePageAsync(
-        String resourceGroupName, String galleryName, String galleryApplicationName) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (galleryName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
-        }
-        if (galleryApplicationName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
-        }
-        final String apiVersion = "2024-03-03";
-        final String accept = "application/json";
-        return FluxUtil
-            .withContext(
-                context -> service.listByGalleryApplication(this.client.getEndpoint(), this.client.getSubscriptionId(),
-                    resourceGroupName, galleryName, galleryApplicationName, apiVersion, accept, context))
-            .<PagedResponse<GalleryApplicationVersionInner>>map(res -> new PagedResponseBase<>(res.getRequest(),
-                res.getStatusCode(), res.getHeaders(), res.getValue().value(), res.getValue().nextLink(), null))
-            .contextWrite(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext()).readOnly()));
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response along with {@link PagedResponse} on successful
-     * completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    private Mono<PagedResponse<GalleryApplicationVersionInner>> listByGalleryApplicationSinglePageAsync(
-        String resourceGroupName, String galleryName, String galleryApplicationName, Context context) {
-        if (this.client.getEndpoint() == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter this.client.getEndpoint() is required and cannot be null."));
-        }
-        if (this.client.getSubscriptionId() == null) {
-            return Mono.error(new IllegalArgumentException(
-                "Parameter this.client.getSubscriptionId() is required and cannot be null."));
-        }
-        if (resourceGroupName == null) {
-            return Mono
-                .error(new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null."));
-        }
-        if (galleryName == null) {
-            return Mono.error(new IllegalArgumentException("Parameter galleryName is required and cannot be null."));
-        }
-        if (galleryApplicationName == null) {
-            return Mono.error(
-                new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null."));
-        }
-        final String apiVersion = "2024-03-03";
-        final String accept = "application/json";
-        context = this.client.mergeContext(context);
-        return service
-            .listByGalleryApplication(this.client.getEndpoint(), this.client.getSubscriptionId(), resourceGroupName,
-                galleryName, galleryApplicationName, apiVersion, accept, context)
-            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                res.getValue().value(), res.getValue().nextLink(), null));
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<GalleryApplicationVersionInner> listByGalleryApplicationAsync(String resourceGroupName,
-        String galleryName, String galleryApplicationName) {
-        return new PagedFlux<>(
-            () -> listByGalleryApplicationSinglePageAsync(resourceGroupName, galleryName, galleryApplicationName),
-            nextLink -> listByGalleryApplicationNextSinglePageAsync(nextLink));
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response as paginated response with {@link PagedFlux}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<GalleryApplicationVersionInner> listByGalleryApplicationAsync(String resourceGroupName,
-        String galleryName, String galleryApplicationName, Context context) {
-        return new PagedFlux<>(() -> listByGalleryApplicationSinglePageAsync(resourceGroupName, galleryName,
-            galleryApplicationName, context),
-            nextLink -> listByGalleryApplicationNextSinglePageAsync(nextLink, context));
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GalleryApplicationVersionInner> listByGalleryApplication(String resourceGroupName,
-        String galleryName, String galleryApplicationName) {
-        return new PagedIterable<>(
-            listByGalleryApplicationAsync(resourceGroupName, galleryName, galleryApplicationName));
-    }
-
-    /**
-     * List gallery Application Versions in a gallery Application Definition.
-     * 
-     * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
-     * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from which the
-     * Application Versions are to be listed.
-     * @param context The context to associate with this operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws ApiErrorException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the List Gallery Application version operation response as paginated response with {@link PagedIterable}.
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<GalleryApplicationVersionInner> listByGalleryApplication(String resourceGroupName,
-        String galleryName, String galleryApplicationName, Context context) {
-        return new PagedIterable<>(
-            listByGalleryApplicationAsync(resourceGroupName, galleryName, galleryApplicationName, context));
     }
 
     /**

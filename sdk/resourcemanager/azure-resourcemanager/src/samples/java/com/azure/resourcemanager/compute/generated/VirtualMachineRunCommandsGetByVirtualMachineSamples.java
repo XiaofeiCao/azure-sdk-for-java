@@ -14,7 +14,7 @@ public final class VirtualMachineRunCommandsGetByVirtualMachineSamples {
      * VirtualMachineRunCommand_Get.json
      */
     /**
-     * Sample code: Get a run command.
+     * Sample code: get a run command.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

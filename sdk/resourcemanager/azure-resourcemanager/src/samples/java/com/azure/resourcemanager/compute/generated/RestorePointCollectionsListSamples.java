@@ -14,7 +14,7 @@ public final class RestorePointCollectionsListSamples {
      * restorePointExamples/RestorePointCollection_ListBySubscription.json
      */
     /**
-     * Sample code: Gets the list of restore point collections in a subscription.
+     * Sample code: gets the list of restore point collections in a subscription.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

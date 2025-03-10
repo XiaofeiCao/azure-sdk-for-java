@@ -53,6 +53,17 @@ public final class VirtualMachineScaleSetExtensionUpdate extends SubResourceRead
     }
 
     /**
+     * Set the name property: The name of the extension.
+     * 
+     * @param name the name value to set.
+     * @return the VirtualMachineScaleSetExtensionUpdate object itself.
+     */
+    public VirtualMachineScaleSetExtensionUpdate withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
      * Get the type property: Resource type.
      * 
      * @return the type value.
@@ -379,6 +390,7 @@ public final class VirtualMachineScaleSetExtensionUpdate extends SubResourceRead
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
+        jsonWriter.writeStringField("name", this.name);
         jsonWriter.writeJsonField("properties", this.innerProperties);
         return jsonWriter.writeEndObject();
     }

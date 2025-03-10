@@ -10,6 +10,7 @@ import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.compute.fluent.models.VirtualMachineExtensionUpdateProperties;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Describes a VMSS VM Extension.
@@ -323,6 +324,54 @@ public final class VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRe
             this.innerProperties = new VirtualMachineExtensionUpdateProperties();
         }
         this.innerProperties().withProtectedSettingsFromKeyVault(protectedSettingsFromKeyVault);
+        return this;
+    }
+
+    /**
+     * Get the provisionAfterExtensions property: Collection of extension names after which this extension needs to be
+     * provisioned.
+     * 
+     * @return the provisionAfterExtensions value.
+     */
+    public List<String> provisionAfterExtensions() {
+        return this.innerProperties() == null ? null : this.innerProperties().provisionAfterExtensions();
+    }
+
+    /**
+     * Set the provisionAfterExtensions property: Collection of extension names after which this extension needs to be
+     * provisioned.
+     * 
+     * @param provisionAfterExtensions the provisionAfterExtensions value to set.
+     * @return the VirtualMachineScaleSetVMExtensionUpdate object itself.
+     */
+    public VirtualMachineScaleSetVMExtensionUpdate withProvisionAfterExtensions(List<String> provisionAfterExtensions) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new VirtualMachineExtensionUpdateProperties();
+        }
+        this.innerProperties().withProvisionAfterExtensions(provisionAfterExtensions);
+        return this;
+    }
+
+    /**
+     * Get the provisioningState property: The provisioning state, which only appears in the response.
+     * 
+     * @return the provisioningState value.
+     */
+    public String provisioningState() {
+        return this.innerProperties() == null ? null : this.innerProperties().provisioningState();
+    }
+
+    /**
+     * Set the provisioningState property: The provisioning state, which only appears in the response.
+     * 
+     * @param provisioningState the provisioningState value to set.
+     * @return the VirtualMachineScaleSetVMExtensionUpdate object itself.
+     */
+    public VirtualMachineScaleSetVMExtensionUpdate withProvisioningState(String provisioningState) {
+        if (this.innerProperties() == null) {
+            this.innerProperties = new VirtualMachineExtensionUpdateProperties();
+        }
+        this.innerProperties().withProvisioningState(provisioningState);
         return this;
     }
 

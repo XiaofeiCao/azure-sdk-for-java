@@ -11,28 +11,10 @@ public final class VirtualMachinesListByResourceGroupSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
-     */
-    /**
-     * Sample code: VirtualMachine_List_MaximumSet_Gen.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void virtualMachineListMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getVirtualMachines()
-            .listByResourceGroup("rgcompute", "aaaaaaaaaaaaaaaaaaaaaaa", null, com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachine_List_MinimumSet_Gen.
+     * Sample code: virtualMachine_List_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -42,5 +24,23 @@ public final class VirtualMachinesListByResourceGroupSamples {
             .serviceClient()
             .getVirtualMachines()
             .listByResourceGroup("rgcompute", null, null, com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
+     */
+    /**
+     * Sample code: virtualMachine_List_MaximumSet_Gen.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void virtualMachineListMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getVirtualMachines()
+            .listByResourceGroup("rgcompute", "aaaaaaaaaaaaaaaaaaaaaaa", null, com.azure.core.util.Context.NONE);
     }
 }

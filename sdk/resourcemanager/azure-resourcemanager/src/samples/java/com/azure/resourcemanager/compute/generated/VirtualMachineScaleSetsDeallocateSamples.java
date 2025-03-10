@@ -17,7 +17,7 @@ public final class VirtualMachineScaleSetsDeallocateSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Deallocate_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_Deallocate_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_Deallocate_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -38,7 +38,7 @@ public final class VirtualMachineScaleSetsDeallocateSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Deallocate_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_Deallocate_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_Deallocate_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -19,7 +19,7 @@ public final class VirtualMachineScaleSetVMExtensionsCreateOrUpdateSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Create.json
      */
     /**
-     * Sample code: Create VirtualMachineScaleSet VM extension.
+     * Sample code: create VirtualMachineScaleSet VM extension.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

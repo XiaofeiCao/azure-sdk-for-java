@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMExtensionsListSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_List.json
      */
     /**
-     * Sample code: List extensions in Vmss instance.
+     * Sample code: list extensions in Vmss instance.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

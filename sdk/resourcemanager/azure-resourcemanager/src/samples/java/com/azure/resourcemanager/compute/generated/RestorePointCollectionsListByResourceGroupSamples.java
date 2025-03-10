@@ -14,7 +14,7 @@ public final class RestorePointCollectionsListByResourceGroupSamples {
      * restorePointExamples/RestorePointCollection_ListByResourceGroup.json
      */
     /**
-     * Sample code: Gets the list of restore point collections in a resource group.
+     * Sample code: gets the list of restore point collections in a resource group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

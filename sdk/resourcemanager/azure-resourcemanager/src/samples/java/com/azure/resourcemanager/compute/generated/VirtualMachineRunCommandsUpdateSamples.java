@@ -20,7 +20,7 @@ public final class VirtualMachineRunCommandsUpdateSamples {
      * VirtualMachineRunCommand_Update.json
      */
     /**
-     * Sample code: Update a run command.
+     * Sample code: update a run command.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

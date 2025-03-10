@@ -14,7 +14,7 @@ public final class VirtualMachinesGeneralizeSamples {
      * virtualMachineExamples/VirtualMachine_Generalize.json
      */
     /**
-     * Sample code: Generalize a Virtual Machine.
+     * Sample code: generalize a Virtual Machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

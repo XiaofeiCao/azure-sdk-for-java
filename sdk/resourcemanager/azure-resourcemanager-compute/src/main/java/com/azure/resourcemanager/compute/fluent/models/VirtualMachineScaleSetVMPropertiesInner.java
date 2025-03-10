@@ -132,7 +132,7 @@ public final class VirtualMachineScaleSetVMPropertiesInner
     private String userData;
 
     /*
-     * Specifies the time at which the Virtual Machine resource was created.
+     * Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
      */
     private OffsetDateTime timeCreated;
 
@@ -468,7 +468,8 @@ public final class VirtualMachineScaleSetVMPropertiesInner
     }
 
     /**
-     * Get the timeCreated property: Specifies the time at which the Virtual Machine resource was created.
+     * Get the timeCreated property: Specifies the time at which the Virtual Machine resource was created. Minimum
+     * api-version: 2021-11-01.
      * 
      * @return the timeCreated value.
      */

@@ -26,7 +26,7 @@ public final class VirtualMachineExtensionsCreateOrUpdateSamples {
      * virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.
+     * Sample code: virtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -72,7 +72,7 @@ public final class VirtualMachineExtensionsCreateOrUpdateSamples {
      * virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.
+     * Sample code: virtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

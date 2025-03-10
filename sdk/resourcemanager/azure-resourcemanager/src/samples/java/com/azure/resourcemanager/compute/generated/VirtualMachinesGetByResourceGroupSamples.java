@@ -13,38 +13,20 @@ public final class VirtualMachinesGetByResourceGroupSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+     * virtualMachineExamples/VirtualMachine_Get.json
      */
     /**
-     * Sample code: Get a virtual machine with VM Size Properties.
+     * Sample code: get a Virtual Machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getAVirtualMachineWithVMSizeProperties(com.azure.resourcemanager.AzureResourceManager azure) {
+    public static void getAVirtualMachine(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
             .getVirtualMachines()
-            .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
-     */
-    /**
-     * Sample code: Get a virtual machine placed on a dedicated host group through automatic placement.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getVirtualMachines()
-            .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("myResourceGroup", "myVM", InstanceViewTypes.USER_DATA,
+                com.azure.core.util.Context.NONE);
     }
 
     /*
@@ -53,7 +35,7 @@ public final class VirtualMachinesGetByResourceGroupSamples {
      * virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
      */
     /**
-     * Sample code: Get a virtual machine with Disk Controller Type Properties.
+     * Sample code: get a virtual machine with Disk Controller Type Properties.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -70,19 +52,37 @@ public final class VirtualMachinesGetByResourceGroupSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineExamples/VirtualMachine_Get.json
+     * virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
      */
     /**
-     * Sample code: Get a Virtual Machine.
+     * Sample code: get a virtual machine placed on a dedicated host group through automatic placement.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void getAVirtualMachine(com.azure.resourcemanager.AzureResourceManager azure) {
+    public static void getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(
+        com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
             .getVirtualMachines()
-            .getByResourceGroupWithResponse("myResourceGroup", "myVM", InstanceViewTypes.USER_DATA,
-                com.azure.core.util.Context.NONE);
+            .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+     */
+    /**
+     * Sample code: get a virtual machine with VM Size Properties.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void getAVirtualMachineWithVMSizeProperties(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getVirtualMachines()
+            .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, com.azure.core.util.Context.NONE);
     }
 }

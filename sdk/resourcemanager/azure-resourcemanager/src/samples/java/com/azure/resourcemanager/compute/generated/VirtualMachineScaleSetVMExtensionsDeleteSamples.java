@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMExtensionsDeleteSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Delete.json
      */
     /**
-     * Sample code: Delete VirtualMachineScaleSet VM extension.
+     * Sample code: delete VirtualMachineScaleSet VM extension.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

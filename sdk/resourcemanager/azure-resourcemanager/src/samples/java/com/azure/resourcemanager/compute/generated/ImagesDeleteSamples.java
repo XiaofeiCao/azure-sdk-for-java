@@ -14,7 +14,7 @@ public final class ImagesDeleteSamples {
      * Images_Delete_MinimumSet_Gen.json
      */
     /**
-     * Sample code: Image_Delete_MinimumSet_Gen.
+     * Sample code: image_Delete_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -32,7 +32,7 @@ public final class ImagesDeleteSamples {
      * Images_Delete_MaximumSet_Gen.json
      */
     /**
-     * Sample code: Image_Delete_MaximumSet_Gen.
+     * Sample code: image_Delete_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -14,7 +14,7 @@ public final class DedicatedHostsRestartSamples {
      * dedicatedHostExamples/DedicatedHost_Restart.json
      */
     /**
-     * Sample code: Restart Dedicated Host.
+     * Sample code: restart Dedicated Host.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -17,10 +17,30 @@ public final class VirtualMachineScaleSetExtensionsCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
+     */
+    /**
+     * Sample code: virtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(
+        com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getVirtualMachineScaleSetExtensions()
+            .createOrUpdate("rgcompute", "aaaaaaaaaaa", "aaaaaaaaaaa", new VirtualMachineScaleSetExtensionInner(),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -31,7 +51,7 @@ public final class VirtualMachineScaleSetExtensionsCreateOrUpdateSamples {
             .serviceClient()
             .getVirtualMachineScaleSetExtensions()
             .createOrUpdate("rgcompute", "aaaaaaa", "aaaaaaaaaaaaaaaaaaaaa",
-                new VirtualMachineScaleSetExtensionInner().withName("{extension-name}")
+                new VirtualMachineScaleSetExtensionInner().withExtensionName("{extension-name}")
                     .withForceUpdateTag("aaaaaaaaa")
                     .withPublisher("{extension-Publisher}")
                     .withTypePropertiesType("{extension-Type}")
@@ -44,26 +64,6 @@ public final class VirtualMachineScaleSetExtensionsCreateOrUpdateSamples {
                         .deserialize("{}", Object.class, SerializerEncoding.JSON))
                     .withProvisionAfterExtensions(Arrays.asList("aa"))
                     .withSuppressFailures(true),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
-     */
-    /**
-     * Sample code: VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getVirtualMachineScaleSetExtensions()
-            .createOrUpdate("rgcompute", "aaaaaaaaaaa", "aaaaaaaaaaa", new VirtualMachineScaleSetExtensionInner(),
                 com.azure.core.util.Context.NONE);
     }
 }

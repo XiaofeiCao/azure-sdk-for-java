@@ -21,75 +21,24 @@ public final class ImagesCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_CreateFromASnapshot.json
+     * Image_CreateFromABlob.json
      */
     /**
-     * Sample code: Create a virtual machine image from a snapshot.
+     * Sample code: create a virtual machine image from a blob.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void createAVirtualMachineImageFromASnapshot(com.azure.resourcemanager.AzureResourceManager azure) {
+    public static void createAVirtualMachineImageFromABlob(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
             .getImages()
-            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
-                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
-                    .withSnapshot(new SubResource().withId(
-                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"))
-                    .withOsType(OperatingSystemTypes.LINUX)
-                    .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(false)),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_CreateFromAManagedDisk.json
-     */
-    /**
-     * Sample code: Create a virtual machine image from a managed disk.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void
-        createAVirtualMachineImageFromAManagedDisk(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getImages()
-            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
-                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
-                    .withManagedDisk(new SubResource().withId(
-                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"))
-                    .withOsType(OperatingSystemTypes.LINUX)
-                    .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(true)),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_CreateFromABlobWithDiskEncryptionSet.json
-     */
-    /**
-     * Sample code: Create a virtual machine image from a blob with DiskEncryptionSet resource.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getImages()
-            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
-                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
-                    .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
-                    .withDiskEncryptionSet(new DiskEncryptionSetParameters().withId(
-                        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"))
-                    .withOsType(OperatingSystemTypes.LINUX)
-                    .withOsState(OperatingSystemStateTypes.GENERALIZED))),
+            .createOrUpdate("myResourceGroup", "myImage",
+                new ImageInner().withLocation("West US")
+                    .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
+                        .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
+                        .withOsType(OperatingSystemTypes.LINUX)
+                        .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(true)),
                 com.azure.core.util.Context.NONE);
     }
 
@@ -99,7 +48,7 @@ public final class ImagesCreateOrUpdateSamples {
      * Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
      */
     /**
-     * Sample code: Create a virtual machine image from a managed disk with DiskEncryptionSet resource.
+     * Sample code: create a virtual machine image from a managed disk with DiskEncryptionSet resource.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -123,67 +72,10 @@ public final class ImagesCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_Create_DataDiskFromABlobIncluded.json
-     */
-    /**
-     * Sample code: Create a virtual machine image that includes a data disk from a blob.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void
-        createAVirtualMachineImageThatIncludesADataDiskFromABlob(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getImages()
-            .createOrUpdate("myResourceGroup", "myImage",
-                new ImageInner().withLocation("West US")
-                    .withStorageProfile(new ImageStorageProfile()
-                        .withOsDisk(new ImageOSDisk()
-                            .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
-                            .withOsType(OperatingSystemTypes.LINUX)
-                            .withOsState(OperatingSystemStateTypes.GENERALIZED))
-                        .withDataDisks(Arrays.asList(new ImageDataDisk()
-                            .withBlobUri("https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd")
-                            .withLun(1)))
-                        .withZoneResilient(false)),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_CreateFromASnapshotWithDiskEncryptionSet.json
-     */
-    /**
-     * Sample code: Create a virtual machine image from a snapshot with DiskEncryptionSet resource.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(
-        com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getImages()
-            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
-                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
-                    .withManagedDisk(new SubResource().withId(
-                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"))
-                    .withDiskEncryptionSet(new DiskEncryptionSetParameters().withId(
-                        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"))
-                    .withOsType(OperatingSystemTypes.LINUX)
-                    .withOsState(OperatingSystemStateTypes.GENERALIZED))),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
      * Image_Create_DataDiskFromASnapshotIncluded.json
      */
     /**
-     * Sample code: Create a virtual machine image that includes a data disk from a snapshot.
+     * Sample code: create a virtual machine image that includes a data disk from a snapshot.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -209,24 +101,75 @@ public final class ImagesCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
-     * Image_CreateFromABlob.json
+     * Image_CreateFromABlobWithDiskEncryptionSet.json
      */
     /**
-     * Sample code: Create a virtual machine image from a blob.
+     * Sample code: create a virtual machine image from a blob with DiskEncryptionSet resource.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
-    public static void createAVirtualMachineImageFromABlob(com.azure.resourcemanager.AzureResourceManager azure) {
+    public static void createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
+        com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
             .getImages()
-            .createOrUpdate("myResourceGroup", "myImage",
-                new ImageInner().withLocation("West US")
-                    .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
-                        .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
-                        .withOsType(OperatingSystemTypes.LINUX)
-                        .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(true)),
+            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
+                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
+                    .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
+                    .withDiskEncryptionSet(new DiskEncryptionSetParameters().withId(
+                        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"))
+                    .withOsType(OperatingSystemTypes.LINUX)
+                    .withOsState(OperatingSystemStateTypes.GENERALIZED))),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
+     * Image_CreateFromASnapshot.json
+     */
+    /**
+     * Sample code: create a virtual machine image from a snapshot.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void createAVirtualMachineImageFromASnapshot(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getImages()
+            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
+                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
+                    .withSnapshot(new SubResource().withId(
+                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"))
+                    .withOsType(OperatingSystemTypes.LINUX)
+                    .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(false)),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
+     * Image_CreateFromAManagedDisk.json
+     */
+    /**
+     * Sample code: create a virtual machine image from a managed disk.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void
+        createAVirtualMachineImageFromAManagedDisk(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getImages()
+            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
+                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
+                    .withManagedDisk(new SubResource().withId(
+                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"))
+                    .withOsType(OperatingSystemTypes.LINUX)
+                    .withOsState(OperatingSystemStateTypes.GENERALIZED)).withZoneResilient(true)),
                 com.azure.core.util.Context.NONE);
     }
 
@@ -236,7 +179,7 @@ public final class ImagesCreateOrUpdateSamples {
      * Image_CreateFromAVM.json
      */
     /**
-     * Sample code: Create a virtual machine image from an existing virtual machine.
+     * Sample code: create a virtual machine image from an existing virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -258,7 +201,7 @@ public final class ImagesCreateOrUpdateSamples {
      * Image_Create_DataDiskFromAManagedDiskIncluded.json
      */
     /**
-     * Sample code: Create a virtual machine image that includes a data disk from a managed disk.
+     * Sample code: create a virtual machine image that includes a data disk from a managed disk.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -278,6 +221,63 @@ public final class ImagesCreateOrUpdateSamples {
                         "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"))
                         .withLun(1)))
                     .withZoneResilient(false)),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
+     * Image_CreateFromASnapshotWithDiskEncryptionSet.json
+     */
+    /**
+     * Sample code: create a virtual machine image from a snapshot with DiskEncryptionSet resource.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(
+        com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getImages()
+            .createOrUpdate("myResourceGroup", "myImage", new ImageInner().withLocation("West US")
+                .withStorageProfile(new ImageStorageProfile().withOsDisk(new ImageOSDisk()
+                    .withManagedDisk(new SubResource().withId(
+                        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"))
+                    .withDiskEncryptionSet(new DiskEncryptionSetParameters().withId(
+                        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"))
+                    .withOsType(OperatingSystemTypes.LINUX)
+                    .withOsState(OperatingSystemStateTypes.GENERALIZED))),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/
+     * Image_Create_DataDiskFromABlobIncluded.json
+     */
+    /**
+     * Sample code: create a virtual machine image that includes a data disk from a blob.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void
+        createAVirtualMachineImageThatIncludesADataDiskFromABlob(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getImages()
+            .createOrUpdate("myResourceGroup", "myImage",
+                new ImageInner().withLocation("West US")
+                    .withStorageProfile(new ImageStorageProfile()
+                        .withOsDisk(new ImageOSDisk()
+                            .withBlobUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
+                            .withOsType(OperatingSystemTypes.LINUX)
+                            .withOsState(OperatingSystemStateTypes.GENERALIZED))
+                        .withDataDisks(Arrays.asList(new ImageDataDisk()
+                            .withBlobUri("https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd")
+                            .withLun(1)))
+                        .withZoneResilient(false)),
                 com.azure.core.util.Context.NONE);
     }
 }

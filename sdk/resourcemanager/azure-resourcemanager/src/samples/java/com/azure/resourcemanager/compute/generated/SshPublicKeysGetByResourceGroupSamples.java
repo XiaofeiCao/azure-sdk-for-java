@@ -14,7 +14,7 @@ public final class SshPublicKeysGetByResourceGroupSamples {
      * sshPublicKeyExamples/SshPublicKey_Get.json
      */
     /**
-     * Sample code: Get an ssh public key.
+     * Sample code: get an ssh public key.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

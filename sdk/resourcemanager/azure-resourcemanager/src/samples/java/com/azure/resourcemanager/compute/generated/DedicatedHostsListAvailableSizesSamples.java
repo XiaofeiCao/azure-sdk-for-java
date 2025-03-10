@@ -14,7 +14,7 @@ public final class DedicatedHostsListAvailableSizesSamples {
      * dedicatedHostExamples/DedicatedHost_ListAvailableSizes.json
      */
     /**
-     * Sample code: Get Available Dedicated Host Sizes.
+     * Sample code: get Available Dedicated Host Sizes.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

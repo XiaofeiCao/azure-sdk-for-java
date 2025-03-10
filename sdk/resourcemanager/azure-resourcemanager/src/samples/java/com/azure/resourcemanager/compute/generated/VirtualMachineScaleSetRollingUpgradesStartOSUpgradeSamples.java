@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetRollingUpgradesStartOSUpgradeSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -33,7 +33,7 @@ public final class VirtualMachineScaleSetRollingUpgradesStartOSUpgradeSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

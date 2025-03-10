@@ -16,7 +16,7 @@ public final class CapacityReservationsGetSamples {
      * capacityReservationExamples/CapacityReservation_Get.json
      */
     /**
-     * Sample code: Get a capacity reservation.
+     * Sample code: get a capacity reservation.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

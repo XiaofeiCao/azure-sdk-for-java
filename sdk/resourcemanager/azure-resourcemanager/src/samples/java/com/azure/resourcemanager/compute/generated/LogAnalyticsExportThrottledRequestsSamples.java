@@ -17,7 +17,7 @@ public final class LogAnalyticsExportThrottledRequestsSamples {
      * /LogAnalytics_ThrottledRequests.json
      */
     /**
-     * Sample code: Export logs which contain all throttled Api requests made to Compute Resource Provider within the
+     * Sample code: export logs which contain all throttled Api requests made to Compute Resource Provider within the
      * given time period.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.

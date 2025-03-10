@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_RetrieveBootDiagnosticsData.json
      */
     /**
-     * Sample code: RetrieveBootDiagnosticsData of a virtual machine.
+     * Sample code: retrieveBootDiagnosticsData of a virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

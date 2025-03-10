@@ -14,7 +14,7 @@ public final class ImagesListSamples {
      * Image_ListBySubscription.json
      */
     /**
-     * Sample code: List all virtual machine images in a subscription.
+     * Sample code: list all virtual machine images in a subscription.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -14,7 +14,7 @@ public final class VirtualMachinesAssessPatchesSamples {
      * virtualMachineExamples/VirtualMachine_AssessPatches.json
      */
     /**
-     * Sample code: Assess patch state of a virtual machine.
+     * Sample code: assess patch state of a virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

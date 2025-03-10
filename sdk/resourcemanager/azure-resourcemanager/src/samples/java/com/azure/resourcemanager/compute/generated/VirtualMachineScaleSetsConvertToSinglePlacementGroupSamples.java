@@ -16,7 +16,7 @@ public final class VirtualMachineScaleSetsConvertToSinglePlacementGroupSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -38,7 +38,7 @@ public final class VirtualMachineScaleSetsConvertToSinglePlacementGroupSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

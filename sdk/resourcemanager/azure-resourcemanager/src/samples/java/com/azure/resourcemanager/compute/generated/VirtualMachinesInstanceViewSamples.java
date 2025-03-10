@@ -14,7 +14,7 @@ public final class VirtualMachinesInstanceViewSamples {
      * virtualMachineExamples/VirtualMachine_Get_InstanceView.json
      */
     /**
-     * Sample code: Get Virtual Machine Instance View.
+     * Sample code: get Virtual Machine Instance View.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -32,7 +32,7 @@ public final class VirtualMachinesInstanceViewSamples {
      * virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
      */
     /**
-     * Sample code: Get instance view of a virtual machine placed on a dedicated host group through automatic placement.
+     * Sample code: get instance view of a virtual machine placed on a dedicated host group through automatic placement.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

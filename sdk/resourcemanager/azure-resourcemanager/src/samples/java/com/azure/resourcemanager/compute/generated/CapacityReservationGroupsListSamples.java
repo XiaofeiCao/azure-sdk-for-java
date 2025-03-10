@@ -17,7 +17,7 @@ public final class CapacityReservationGroupsListSamples {
      * capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
      */
     /**
-     * Sample code: List capacity reservation groups in subscription.
+     * Sample code: list capacity reservation groups in subscription.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -37,7 +37,7 @@ public final class CapacityReservationGroupsListSamples {
      * capacityReservationExamples/CapacityReservationGroup_ListBySubscriptionWithResourceIdsQuery.json
      */
     /**
-     * Sample code: List capacity reservation groups with resource Ids only in subscription.
+     * Sample code: list capacity reservation groups with resource Ids only in subscription.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -14,7 +14,7 @@ public final class AvailabilitySetsListSamples {
      * availabilitySetExamples/AvailabilitySet_ListBySubscription.json
      */
     /**
-     * Sample code: List availability sets in a subscription.
+     * Sample code: list availability sets in a subscription.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

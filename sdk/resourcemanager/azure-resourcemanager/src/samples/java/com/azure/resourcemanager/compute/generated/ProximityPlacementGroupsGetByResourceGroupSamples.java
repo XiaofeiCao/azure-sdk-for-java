@@ -14,7 +14,7 @@ public final class ProximityPlacementGroupsGetByResourceGroupSamples {
      * proximityPlacementGroupExamples/ProximityPlacementGroup_Get.json
      */
     /**
-     * Sample code: Get proximity placement groups.
+     * Sample code: get proximity placement groups.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

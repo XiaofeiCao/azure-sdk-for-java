@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsGetInstanceViewSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
      */
     /**
-     * Sample code: Get instance view of a virtual machine from a VM scale set placed on a dedicated host group through
+     * Sample code: get instance view of a virtual machine from a VM scale set placed on a dedicated host group through
      * automatic placement.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.

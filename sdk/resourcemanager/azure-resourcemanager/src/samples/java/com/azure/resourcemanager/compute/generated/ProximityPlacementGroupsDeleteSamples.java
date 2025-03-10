@@ -14,7 +14,7 @@ public final class ProximityPlacementGroupsDeleteSamples {
      * proximityPlacementGroupExamples/ProximityPlacementGroup_Delete.json
      */
     /**
-     * Sample code: Delete a proximity placement group.
+     * Sample code: delete a proximity placement group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

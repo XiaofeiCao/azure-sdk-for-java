@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsSimulateEvictionSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_SimulateEviction.json
      */
     /**
-     * Sample code: Simulate Eviction a virtual machine.
+     * Sample code: simulate Eviction a virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

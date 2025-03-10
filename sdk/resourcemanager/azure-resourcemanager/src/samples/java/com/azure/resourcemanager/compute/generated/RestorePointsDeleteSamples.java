@@ -11,28 +11,10 @@ public final class RestorePointsDeleteSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * restorePointExamples/RestorePoint_Delete_MinimumSet_Gen.json
-     */
-    /**
-     * Sample code: RestorePoint_Delete_MinimumSet_Gen.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void restorePointDeleteMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getRestorePoints()
-            .delete("rgcompute", "aaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaa", com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * restorePointExamples/RestorePoint_Delete_MaximumSet_Gen.json
      */
     /**
-     * Sample code: RestorePoint_Delete_MaximumSet_Gen.
+     * Sample code: restorePoint_Delete_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -42,5 +24,23 @@ public final class RestorePointsDeleteSamples {
             .serviceClient()
             .getRestorePoints()
             .delete("rgcompute", "aaaaaaaaaaaaaaaaaaaaaa", "a", com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * restorePointExamples/RestorePoint_Delete_MinimumSet_Gen.json
+     */
+    /**
+     * Sample code: restorePoint_Delete_MinimumSet_Gen.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void restorePointDeleteMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getRestorePoints()
+            .delete("rgcompute", "aaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaa", com.azure.core.util.Context.NONE);
     }
 }

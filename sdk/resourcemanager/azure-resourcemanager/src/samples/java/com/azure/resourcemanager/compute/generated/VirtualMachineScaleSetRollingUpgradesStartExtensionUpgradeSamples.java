@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeSam
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_RollingUpgrade.json
      */
     /**
-     * Sample code: Start an extension rolling upgrade.
+     * Sample code: start an extension rolling upgrade.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

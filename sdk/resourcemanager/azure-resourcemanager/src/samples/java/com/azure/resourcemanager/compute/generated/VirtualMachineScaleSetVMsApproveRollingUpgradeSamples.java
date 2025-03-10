@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsApproveRollingUpgradeSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_ApproveRollingUpgrade.json
      */
     /**
-     * Sample code: VirtualMachineScaleSetVM_ApproveRollingUpgrade.
+     * Sample code: virtualMachineScaleSetVM_ApproveRollingUpgrade.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

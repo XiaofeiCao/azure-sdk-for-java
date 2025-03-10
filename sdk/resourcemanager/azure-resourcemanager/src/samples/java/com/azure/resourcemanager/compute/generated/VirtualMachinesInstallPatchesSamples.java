@@ -8,6 +8,7 @@ import com.azure.resourcemanager.compute.models.VMGuestPatchClassificationWindow
 import com.azure.resourcemanager.compute.models.VMGuestPatchRebootSetting;
 import com.azure.resourcemanager.compute.models.VirtualMachineInstallPatchesParameters;
 import com.azure.resourcemanager.compute.models.WindowsParameters;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 
@@ -21,7 +22,7 @@ public final class VirtualMachinesInstallPatchesSamples {
      * virtualMachineExamples/VirtualMachine_InstallPatches.json
      */
     /**
-     * Sample code: Install patch state of a virtual machine.
+     * Sample code: install patch state of a virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -31,7 +32,7 @@ public final class VirtualMachinesInstallPatchesSamples {
             .serviceClient()
             .getVirtualMachines()
             .installPatches("myResourceGroupName", "myVMName",
-                new VirtualMachineInstallPatchesParameters().withMaximumDuration("PT4H")
+                new VirtualMachineInstallPatchesParameters().withMaximumDuration(Duration.parse("PT4H"))
                     .withRebootSetting(VMGuestPatchRebootSetting.IF_REQUIRED)
                     .withWindowsParameters(new WindowsParameters()
                         .withClassificationsToInclude(Arrays.asList(VMGuestPatchClassificationWindows.CRITICAL,

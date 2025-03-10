@@ -18,7 +18,7 @@ public final class VirtualMachineScaleSetsSetOrchestrationServiceStateSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -40,7 +40,7 @@ public final class VirtualMachineScaleSetsSetOrchestrationServiceStateSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

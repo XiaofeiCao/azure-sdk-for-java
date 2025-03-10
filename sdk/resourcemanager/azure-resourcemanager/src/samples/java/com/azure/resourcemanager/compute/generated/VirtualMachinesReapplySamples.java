@@ -14,7 +14,7 @@ public final class VirtualMachinesReapplySamples {
      * virtualMachineExamples/VirtualMachine_Reapply.json
      */
     /**
-     * Sample code: Reapply the state of a virtual machine.
+     * Sample code: reapply the state of a virtual machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

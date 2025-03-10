@@ -14,7 +14,7 @@ public final class VirtualMachinesListAvailableSizesSamples {
      * virtualMachineExamples/VirtualMachine_ListAvailableVmSizes.json
      */
     /**
-     * Sample code: Lists all available virtual machine sizes to which the specified virtual machine can be resized.
+     * Sample code: lists all available virtual machine sizes to which the specified virtual machine can be resized.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

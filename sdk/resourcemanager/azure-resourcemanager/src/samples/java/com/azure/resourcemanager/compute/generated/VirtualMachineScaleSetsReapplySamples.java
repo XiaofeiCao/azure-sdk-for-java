@@ -11,15 +11,15 @@ public final class VirtualMachineScaleSetsReapplySamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSets_Reapply_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSets_Reapply_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void
-        virtualMachineScaleSetsReapplyMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        virtualMachineScaleSetsReapplyMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()
@@ -31,15 +31,15 @@ public final class VirtualMachineScaleSetsReapplySamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
+     * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSets_Reapply_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSets_Reapply_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
     public static void
-        virtualMachineScaleSetsReapplyMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        virtualMachineScaleSetsReapplyMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.virtualMachines()
             .manager()
             .serviceClient()

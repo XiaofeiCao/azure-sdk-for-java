@@ -16,7 +16,7 @@ public final class CapacityReservationGroupsListByResourceGroupSamples {
      * capacityReservationExamples/CapacityReservationGroup_ListByResourceGroup.json
      */
     /**
-     * Sample code: List capacity reservation groups in resource group.
+     * Sample code: list capacity reservation groups in resource group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

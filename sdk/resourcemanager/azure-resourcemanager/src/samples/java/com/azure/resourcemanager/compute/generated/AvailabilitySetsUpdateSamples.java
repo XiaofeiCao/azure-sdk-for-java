@@ -18,29 +18,10 @@ public final class AvailabilitySetsUpdateSamples {
     /*
      * x-ms-original-file:
      * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
-     * availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
-     */
-    /**
-     * Sample code: AvailabilitySet_Update_MinimumSet_Gen.
-     * 
-     * @param azure The entry point for accessing resource management APIs in Azure.
-     */
-    public static void availabilitySetUpdateMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
-        azure.virtualMachines()
-            .manager()
-            .serviceClient()
-            .getAvailabilitySets()
-            .updateWithResponse("rgcompute", "aaaaaaaaaaaaaaaaaaaa", new AvailabilitySetUpdate(),
-                com.azure.core.util.Context.NONE);
-    }
-
-    /*
-     * x-ms-original-file:
-     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
      * availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
      */
     /**
-     * Sample code: AvailabilitySet_Update_MaximumSet_Gen.
+     * Sample code: availabilitySet_Update_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -58,6 +39,25 @@ public final class AvailabilitySetsUpdateSamples {
                     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")))
                 .withProximityPlacementGroup(new SubResource().withId(
                     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}")),
+                com.azure.core.util.Context.NONE);
+    }
+
+    /*
+     * x-ms-original-file:
+     * specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/
+     * availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
+     */
+    /**
+     * Sample code: availabilitySet_Update_MinimumSet_Gen.
+     * 
+     * @param azure The entry point for accessing resource management APIs in Azure.
+     */
+    public static void availabilitySetUpdateMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+        azure.virtualMachines()
+            .manager()
+            .serviceClient()
+            .getAvailabilitySets()
+            .updateWithResponse("rgcompute", "aaaaaaaaaaaaaaaaaaaa", new AvailabilitySetUpdate(),
                 com.azure.core.util.Context.NONE);
     }
 

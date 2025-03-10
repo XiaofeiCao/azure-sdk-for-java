@@ -16,7 +16,7 @@ public final class DedicatedHostsGetSamples {
      * dedicatedHostExamples/DedicatedHost_Get.json
      */
     /**
-     * Sample code: Get a dedicated host.
+     * Sample code: get a dedicated host.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

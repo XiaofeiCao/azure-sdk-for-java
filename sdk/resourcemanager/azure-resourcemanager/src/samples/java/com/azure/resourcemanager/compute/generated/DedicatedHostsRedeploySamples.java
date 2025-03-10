@@ -14,7 +14,7 @@ public final class DedicatedHostsRedeploySamples {
      * dedicatedHostExamples/DedicatedHost_Redeploy.json
      */
     /**
-     * Sample code: Redeploy Dedicated Host.
+     * Sample code: redeploy Dedicated Host.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

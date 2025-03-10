@@ -17,7 +17,7 @@ public final class VirtualMachinesReimageSamples {
      * virtualMachineExamples/VirtualMachine_Reimage.json
      */
     /**
-     * Sample code: Reimage a Virtual Machine.
+     * Sample code: reimage a Virtual Machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -36,7 +36,7 @@ public final class VirtualMachinesReimageSamples {
      * virtualMachineExamples/VirtualMachine_Reimage_NonEphemeralVMs.json
      */
     /**
-     * Sample code: Reimage a Non-Ephemeral Virtual Machine.
+     * Sample code: reimage a Non-Ephemeral Virtual Machine.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

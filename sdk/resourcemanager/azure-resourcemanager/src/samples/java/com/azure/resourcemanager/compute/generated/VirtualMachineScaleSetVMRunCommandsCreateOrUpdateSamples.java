@@ -20,7 +20,7 @@ public final class VirtualMachineScaleSetVMRunCommandsCreateOrUpdateSamples {
      * VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
      */
     /**
-     * Sample code: Create VirtualMachineScaleSet VM run command.
+     * Sample code: create VirtualMachineScaleSet VM run command.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

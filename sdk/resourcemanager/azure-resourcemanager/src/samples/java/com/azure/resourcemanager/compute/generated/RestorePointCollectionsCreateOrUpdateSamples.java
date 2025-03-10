@@ -19,7 +19,7 @@ public final class RestorePointCollectionsCreateOrUpdateSamples {
      * restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
      */
     /**
-     * Sample code: Create or update a restore point collection for cross region copy.
+     * Sample code: create or update a restore point collection for cross region copy.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -43,7 +43,7 @@ public final class RestorePointCollectionsCreateOrUpdateSamples {
      * restorePointExamples/RestorePointCollection_CreateOrUpdate.json
      */
     /**
-     * Sample code: Create or update a restore point collection.
+     * Sample code: create or update a restore point collection.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

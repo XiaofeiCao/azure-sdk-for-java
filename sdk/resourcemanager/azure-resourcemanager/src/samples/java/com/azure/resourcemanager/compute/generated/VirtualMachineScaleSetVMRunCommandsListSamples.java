@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMRunCommandsListSamples {
      * VirtualMachineScaleSetVMRunCommand_List.json
      */
     /**
-     * Sample code: List run commands in Vmss instance.
+     * Sample code: list run commands in Vmss instance.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

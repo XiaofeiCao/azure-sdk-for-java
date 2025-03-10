@@ -11,6 +11,7 @@ import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.compute.models.KeyVaultSecretReference;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Describes the properties of a Virtual Machine Extension.
@@ -72,6 +73,16 @@ public final class VirtualMachineExtensionUpdateProperties
      * The extensions protected settings that are passed by reference, and consumed from key vault
      */
     private KeyVaultSecretReference protectedSettingsFromKeyVault;
+
+    /*
+     * Collection of extension names after which this extension needs to be provisioned.
+     */
+    private List<String> provisionAfterExtensions;
+
+    /*
+     * The provisioning state, which only appears in the response.
+     */
+    private String provisioningState;
 
     /**
      * Creates an instance of VirtualMachineExtensionUpdateProperties class.
@@ -297,6 +308,48 @@ public final class VirtualMachineExtensionUpdateProperties
     }
 
     /**
+     * Get the provisionAfterExtensions property: Collection of extension names after which this extension needs to be
+     * provisioned.
+     * 
+     * @return the provisionAfterExtensions value.
+     */
+    public List<String> provisionAfterExtensions() {
+        return this.provisionAfterExtensions;
+    }
+
+    /**
+     * Set the provisionAfterExtensions property: Collection of extension names after which this extension needs to be
+     * provisioned.
+     * 
+     * @param provisionAfterExtensions the provisionAfterExtensions value to set.
+     * @return the VirtualMachineExtensionUpdateProperties object itself.
+     */
+    public VirtualMachineExtensionUpdateProperties withProvisionAfterExtensions(List<String> provisionAfterExtensions) {
+        this.provisionAfterExtensions = provisionAfterExtensions;
+        return this;
+    }
+
+    /**
+     * Get the provisioningState property: The provisioning state, which only appears in the response.
+     * 
+     * @return the provisioningState value.
+     */
+    public String provisioningState() {
+        return this.provisioningState;
+    }
+
+    /**
+     * Set the provisioningState property: The provisioning state, which only appears in the response.
+     * 
+     * @param provisioningState the provisioningState value to set.
+     * @return the VirtualMachineExtensionUpdateProperties object itself.
+     */
+    public VirtualMachineExtensionUpdateProperties withProvisioningState(String provisioningState) {
+        this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
      * Validates the instance.
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
@@ -323,6 +376,9 @@ public final class VirtualMachineExtensionUpdateProperties
         jsonWriter.writeUntypedField("protectedSettings", this.protectedSettings);
         jsonWriter.writeBooleanField("suppressFailures", this.suppressFailures);
         jsonWriter.writeJsonField("protectedSettingsFromKeyVault", this.protectedSettingsFromKeyVault);
+        jsonWriter.writeArrayField("provisionAfterExtensions", this.provisionAfterExtensions,
+            (writer, element) -> writer.writeString(element));
+        jsonWriter.writeStringField("provisioningState", this.provisioningState);
         return jsonWriter.writeEndObject();
     }
 
@@ -366,6 +422,12 @@ public final class VirtualMachineExtensionUpdateProperties
                 } else if ("protectedSettingsFromKeyVault".equals(fieldName)) {
                     deserializedVirtualMachineExtensionUpdateProperties.protectedSettingsFromKeyVault
                         = KeyVaultSecretReference.fromJson(reader);
+                } else if ("provisionAfterExtensions".equals(fieldName)) {
+                    List<String> provisionAfterExtensions = reader.readArray(reader1 -> reader1.getString());
+                    deserializedVirtualMachineExtensionUpdateProperties.provisionAfterExtensions
+                        = provisionAfterExtensions;
+                } else if ("provisioningState".equals(fieldName)) {
+                    deserializedVirtualMachineExtensionUpdateProperties.provisioningState = reader.getString();
                 } else {
                     reader.skipChildren();
                 }

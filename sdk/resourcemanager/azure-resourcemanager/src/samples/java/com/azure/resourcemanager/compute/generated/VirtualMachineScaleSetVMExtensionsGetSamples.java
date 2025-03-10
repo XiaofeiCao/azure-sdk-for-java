@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMExtensionsGetSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Get.json
      */
     /**
-     * Sample code: Get VirtualMachineScaleSet VM extension.
+     * Sample code: get VirtualMachineScaleSet VM extension.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

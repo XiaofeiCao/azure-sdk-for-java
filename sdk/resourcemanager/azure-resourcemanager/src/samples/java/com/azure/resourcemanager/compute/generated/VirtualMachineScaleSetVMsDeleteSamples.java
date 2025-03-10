@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsDeleteSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Delete_Force.json
      */
     /**
-     * Sample code: Force Delete a virtual machine from a VM scale set.
+     * Sample code: force Delete a virtual machine from a VM scale set.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

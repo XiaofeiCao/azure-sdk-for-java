@@ -16,7 +16,7 @@ public final class AvailabilitySetsCreateOrUpdateSamples {
      * availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
      */
     /**
-     * Sample code: Create an availability set with Scheduled Event Policy.
+     * Sample code: create an availability set with Scheduled Event Policy.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -39,7 +39,7 @@ public final class AvailabilitySetsCreateOrUpdateSamples {
      * availabilitySetExamples/AvailabilitySet_Create.json
      */
     /**
-     * Sample code: Create an availability set.
+     * Sample code: create an availability set.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMRunCommandsGetSamples {
      * VirtualMachineScaleSetVMRunCommand_Get.json
      */
     /**
-     * Sample code: Get VirtualMachineScaleSet VM run commands.
+     * Sample code: get VirtualMachineScaleSet VM run commands.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

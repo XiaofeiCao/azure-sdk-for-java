@@ -19,7 +19,7 @@ public final class DedicatedHostsCreateOrUpdateSamples {
      * dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
      */
     /**
-     * Sample code: Create or update a dedicated host .
+     * Sample code: create or update a dedicated host .
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

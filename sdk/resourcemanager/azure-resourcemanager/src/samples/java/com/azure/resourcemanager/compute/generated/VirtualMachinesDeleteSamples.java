@@ -14,7 +14,7 @@ public final class VirtualMachinesDeleteSamples {
      * virtualMachineExamples/VirtualMachine_Delete_Force.json
      */
     /**
-     * Sample code: Force delete a VM.
+     * Sample code: force delete a VM.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

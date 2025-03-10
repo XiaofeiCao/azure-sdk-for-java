@@ -20,7 +20,7 @@ public final class ImagesUpdateSamples {
      * Image_Update.json
      */
     /**
-     * Sample code: Updates tags of an Image.
+     * Sample code: updates tags of an Image.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

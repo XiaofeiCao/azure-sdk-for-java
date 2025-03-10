@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetVMsGetSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
      */
     /**
-     * Sample code: Get VM scale set VM with VMSizeProperties.
+     * Sample code: get VM scale set VM with VMSizeProperties.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -32,7 +32,7 @@ public final class VirtualMachineScaleSetVMsGetSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
      */
     /**
-     * Sample code: Get VM scale set VM with UserData.
+     * Sample code: get VM scale set VM with UserData.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

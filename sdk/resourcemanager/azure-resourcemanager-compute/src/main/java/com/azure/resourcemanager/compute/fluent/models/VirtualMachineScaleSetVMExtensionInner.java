@@ -5,11 +5,12 @@
 package com.azure.resourcemanager.compute.fluent.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.ProxyResource;
+import com.azure.core.management.SystemData;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonToken;
 import com.azure.json.JsonWriter;
 import com.azure.resourcemanager.compute.models.KeyVaultSecretReference;
-import com.azure.resourcemanager.compute.models.SubResourceReadOnly;
 import com.azure.resourcemanager.compute.models.VirtualMachineExtensionInstanceView;
 import java.io.IOException;
 import java.util.List;
@@ -18,16 +19,11 @@ import java.util.List;
  * Describes a VMSS VM Extension.
  */
 @Fluent
-public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceReadOnly {
+public final class VirtualMachineScaleSetVMExtensionInner extends ProxyResource {
     /*
-     * The name of the extension.
+     * Describes the properties of a Virtual Machine Extension.
      */
-    private String name;
-
-    /*
-     * Resource type
-     */
-    private String type;
+    private VirtualMachineExtensionProperties innerProperties;
 
     /*
      * The location of the extension.
@@ -35,12 +31,22 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
     private String location;
 
     /*
-     * Describes the properties of a Virtual Machine Extension.
+     * The name of the extension.
      */
-    private VirtualMachineExtensionProperties innerProperties;
+    private String extensionName;
 
     /*
-     * Resource Id
+     * Resource type.
+     */
+    private String extensionType;
+
+    /*
+     * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     */
+    private SystemData systemData;
+
+    /*
+     * Fully qualified resource Id for the resource.
      */
     private String id;
 
@@ -51,21 +57,12 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
     }
 
     /**
-     * Get the name property: The name of the extension.
+     * Get the innerProperties property: Describes the properties of a Virtual Machine Extension.
      * 
-     * @return the name value.
+     * @return the innerProperties value.
      */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the type property: Resource type.
-     * 
-     * @return the type value.
-     */
-    public String type() {
-        return this.type;
+    private VirtualMachineExtensionProperties innerProperties() {
+        return this.innerProperties;
     }
 
     /**
@@ -89,16 +86,46 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
     }
 
     /**
-     * Get the innerProperties property: Describes the properties of a Virtual Machine Extension.
+     * Get the extensionName property: The name of the extension.
      * 
-     * @return the innerProperties value.
+     * @return the extensionName value.
      */
-    private VirtualMachineExtensionProperties innerProperties() {
-        return this.innerProperties;
+    public String extensionName() {
+        return this.extensionName;
     }
 
     /**
-     * Get the id property: Resource Id.
+     * Set the extensionName property: The name of the extension.
+     * 
+     * @param extensionName the extensionName value to set.
+     * @return the VirtualMachineScaleSetVMExtensionInner object itself.
+     */
+    public VirtualMachineScaleSetVMExtensionInner withExtensionName(String extensionName) {
+        this.extensionName = extensionName;
+        return this;
+    }
+
+    /**
+     * Get the extensionType property: Resource type.
+     * 
+     * @return the extensionType value.
+     */
+    @Override
+    public String extensionType() {
+        return this.extensionType;
+    }
+
+    /**
+     * Get the systemData property: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+     * 
+     * @return the systemData value.
+     */
+    public SystemData systemData() {
+        return this.systemData;
+    }
+
+    /**
+     * Get the id property: Fully qualified resource Id for the resource.
      * 
      * @return the id value.
      */
@@ -416,7 +443,6 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
      */
-    @Override
     public void validate() {
         if (innerProperties() != null) {
             innerProperties().validate();
@@ -429,8 +455,9 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
-        jsonWriter.writeStringField("location", this.location);
         jsonWriter.writeJsonField("properties", this.innerProperties);
+        jsonWriter.writeStringField("location", this.location);
+        jsonWriter.writeStringField("name", this.extensionName);
         return jsonWriter.writeEndObject();
     }
 
@@ -440,6 +467,7 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
      * @param jsonReader The JsonReader being read.
      * @return An instance of VirtualMachineScaleSetVMExtensionInner if the JsonReader was pointing to an instance of
      * it, or null if it was pointing to JSON null.
+     * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the VirtualMachineScaleSetVMExtensionInner.
      */
     public static VirtualMachineScaleSetVMExtensionInner fromJson(JsonReader jsonReader) throws IOException {
@@ -456,11 +484,17 @@ public final class VirtualMachineScaleSetVMExtensionInner extends SubResourceRea
                     deserializedVirtualMachineScaleSetVMExtensionInner.name = reader.getString();
                 } else if ("type".equals(fieldName)) {
                     deserializedVirtualMachineScaleSetVMExtensionInner.type = reader.getString();
-                } else if ("location".equals(fieldName)) {
-                    deserializedVirtualMachineScaleSetVMExtensionInner.location = reader.getString();
                 } else if ("properties".equals(fieldName)) {
                     deserializedVirtualMachineScaleSetVMExtensionInner.innerProperties
                         = VirtualMachineExtensionProperties.fromJson(reader);
+                } else if ("location".equals(fieldName)) {
+                    deserializedVirtualMachineScaleSetVMExtensionInner.location = reader.getString();
+                } else if ("name".equals(fieldName)) {
+                    deserializedVirtualMachineScaleSetVMExtensionInner.extensionName = reader.getString();
+                } else if ("type".equals(fieldName)) {
+                    deserializedVirtualMachineScaleSetVMExtensionInner.extensionType = reader.getString();
+                } else if ("systemData".equals(fieldName)) {
+                    deserializedVirtualMachineScaleSetVMExtensionInner.systemData = SystemData.fromJson(reader);
                 } else {
                     reader.skipChildren();
                 }

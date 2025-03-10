@@ -18,7 +18,7 @@ public final class ProximityPlacementGroupsUpdateSamples {
      * proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
      */
     /**
-     * Sample code: Update a proximity placement group.
+     * Sample code: update a proximity placement group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

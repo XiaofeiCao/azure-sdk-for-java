@@ -17,7 +17,7 @@ public final class VirtualMachineScaleSetsDeleteInstancesSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -37,7 +37,7 @@ public final class VirtualMachineScaleSetsDeleteInstancesSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

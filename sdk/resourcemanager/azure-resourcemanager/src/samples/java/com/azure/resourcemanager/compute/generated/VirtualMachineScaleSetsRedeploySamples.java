@@ -17,7 +17,7 @@ public final class VirtualMachineScaleSetsRedeploySamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_Redeploy_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_Redeploy_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -36,7 +36,7 @@ public final class VirtualMachineScaleSetsRedeploySamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_Redeploy_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_Redeploy_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

@@ -20,7 +20,7 @@ public final class DedicatedHostGroupsCreateOrUpdateSamples {
      * dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
      */
     /**
-     * Sample code: Create or update a dedicated host group.
+     * Sample code: create or update a dedicated host group.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -44,7 +44,7 @@ public final class DedicatedHostGroupsCreateOrUpdateSamples {
      * dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
      */
     /**
-     * Sample code: Create or update a dedicated host group with Ultra SSD support.
+     * Sample code: create or update a dedicated host group with Ultra SSD support.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

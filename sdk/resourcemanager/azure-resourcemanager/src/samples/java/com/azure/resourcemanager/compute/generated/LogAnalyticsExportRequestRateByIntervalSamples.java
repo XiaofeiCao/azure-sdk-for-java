@@ -18,7 +18,7 @@ public final class LogAnalyticsExportRequestRateByIntervalSamples {
      * /LogAnalytics_RequestRateByInterval.json
      */
     /**
-     * Sample code: Export logs which contain all Api requests made to Compute Resource Provider within the given time
+     * Sample code: export logs which contain all Api requests made to Compute Resource Provider within the given time
      * period broken down by intervals.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.

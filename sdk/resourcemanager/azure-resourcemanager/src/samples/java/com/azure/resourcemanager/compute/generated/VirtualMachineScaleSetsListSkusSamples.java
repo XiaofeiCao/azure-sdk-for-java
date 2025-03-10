@@ -14,7 +14,7 @@ public final class VirtualMachineScaleSetsListSkusSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.
+     * Sample code: virtualMachineScaleSet_ListSkus_MaximumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
@@ -33,7 +33,7 @@ public final class VirtualMachineScaleSetsListSkusSamples {
      * virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.json
      */
     /**
-     * Sample code: VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.
+     * Sample code: virtualMachineScaleSet_ListSkus_MinimumSet_Gen.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */

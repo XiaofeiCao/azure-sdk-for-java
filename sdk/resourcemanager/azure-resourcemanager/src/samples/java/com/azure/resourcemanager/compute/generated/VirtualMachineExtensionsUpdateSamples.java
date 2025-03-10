@@ -21,7 +21,7 @@ public final class VirtualMachineExtensionsUpdateSamples {
      * virtualMachineExamples/VirtualMachineExtension_Update.json
      */
     /**
-     * Sample code: Update VM extension.
+     * Sample code: update VM extension.
      * 
      * @param azure The entry point for accessing resource management APIs in Azure.
      */
