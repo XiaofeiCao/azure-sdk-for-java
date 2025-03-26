@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class SearchServiceOperationTests extends SearchManagementTest {
 
     private String rgName = "";
-    private final Region region = Region.US_WEST;
+    private final Region region = Region.fromName("East US 2 EUAP");
 
     @Override
     protected void initializeClients(HttpPipeline httpPipeline, AzureProfile profile) {
@@ -38,12 +38,15 @@ public class SearchServiceOperationTests extends SearchManagementTest {
         CheckNameAvailabilityOutput result = searchManager.searchServices().checkNameAvailability(searchServiceName);
         Assertions.assertTrue(result.isNameAvailable());
 
-        SearchService searchService = searchManager.searchServices()
+        SearchService searchServiceCreatable = (SearchService) searchManager.searchServices()
             .define(searchServiceName)
             .withRegion(region)
             .withExistingResourceGroup(rgName)
-            .withFreeSku()
-            .create();
+            .withFreeSku();
+
+        // disable local auth
+        searchServiceCreatable.innerModel().withDisableLocalAuth(true);
+        SearchService searchService = ((SearchService.DefinitionStages.WithCreate) searchServiceCreatable).create();
 
         Assertions.assertNotNull(searchService);
         Assertions.assertEquals(SkuName.FREE, searchService.sku().name());
@@ -76,13 +79,16 @@ public class SearchServiceOperationTests extends SearchManagementTest {
 
         resourceManager.resourceGroups().define(rgName).withRegion(region).create();
 
-        SearchService searchService = searchManager.searchServices()
+        SearchService searchServiceCreatable = (SearchService) searchManager.searchServices()
             .define(searchServiceName)
             .withRegion(region)
             .withExistingResourceGroup(rgName)
             .withBasicSku()
-            .disablePublicNetworkAccess()
-            .create();
+            .disablePublicNetworkAccess();
+
+        // disable local auth
+        searchServiceCreatable.innerModel().withDisableLocalAuth(true);
+        SearchService searchService = ((SearchService.DefinitionStages.WithCreate) searchServiceCreatable).create();
 
         searchService.refresh();
         Assertions.assertEquals(PublicNetworkAccess.DISABLED, searchService.publicNetworkAccess());

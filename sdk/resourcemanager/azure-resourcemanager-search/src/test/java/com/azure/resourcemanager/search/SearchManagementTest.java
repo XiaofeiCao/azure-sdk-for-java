@@ -9,6 +9,7 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
+import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.resourcemanager.resources.ResourceManager;
 import com.azure.resourcemanager.resources.fluentcore.utils.HttpPipelineProvider;
@@ -34,6 +35,8 @@ public abstract class SearchManagementTest extends ResourceManagerTestProxyTestB
     @Override
     protected void initializeClients(HttpPipeline httpPipeline, AzureProfile profile) {
         ResourceManagerUtils.InternalRuntimeContext.setDelayProvider(new TestDelayProvider(!isPlaybackMode()));
+        AzureEnvironment.AZURE.getEndpoints()
+            .put("resourceManagerEndpointUrl", "https://eastus2euap.management.azure.com/");
         searchManager = buildManager(SearchServiceManager.class, httpPipeline, profile);
         resourceManager = searchManager.resourceManager();
     }
