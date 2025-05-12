@@ -3,14 +3,11 @@
 
 package com.azure.resourcemanager.resources.fluentcore.dag;
 
-import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.logging.LogLevel;
-import com.azure.resourcemanager.resources.fluentcore.model.Creatable;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -555,142 +552,12 @@ public class SyncDAGErrorTests {
         }
 
         @Override
-        public IPancake create() {
-            IPancake cake = super.create();
+        public IPancake createResource() {
+            IPancake cake = super.createResource();
             if (this.postSyncInvoke != null) {
                 return this.postSyncInvoke.apply(cake);
             }
             return cake;
-        }
-    }
-
-    // Temporary implementation when sync interfaces are not supported in CreateUpdateTask.
-    private static class PancakeImpl implements TaskGroup.HasTaskGroup, IPancake, TaskItem {
-        private final String name;
-        final List<Creatable<IPancake>> delayedPancakes;
-        final long eventDelayInMilliseconds;
-        final Throwable errorToThrow;
-        private final TaskGroup taskGroup;
-        private IPancake result;
-
-        PancakeImpl(String name, long eventDelayInMilliseconds) {
-            this(name, eventDelayInMilliseconds, false);
-        }
-
-        PancakeImpl(String name, long eventDelayInMilliseconds, boolean fault) {
-            this.name = name;
-            this.taskGroup = new TaskGroup(this.name, this);
-            this.eventDelayInMilliseconds = eventDelayInMilliseconds;
-            if (fault) {
-                this.errorToThrow = new RuntimeException(name);
-            } else {
-                this.errorToThrow = null;
-            }
-            delayedPancakes = new ArrayList<>();
-        }
-
-        @Override
-        public String name() {
-            return this.name;
-        }
-
-        @Override
-        public TaskGroup taskGroup() {
-            return this.taskGroup;
-        }
-
-        @Override
-        public Indexable invoke(TaskGroup.InvocationContext context) {
-            return this.create();
-        }
-
-        @Override
-        public IPancake create() {
-            if (this.errorToThrow == null) {
-                LOGGER.log(LogLevel.VERBOSE, () -> "Pancake(" + this.name() + ")::createResource() 'onNext()'");
-                try {
-                    Thread.sleep(this.eventDelayInMilliseconds);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                this.result = this;
-            } else {
-                LOGGER.log(LogLevel.VERBOSE, () -> "Pancake(" + this.name() + ")::createResource() 'onError()'");
-                try {
-                    Thread.sleep(this.eventDelayInMilliseconds);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                throw (RuntimeException) errorToThrow;
-            }
-            return this;
-        }
-
-        @Override
-        public String key() {
-            return this.name;
-        }
-
-        @Override
-        public Indexable result() {
-            return result;
-        }
-
-        @Override
-        public void beforeGroupInvoke() {
-            for (Creatable<IPancake> pancake : this.delayedPancakes) {
-                this.taskGroup.addDependency((TaskGroup.HasTaskGroup) pancake);
-            }
-        }
-
-        @Override
-        public IPancake withInstantPancake(Creatable<IPancake> anotherPancake) {
-            this.taskGroup.addDependency((TaskGroup.HasTaskGroup) anotherPancake);
-            return this;
-        }
-
-        @Override
-        public IPancake withDelayedPancake(Creatable<IPancake> anotherPancake) {
-            this.delayedPancakes.add(anotherPancake);
-            return this;
-        }
-
-        // Below are not used in tests
-        ////////////////////////////////
-
-        @Override
-        public Mono<IPancake> createAsync() {
-            throw new UnsupportedOperationException(
-                "method [createAsync] not implemented in class [com.azure.resourcemanager.resources.fluentcore.dag.SyncDAGErrorTests.PancakeImpl]");
-        }
-
-        @Override
-        public IPancake create(Context context) {
-            throw new UnsupportedOperationException(
-                "method [create] not implemented in class [com.azure.resourcemanager.resources.fluentcore.dag.SyncDAGErrorTests.PancakeImpl]");
-        }
-
-        @Override
-        public Mono<IPancake> createAsync(Context context) {
-            throw new UnsupportedOperationException(
-                "method [createAsync] not implemented in class [com.azure.resourcemanager.resources.fluentcore.dag.SyncDAGErrorTests.PancakeImpl]");
-        }
-
-        @Override
-        public boolean isHot() {
-            return false;
-        }
-
-        @Override
-        public Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
-            throw new UnsupportedOperationException(
-                "method [invokeAsync] not implemented in class [com.azure.resourcemanager.resources.fluentcore.dag.SyncDAGErrorTests.PancakeImpl]");
-        }
-
-        @Override
-        public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
-            throw new UnsupportedOperationException(
-                "method [invokeAfterPostRunAsync] not implemented in class [com.azure.resourcemanager.resources.fluentcore.dag.SyncDAGErrorTests.PancakeImpl]");
         }
     }
 }

@@ -70,6 +70,21 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
         return this.resourceCreatorUpdater.isHot();
     }
 
+    @Override
+    public Indexable invoke(TaskGroup.InvocationContext context) {
+        if (this.resourceCreatorUpdater.isInCreateMode()) {
+            resource = this.resourceCreatorUpdater.createResource();
+        } else {
+            resource = this.resourceCreatorUpdater.updateResource();
+        }
+        return resource;
+    }
+
+    @Override
+    public void invokeAfterPostRun(boolean isGroupFaulted) {
+        this.resourceCreatorUpdater.afterPostRun(isGroupFaulted);
+    }
+
     /**
      * Represents a type that know how to create or update a resource of type {@link T}.
      * <p>
@@ -121,5 +136,35 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          * @return a completable represents the asynchronous action
          */
         Mono<Void> afterPostRunAsync(boolean isGroupFaulted);
+
+        /**
+         * Creates the resource synchronously.
+         *
+         * @return the created resource
+         */
+        default T createResource() {
+            return createResourceAsync().block();
+        }
+
+        /**
+         * Update the resource synchronously.
+         *
+         * @return a publisher that update the resource when subscribed
+         */
+        default T updateResource() {
+            return updateResourceAsync().block();
+        }
+
+        /**
+         * Perform any action followed by the processing of work scheduled to be invoked
+         * (i.e. "post run") after {@link this#createResource()} or
+         * {@link this#updateResource()}.
+         *
+         * @param isGroupFaulted true if one or more tasks in the group this creatorUpdater
+         *                       belongs to are in faulted state.
+         */
+        default void afterPostRun(boolean isGroupFaulted) {
+            afterPostRunAsync(isGroupFaulted).block();
+        }
     }
 }

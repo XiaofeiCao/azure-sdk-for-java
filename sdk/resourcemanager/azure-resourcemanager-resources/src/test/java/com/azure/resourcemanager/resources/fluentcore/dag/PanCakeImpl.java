@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletionException;
 
 /**
  * Implementation of {@link IPancake}
@@ -92,6 +93,27 @@ class PancakeImpl extends CreatableUpdatableImpl<IPancake, PancakeInner, Pancake
             return Mono.just(this)
                 .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
                 .flatMap(pancake -> toErrorMono(errorToThrow));
+        }
+    }
+
+    @Override
+    public IPancake createResource() {
+        if (this.errorToThrow == null) {
+            LOGGER.log(LogLevel.VERBOSE, () -> "Pancake(" + this.name() + ")::createResourceAsync() 'onNext()'");
+            try {
+                Thread.sleep(this.eventDelayInMilliseconds);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return this;
+        } else {
+            LOGGER.log(LogLevel.VERBOSE, () -> "Pancake(" + this.name() + ")::createResourceAsync() 'onError()'");
+            try {
+                Thread.sleep(this.eventDelayInMilliseconds);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            throw new CompletionException(this.errorToThrow);
         }
     }
 
