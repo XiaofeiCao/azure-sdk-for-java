@@ -33,6 +33,17 @@ public class OrderImpl extends CreatableUpdatableImpl<IOrder, OrderInner, OrderI
     }
 
     @Override
+    public IOrder createResource() {
+        LOGGER.log(LogLevel.VERBOSE, () -> "Order(" + this.name() + ")::createResource() [Creating order]");
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    @Override
     public boolean isInCreateMode() {
         return true;
     }

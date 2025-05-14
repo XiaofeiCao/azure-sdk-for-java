@@ -75,6 +75,17 @@ class PizzaImpl extends CreatableUpdatableImpl<IPizza, PizzaInner, PizzaImpl> im
     }
 
     @Override
+    public IPizza createResource() {
+        LOGGER.log(LogLevel.VERBOSE, () -> "Pizza(" + this.name() + ")::createResourceAsync()");
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    @Override
     public boolean isInCreateMode() {
         return true;
     }

@@ -3,9 +3,9 @@
 
 package com.azure.resourcemanager.resources.fluentcore.model.implementation;
 
+import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 import com.azure.resourcemanager.resources.fluentcore.model.Indexable;
 import com.azure.resourcemanager.resources.fluentcore.model.Refreshable;
-import com.azure.resourcemanager.resources.fluentcore.model.HasInnerModel;
 import reactor.core.publisher.Mono;
 
 /**

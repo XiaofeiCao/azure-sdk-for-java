@@ -63,6 +63,17 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
         return this.executor.afterPostRunAsync(isGroupFaulted);
     }
 
+    @Override
+    public Indexable invoke(TaskGroup.InvocationContext context) {
+        this.result = this.executor.executeWork();
+        return this.result;
+    }
+
+    @Override
+    public void invokeAfterPostRun(boolean isGroupFaulted) {
+        this.executor.afterPostRun(isGroupFaulted);
+    }
+
     /**
      * Represents a type that know how to execute a work that produces result of type {@link T}.
      * <p>
@@ -100,5 +111,25 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
          * @return a {@link Flux} represents the asynchronous action
          */
         Mono<Void> afterPostRunAsync(boolean isGroupFaulted);
+
+        /**
+         * Execute the work synchronously.
+         *
+         * @return the work result
+         */
+        default T executeWork() {
+            return executeWorkAsync().block();
+        }
+
+        /**
+         * Perform any action followed by the processing of work scheduled to be invoked
+         * (i.e. "post run") after {@link this#executeWork()}.
+         *
+         * @param isGroupFaulted true if one or more tasks in the group this work belongs
+         *                       to are in faulted state.
+         */
+        default void afterPostRun(boolean isGroupFaulted) {
+            afterPostRunAsync(isGroupFaulted).block();
+        }
     }
 }

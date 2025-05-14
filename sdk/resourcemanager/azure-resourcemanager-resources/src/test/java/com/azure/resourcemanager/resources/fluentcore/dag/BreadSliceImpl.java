@@ -32,6 +32,17 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
     }
 
     @Override
+    public IBreadSlice executeWork() {
+        LOGGER.log(LogLevel.VERBOSE, () -> "Bread(" + this.name + ")::executeWorkAsync() [Getting slice from store]");
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    @Override
     public IBreadSlice withAnotherSliceFromStore(Executable<IBreadSlice> breadFetcher) {
         this.addDependency(breadFetcher);
         return this;

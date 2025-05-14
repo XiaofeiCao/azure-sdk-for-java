@@ -40,6 +40,17 @@ public class SandwichImpl extends CreatableUpdatableImpl<ISandwich, SandwichInne
     }
 
     @Override
+    public ISandwich createResource() {
+        LOGGER.log(LogLevel.VERBOSE, () -> "Sandwich(" + this.name() + ")::createResourceAsync() [Creating sandwich]");
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    @Override
     public boolean isInCreateMode() {
         return true;
     }
