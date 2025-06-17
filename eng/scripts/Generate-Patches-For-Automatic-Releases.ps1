@@ -15,8 +15,8 @@ $StartTime = $( get-date )
 
 try {
     $remoteName = GetRemoteName
-    $branchName = GetBranchName -ArtifactId "patches-for-auto-release"
     $currentBranchName = GetCurrentBranchName
+    $branchName = $currentBranchName
 
     # Generate the list of artifacts to update for a patch release.
     . "${PSScriptRoot}/Update-Artifacts-List-For-Patch-Release.ps1" -SourcesDirectory $SourcesDirectory -YmlToUpdate $PackagesYmlPath
