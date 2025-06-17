@@ -16,8 +16,7 @@ import java.util.Map;
  */
 public final class DeploymentsCreateOrUpdateAtManagementGroupScopeSamples {
     /*
-     * x-ms-original-file:
-     * specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/
+     * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/
      * PutDeploymentAtManagementGroup.json
      */
     /**
@@ -28,7 +27,7 @@ public final class DeploymentsCreateOrUpdateAtManagementGroupScopeSamples {
     public static void createDeploymentAtManagementGroupScope(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.genericResources()
             .manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .createOrUpdateAtManagementGroupScope("my-management-group-id", "my-deployment",
                 new ScopedDeployment().withLocation("eastus")

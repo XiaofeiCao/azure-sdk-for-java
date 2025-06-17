@@ -70,7 +70,7 @@ import java.util.Map;
 public final class ManagedClustersCreateOrUpdateSamples {
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_CRG.json
      */
     /**
@@ -108,6 +108,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -115,13 +116,13 @@ public final class ManagedClustersCreateOrUpdateSamples {
                 .withAutoScalerProfile(new ManagedClusterPropertiesAutoScalerProfile().withScanInterval("20s")
                     .withScaleDownDelayAfterAdd("15m"))
                 .withDiskEncryptionSetId(
-                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des"),
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des"),
                 null, null, com.azure.core.util.Context.NONE);
     }
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_CustomCATrustCertificates.json
      */
     /**
@@ -157,6 +158,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -164,7 +166,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                 .withAutoScalerProfile(new ManagedClusterPropertiesAutoScalerProfile().withScanInterval("20s")
                     .withScaleDownDelayAfterAdd("15m"))
                 .withDiskEncryptionSetId(
-                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des")
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des")
                 .withSecurityProfile(new ManagedClusterSecurityProfile().withCustomCATrustCertificates(
                     Arrays.asList("ZHVtbXlFeGFtcGxlVGVzdFZhbHVlRm9yQ2VydGlmaWNhdGVUb0JlQWRkZWQ=".getBytes()))),
                 null, null, com.azure.core.util.Context.NONE);
@@ -172,7 +174,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_DualStackNetworking.json
      */
     /**
@@ -214,6 +216,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile()
@@ -234,7 +237,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_PodIdentity.json
      */
     /**
@@ -272,6 +275,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                 .withPodIdentityProfile(
                     new ManagedClusterPodIdentityProfile().withEnabled(true).withAllowNetworkPluginKubenet(true))
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -285,7 +289,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_UserAssignedNATGateway.json
      */
     /**
@@ -321,6 +325,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(
                     new ContainerServiceNetworkProfile().withOutboundType(OutboundType.USER_ASSIGNED_NATGATEWAY)
                         .withLoadBalancerSku(LoadBalancerSku.STANDARD))
@@ -333,7 +338,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_Update.json
      */
     /**
@@ -374,6 +379,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -396,7 +402,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
      */
     /**
@@ -433,6 +439,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -447,7 +454,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_ManagedNATGateway.json
      */
     /**
@@ -483,6 +490,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(
                     new ContainerServiceNetworkProfile().withOutboundType(OutboundType.MANAGED_NATGATEWAY)
                         .withLoadBalancerSku(LoadBalancerSku.STANDARD)
@@ -497,7 +505,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_Premium.json
      */
     /**
@@ -534,6 +542,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
                 .withSupportPlan(KubernetesSupportPlan.AKSLONG_TERM_SUPPORT)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -546,7 +555,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_NodePublicIPPrefix.json
      */
     /**
@@ -584,6 +593,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -597,7 +607,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_EnableEncryptionAtHost.json
      */
     /**
@@ -634,6 +644,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -647,7 +658,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_PrivateClusterPublicFQDN.json
      */
     /**
@@ -684,6 +695,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -697,7 +709,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_HTTPProxy.json
      */
     /**
@@ -733,6 +745,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -750,7 +763,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_DedicatedHostGroup.json
      */
     /**
@@ -787,6 +800,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(false)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -800,7 +814,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_EnabledFIPS.json
      */
     /**
@@ -836,6 +850,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(false)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -849,7 +864,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_SecurityProfile.json
      */
     /**
@@ -894,7 +909,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_PPG.json
      */
     /**
@@ -931,6 +946,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -944,7 +960,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_IngressProfile_WebAppRouting.json
      */
     /**
@@ -987,7 +1003,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_UpdateWithAHUB.json
      */
     /**
@@ -1028,6 +1044,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1041,7 +1058,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_DisableRunCommand.json
      */
     /**
@@ -1078,6 +1095,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1090,7 +1108,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_Snapshot.json
      */
     /**
@@ -1129,6 +1147,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(false)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1142,7 +1161,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_AzureServiceMesh.json
      */
     /**
@@ -1183,6 +1202,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                                 .withConfig(mapOf("enableSecretRotation", "fakeTokenPlaceholder",
                                     "rotationPollInterval", "2m"))))
                     .withEnableRbac(true)
+                    .withEnablePodSecurityPolicy(true)
                     .withNetworkProfile(
                         new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                             .withLoadBalancerSku(LoadBalancerSku.STANDARD)
@@ -1211,7 +1231,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
      */
     /**
@@ -1252,6 +1272,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                                 .withConfig(mapOf("enableSecretRotation", "fakeTokenPlaceholder",
                                     "rotationPollInterval", "2m"))))
                     .withEnableRbac(true)
+                    .withEnablePodSecurityPolicy(true)
                     .withNetworkProfile(
                         new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                             .withLoadBalancerSku(LoadBalancerSku.STANDARD)
@@ -1267,7 +1288,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_OSSKU.json
      */
     /**
@@ -1303,6 +1324,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1320,7 +1342,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
      */
     /**
@@ -1357,6 +1379,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1371,7 +1394,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_EnableUltraSSD.json
      */
     /**
@@ -1407,6 +1430,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1420,7 +1444,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_UpdateWindowsGmsa.json
      */
     /**
@@ -1462,6 +1486,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(
@@ -1475,7 +1500,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
 
     /*
      * x-ms-original-file:
-     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/
+     * specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/
      * ManagedClustersCreate_GPUMIG.json
      */
     /**
@@ -1511,6 +1536,7 @@ public final class ManagedClustersCreateOrUpdateSamples {
                     .withSecret("fakeTokenPlaceholder"))
                 .withAddonProfiles(mapOf())
                 .withEnableRbac(true)
+                .withEnablePodSecurityPolicy(true)
                 .withNetworkProfile(new ContainerServiceNetworkProfile().withOutboundType(OutboundType.LOAD_BALANCER)
                     .withLoadBalancerSku(LoadBalancerSku.STANDARD)
                     .withLoadBalancerProfile(new ManagedClusterLoadBalancerProfile().withManagedOutboundIPs(

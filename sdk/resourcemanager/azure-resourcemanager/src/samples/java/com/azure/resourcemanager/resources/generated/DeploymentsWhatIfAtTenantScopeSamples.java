@@ -16,8 +16,7 @@ import java.util.Map;
  */
 public final class DeploymentsWhatIfAtTenantScopeSamples {
     /*
-     * x-ms-original-file:
-     * specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/
+     * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/
      * PostDeploymentWhatIfOnTenant.json
      */
     /**
@@ -29,7 +28,7 @@ public final class DeploymentsWhatIfAtTenantScopeSamples {
         predictTemplateChangesAtManagementGroupScope(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.genericResources()
             .manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .whatIfAtTenantScope("exampleDeploymentName",
                 new ScopedDeploymentWhatIf().withLocation("eastus")
