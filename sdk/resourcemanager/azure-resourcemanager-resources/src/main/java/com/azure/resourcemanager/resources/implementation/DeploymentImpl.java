@@ -197,7 +197,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
 
     @Override
     public DeploymentOperations deploymentOperations() {
-        return new DeploymentOperationsImpl(this.manager().deploymentClient().getDeploymentOperations(), this);
+        return new DeploymentOperationsImpl(this.manager().serviceClient().getDeploymentOperations(), this);
     }
 
     @Override
@@ -207,7 +207,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
 
     @Override
     public Mono<Void> cancelAsync() {
-        return this.manager().deploymentClient().getDeployments().cancelAsync(resourceGroupName, name());
+        return this.manager().serviceClient().getDeployments().cancelAsync(resourceGroupName, name());
     }
 
     @Override
@@ -218,7 +218,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
     @Override
     public Mono<DeploymentExportResult> exportTemplateAsync() {
         return this.manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .exportTemplateAsync(resourceGroupName(), name())
             .map(DeploymentExportResultImpl::new);
@@ -340,7 +340,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
         return AcceptedImpl.newAccepted(logger, this.manager().serviceClient().getHttpPipeline(),
             this.manager().serviceClient().getDefaultPollInterval(),
             () -> this.manager()
-                .deploymentClient()
+                .serviceClient()
                 .getDeployments()
                 .createOrUpdateWithResponseAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters)
                 .contextWrite(c -> c.putAll(FluxUtil.toReactorContext(context).readOnly()))
@@ -364,7 +364,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
                 return Mono.just((Indexable) DeploymentImpl.this);
             }
         })
-            .flatMap(indexable -> manager().deploymentClient()
+            .flatMap(indexable -> manager().serviceClient()
                 .getDeployments()
                 .createOrUpdateWithResponseAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters))
             .flatMap(activationResponse -> FluxUtil.collectBytesInByteBufferStream(activationResponse.getValue()))
@@ -388,7 +388,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
     @Override
     public Mono<Deployment> createResourceAsync() {
         return this.manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .createOrUpdateAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters)
             .map(deploymentExtendedInner -> {
@@ -430,7 +430,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
     @Override
     protected Mono<DeploymentExtendedInner> getInnerAsync() {
         return this.manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .getAtManagementGroupScopeAsync(resourceGroupName(), name());
     }
@@ -589,7 +589,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
     @Override
     public Mono<WhatIfOperationResult> whatIfAsync() {
         return this.manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .whatIfAsync(resourceGroupName(), name(), deploymentWhatIf)
             .map(WhatIfOperationResultImpl::new);
@@ -603,7 +603,7 @@ public final class DeploymentImpl extends CreatableUpdatableImpl<Deployment, Dep
     @Override
     public Mono<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync() {
         return this.manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .whatIfAtSubscriptionScopeAsync(name(), deploymentWhatIf)
             .map(WhatIfOperationResultImpl::new);

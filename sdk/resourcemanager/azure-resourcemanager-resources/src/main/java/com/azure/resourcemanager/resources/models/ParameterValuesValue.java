@@ -61,9 +61,7 @@ public final class ParameterValuesValue implements JsonSerializable<ParameterVal
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
-        if (this.value != null) {
-            jsonWriter.writeUntypedField("value", this.value);
-        }
+        jsonWriter.writeUntypedField("value", this.value);
         return jsonWriter.writeEndObject();
     }
 

@@ -63,22 +63,6 @@ public final class EventGridPublisherClientImplBuilder
     }
 
     /*
-     * The HTTP client used to send the request.
-     */
-    @Generated
-    private HttpClient httpClient;
-
-    /**
-     * {@inheritDoc}.
-     */
-    @Generated
-    @Override
-    public EventGridPublisherClientImplBuilder httpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
-        return this;
-    }
-
-    /*
      * The HTTP pipeline to send requests through.
      */
     @Generated
@@ -91,6 +75,22 @@ public final class EventGridPublisherClientImplBuilder
     @Override
     public EventGridPublisherClientImplBuilder pipeline(HttpPipeline pipeline) {
         this.pipeline = pipeline;
+        return this;
+    }
+
+    /*
+     * The HTTP client used to send the request.
+     */
+    @Generated
+    private HttpClient httpClient;
+
+    /**
+     * {@inheritDoc}.
+     */
+    @Generated
+    @Override
+    public EventGridPublisherClientImplBuilder httpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
         return this;
     }
 

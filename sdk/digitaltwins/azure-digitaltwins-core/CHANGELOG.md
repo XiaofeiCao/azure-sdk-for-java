@@ -1,19 +1,15 @@
 # Release History
 
-## 1.6.0 (2025-05-01)
-
-### Features Added
-- Updated service API version to use API version 2023-10-31 by default.
-
-## 1.5.0-beta.1 (2025-05-01)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.4.3 (2025-06-17)
 
 ### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core-http-netty` from `1.15.11` to version `1.15.12`.
+- Upgraded `azure-core` from `1.55.3` to version `1.55.4`.
+- Upgraded `azure-core-serializer-json-jackson` from `1.5.8` to version `1.5.9`.
+
 
 ## 1.4.2 (2025-03-24)
 

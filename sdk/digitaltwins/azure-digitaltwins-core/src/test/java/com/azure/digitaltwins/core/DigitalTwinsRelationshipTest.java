@@ -101,18 +101,17 @@ public class DigitalTwinsRelationshipTest extends DigitalTwinsRelationshipTestBa
                 hvacFloorRelationship.getSourceId(), hvacFloorRelationship.getTargetId());
 
             // Create relationship from Room -> Floor
-            BasicRelationship floorTwinContainedInRelationship
-                = deserializeJsonString(floorTwinContainedInRelationshipPayload, BasicRelationship::fromJson);
-
-            BasicRelationship roomFloorRelationship = client.createOrReplaceRelationship(roomTwinId,
-                ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID, floorTwinContainedInRelationship, BasicRelationship.class);
+            BasicRelationship roomFloorRelationship
+                = client.createOrReplaceRelationship(roomTwinId, ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID,
+                    deserializeJsonString(floorTwinContainedInRelationshipPayload, BasicRelationship::fromJson),
+                    BasicRelationship.class);
             assertEquals(ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID, roomFloorRelationship.getId());
             logger.info("Created {} relationship between source = {} and target = {}", roomFloorRelationship.getId(),
                 roomFloorRelationship.getSourceId(), roomFloorRelationship.getTargetId());
 
             // Create a relation which already exists - should return status code 409 (Conflict).
             assertRestException(() -> client.createOrReplaceRelationshipWithResponse(roomTwinId,
-                ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID, floorTwinContainedInRelationship, BasicRelationship.class,
+                ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID, floorTwinContainedInRelationshipPayload, String.class,
                 new CreateOrReplaceRelationshipOptions().setIfNoneMatch("*"), Context.NONE), HTTP_PRECON_FAILED);
 
             // Update relationships
@@ -458,8 +457,7 @@ public class DigitalTwinsRelationshipTest extends DigitalTwinsRelationshipTestBa
 
             try {
                 client.createOrReplaceRelationshipWithResponse(roomTwinId, ROOM_CONTAINED_IN_FLOOR_RELATIONSHIP_ID,
-                    deserializeJsonString(floorTwinContainedInRelationshipPayload, BasicRelationship::fromJson),
-                    BasicRelationship.class, null, //don't set ifNoneMatch header
+                    floorTwinContainedInRelationshipPayload, String.class, null, //don't set ifNoneMatch header
                     Context.NONE);
             } catch (ErrorResponseException ex) {
                 if (ex.getResponse().getStatusCode() == HTTP_PRECON_FAILED) {

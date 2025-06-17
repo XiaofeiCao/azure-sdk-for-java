@@ -5,7 +5,6 @@
 package com.azure.digitaltwins.core.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.annotation.Generated;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
@@ -21,13 +20,11 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
     /*
      * The EventRoute objects.
      */
-    @Generated
     private final List<EventRoute> value;
 
     /*
      * A URI to retrieve the next page of results.
      */
-    @Generated
     private String nextLink;
 
     /**
@@ -35,7 +32,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
      * 
      * @param value the value value to set.
      */
-    @Generated
     public EventRouteCollection(List<EventRoute> value) {
         this.value = value;
     }
@@ -45,7 +41,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
      * 
      * @return the value value.
      */
-    @Generated
     public List<EventRoute> getValue() {
         return this.value;
     }
@@ -55,7 +50,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
      * 
      * @return the nextLink value.
      */
-    @Generated
     public String getNextLink() {
         return this.nextLink;
     }
@@ -66,7 +60,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
      * @param nextLink the nextLink value to set.
      * @return the EventRouteCollection object itself.
      */
-    @Generated
     public EventRouteCollection setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
@@ -75,7 +68,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
     /**
      * {@inheritDoc}
      */
-    @Generated
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
@@ -93,7 +85,6 @@ public final class EventRouteCollection implements JsonSerializable<EventRouteCo
      * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the EventRouteCollection.
      */
-    @Generated
     public static EventRouteCollection fromJson(JsonReader jsonReader) throws IOException {
         return jsonReader.readObject(reader -> {
             boolean valueFound = false;

@@ -87,9 +87,7 @@ public final class DataEffect implements JsonSerializable<DataEffect> {
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
         jsonWriter.writeStringField("name", this.name);
-        if (this.detailsSchema != null) {
-            jsonWriter.writeUntypedField("detailsSchema", this.detailsSchema);
-        }
+        jsonWriter.writeUntypedField("detailsSchema", this.detailsSchema);
         return jsonWriter.writeEndObject();
     }
 

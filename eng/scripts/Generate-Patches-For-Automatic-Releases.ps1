@@ -15,8 +15,8 @@ $StartTime = $( get-date )
 
 try {
     $remoteName = GetRemoteName
-    $branchName = GetBranchName -ArtifactId "patches-for-auto-release"
     $currentBranchName = GetCurrentBranchName
+    $branchName = $currentBranchName
 
     # Generate the list of artifacts to update for a patch release.
     . "${PSScriptRoot}/Update-Artifacts-List-For-Patch-Release.ps1" -SourcesDirectory $SourcesDirectory -YmlToUpdate $PackagesYmlPath
@@ -27,15 +27,15 @@ try {
     git fetch --all --prune
 
     # Checkout a branch to work on based off of main in upstream.
-    if ($currentBranchName -ne $branchName) {
-        Write-Host "git checkout -b $branchName $remoteName/main"
-        git checkout -b $branchName $remoteName/main
-
-        if ($LASTEXITCODE -ne 0) {
-            LogError "Could not checkout branch $branchName, please check if it already exists and delete as necessary. Exiting..."
-            exit $LASTEXITCODE
-        }
-    }
+#     if ($currentBranchName -ne $branchName) {
+#         Write-Host "git checkout -b $branchName $remoteName/main"
+#         git checkout -b $branchName $remoteName/main
+#
+#         if ($LASTEXITCODE -ne 0) {
+#             LogError "Could not checkout branch $branchName, please check if it already exists and delete as necessary. Exiting..."
+#             exit $LASTEXITCODE
+#         }
+#     }
 
     # Add the updated YAML file.
     Write-Host "git add -A"
@@ -54,7 +54,7 @@ try {
 
     # Reset each package to the latest stable release and update CHANGELOG, POM and README for patch release.
     foreach ($packageData in $packagesData) {
-        . "${PSScriptRoot}/generatepatch.ps1" -ArtifactIds $packageData["name"] -ServiceDirectoryName $packageData["ServiceDirectory"] -BranchName $branchName
+        . "${PSScriptRoot}/generatepatch.ps1" -ArtifactIds $packageData["name"] -ServiceDirectoryName $packageData["ServiceDirectory"] -BranchName $branchName -GroupId $packageData["groupId"]
         $libraryList += $packageData["groupId"] + ":" + $packageData["name"] + ","
     }
 

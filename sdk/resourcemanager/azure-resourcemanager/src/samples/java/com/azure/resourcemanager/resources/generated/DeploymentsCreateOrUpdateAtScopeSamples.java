@@ -17,8 +17,7 @@ import java.util.Map;
 public final class DeploymentsCreateOrUpdateAtScopeSamples {
     /*
      * x-ms-original-file:
-     * specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/
-     * PutDeploymentAtScope.json
+     * specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentAtScope.json
      */
     /**
      * Sample code: Create deployment at a given scope.
@@ -28,7 +27,7 @@ public final class DeploymentsCreateOrUpdateAtScopeSamples {
     public static void createDeploymentAtAGivenScope(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.genericResources()
             .manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .createOrUpdateAtScope("providers/Microsoft.Management/managementGroups/my-management-group-id",
                 "my-deployment",

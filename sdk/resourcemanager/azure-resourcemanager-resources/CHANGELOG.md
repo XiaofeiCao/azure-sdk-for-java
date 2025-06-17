@@ -1,15 +1,14 @@
 # Release History
 
-## 2.52.0-beta.1 (Unreleased)
-
-### Breaking Changes
-
-- `DeploymentsClient` and `DeploymentOperationsClient` is now accessed via `ResourceManager::deploymentClient()`.
+## 2.51.1 (2025-06-17)
 
 ### Other Changes
 
-- Updated `api-version` of resources to `2025-04-01`.
-- `deploymentStackClient()` in `ResourceManager` class is now deprecated. The functionality is moved to "azure-resourcemanager-resources-deploymentstacks" package.
+#### Dependency Updates
+
+- Upgraded `azure-core-management` from `1.17.0` to version `1.18.0`.
+- Upgraded `azure-core` from `1.55.3` to version `1.55.4`.
+
 
 ## 2.51.0 (2025-05-26)
 

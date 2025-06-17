@@ -54,6 +54,13 @@ public interface ResourceManagementClient {
     OperationsClient getOperations();
 
     /**
+     * Gets the DeploymentsClient object to access its operations.
+     * 
+     * @return the DeploymentsClient object.
+     */
+    DeploymentsClient getDeployments();
+
+    /**
      * Gets the ProvidersClient object to access its operations.
      * 
      * @return the ProvidersClient object.
@@ -87,4 +94,11 @@ public interface ResourceManagementClient {
      * @return the TagOperationsClient object.
      */
     TagOperationsClient getTagOperations();
+
+    /**
+     * Gets the DeploymentOperationsClient object to access its operations.
+     * 
+     * @return the DeploymentOperationsClient object.
+     */
+    DeploymentOperationsClient getDeploymentOperations();
 }

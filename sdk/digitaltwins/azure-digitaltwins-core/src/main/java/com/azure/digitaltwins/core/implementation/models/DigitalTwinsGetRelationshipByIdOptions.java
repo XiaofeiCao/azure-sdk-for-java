@@ -5,7 +5,6 @@
 package com.azure.digitaltwins.core.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.annotation.Generated;
 
 /**
  * Parameter group.
@@ -15,19 +14,16 @@ public final class DigitalTwinsGetRelationshipByIdOptions {
     /*
      * Identifies the request in a distributed tracing system.
      */
-    @Generated
     private String traceparent;
 
     /*
      * Provides vendor-specific trace identification information and is a companion to traceparent.
      */
-    @Generated
     private String tracestate;
 
     /**
      * Creates an instance of DigitalTwinsGetRelationshipByIdOptions class.
      */
-    @Generated
     public DigitalTwinsGetRelationshipByIdOptions() {
     }
 
@@ -36,7 +32,6 @@ public final class DigitalTwinsGetRelationshipByIdOptions {
      * 
      * @return the traceparent value.
      */
-    @Generated
     public String getTraceparent() {
         return this.traceparent;
     }
@@ -47,7 +42,6 @@ public final class DigitalTwinsGetRelationshipByIdOptions {
      * @param traceparent the traceparent value to set.
      * @return the DigitalTwinsGetRelationshipByIdOptions object itself.
      */
-    @Generated
     public DigitalTwinsGetRelationshipByIdOptions setTraceparent(String traceparent) {
         this.traceparent = traceparent;
         return this;
@@ -59,7 +53,6 @@ public final class DigitalTwinsGetRelationshipByIdOptions {
      * 
      * @return the tracestate value.
      */
-    @Generated
     public String getTracestate() {
         return this.tracestate;
     }
@@ -71,7 +64,6 @@ public final class DigitalTwinsGetRelationshipByIdOptions {
      * @param tracestate the tracestate value to set.
      * @return the DigitalTwinsGetRelationshipByIdOptions object itself.
      */
-    @Generated
     public DigitalTwinsGetRelationshipByIdOptions setTracestate(String tracestate) {
         this.tracestate = tracestate;
         return this;

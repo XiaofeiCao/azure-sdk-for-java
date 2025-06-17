@@ -1,14 +1,16 @@
 # Release History
 
-## 2.52.0-beta.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.51.1 (2025-06-17)
 
 ### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-resourcemanager-authorization` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-resources` from `2.51.0` to version `2.51.1`.
+- Upgraded `azure-security-keyvault-keys` from `4.9.4` to version `4.10.0`.
+- Upgraded `azure-security-keyvault-secrets` from `4.9.4` to version `4.10.0`.
+
 
 ## 2.51.0 (2025-05-26)
 

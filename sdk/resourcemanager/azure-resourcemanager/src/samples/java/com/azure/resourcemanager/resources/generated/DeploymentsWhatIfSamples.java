@@ -16,8 +16,7 @@ import java.util.Map;
  */
 public final class DeploymentsWhatIfSamples {
     /*
-     * x-ms-original-file:
-     * specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/
+     * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/
      * PostDeploymentWhatIfOnResourceGroup.json
      */
     /**
@@ -29,7 +28,7 @@ public final class DeploymentsWhatIfSamples {
         predictTemplateChangesAtResourceGroupScope(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.genericResources()
             .manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .whatIf("my-resource-group", "my-deployment",
                 new DeploymentWhatIf().withProperties(new DeploymentWhatIfProperties()

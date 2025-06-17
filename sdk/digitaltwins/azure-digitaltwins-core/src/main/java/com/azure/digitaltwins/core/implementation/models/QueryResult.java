@@ -5,7 +5,6 @@
 package com.azure.digitaltwins.core.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.annotation.Generated;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
@@ -21,13 +20,11 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
     /*
      * The query results.
      */
-    @Generated
     private final List<Object> value;
 
     /*
      * A token which can be used to construct a new QuerySpecification to retrieve the next set of results.
      */
-    @Generated
     private String continuationToken;
 
     /**
@@ -35,7 +32,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
      * 
      * @param value the value value to set.
      */
-    @Generated
     public QueryResult(List<Object> value) {
         this.value = value;
     }
@@ -45,7 +41,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
      * 
      * @return the value value.
      */
-    @Generated
     public List<Object> getValue() {
         return this.value;
     }
@@ -56,7 +51,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
      * 
      * @return the continuationToken value.
      */
-    @Generated
     public String getContinuationToken() {
         return this.continuationToken;
     }
@@ -68,7 +62,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
      * @param continuationToken the continuationToken value to set.
      * @return the QueryResult object itself.
      */
-    @Generated
     public QueryResult setContinuationToken(String continuationToken) {
         this.continuationToken = continuationToken;
         return this;
@@ -77,7 +70,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
     /**
      * {@inheritDoc}
      */
-    @Generated
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
@@ -95,7 +87,6 @@ public final class QueryResult implements JsonSerializable<QueryResult> {
      * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the QueryResult.
      */
-    @Generated
     public static QueryResult fromJson(JsonReader jsonReader) throws IOException {
         return jsonReader.readObject(reader -> {
             boolean valueFound = false;

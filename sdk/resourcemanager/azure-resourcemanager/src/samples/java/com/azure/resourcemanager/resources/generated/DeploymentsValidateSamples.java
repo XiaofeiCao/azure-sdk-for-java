@@ -16,8 +16,7 @@ import java.util.Map;
  */
 public final class DeploymentsValidateSamples {
     /*
-     * x-ms-original-file:
-     * specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/
+     * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/
      * PostDeploymentValidateOnResourceGroup.json
      */
     /**
@@ -28,7 +27,7 @@ public final class DeploymentsValidateSamples {
     public static void validatesATemplateAtResourceGroupScope(com.azure.resourcemanager.AzureResourceManager azure) {
         azure.genericResources()
             .manager()
-            .deploymentClient()
+            .serviceClient()
             .getDeployments()
             .validate("my-resource-group", "my-deployment",
                 new DeploymentInner().withProperties(new DeploymentProperties().withTemplateLink(new TemplateLink()

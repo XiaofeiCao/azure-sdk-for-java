@@ -541,9 +541,7 @@ public final class DeploymentStackProperties implements JsonSerializable<Deploym
         jsonWriter.writeStartObject();
         jsonWriter.writeJsonField("actionOnUnmanage", this.actionOnUnmanage);
         jsonWriter.writeJsonField("denySettings", this.denySettings);
-        if (this.template != null) {
-            jsonWriter.writeUntypedField("template", this.template);
-        }
+        jsonWriter.writeUntypedField("template", this.template);
         jsonWriter.writeJsonField("templateLink", this.templateLink);
         jsonWriter.writeMapField("parameters", this.parameters, (writer, element) -> writer.writeJson(element));
         jsonWriter.writeJsonField("parametersLink", this.parametersLink);

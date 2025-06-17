@@ -1,17 +1,14 @@
 # Release History
 
-## 1.4.0 (Unreleased)
-
-### Features Added
-- Introduced support for `Azure.Core.TokenCredential` with `EntraCommunicationTokenCredentialOptions`, allowing an Entra user with a Teams license to use Teams Phone Extensibility features through the Azure Communication Services resource.
-- Added support for a new communication identifier `TeamsExtensionUserIdentifier` which maps rawIds with format `8:acs:{resourceId}_{tenantId}_{userId}`.
-- Added `isAnonymous` and `getAssertedId` methods to `PhoneNumberIdentifier`.
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.12 (2025-06-17)
 
 ### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-core-http-netty` from `1.15.11` to version `1.15.12`.
+- Upgraded `azure-core` from `1.55.3` to version `1.55.4`.
+
 
 ## 1.3.11 (2025-03-24)
 

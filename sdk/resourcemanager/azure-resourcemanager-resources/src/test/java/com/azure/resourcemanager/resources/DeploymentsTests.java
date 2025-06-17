@@ -238,12 +238,10 @@ public class DeploymentsTests extends ResourceManagementTest {
             Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
             Assertions.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
             Assertions.assertEquals(dp, deployment.name());
-
-            // Cancel. This step could be unstable, as provisioning state may already be Succeeded
+            // Cancel
             deployment.cancel();
             deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
             Assertions.assertEquals("Canceled", deployment.provisioningState());
-
             // Update
             deployment.update()
                 .withTemplate(UPDATE_TEMPLATE)

@@ -80,7 +80,9 @@ public final class SipRoutingsImpl {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<SipConfiguration>> getWithResponseAsync() {
-        return FluxUtil.withContext(context -> getWithResponseAsync(context));
+        final String accept = "application/json";
+        return FluxUtil.withContext(
+            context -> service.get(this.client.getEndpoint(), this.client.getApiVersion(), accept, context));
     }
 
     /**
@@ -165,7 +167,9 @@ public final class SipRoutingsImpl {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<SipConfiguration>> updateWithResponseAsync(SipConfiguration body) {
-        return FluxUtil.withContext(context -> updateWithResponseAsync(body, context));
+        final String accept = "application/json";
+        return FluxUtil.withContext(
+            context -> service.update(this.client.getEndpoint(), this.client.getApiVersion(), body, accept, context));
     }
 
     /**

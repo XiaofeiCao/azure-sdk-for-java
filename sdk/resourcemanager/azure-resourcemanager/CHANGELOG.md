@@ -1,14 +1,36 @@
 # Release History
 
-## 2.52.0-beta.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.51.1 (2025-06-17)
 
 ### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-resourcemanager-eventhubs` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-redis` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-network` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-containerservice` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-core` from `1.55.3` to version `1.55.4`.
+- Upgraded `azure-resourcemanager-privatedns` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-search` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-authorization` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-monitor` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-servicebus` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-keyvault` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-containerinstance` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-msi` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-trafficmanager` from `2.51.0` to version `2.51.1`.
+- Upgraded `azure-resourcemanager-appservice` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-compute` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-containerregistry` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-storage` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-resources` from `2.51.0` to version `2.51.1`.
+- Upgraded `azure-core-management` from `1.17.0` to version `1.18.0`.
+- Upgraded `azure-resourcemanager-cosmos` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-cdn` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-sql` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-dns` from `2.51.0` to version `2.52.0-beta.1`.
+
 
 ## 2.51.0 (2025-05-26)
 
