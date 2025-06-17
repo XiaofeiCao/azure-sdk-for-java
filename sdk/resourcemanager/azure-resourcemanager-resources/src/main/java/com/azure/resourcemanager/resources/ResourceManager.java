@@ -8,7 +8,6 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.resourcemanager.resources.fluent.ChangesManagementClient;
 import com.azure.resourcemanager.resources.fluent.DataBoundariesManagementClient;
 import com.azure.resourcemanager.resources.fluent.DeploymentStacksManagementClient;
-import com.azure.resourcemanager.resources.fluent.DeploymentsManagementClient;
 import com.azure.resourcemanager.resources.fluent.FeatureClient;
 import com.azure.resourcemanager.resources.fluent.ManagementLockClient;
 import com.azure.resourcemanager.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -16,7 +15,6 @@ import com.azure.resourcemanager.resources.fluentcore.policy.ProviderRegistratio
 import com.azure.resourcemanager.resources.implementation.ChangesManagementClientBuilder;
 import com.azure.resourcemanager.resources.implementation.DataBoundariesManagementClientBuilder;
 import com.azure.resourcemanager.resources.implementation.DeploymentStacksManagementClientBuilder;
-import com.azure.resourcemanager.resources.implementation.DeploymentsManagementClientBuilder;
 import com.azure.resourcemanager.resources.implementation.FeatureClientBuilder;
 import com.azure.resourcemanager.resources.fluent.PolicyClient;
 import com.azure.resourcemanager.resources.implementation.ManagementLockClientBuilder;
@@ -67,7 +65,6 @@ public final class ResourceManager extends Manager<ResourceManagementClient> {
     private final ChangesManagementClient resourceChangeClient;
     private final DeploymentStacksManagementClient deploymentStackClient;
     private final DataBoundariesManagementClient dataBoundaryClient;
-    private final DeploymentsManagementClient deploymentClient;
     // The collections
     private ResourceGroups resourceGroups;
     private GenericResources genericResources;
@@ -268,11 +265,6 @@ public final class ResourceManager extends Manager<ResourceManagementClient> {
             .endpoint(profile.getEnvironment().getResourceManagerEndpoint())
             .buildClient();
 
-        this.deploymentClient = new DeploymentsManagementClientBuilder().pipeline(httpPipeline)
-            .endpoint(profile.getEnvironment().getResourceManagerEndpoint())
-            .subscriptionId(profile.getSubscriptionId())
-            .buildClient();
-
         for (int i = 0; i < httpPipeline.getPolicyCount(); ++i) {
             if (httpPipeline.getPolicy(i) instanceof ProviderRegistrationPolicy) {
                 ProviderRegistrationPolicy policy = (ProviderRegistrationPolicy) httpPipeline.getPolicy(i);
@@ -338,10 +330,7 @@ public final class ResourceManager extends Manager<ResourceManagementClient> {
      * based on Azure REST API.
      *
      * @return wrapped inner deployment stack client.
-     *
-     * @deprecated Use the azure-resourcemanager-resources-deploymentstacks package.
      */
-    @Deprecated
     public DeploymentStacksManagementClient deploymentStackClient() {
         return deploymentStackClient;
     }
@@ -354,16 +343,6 @@ public final class ResourceManager extends Manager<ResourceManagementClient> {
      */
     public DataBoundariesManagementClient dataBoundaryClient() {
         return dataBoundaryClient;
-    }
-
-    /**
-     * Wrapped inner deployment client providing direct access to auto-generated API implementation,
-     * based on Azure REST API.
-     *
-     * @return wrapped inner deployment client.
-     */
-    public DeploymentsManagementClient deploymentClient() {
-        return deploymentClient;
     }
 
     /**

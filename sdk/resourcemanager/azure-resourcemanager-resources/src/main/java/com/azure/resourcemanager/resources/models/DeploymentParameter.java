@@ -26,11 +26,6 @@ public final class DeploymentParameter implements JsonSerializable<DeploymentPar
      */
     private KeyVaultParameterReference reference;
 
-    /*
-     * Input expression to the parameter.
-     */
-    private String expression;
-
     /**
      * Creates an instance of DeploymentParameter class.
      */
@@ -78,26 +73,6 @@ public final class DeploymentParameter implements JsonSerializable<DeploymentPar
     }
 
     /**
-     * Get the expression property: Input expression to the parameter.
-     * 
-     * @return the expression value.
-     */
-    public String expression() {
-        return this.expression;
-    }
-
-    /**
-     * Set the expression property: Input expression to the parameter.
-     * 
-     * @param expression the expression value to set.
-     * @return the DeploymentParameter object itself.
-     */
-    public DeploymentParameter withExpression(String expression) {
-        this.expression = expression;
-        return this;
-    }
-
-    /**
      * Validates the instance.
      * 
      * @throws IllegalArgumentException thrown if the instance is not valid.
@@ -118,7 +93,6 @@ public final class DeploymentParameter implements JsonSerializable<DeploymentPar
             jsonWriter.writeUntypedField("value", this.value);
         }
         jsonWriter.writeJsonField("reference", this.reference);
-        jsonWriter.writeStringField("expression", this.expression);
         return jsonWriter.writeEndObject();
     }
 
@@ -141,8 +115,6 @@ public final class DeploymentParameter implements JsonSerializable<DeploymentPar
                     deserializedDeploymentParameter.value = reader.readUntyped();
                 } else if ("reference".equals(fieldName)) {
                     deserializedDeploymentParameter.reference = KeyVaultParameterReference.fromJson(reader);
-                } else if ("expression".equals(fieldName)) {
-                    deserializedDeploymentParameter.expression = reader.getString();
                 } else {
                     reader.skipChildren();
                 }

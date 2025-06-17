@@ -42,25 +42,25 @@ public final class DeploymentOperationsClientImpl implements DeploymentOperation
     /**
      * The service client containing this operation class.
      */
-    private final DeploymentsManagementClientImpl client;
+    private final ResourceManagementClientImpl client;
 
     /**
      * Initializes an instance of DeploymentOperationsClientImpl.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    DeploymentOperationsClientImpl(DeploymentsManagementClientImpl client) {
+    DeploymentOperationsClientImpl(ResourceManagementClientImpl client) {
         this.service = RestProxy.create(DeploymentOperationsService.class, client.getHttpPipeline(),
             client.getSerializerAdapter());
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for DeploymentsManagementClientDeploymentOperations to be used by the
-     * proxy service to perform REST calls.
+     * The interface defining all the services for ResourceManagementClientDeploymentOperations to be used by the proxy
+     * service to perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "DeploymentsManagemen")
+    @ServiceInterface(name = "ResourceManagementCl")
     public interface DeploymentOperationsService {
         @Headers({ "Content-Type: application/json" })
         @Get("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}")
