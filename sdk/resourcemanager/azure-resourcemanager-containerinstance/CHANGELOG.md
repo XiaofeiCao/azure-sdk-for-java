@@ -1,5 +1,18 @@
 # Release History
 
+## 2.51.1 (2025-06-17)
+
+### Other Changes
+
+#### Dependency Updates
+
+- Upgraded `azure-resourcemanager-msi` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-resources` from `2.51.0` to version `2.51.1`.
+- Upgraded `azure-resourcemanager-network` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-storage` from `2.51.0` to version `2.52.0-beta.1`.
+- Upgraded `azure-resourcemanager-authorization` from `2.51.0` to version `2.52.0-beta.1`.
+
+
 ## 2.51.0 (2025-05-26)
 
 ### Features Added
