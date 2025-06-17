@@ -4,7 +4,6 @@
 
 package com.azure.digitaltwins.core.implementation.models;
 
-import com.azure.core.annotation.Generated;
 import com.azure.core.annotation.Immutable;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
@@ -20,7 +19,6 @@ public final class ErrorResponse implements JsonSerializable<ErrorResponse> {
     /*
      * The error details.
      */
-    @Generated
     private final Error error;
 
     /**
@@ -28,7 +26,6 @@ public final class ErrorResponse implements JsonSerializable<ErrorResponse> {
      * 
      * @param error the error value to set.
      */
-    @Generated
     public ErrorResponse(Error error) {
         this.error = error;
     }
@@ -38,7 +35,6 @@ public final class ErrorResponse implements JsonSerializable<ErrorResponse> {
      * 
      * @return the error value.
      */
-    @Generated
     public Error getError() {
         return this.error;
     }
@@ -46,7 +42,6 @@ public final class ErrorResponse implements JsonSerializable<ErrorResponse> {
     /**
      * {@inheritDoc}
      */
-    @Generated
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
@@ -63,7 +58,6 @@ public final class ErrorResponse implements JsonSerializable<ErrorResponse> {
      * @throws IllegalStateException If the deserialized JSON object was missing any required properties.
      * @throws IOException If an error occurs while reading the ErrorResponse.
      */
-    @Generated
     public static ErrorResponse fromJson(JsonReader jsonReader) throws IOException {
         return jsonReader.readObject(reader -> {
             boolean errorFound = false;

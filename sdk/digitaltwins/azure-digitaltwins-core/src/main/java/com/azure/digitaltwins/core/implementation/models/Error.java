@@ -5,7 +5,6 @@
 package com.azure.digitaltwins.core.implementation.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.annotation.Generated;
 import com.azure.json.JsonReader;
 import com.azure.json.JsonSerializable;
 import com.azure.json.JsonToken;
@@ -21,31 +20,26 @@ public final class Error implements JsonSerializable<Error> {
     /*
      * Service specific error code which serves as the substatus for the HTTP error code.
      */
-    @Generated
     private String code;
 
     /*
      * A human-readable representation of the error.
      */
-    @Generated
     private String message;
 
     /*
      * Internal error details.
      */
-    @Generated
     private List<Error> details;
 
     /*
      * An object containing more specific information than the current object about the error.
      */
-    @Generated
     private InnerError innererror;
 
     /**
      * Creates an instance of Error class.
      */
-    @Generated
     public Error() {
     }
 
@@ -54,7 +48,6 @@ public final class Error implements JsonSerializable<Error> {
      * 
      * @return the code value.
      */
-    @Generated
     public String getCode() {
         return this.code;
     }
@@ -64,7 +57,6 @@ public final class Error implements JsonSerializable<Error> {
      * 
      * @return the message value.
      */
-    @Generated
     public String getMessage() {
         return this.message;
     }
@@ -74,7 +66,6 @@ public final class Error implements JsonSerializable<Error> {
      * 
      * @return the details value.
      */
-    @Generated
     public List<Error> getDetails() {
         return this.details;
     }
@@ -85,7 +76,6 @@ public final class Error implements JsonSerializable<Error> {
      * 
      * @return the innererror value.
      */
-    @Generated
     public InnerError getInnererror() {
         return this.innererror;
     }
@@ -97,7 +87,6 @@ public final class Error implements JsonSerializable<Error> {
      * @param innererror the innererror value to set.
      * @return the Error object itself.
      */
-    @Generated
     public Error setInnererror(InnerError innererror) {
         this.innererror = innererror;
         return this;
@@ -106,7 +95,6 @@ public final class Error implements JsonSerializable<Error> {
     /**
      * {@inheritDoc}
      */
-    @Generated
     @Override
     public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
         jsonWriter.writeStartObject();
@@ -122,7 +110,6 @@ public final class Error implements JsonSerializable<Error> {
      * JSON null.
      * @throws IOException If an error occurs while reading the Error.
      */
-    @Generated
     public static Error fromJson(JsonReader jsonReader) throws IOException {
         return jsonReader.readObject(reader -> {
             Error deserializedError = new Error();

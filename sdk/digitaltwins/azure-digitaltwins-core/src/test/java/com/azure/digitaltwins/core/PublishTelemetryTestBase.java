@@ -4,13 +4,10 @@
 package com.azure.digitaltwins.core;
 
 import com.azure.core.http.HttpClient;
-
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 
 public abstract class PublishTelemetryTestBase extends DigitalTwinsTestBase {
     @Test
-    public abstract void publishTelemetryLifecycleTest(HttpClient httpClient, DigitalTwinsServiceVersion serviceVersion)
-        throws IOException;
+    public abstract void publishTelemetryLifecycleTest(HttpClient httpClient,
+        DigitalTwinsServiceVersion serviceVersion);
 }
