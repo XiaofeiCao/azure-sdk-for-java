@@ -2,21 +2,131 @@
 
 ## 2.53.0-beta.1 (Unreleased)
 
-### Features Added
-
 ### Breaking Changes
 
-### Bugs Fixed
+#### `SearchServiceManager` was removed
 
-### Other Changes
+#### `models.SearchService$Definition` was removed
 
-## 2.52.0 (2025-06-27)
+#### `models.SearchService$Update` was removed
 
-### Other Changes
+#### `models.SearchService` was removed
 
-#### Dependency Updates
+#### `models.SearchService$UpdateStages` was removed
 
-- Updated core dependency from resources.
+#### `models.SearchServices` was removed
+
+#### `models.SearchService$DefinitionStages` was removed
+
+#### `models.QueryKey` was removed
+
+#### `SearchServiceManager$Configurable` was removed
+
+#### `models.AdminKeys` was removed
+
+#### `models.PublicNetworkAccess` was modified
+
+* `valueOf(java.lang.String)` was removed
+* `models.PublicNetworkAccess[] values()` -> `java.util.Collection values()`
+* `toString()` was removed
+
+#### `models.CheckNameAvailabilityInput` was modified
+
+* `withType(java.lang.String)` was removed
+
+#### `models.SharedPrivateLinkResourceProvisioningState` was modified
+
+* `models.SharedPrivateLinkResourceProvisioningState[] values()` -> `java.util.Collection values()`
+* `toString()` was removed
+* `valueOf(java.lang.String)` was removed
+
+#### `models.SkuName` was modified
+
+* `models.SkuName[] values()` -> `java.util.Collection values()`
+* `toString()` was removed
+* `valueOf(java.lang.String)` was removed
+
+#### `models.SharedPrivateLinkResourceStatus` was modified
+
+* `valueOf(java.lang.String)` was removed
+* `toString()` was removed
+* `models.SharedPrivateLinkResourceStatus[] values()` -> `java.util.Collection values()`
+
+#### `models.IdentityType` was modified
+
+* `models.IdentityType[] values()` -> `java.util.Collection values()`
+* `valueOf(java.lang.String)` was removed
+* `toString()` was removed
+
+### Features Added
+
+* `models.NetworkSecurityPerimeterConfigurationProperties` was added
+
+* `models.AccessRuleProperties` was added
+
+* `models.ProvisioningIssue` was added
+
+* `models.ProvisioningIssueProperties` was added
+
+* `models.ActionType` was added
+
+* `models.AccessRulePropertiesSubscriptionsItem` was added
+
+* `models.NetworkSecurityProfile` was added
+
+* `models.AccessRule` was added
+
+* `models.SearchBypass` was added
+
+* `models.NetworkSecurityPerimeter` was added
+
+* `models.Origin` was added
+
+* `models.ResourceAssociationAccessMode` was added
+
+* `models.NetworkSecurityPerimeterConfigurationProvisioningState` was added
+
+* `models.NetworkSecurityPerimeterConfigurationListResult` was added
+
+* `models.UpgradeAvailable` was added
+
+* `models.AccessRuleDirection` was added
+
+* `models.ResourceAssociation` was added
+
+* `models.UserAssignedIdentity` was added
+
+* `models.SearchDataExfiltrationProtection` was added
+
+* `models.IssueType` was added
+
+* `models.ComputeType` was added
+
+* `models.Severity` was added
+
+#### `models.NetworkRuleSet` was modified
+
+* `bypass()` was added
+* `withBypass(models.SearchBypass)` was added
+
+#### `models.SearchServiceUpdate` was modified
+
+* `systemData()` was added
+* `upgradeAvailable()` was added
+* `withUpgradeAvailable(models.UpgradeAvailable)` was added
+* `endpoint()` was added
+* `etag()` was added
+* `withEndpoint(java.lang.String)` was added
+* `withComputeType(models.ComputeType)` was added
+* `dataExfiltrationProtections()` was added
+* `withDataExfiltrationProtections(java.util.List)` was added
+* `serviceUpgradedAt()` was added
+* `computeType()` was added
+
+#### `models.Identity` was modified
+
+* `withUserAssignedIdentities(java.util.Map)` was added
+* `userAssignedIdentities()` was added
 
 ## 2.52.0 (2025-06-27)
 
