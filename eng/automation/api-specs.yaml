@@ -117,8 +117,6 @@ redhatopenshift/Microsoft.RedHatOpenShift/openshiftclusters:
   service: redhatopenshift
 redis:
   suffix: generated
-resources:
-  suffix: generated
 resources/Microsoft.Resources/bicep:
   service: resources
   suffix: bicep

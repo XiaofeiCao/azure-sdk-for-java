@@ -7,6 +7,8 @@ import glob
 import logging
 import argparse
 import shutil
+import importlib.util
+from pathlib import Path
 from typing import List
 
 pwd = os.getcwd()
@@ -187,19 +189,44 @@ def sdk_automation_autorest(config: dict) -> List[dict]:
             output_folder = OUTPUT_FOLDER_FORMAT.format(service)
             namespace = NAMESPACE_FORMAT.format(service)
             stable_version, current_version = set_or_increase_version(sdk_root, GROUP_ID, module)
-            succeeded = generate(
-                sdk_root,
-                service,
-                spec_root=config["specFolder"],
-                readme=readme,
-                autorest=AUTOREST_CORE_VERSION,
-                use=AUTOREST_JAVA,
-                output_folder=output_folder,
-                module=module,
-                namespace=namespace,
-                tag=tag,
-                premium=is_mgmt_premium(module),
-            )
+            generate_script_path = os.path.join(sdk_root, output_folder, 'swagger', 'generate.py')
+            logging.info(f"Looking for generate.py at: {generate_script_path}")
+
+            if os.path.exists(generate_script_path):
+                logging.info("Found existing generate.py in output folder.")
+                try:
+                    loaded_module = load_generation_module(generate_script_path)
+                    logging.info("Load module succeeded.")
+                    succeeded = loaded_module.generate(
+                        sdk_root=sdk_root,
+                        service=service,
+                        spec_root=config["specFolder"],
+                        readme=readme,
+                        autorest=AUTOREST_CORE_VERSION,
+                        use=AUTOREST_JAVA,
+                        output_folder=output_folder,
+                        module=module,
+                        namespace=namespace,
+                        tag=tag,
+                        premium=is_mgmt_premium(module),
+                    )
+                except Exception as e:
+                    logging.error(f"Failed to load or execute generate.py: {str(e)}")
+                    raise e
+            else:
+                succeeded = generate(
+                    sdk_root,
+                    service,
+                    spec_root=config["specFolder"],
+                    readme=readme,
+                    autorest=AUTOREST_CORE_VERSION,
+                    use=AUTOREST_JAVA,
+                    output_folder=output_folder,
+                    module=module,
+                    namespace=namespace,
+                    tag=tag,
+                    premium=is_mgmt_premium(module),
+                )
             if succeeded:
                 succeeded = compile_arm_package(sdk_root, module)
                 if succeeded:
@@ -291,6 +318,46 @@ def verify_self_serve_parameters(api_version, sdk_release_type):
             "Both [API version] and [SDK release type] parameters are required for self-serve SDK generation."
         )
 
+def load_generation_module(file_path):
+    """
+    Load a Python file with full import support
+    """
+    logging.info(f"Loading module from: {file_path}")
+    
+    # Ensure we have an absolute path and it exists
+    file_path = os.path.abspath(file_path)
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Generate script not found at: {file_path}")
+    
+    # Convert to Path object for cross-platform compatibility
+    path_obj = Path(file_path)
+    module_name = path_obj.stem
+
+    # Create module spec
+    logging.info(f"Creating module spec for: {module_name}")
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    if spec is None:
+        raise ImportError(f"Could not load spec for {file_path}")
+
+    # Create module
+    module = importlib.util.module_from_spec(spec)
+
+    # IMPORTANT: Add to sys.modules BEFORE execution
+    # This allows the module to import other modules properly
+    sys.modules[module_name] = module
+
+    try:
+        # Execute the module
+        logging.info(f"Executing module: {module_name}")
+        spec.loader.exec_module(module)
+        logging.info(f"Successfully loaded module: {module_name}")
+        return module
+    except Exception as e:
+        # Clean up on failure
+        if module_name in sys.modules:
+            del sys.modules[module_name]
+        logging.error(f"Failed to load module {module_name}: {str(e)}")
+        raise e
 
 def sdk_automation_typespec_project(tsp_project: str, config: dict) -> dict:
 
