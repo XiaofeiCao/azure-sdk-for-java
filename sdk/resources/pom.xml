@@ -12,5 +12,6 @@
   <modules>
     <module>azure-resourcemanager-resources-bicep</module>
     <module>azure-resourcemanager-resources-deploymentstacks</module>
+    <module>azure-resourcemanager-resources</module>
   </modules>
 </project>

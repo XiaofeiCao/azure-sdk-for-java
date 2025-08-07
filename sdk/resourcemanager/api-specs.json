@@ -217,7 +217,7 @@
     "args": "--tag=package-2017-04 --stream-style-serialization=false"
   },
   "resources": {
-    "dir": "azure-resourcemanager-resources",
+    "dir": "../resources/azure-resourcemanager-resources",
     "source": "specification/resources/resource-manager/readme.md",
     "package": "com.azure.resourcemanager.resources",
     "args": "--tag=package-resources-2025-04 --enable-sync-stack=false",
