@@ -48,20 +48,6 @@ public interface KeyVaultManagementClient {
     Duration getDefaultPollInterval();
 
     /**
-     * Gets the KeysClient object to access its operations.
-     * 
-     * @return the KeysClient object.
-     */
-    KeysClient getKeys();
-
-    /**
-     * Gets the ManagedHsmKeysClient object to access its operations.
-     * 
-     * @return the ManagedHsmKeysClient object.
-     */
-    ManagedHsmKeysClient getManagedHsmKeys();
-
-    /**
      * Gets the VaultsClient object to access its operations.
      * 
      * @return the VaultsClient object.
@@ -116,11 +102,4 @@ public interface KeyVaultManagementClient {
      * @return the OperationsClient object.
      */
     OperationsClient getOperations();
-
-    /**
-     * Gets the SecretsClient object to access its operations.
-     * 
-     * @return the SecretsClient object.
-     */
-    SecretsClient getSecrets();
 }
