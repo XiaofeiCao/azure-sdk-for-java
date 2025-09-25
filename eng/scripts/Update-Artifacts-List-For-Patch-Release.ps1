@@ -73,7 +73,7 @@ foreach ($ymlFile in $ymlFiles) {
     }
 }
 
-$ArtifactInfos = @{}
+$ArtifactInfos = New-Object System.Collections.Specialized.OrderedDictionary
 
 Write-Host "Loading libraries from text file."
 
