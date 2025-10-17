@@ -15,8 +15,6 @@ import com.azure.resourcemanager.keyvault.models.ManagedHsms;
 import com.azure.resourcemanager.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 /**
  * Implementation for ManagedHsms and its parent interfaces.
  */
@@ -33,7 +31,7 @@ public class ManagedHsmsImpl
     @Override
     protected ManagedHsmImpl wrapModel(String name) {
         ManagedHsmInner inner = new ManagedHsmInner().withProperties(new ManagedHsmProperties());
-        inner.properties().withTenantId(UUID.fromString(tenantId));
+        inner.properties().withTenantId(tenantId);
         return new ManagedHsmImpl(name, inner, this.manager());
     }
 

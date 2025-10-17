@@ -15,10 +15,10 @@ import com.azure.resourcemanager.keyvault.models.SecretPermissions;
 import com.azure.resourcemanager.keyvault.models.StoragePermissions;
 import com.azure.resourcemanager.keyvault.models.Vault;
 import com.azure.resourcemanager.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /** Implementation for AccessPolicy and its parent interfaces. */
 class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, Vault>
@@ -29,7 +29,7 @@ class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, V
 
     AccessPolicyImpl(AccessPolicyEntry innerObject, VaultImpl parent) {
         super(innerObject, parent);
-        innerModel().withTenantId(UUID.fromString(parent.tenantId()));
+        innerModel().withTenantId(parent.tenantId());
     }
 
     String userPrincipalName() {
@@ -261,13 +261,13 @@ class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, V
 
     @Override
     public AccessPolicyImpl forApplicationId(String applicationId) {
-        innerModel().withApplicationId(UUID.fromString(applicationId));
+        innerModel().withApplicationId(applicationId);
         return this;
     }
 
     @Override
     public AccessPolicyImpl forTenantId(String tenantId) {
-        innerModel().withTenantId(UUID.fromString(tenantId));
+        innerModel().withTenantId(tenantId);
         return this;
     }
 
