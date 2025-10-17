@@ -13,17 +13,16 @@ public class KeyVaultCustomization extends Customization {
     public void customize(LibraryCustomization customization, Logger logger) {
         PackageCustomization fluentModelsPackage = customization.getPackage("com.azure.resourcemanager.keyvault.fluent.models");
         customizeResourceBaseClass(fluentModelsPackage.getClass("VaultInner"));
+        customizeResourceBaseClass(fluentModelsPackage.getClass("ManagedHsmInner"));
     }
 
     private static void customizeResourceBaseClass(ClassCustomization customization) {
         customization.customizeAst(ast -> {
-            String resourceClassName = "com.azure.core.management.Resource";
             ast.getClassByName(customization.getClassName()).ifPresent(clazz -> {
-                ast.getClassByName(resourceClassName).ifPresent(resourceClazz -> {
-                    ast.addImport(resourceClassName);
-                    clazz.getExtendedTypes().clear();
-                    clazz.addExtendedType(new ClassOrInterfaceType(null, "Resource"));
-                });
+                String resourceClassName = "com.azure.core.management.Resource";
+                ast.addImport(resourceClassName);
+                clazz.getExtendedTypes().clear();
+                clazz.addExtendedType(new ClassOrInterfaceType(null, "Resource"));
             });
         });
     }
