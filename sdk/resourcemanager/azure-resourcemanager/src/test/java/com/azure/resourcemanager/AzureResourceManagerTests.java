@@ -12,11 +12,13 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.Region;
 import com.azure.core.management.exception.ManagementException;
 import com.azure.core.management.profile.AzureProfile;
+import com.azure.core.models.AzureCloud;
 import com.azure.core.test.annotation.DoNotRecord;
 import com.azure.core.test.models.TestProxySanitizer;
 import com.azure.core.test.models.TestProxySanitizerType;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.logging.LogLevel;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.resourcemanager.authorization.models.BuiltInRole;
 import com.azure.resourcemanager.compute.models.CachingTypes;
 import com.azure.resourcemanager.compute.models.Disk;
@@ -77,6 +79,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.text.MessageFormat;
@@ -88,6 +91,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -1324,6 +1330,35 @@ public class AzureResourceManagerTests extends ResourceManagerTestProxyTestBase 
         }
 
         Assertions.assertEquals(0, sb.length(), sb.toString());
+    }
+
+    @Test
+    @DoNotRecord(skipInPlayback = true)
+    public void parallelInitialization() throws InterruptedException {
+        int parallelism = 1000;
+        int subscriptions = 100000;
+        TokenCredential tc = new DefaultAzureCredentialBuilder().build();
+
+        CountDownLatch cdl = new CountDownLatch(subscriptions);
+        Runnable azureInitialization = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    AzureResourceManager resourceManager = AzureResourceManager.authenticate(tc, new AzureProfile(AzureCloud.AZURE_PUBLIC_CLOUD)).withSubscription("");
+                    System.out.println(Thread.currentThread().getName());
+                } finally {
+                    cdl.countDown();
+                }
+            }
+        };
+
+        try (ExecutorService executor = Executors.newFixedThreadPool(parallelism)) {
+            for (int i = 0; i < subscriptions; i++) {
+                executor.submit(azureInitialization);
+            }
+        }
+
+        cdl.await();
     }
 
     private static Region findByLabelOrName(String labelOrName) {
