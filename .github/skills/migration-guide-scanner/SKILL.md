@@ -134,26 +134,27 @@ In addition to migration guides found in the repository, include these known pac
 
 #### Management Libraries
 
-| Track 1 Package                                  | Track 2 Package                                                   | Notes           |
-| ------------------------------------------------ | ----------------------------------------------------------------- | --------------- |
-| com.microsoft.azure:azure-mgmt-resources         | com.azure.resourcemanager:azure-resourcemanager-resources         |                 |
-| com.microsoft.azure:azure-mgmt-compute           | com.azure.resourcemanager:azure-resourcemanager-compute           |                 |
-| com.microsoft.azure:azure-mgmt-storage           | com.azure.resourcemanager:azure-resourcemanager-storage           |                 |
-| com.microsoft.azure:azure-mgmt-network           | com.azure.resourcemanager:azure-resourcemanager-network           |                 |
-| com.microsoft.azure:azure-mgmt-keyvault          | com.azure.resourcemanager:azure-resourcemanager-keyvault          |                 |
-| com.microsoft.azure:azure-mgmt-sql               | com.azure.resourcemanager:azure-resourcemanager-sql               |                 |
-| com.microsoft.azure:azure-mgmt-cosmosdb          | com.azure.resourcemanager:azure-resourcemanager-cosmos            |                 |
-| com.microsoft.azure:azure-mgmt-eventhub          | com.azure.resourcemanager:azure-resourcemanager-eventhubs         |                 |
-| com.microsoft.azure:azure-mgmt-servicebus        | com.azure.resourcemanager:azure-resourcemanager-servicebus        |                 |
-| com.microsoft.azure:azure-mgmt-appservice        | com.azure.resourcemanager:azure-resourcemanager-appservice        |                 |
-| com.microsoft.azure:azure-mgmt-containerregistry | com.azure.resourcemanager:azure-resourcemanager-containerregistry |                 |
-| com.microsoft.azure:azure-mgmt-containerservice  | com.azure.resourcemanager:azure-resourcemanager-containerservice  |                 |
-| com.microsoft.azure:azure-mgmt-dns               | com.azure.resourcemanager:azure-resourcemanager-dns               |                 |
-| com.microsoft.azure:azure-mgmt-monitor           | com.azure.resourcemanager:azure-resourcemanager-monitor           |                 |
-| com.microsoft.azure:azure-mgmt-redis             | com.azure.resourcemanager:azure-resourcemanager-redis             |                 |
-| com.microsoft.azure:azure-mgmt-trafficmanager    | com.azure.resourcemanager:azure-resourcemanager-trafficmanager    |                 |
-| com.microsoft.azure:azure-mgmt-cdn               | com.azure.resourcemanager:azure-resourcemanager-cdn               |                 |
-| com.microsoft.azure:azure-mgmt-\*                | com.azure.resourcemanager:azure-resourcemanager-\*                | General pattern |
+| Track 1 Package                                  | Track 2 Package                                                   | Notes                    |
+| ------------------------------------------------ | ----------------------------------------------------------------- | ------------------------ |
+| com.microsoft.azure:azure                        | com.azure.resourcemanager:azure-resourcemanager                   | Aggregate management SDK |
+| com.microsoft.azure:azure-mgmt-resources         | com.azure.resourcemanager:azure-resourcemanager-resources         |                          |
+| com.microsoft.azure:azure-mgmt-compute           | com.azure.resourcemanager:azure-resourcemanager-compute           |                          |
+| com.microsoft.azure:azure-mgmt-storage           | com.azure.resourcemanager:azure-resourcemanager-storage           |                          |
+| com.microsoft.azure:azure-mgmt-network           | com.azure.resourcemanager:azure-resourcemanager-network           |                          |
+| com.microsoft.azure:azure-mgmt-keyvault          | com.azure.resourcemanager:azure-resourcemanager-keyvault          |                          |
+| com.microsoft.azure:azure-mgmt-sql               | com.azure.resourcemanager:azure-resourcemanager-sql               |                          |
+| com.microsoft.azure:azure-mgmt-cosmosdb          | com.azure.resourcemanager:azure-resourcemanager-cosmos            |                          |
+| com.microsoft.azure:azure-mgmt-eventhub          | com.azure.resourcemanager:azure-resourcemanager-eventhubs         |                          |
+| com.microsoft.azure:azure-mgmt-servicebus        | com.azure.resourcemanager:azure-resourcemanager-servicebus        |                          |
+| com.microsoft.azure:azure-mgmt-appservice        | com.azure.resourcemanager:azure-resourcemanager-appservice        |                          |
+| com.microsoft.azure:azure-mgmt-containerregistry | com.azure.resourcemanager:azure-resourcemanager-containerregistry |                          |
+| com.microsoft.azure:azure-mgmt-containerservice  | com.azure.resourcemanager:azure-resourcemanager-containerservice  |                          |
+| com.microsoft.azure:azure-mgmt-dns               | com.azure.resourcemanager:azure-resourcemanager-dns               |                          |
+| com.microsoft.azure:azure-mgmt-monitor           | com.azure.resourcemanager:azure-resourcemanager-monitor           |                          |
+| com.microsoft.azure:azure-mgmt-redis             | com.azure.resourcemanager:azure-resourcemanager-redis             |                          |
+| com.microsoft.azure:azure-mgmt-trafficmanager    | com.azure.resourcemanager:azure-resourcemanager-trafficmanager    |                          |
+| com.microsoft.azure:azure-mgmt-cdn               | com.azure.resourcemanager:azure-resourcemanager-cdn               |                          |
+| com.microsoft.azure:azure-mgmt-\*                | com.azure.resourcemanager:azure-resourcemanager-\*                | General pattern          |
 
 ### Step 6: Generate Output
 

@@ -116,6 +116,7 @@ All `com.microsoft.azure:azure-mgmt-*` packages map to `com.azure.resourcemanage
 
 | Track 1 Package               | Track 2 Package                          |
 | ----------------------------- | ---------------------------------------- |
+| azure (aggregate SDK)         | azure-resourcemanager                    |
 | azure-mgmt-resources          | azure-resourcemanager-resources          |
 | azure-mgmt-compute            | azure-resourcemanager-compute            |
 | azure-mgmt-storage            | azure-resourcemanager-storage            |
