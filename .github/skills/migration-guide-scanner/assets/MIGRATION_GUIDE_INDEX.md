@@ -16,68 +16,68 @@
 
 ### Messaging Services
 
-| Track 1 Package (Legacy)                                 | Track 2 Package (Current)            | Migration Guide                                                                                                                              |
-| -------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| com.microsoft.azure:azure-servicebus                     | com.azure:azure-messaging-servicebus | [migration-guide.md](../../../sdk/servicebus/azure-messaging-servicebus/migration-guide.md) / [aka.ms](https://aka.ms/azsdk/java/migrate/sb) |
-| com.microsoft.azure:azure-eventhubs, azure-eventhubs-eph | com.azure:azure-messaging-eventhubs  | [migration-guide.md](../../../sdk/eventhubs/azure-messaging-eventhubs/migration-guide.md) / [aka.ms](https://aka.ms/azsdk/java/migrate/eh)   |
-| com.microsoft.azure:azure-eventgrid                      | com.azure:azure-messaging-eventgrid  | [migration-guide.md](../../../sdk/eventgrid/azure-messaging-eventgrid/migration-guide.md)                                                    |
+| Track 1 Package (Legacy)                                 | Track 2 Package (Current)            | Migration Guide                                                                                                                                                                                     |
+| -------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| com.microsoft.azure:azure-servicebus                     | com.azure:azure-messaging-servicebus | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/servicebus/azure-messaging-servicebus/migration-guide.md) / [aka.ms](https://aka.ms/azsdk/java/migrate/sb) |
+| com.microsoft.azure:azure-eventhubs, azure-eventhubs-eph | com.azure:azure-messaging-eventhubs  | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/eventhubs/azure-messaging-eventhubs/migration-guide.md) / [aka.ms](https://aka.ms/azsdk/java/migrate/eh)   |
+| com.microsoft.azure:azure-eventgrid                      | com.azure:azure-messaging-eventgrid  | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/eventgrid/azure-messaging-eventgrid/migration-guide.md)                                                    |
 
 ### Storage Services
 
-| Track 1 Package (Legacy)                       | Track 2 Package (Current)                 | Migration Guide                                                                      |
-| ---------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------ |
-| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob              | [V8_V12.md](../../../sdk/storage/azure-storage-blob/migrationGuides/V8_V12.md)       |
-| com.microsoft.azure:azure-storage (v10.x/11.x) | com.azure:azure-storage-blob              | [V10_V12.md](../../../sdk/storage/azure-storage-blob/migrationGuides/V10_V12.md)     |
-| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-queue             | [V8_V12.md](../../../sdk/storage/azure-storage-queue/migrationGuides/V8_V12.md)      |
-| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-file-share        | [V8_V12.md](../../../sdk/storage/azure-storage-file-share/migrationGuides/V8_V12.md) |
-| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob-batch        | No dedicated guide                                                                   |
-| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob-cryptography | No dedicated guide                                                                   |
+| Track 1 Package (Legacy)                       | Track 2 Package (Current)                 | Migration Guide                                                                                                                             |
+| ---------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob              | [V8_V12.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-blob/migrationGuides/V8_V12.md)       |
+| com.microsoft.azure:azure-storage (v10.x/11.x) | com.azure:azure-storage-blob              | [V10_V12.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-blob/migrationGuides/V10_V12.md)     |
+| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-queue             | [V8_V12.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-queue/migrationGuides/V8_V12.md)      |
+| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-file-share        | [V8_V12.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-file-share/migrationGuides/V8_V12.md) |
+| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob-batch        | No dedicated guide                                                                                                                          |
+| com.microsoft.azure:azure-storage (v8.x)       | com.azure:azure-storage-blob-cryptography | No dedicated guide                                                                                                                          |
 
 ### Key Vault Services
 
-| Track 1 Package (Legacy)           | Track 2 Package (Current)                      | Migration Guide                                                                                     |
-| ---------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-secrets      | [migration_guide.md](../../../sdk/keyvault/azure-security-keyvault-secrets/migration_guide.md)      |
-| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-keys         | [migration_guide.md](../../../sdk/keyvault/azure-security-keyvault-keys/migration_guide.md)         |
-| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-certificates | [migration_guide.md](../../../sdk/keyvault/azure-security-keyvault-certificates/migration_guide.md) |
+| Track 1 Package (Legacy)           | Track 2 Package (Current)                      | Migration Guide                                                                                                                                            |
+| ---------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-secrets      | [migration_guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-secrets/migration_guide.md)      |
+| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-keys         | [migration_guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-keys/migration_guide.md)         |
+| com.microsoft.azure:azure-keyvault | com.azure:azure-security-keyvault-certificates | [migration_guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-certificates/migration_guide.md) |
 
 ### Batch Services
 
-| Track 1 Package (Legacy)                  | Track 2 Package (Current)     | Migration Guide                                                               |
-| ----------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------- |
-| com.microsoft.azure:microsoft-azure-batch | com.azure:azure-compute-batch | [MigrationGuide.md](../../../sdk/batch/azure-compute-batch/MigrationGuide.md) |
+| Track 1 Package (Legacy)                  | Track 2 Package (Current)     | Migration Guide                                                                                                                      |
+| ----------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| com.microsoft.azure:microsoft-azure-batch | com.azure:azure-compute-batch | [MigrationGuide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/batch/azure-compute-batch/MigrationGuide.md) |
 
 ### AI Services
 
-| Track 1 Package (Legacy)                 | Track 2 Package (Current)                | Migration Guide                                                                                          |
-| ---------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| com.azure:azure-ai-formrecognizer (v3.x) | com.azure:azure-ai-documentintelligence  | [MIGRATION_GUIDE.md](../../../sdk/documentintelligence/azure-ai-documentintelligence/MIGRATION_GUIDE.md) |
-| com.azure:azure-ai-formrecognizer (v3.x) | com.azure:azure-ai-formrecognizer (v4.x) | [migration-guide.md](../../../sdk/formrecognizer/azure-ai-formrecognizer/migration-guide.md)             |
-| com.azure:azure-ai-openai                | openai-java (OpenAI Official SDK)        | [MIGRATION.md](../../../sdk/openai/azure-ai-openai-stainless/MIGRATION.md)                               |
+| Track 1 Package (Legacy)                 | Track 2 Package (Current)                | Migration Guide                                                                                                                                                 |
+| ---------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| com.azure:azure-ai-formrecognizer (v3.x) | com.azure:azure-ai-documentintelligence  | [MIGRATION_GUIDE.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/documentintelligence/azure-ai-documentintelligence/MIGRATION_GUIDE.md) |
+| com.azure:azure-ai-formrecognizer (v3.x) | com.azure:azure-ai-formrecognizer (v4.x) | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/formrecognizer/azure-ai-formrecognizer/migration-guide.md)             |
+| com.azure:azure-ai-openai                | openai-java (OpenAI Official SDK)        | [MIGRATION.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/openai/azure-ai-openai-stainless/MIGRATION.md)                               |
 
 ### Monitor Services
 
-| Track 1 Package (Legacy)                       | Track 2 Package (Current)                           | Migration Guide                                                                           |
-| ---------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| com.azure:azure-monitor-opentelemetry-exporter | com.azure:azure-monitor-opentelemetry-autoconfigure | [MIGRATION.md](../../../sdk/monitor/azure-monitor-opentelemetry-exporter/MIGRATION.md)    |
-| com.azure:azure-monitor-query                  | com.azure:azure-monitor-query-logs                  | [migration-guide.md](../../../sdk/monitor/azure-monitor-query-logs/migration-guide.md)    |
-| com.azure:azure-monitor-query                  | com.azure:azure-monitor-query-metrics               | [migration-guide.md](../../../sdk/monitor/azure-monitor-query-metrics/migration-guide.md) |
-| —                                              | —                                                   | [migration-guide-query.md](../../../sdk/monitor/migration-guide-query.md) (overview)      |
+| Track 1 Package (Legacy)                       | Track 2 Package (Current)                           | Migration Guide                                                                                                                                  |
+| ---------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| com.azure:azure-monitor-opentelemetry-exporter | com.azure:azure-monitor-opentelemetry-autoconfigure | [MIGRATION.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-opentelemetry-exporter/MIGRATION.md)    |
+| com.azure:azure-monitor-query                  | com.azure:azure-monitor-query-logs                  | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-query-logs/migration-guide.md)    |
+| com.azure:azure-monitor-query                  | com.azure:azure-monitor-query-metrics               | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-query-metrics/migration-guide.md) |
+| —                                              | —                                                   | [migration-guide-query.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/migration-guide-query.md) (overview)      |
 
 ### Cosmos DB Spark Connector
 
-| Track 1 Package (Legacy)              | Track 2 Package (Current)   | Migration Guide                                                                          |
-| ------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------- |
-| Cosmos DB Spark Connector (Spark 2.4) | azure-cosmos-spark_3        | [migration.md](../../../sdk/cosmos/azure-cosmos-spark_3/docs/migration.md)               |
-| azure-cosmos-spark_3 (older)          | azure-cosmos-spark_3-1_2-12 | [migration-guide.md](../../../sdk/cosmos/azure-cosmos-spark_3-1_2-12/migration-guide.md) |
-| azure-cosmos-spark_3-1                | azure-cosmos-spark_3-2_2-12 | [migration-guide.md](../../../sdk/cosmos/azure-cosmos-spark_3-2_2-12/migration-guide.md) |
+| Track 1 Package (Legacy)              | Track 2 Package (Current)   | Migration Guide                                                                                                                                 |
+| ------------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cosmos DB Spark Connector (Spark 2.4) | azure-cosmos-spark_3        | [migration.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3/docs/migration.md)               |
+| azure-cosmos-spark_3 (older)          | azure-cosmos-spark_3-1_2-12 | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3-1_2-12/migration-guide.md) |
+| azure-cosmos-spark_3-1                | azure-cosmos-spark_3-2_2-12 | [migration-guide.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3-2_2-12/migration-guide.md) |
 
 ## Management Libraries (With Migration Guide)
 
-| Track 1 Package (Legacy)                          | Track 2 Package (Current)                  | Migration Guide                                                            |
-| ------------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
-| com.microsoft.azure.management:\*                 | com.azure.resourcemanager:\*               | [MIGRATION_GUIDE.md](../../../sdk/resourcemanager/docs/MIGRATION_GUIDE.md) |
-| com.azure:azure-resourcemanager-playwrighttesting | com.azure:azure-resourcemanager-playwright | [aka.ms](https://aka.ms/mpt/migration-guidance)                            |
+| Track 1 Package (Legacy)                          | Track 2 Package (Current)                  | Migration Guide                                                                                                                   |
+| ------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| com.microsoft.azure.management:\*                 | com.azure.resourcemanager:\*               | [MIGRATION_GUIDE.md](https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/resourcemanager/docs/MIGRATION_GUIDE.md) |
+| com.azure:azure-resourcemanager-playwrighttesting | com.azure:azure-resourcemanager-playwright | [aka.ms](https://aka.ms/mpt/migration-guidance)                                                                                   |
 
 ---
 
@@ -205,38 +205,37 @@ All migration guide files found in the repository:
 
 ### Dedicated Migration Files (24 files)
 
-```
-sdk/batch/azure-compute-batch/MigrationGuide.md
-sdk/servicebus/azure-messaging-servicebus/migration-guide.md
-sdk/eventhubs/azure-messaging-eventhubs/migration-guide.md
-sdk/eventgrid/azure-messaging-eventgrid/migration-guide.md
-sdk/storage/azure-storage-blob/migrationGuides/V8_V12.md
-sdk/storage/azure-storage-blob/migrationGuides/V10_V12.md
-sdk/storage/azure-storage-queue/migrationGuides/V8_V12.md
-sdk/storage/azure-storage-file-share/migrationGuides/V8_V12.md
-sdk/keyvault/azure-security-keyvault-secrets/migration_guide.md
-sdk/keyvault/azure-security-keyvault-keys/migration_guide.md
-sdk/keyvault/azure-security-keyvault-certificates/migration_guide.md
-sdk/documentintelligence/azure-ai-documentintelligence/MIGRATION_GUIDE.md
-sdk/formrecognizer/azure-ai-formrecognizer/migration-guide.md
-sdk/openai/azure-ai-openai-stainless/MIGRATION.md
-sdk/monitor/azure-monitor-opentelemetry-exporter/MIGRATION.md
-sdk/monitor/azure-monitor-query/migration-guide.md
-sdk/monitor/azure-monitor-query-logs/migration-guide.md
-sdk/monitor/azure-monitor-query-metrics/migration-guide.md
-sdk/monitor/migration-guide-query.md
-sdk/cosmos/azure-cosmos-spark_3/docs/migration.md
-sdk/cosmos/azure-cosmos-spark_3-1_2-12/migration-guide.md
-sdk/cosmos/azure-cosmos-spark_3-2_2-12/migration-guide.md
-sdk/resourcemanager/docs/MIGRATION_GUIDE.md
-sdk/purview/azure-analytics-purview-datamap/MigrationGuide.md
+| File                                                                      | GitHub Raw URL                                                                                                                            |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| sdk/batch/azure-compute-batch/MigrationGuide.md                           | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/batch/azure-compute-batch/MigrationGuide.md                           |
+| sdk/servicebus/azure-messaging-servicebus/migration-guide.md              | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/servicebus/azure-messaging-servicebus/migration-guide.md              |
+| sdk/eventhubs/azure-messaging-eventhubs/migration-guide.md                | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/eventhubs/azure-messaging-eventhubs/migration-guide.md                |
+| sdk/eventgrid/azure-messaging-eventgrid/migration-guide.md                | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/eventgrid/azure-messaging-eventgrid/migration-guide.md                |
+| sdk/storage/azure-storage-blob/migrationGuides/V8_V12.md                  | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-blob/migrationGuides/V8_V12.md                  |
+| sdk/storage/azure-storage-blob/migrationGuides/V10_V12.md                 | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-blob/migrationGuides/V10_V12.md                 |
+| sdk/storage/azure-storage-queue/migrationGuides/V8_V12.md                 | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-queue/migrationGuides/V8_V12.md                 |
+| sdk/storage/azure-storage-file-share/migrationGuides/V8_V12.md            | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/storage/azure-storage-file-share/migrationGuides/V8_V12.md            |
+| sdk/keyvault/azure-security-keyvault-secrets/migration_guide.md           | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-secrets/migration_guide.md           |
+| sdk/keyvault/azure-security-keyvault-keys/migration_guide.md              | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-keys/migration_guide.md              |
+| sdk/keyvault/azure-security-keyvault-certificates/migration_guide.md      | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/keyvault/azure-security-keyvault-certificates/migration_guide.md      |
+| sdk/documentintelligence/azure-ai-documentintelligence/MIGRATION_GUIDE.md | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/documentintelligence/azure-ai-documentintelligence/MIGRATION_GUIDE.md |
+| sdk/formrecognizer/azure-ai-formrecognizer/migration-guide.md             | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/formrecognizer/azure-ai-formrecognizer/migration-guide.md             |
+| sdk/openai/azure-ai-openai-stainless/MIGRATION.md                         | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/openai/azure-ai-openai-stainless/MIGRATION.md                         |
+| sdk/monitor/azure-monitor-opentelemetry-exporter/MIGRATION.md             | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-opentelemetry-exporter/MIGRATION.md             |
+| sdk/monitor/azure-monitor-query/migration-guide.md                        | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-query/migration-guide.md                        |
+| sdk/monitor/azure-monitor-query-logs/migration-guide.md                   | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-query-logs/migration-guide.md                   |
+| sdk/monitor/azure-monitor-query-metrics/migration-guide.md                | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/azure-monitor-query-metrics/migration-guide.md                |
+| sdk/monitor/migration-guide-query.md                                      | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/monitor/migration-guide-query.md                                      |
+| sdk/cosmos/azure-cosmos-spark_3/docs/migration.md                         | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3/docs/migration.md                         |
+| sdk/cosmos/azure-cosmos-spark_3-1_2-12/migration-guide.md                 | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3-1_2-12/migration-guide.md                 |
+| sdk/cosmos/azure-cosmos-spark_3-2_2-12/migration-guide.md                 | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/cosmos/azure-cosmos-spark_3-2_2-12/migration-guide.md                 |
+| sdk/resourcemanager/docs/MIGRATION_GUIDE.md                               | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/resourcemanager/docs/MIGRATION_GUIDE.md                               |
+| sdk/purview/azure-analytics-purview-datamap/MigrationGuide.md             | https://raw.githubusercontent.com/Azure/azure-sdk-for-java/main/sdk/purview/azure-analytics-purview-datamap/MigrationGuide.md             |
 
-```
+### External Migration Guide Links (aka.ms)
 
-https://aka.ms/azsdk/java/migrate/sb (Service Bus)
-https://aka.ms/azsdk/java/migrate/eh (Event Hubs)
-https://aka.ms/mpt/migration-guidance (Playwright Testing)
-
-```
-
-```
+| Service            | URL                                   |
+| ------------------ | ------------------------------------- |
+| Service Bus        | https://aka.ms/azsdk/java/migrate/sb  |
+| Event Hubs         | https://aka.ms/azsdk/java/migrate/eh  |
+| Playwright Testing | https://aka.ms/mpt/migration-guidance |
