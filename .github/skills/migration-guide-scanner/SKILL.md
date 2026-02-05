@@ -222,3 +222,23 @@ Produce a Markdown table with all mappings, indicating whether a migration guide
 - Resource Manager packages follow a different pattern with `azure-resourcemanager-*` prefix
 - **Exclude** azure-core to azure-core-v2 migration (sdk/tools/azure-openrewrite/MIGRATION.md) - not ready for production
 - **Exclude** Spring Cloud Azure packages (`com.azure.spring`) - handled separately
+
+## Step 7: Update Migration Guide Index
+
+After scanning, update the index file at:
+
+```
+.github/skills/migration-guide-scanner/assets/MIGRATION_GUIDE_INDEX.md
+```
+
+The index file should include:
+
+1. **Maven Central Scan Summary** - Active/Deprecated/Not found counts
+2. **Data Plane Libraries (With Migration Guides)** - Organized by service category
+3. **Management Libraries (With Migration Guide)** - Resource manager packages
+4. **Known Track 1 → Track 2 Mappings (Without Guides)** - Package equivalents without dedicated documentation
+5. **Summary Table** - Counts by category
+6. **Actively Maintained Packages** - List of `com.microsoft.azure` packages that should NOT be migrated
+7. **File Locations Reference** - All migration guide files with GitHub raw URLs
+
+Update the "Generated on" date at the top of the file to reflect when the scan was performed.
