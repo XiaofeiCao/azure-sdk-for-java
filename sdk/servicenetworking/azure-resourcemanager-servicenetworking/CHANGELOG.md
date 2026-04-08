@@ -1,8 +1,86 @@
 # Release History
 
-## 1.2.0-beta.1 (Unreleased)
+## 1.2.0-beta.1 (2026-04-08)
 
 - Azure Resource Manager Traffic Controller client library for Java. This package contains Microsoft Azure SDK for Traffic Controller Management SDK. Traffic Controller Provider management API. Package api-version 2025-03-01-preview. For documentation on how to use this package, please see [Azure Management Libraries for Java](https://aka.ms/azsdk/java/mgmt).
+
+### Breaking Changes
+
+#### `models.AssociationUpdateProperties` was removed
+
+#### `models.WafSecurityPolicy` was modified
+
+* `validate()` was removed
+
+#### `models.TrafficControllerUpdate` was modified
+
+* `validate()` was removed
+
+#### `models.AssociationUpdate` was modified
+
+* `validate()` was removed
+* `withProperties(models.AssociationUpdateProperties)` was removed
+* `properties()` was removed
+
+#### `models.Association$Update` was modified
+
+* `withProperties(models.AssociationUpdateProperties)` was removed
+
+#### `models.AssociationSubnet` was modified
+
+* `validate()` was removed
+
+#### `models.TrafficControllerUpdateProperties` was modified
+
+* `validate()` was removed
+
+#### `models.AssociationSubnetUpdate` was modified
+
+* `validate()` was removed
+
+#### `models.SecurityPolicyProperties` was modified
+
+* `validate()` was removed
+
+#### `models.SecurityPolicyConfigurations` was modified
+
+* `validate()` was removed
+
+#### `models.OperationDisplay` was modified
+
+* `validate()` was removed
+
+#### `models.SecurityPolicyUpdate` was modified
+
+* `validate()` was removed
+
+#### `models.TrafficControllerProperties` was modified
+
+* `validate()` was removed
+
+#### `models.FrontendUpdate` was modified
+
+* `validate()` was removed
+
+#### `models.SecurityPolicyUpdateProperties` was modified
+
+* `validate()` was removed
+
+#### `models.WafPolicy` was modified
+
+* `validate()` was removed
+
+#### `models.AssociationProperties` was modified
+
+* `validate()` was removed
+
+#### `models.ResourceId` was modified
+
+* `validate()` was removed
+
+#### `models.FrontendProperties` was modified
+
+* `validate()` was removed
 
 ### Features Added
 
@@ -20,6 +98,18 @@
 
 * `withProperties(models.FrontendUpdateProperties)` was added
 
+#### `models.AssociationUpdate` was modified
+
+* `subnet()` was added
+* `associationType()` was added
+* `withSubnet(models.AssociationSubnetUpdate)` was added
+* `withAssociationType(models.AssociationType)` was added
+
+#### `models.Association$Update` was modified
+
+* `withSubnet(models.AssociationSubnetUpdate)` was added
+* `withAssociationType(models.AssociationType)` was added
+
 #### `models.SecurityPolicyProperties` was modified
 
 * `withIpAccessRulesPolicy(models.IpAccessRulesPolicy)` was added
@@ -27,18 +117,22 @@
 
 #### `models.SecurityPolicyConfigurations` was modified
 
-* `ipAccessRulesSecurityPolicy()` was added
 * `withIpAccessRulesSecurityPolicy(models.IpAccessRulesSecurityPolicy)` was added
+* `ipAccessRulesSecurityPolicy()` was added
 
 #### `models.FrontendUpdate` was modified
 
-* `withProperties(models.FrontendUpdateProperties)` was added
 * `properties()` was added
+* `withProperties(models.FrontendUpdateProperties)` was added
 
 #### `models.SecurityPolicyUpdateProperties` was modified
 
 * `ipAccessRulesPolicy()` was added
 * `withIpAccessRulesPolicy(models.IpAccessRulesPolicy)` was added
+
+#### `models.PolicyType` was modified
+
+* `IP_ACCESS_RULES` was added
 
 #### `models.FrontendProperties` was modified
 
