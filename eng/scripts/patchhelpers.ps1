@@ -171,6 +171,38 @@ function TryAddLatestDependencyVersionFromMaven($DependencyId, [hashtable]$Lates
     }
 }
 
+function Test-IsAzureResourceManagerUmbrella([ArtifactInfo]$ArtifactInfo) {
+    return $ArtifactInfo.GroupId -eq "com.azure.resourcemanager" -and $ArtifactInfo.ArtifactId -eq "azure-resourcemanager"
+}
+
+function Test-IsAzureResourceManagerSubLibraryDependency([string]$DependencyId) {
+    return $DependencyId -like "azure-resourcemanager-*"
+}
+
+function Test-IsPatchCompatibleDependencyUpdate([string]$DeclaredVersion, [string]$LatestVersion) {
+    $declaredSemver = [AzureEngSemanticVersion]::ParseVersionString($DeclaredVersion)
+    $latestSemver = [AzureEngSemanticVersion]::ParseVersionString($LatestVersion)
+
+    if (!$declaredSemver -or !$latestSemver -or $declaredSemver.IsPrerelease -or $latestSemver.IsPrerelease) {
+        return $false
+    }
+
+    return $declaredSemver.Major -eq $latestSemver.Major -and $declaredSemver.Minor -eq $latestSemver.Minor
+}
+
+function Test-IsIgnorableResourceManagerPrereleaseUpdate([string]$DeclaredVersion, [string]$LatestVersion) {
+    $declaredSemver = [AzureEngSemanticVersion]::ParseVersionString($DeclaredVersion)
+    $latestSemver = [AzureEngSemanticVersion]::ParseVersionString($LatestVersion)
+
+    if (!$declaredSemver -or !$latestSemver -or !$latestSemver.IsPrerelease) {
+        return $false
+    }
+
+    # A beta for the next minor version has not had its corresponding GA yet, so it should not block an umbrella patch.
+    # E.g. we accept 2.55.x -> 2.56.0-beta.x, but not 2.55.x -> 2.57.0-beta.x, since there's 2.56.0 before 2.57.0-beta.x, and no before 2.56.0-beta.x
+    return $latestSemver.Major -eq $declaredSemver.Major -and $latestSemver.Minor -le ($declaredSemver.Minor + 1)
+}
+
 # Find all the artifacts that will need to be patched based on dependency analysis.
 # Iterates until no more patches are found (fixed-point), so the result is correct
 # regardless of artifact ordering in patch_release_client.txt.
@@ -179,6 +211,8 @@ function TryAddLatestDependencyVersionFromMaven($DependencyId, [hashtable]$Lates
 function FindArtifactsThatNeedPatching($ArtifactInfos) {
     $latestVersions = @{}
     $unresolvedDependencies = @{}
+    # Avoid repeated warnings for the same non-patch dependency update across fixed-point passes.
+    $reportedNonPatchResourceManagerDependencies = @{}
     foreach ($arId in $ArtifactInfos.Keys) {
         $latestVersions[$arId] = $ArtifactInfos[$arId].LatestGAOrPatchVersion
     }
@@ -188,7 +222,69 @@ function FindArtifactsThatNeedPatching($ArtifactInfos) {
         foreach ($arId in $ArtifactInfos.Keys) {
             $arInfo = $ArtifactInfos[$arId]
             if ($arInfo.FutureReleasePatchVersion) { continue }
+
+            if (Test-IsAzureResourceManagerUmbrella -ArtifactInfo $arInfo) {
+                # Scan all azure-resourcemanager-* sub-dependencies before deciding whether the umbrella can be patched.
+                $hasPatchCompatibleResourceManagerDependencyUpdate = $false
+                $hasNonPatchResourceManagerDependencyUpdate = $false
+
+                foreach ($depId in $arInfo.Dependencies.Keys) {
+                    if (-not (Test-IsAzureResourceManagerSubLibraryDependency -DependencyId $depId)) {
+                        continue
+                    }
+
+                    # Use the already-known latest version when the sub-dependency is in the patch list; otherwise resolve it from Maven.
+                    # If Maven cannot resolve it, skip this dependency because there is no reliable version to compare against.
+                    if (-not $latestVersions.ContainsKey($depId) -and
+                        -not (TryAddLatestDependencyVersionFromMaven -DependencyId $depId -LatestVersions $latestVersions -UnresolvedDependencies $unresolvedDependencies)) {
+                        continue
+                    }
+
+                    $declaredVersion = $arInfo.Dependencies[$depId]
+                    $latestVersion = $latestVersions[$depId]
+                    if ($declaredVersion -eq $latestVersion) {
+                        continue
+                    }
+
+                    # Track any patch-compatible sub-dependency update, but keep scanning in case another sub-dependency requires a minor umbrella release.
+                    if (Test-IsPatchCompatibleDependencyUpdate -DeclaredVersion $declaredVersion -LatestVersion $latestVersion) {
+                        $hasPatchCompatibleResourceManagerDependencyUpdate = $true
+                        continue
+                    }
+
+                    if (Test-IsIgnorableResourceManagerPrereleaseUpdate -DeclaredVersion $declaredVersion -LatestVersion $latestVersion) {
+                        continue
+                    }
+
+                    $hasNonPatchResourceManagerDependencyUpdate = $true
+                    $warningKey = "${depId}:${declaredVersion}:${latestVersion}"
+                    if (-not $reportedNonPatchResourceManagerDependencies.ContainsKey($warningKey)) {
+                        Write-Warning "Skipping patch release for azure-resourcemanager: sub-dependency $depId moved from $declaredVersion to $latestVersion (non-patch bump). Schedule a manual minor release of azure-resourcemanager instead."
+                        $reportedNonPatchResourceManagerDependencies[$warningKey] = $true
+                    }
+                }
+
+                if ($hasNonPatchResourceManagerDependencyUpdate) {
+                    continue
+                }
+
+                if ($hasPatchCompatibleResourceManagerDependencyUpdate) {
+                    $patchVersion = GetPatchVersion -ReleaseVersion $arInfo.LatestGAOrPatchVersion
+                    $arInfo.FutureReleasePatchVersion = $patchVersion
+                    $latestVersions[$arId] = $patchVersion
+                    $changed = $true
+                    continue
+                }
+            }
+
             foreach ($depId in $arInfo.Dependencies.Keys) {
+                # The umbrella-specific scan above already handled azure-resourcemanager-* dependencies.
+                # Do not let the generic fallback treat ignored prerelease updates as patch triggers.
+                if ((Test-IsAzureResourceManagerUmbrella -ArtifactInfo $arInfo) -and
+                    (Test-IsAzureResourceManagerSubLibraryDependency -DependencyId $depId)) {
+                    continue
+                }
+
                 if (-not $latestVersions.ContainsKey($depId) -and
                     -not (TryAddLatestDependencyVersionFromMaven -DependencyId $depId -LatestVersions $latestVersions -UnresolvedDependencies $unresolvedDependencies)) {
                     continue

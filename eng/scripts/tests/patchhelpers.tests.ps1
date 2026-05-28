@@ -225,6 +225,179 @@ Describe "FindArtifactsThatNeedPatching" {
         $infos["azure-resourcemanager-containerinstance"].FutureReleasePatchVersion | Should -Be "2.44.1"
     }
 
+    It "azure-resourcemanager umbrella is patched when all resource manager sub-dependency updates are patch-compatible" {
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.55.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager-network" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-network" -LatestGAOrPatchVersion "2.55.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-storage" = "2.55.0"
+                "azure-resourcemanager-network" = "2.55.1"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -Be "2.55.1"
+    }
+
+    It "azure-resourcemanager umbrella is skipped when a resource manager sub-dependency has a minor update" {
+        $script:resourceManagerWarnings = @()
+        Mock Write-Warning {
+            param($Message)
+            $script:resourceManagerWarnings += $Message
+        }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-network" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-network" -LatestGAOrPatchVersion "2.55.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.56.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-network" = "2.55.0"
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+        $script:resourceManagerWarnings.Count | Should -Be 1
+        $script:resourceManagerWarnings[0] | Should -BeLike "*azure-resourcemanager-storage moved from 2.55.0 to 2.56.1*"
+    }
+
+    It "azure-resourcemanager umbrella is skipped when a resource manager sub-dependency has a major update" {
+        $script:resourceManagerWarnings = @()
+        Mock Write-Warning {
+            param($Message)
+            $script:resourceManagerWarnings += $Message
+        }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "3.0.0" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+        $script:resourceManagerWarnings.Count | Should -Be 1
+        $script:resourceManagerWarnings[0] | Should -BeLike "*azure-resourcemanager-storage moved from 2.55.0 to 3.0.0*"
+    }
+
+    It "azure-resourcemanager umbrella is skipped when latest resource manager sub-dependency is a newer minor beta" {
+        $script:resourceManagerWarnings = @()
+        Mock Write-Warning {
+            param($Message)
+            $script:resourceManagerWarnings += $Message
+        }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.57.0-beta.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+        $script:resourceManagerWarnings.Count | Should -Be 1
+        $script:resourceManagerWarnings[0] | Should -BeLike "*azure-resourcemanager-storage moved from 2.55.0 to 2.57.0-beta.1*"
+    }
+
+    It "azure-resourcemanager umbrella ignores a resource manager sub-dependency beta for the next minor version" {
+        $script:resourceManagerWarnings = @()
+        Mock Write-Warning {
+            param($Message)
+            $script:resourceManagerWarnings += $Message
+        }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.56.0-beta.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+        $script:resourceManagerWarnings.Count | Should -Be 0
+    }
+
+    It "azure-resourcemanager umbrella can still patch when a next-minor beta exists alongside a patch-compatible update" {
+        $script:resourceManagerWarnings = @()
+        Mock Write-Warning {
+            param($Message)
+            $script:resourceManagerWarnings += $Message
+        }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-network" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-network" -LatestGAOrPatchVersion "2.55.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.56.0-beta.1" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-network" = "2.55.0"
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -Be "2.55.1"
+        $script:resourceManagerWarnings.Count | Should -Be 0
+    }
+
+    It "azure-resourcemanager umbrella still uses existing behavior for non-resource-manager dependencies" {
+        Mock GetVersionInfoForMavenArtifact {
+            param($ArtifactId, $GroupId)
+            return [ArtifactInfo]::new($ArtifactId, $GroupId, "1.42.0")
+        } -ParameterFilter { $ArtifactId -eq "azure-core" -and $GroupId -eq "com.azure" }
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-core" = "1.41.0"
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -Be "2.55.1"
+    }
+
+    It "non-umbrella resource manager artifacts keep existing behavior for minor dependency updates" {
+        $infos = [ordered]@{
+            "azure-storage-file-share" = (New-TestArtifactInfo -ArtifactId "azure-storage-file-share" -LatestGAOrPatchVersion "12.25.0" -Dependencies @{})
+            "azure-resourcemanager-containerinstance" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-containerinstance" -LatestGAOrPatchVersion "2.44.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-storage-file-share" = "12.24.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager-containerinstance"].FutureReleasePatchVersion | Should -Be "2.44.1"
+    }
+
+    It "does not cascade a skipped azure-resourcemanager umbrella patch to dependents" {
+        Mock Write-Warning {}
+
+        $infos = [ordered]@{
+            "azure-resourcemanager-storage" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-storage" -LatestGAOrPatchVersion "2.56.0" -GroupId "com.azure.resourcemanager" -Dependencies @{})
+            "azure-resourcemanager" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager" -LatestGAOrPatchVersion "2.55.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager-storage" = "2.55.0"
+            })
+            "azure-resourcemanager-dependent" = (New-TestArtifactInfo -ArtifactId "azure-resourcemanager-dependent" -LatestGAOrPatchVersion "1.0.0" -GroupId "com.azure.resourcemanager" -Dependencies @{
+                "azure-resourcemanager" = "2.55.0"
+            })
+        }
+
+        FindArtifactsThatNeedPatching -ArtifactInfos $infos
+
+        $infos["azure-resourcemanager"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+        $infos["azure-resourcemanager-dependent"].FutureReleasePatchVersion | Should -BeNullOrEmpty
+    }
+
     It "Diamond dependency — all paths detected" {
         $infos = [ordered]@{
             "azure-json" = (New-TestArtifactInfo -ArtifactId "azure-json" -LatestGAOrPatchVersion "1.4.0" -Dependencies @{})
