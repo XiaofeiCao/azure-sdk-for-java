@@ -30,6 +30,11 @@ final class SseMockServer {
         + "event: partialResult\n" + "data: {\"text\": \"partial two\"}\n\n" + "event: finalResult\n"
         + "data: {\"references\": [\"ref-a\", \"ref-b\"]}\n\n" + "data: [DONE]\n\n";
 
+    // Mixed union: unnamed Info (event: message), named responseDelta, terminal [DONE].
+    static final String MIXED_BODY = "data: {\"desc\": \"one\"}\n\n" + "event: responseDelta\n"
+        + "data: {\"delta\": \"Hello\"}\n\n" + "event: responseDelta\n" + "data: {\"delta\": \" world\"}\n\n"
+        + "data: {\"desc\": \"two\"}\n\n" + "data: [DONE]\n\n";
+
     static LocalTestServer create() {
         return new LocalTestServer((req, resp, requestBody) -> {
             String path = req.getServletPath();
@@ -42,6 +47,8 @@ final class SseMockServer {
                 writeEventStream(resp, NAMED_BODY);
             } else if (post && "/streaming/sse/retrieve/stream".equals(path)) {
                 writeEventStream(resp, RETRIEVE_BODY);
+            } else if (get && "/streaming/sse/mixed/receive".equals(path)) {
+                writeEventStream(resp, MIXED_BODY);
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 resp.getHttpOutput().flush();
