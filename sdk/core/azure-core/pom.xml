@@ -72,6 +72,7 @@
       --add-opens com.azure.core/com.azure.core.util.logging=ALL-UNNAMED
       --add-opens com.azure.core/com.azure.core.util.polling=ALL-UNNAMED
       --add-opens com.azure.core/com.azure.core.util.serializer=ALL-UNNAMED
+      --add-opens com.azure.core/com.azure.core.util.sse=ALL-UNNAMED
 
       --add-reads com.azure.core=ALL-UNNAMED
     </javaModulesSurefireArgLine>

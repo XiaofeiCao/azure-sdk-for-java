@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added Server-Sent Events (SSE) framing support to `azure-core` via the new `com.azure.core.util.sse` package. `ServerSentEventParser` frames a `text/event-stream` byte stream (WHATWG parsing algorithm) into `ServerSentEvent` instances, feeding both reactive (`Flux<ServerSentEvent>`) and blocking (`IterableStream<ServerSentEvent>`) consumers from a single parser.
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
 
 ### Breaking Changes

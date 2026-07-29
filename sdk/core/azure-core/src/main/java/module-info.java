@@ -32,6 +32,7 @@ module com.azure.core {
     exports com.azure.core.util.paging;
     exports com.azure.core.util.polling;
     exports com.azure.core.util.serializer;
+    exports com.azure.core.util.sse;
     exports com.azure.core.util.tracing;
     exports com.azure.core.util.metrics;
 
