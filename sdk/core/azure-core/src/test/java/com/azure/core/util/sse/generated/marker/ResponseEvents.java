@@ -8,7 +8,7 @@ import com.azure.json.JsonReader;
 import java.io.IOException;
 
 /**
- * Fixture marker interface for the scenario 2 {@code @events} union (§6f, marker-interface shape).
+ * Fixture marker interface for the scenario 2 {@code @events} union (§5b, marker-interface shape).
  * <p>
  * Unlike the wrapper-hierarchy shape, the union base is a plain marker interface (<em>not</em>
  * {@code JsonSerializable}) that each real event model {@code implements}, so the streamed element type is the

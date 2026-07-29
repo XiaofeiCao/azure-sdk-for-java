@@ -19,7 +19,7 @@ import java.util.Objects;
 
 /**
  * Fixture async client for scenario 2 (named events + terminal {@code [DONE]}) representing the "expected emitter
- * output" in the marker-interface shape (§6f).
+ * output" in the marker-interface shape (§5b).
  * <p>
  * The streamed element type is the marker {@link ResponseEvents} itself, so consumers switch directly on the real
  * models. Each event's {@code data} JSON is dispatched through {@link ResponseEvents#fromJson(JsonReader, String)}

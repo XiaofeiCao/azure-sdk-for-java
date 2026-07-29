@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * Fixture model for the {@code responseCreated} SSE event (scenario 2). Standalone stream-style model, untouched
- * by the union hierarchy (§6d, case C).
+  * by the union hierarchy (§5a).
  */
 public final class ResponseCreated implements JsonSerializable<ResponseCreated> {
     private String id;

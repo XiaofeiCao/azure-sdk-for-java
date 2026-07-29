@@ -8,7 +8,7 @@ import com.azure.json.JsonReader;
 import java.io.IOException;
 
 /**
- * Fixture base type for the scenario 2 {@code @events} union (§6b, wrapper-hierarchy shape).
+ * Fixture base type for the scenario 2 {@code @events} union (§5a, wrapper-hierarchy shape).
  * <p>
  * The discriminator for an SSE union is the SSE {@code event:} <em>frame</em> field, not a JSON payload property, so
  * dispatch is done via an <em>externally-supplied</em> discriminator ({@link #fromJson(JsonReader, String)}) rather

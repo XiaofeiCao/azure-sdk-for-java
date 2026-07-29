@@ -10,7 +10,7 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * Fixture wrapper subtype for the {@code responseDelta} variant of the scenario 2 union (§6b).
+ * Fixture wrapper subtype for the {@code responseDelta} variant of the scenario 2 union (§5a).
  */
 public final class ResponseDeltaResponseEvents extends ResponseEventsBase
     implements JsonSerializable<ResponseDeltaResponseEvents> {

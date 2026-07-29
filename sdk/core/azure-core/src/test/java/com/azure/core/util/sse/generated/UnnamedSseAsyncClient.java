@@ -10,7 +10,7 @@ import com.azure.core.util.sse.ServerSentEventParser;
 import reactor.core.publisher.Flux;
 
 /**
- * Fixture async client for scenario 1 (unnamed events) representing the "expected emitter output" (§6a).
+ * Fixture async client for scenario 1 (unnamed events) representing the "expected emitter output" (§4a).
  * <p>
  * The single unnamed union variant means there is no {@code event:} discriminator: every event is a default
  * {@code message} event carrying a JSON {@link Info} payload, so the streaming convenience deserializes the

@@ -8,7 +8,7 @@ import com.azure.json.JsonReader;
 import java.io.IOException;
 
 /**
- * Fixture marker interface for the scenario 3 {@code @events} union (§6f). Identical shape to
+ * Fixture marker interface for the scenario 3 {@code @events} union (§5b). Identical shape to
  * {@link ResponseEvents}; only the variant set differs.
  */
 public interface RetrievalEvents {

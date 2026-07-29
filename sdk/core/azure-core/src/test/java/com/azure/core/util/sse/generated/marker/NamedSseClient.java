@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Fixture sync client for scenario 2 (named events + terminal {@code [DONE]}) in the marker-interface shape (§6f).
+ * Fixture sync client for scenario 2 (named events + terminal {@code [DONE]}) in the marker-interface shape (§5b).
  * Mirrors {@link NamedSseAsyncClient} using the blocking parser.
  */
 public final class NamedSseClient {

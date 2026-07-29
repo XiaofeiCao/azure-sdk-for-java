@@ -11,7 +11,7 @@ import com.azure.core.util.sse.ServerSentEventParser;
 import reactor.core.publisher.Flux;
 
 /**
- * Fixture async client for the mixed union in the flat/raw shape (TCGC/clientcore-style, no union).
+ * Fixture async client for the mixed union in the flat/raw shape (§4, TCGC/clientcore-style, no union).
  * <p>
  * The client returns the runtime {@link ServerSentEvent} envelope directly ({@code Flux<ServerSentEvent>}) and does
  * <strong>no</strong> typed deserialization: the consumer inspects {@link ServerSentEvent#getEvent()} and

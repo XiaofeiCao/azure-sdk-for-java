@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 /**
  * Fixture sync client for scenario 2 (named events + terminal {@code [DONE]}) representing the "expected emitter
- * output" (§6b). Mirrors {@link NamedSseAsyncClient} using the blocking parser and a {@link Stream}-based
+ * output" (§5a). Mirrors {@link NamedSseAsyncClient} using the blocking parser and a {@link Stream}-based
  * {@code takeWhile}-equivalent to stop at the terminal sentinel.
  */
 public final class NamedSseClient {

@@ -20,7 +20,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 /**
- * Fixture async client for scenario 3 (retrieve, POST with a JSON body) in the marker-interface shape (§6f).
+ * Fixture async client for scenario 3 (retrieve, POST with a JSON body) in the marker-interface shape (§5b).
  * Identical streaming/dispatch shape to {@link NamedSseAsyncClient}; only the protocol method changes
  * (POST + {@code @body}).
  */

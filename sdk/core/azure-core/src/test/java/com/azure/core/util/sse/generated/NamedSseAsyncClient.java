@@ -18,7 +18,7 @@ import java.io.UncheckedIOException;
 
 /**
  * Fixture async client for scenario 2 (named events + terminal {@code [DONE]}) representing the "expected emitter
- * output" (§6b).
+ * output" (§5a).
  * <p>
  * The stream is driven by the SSE {@code event:} frame field: each event's {@code data} JSON is dispatched through
  * {@link ResponseEventsBase#fromJson(JsonReader, String)} keyed on {@link ServerSentEvent#getEvent()}. The terminal

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * Fixture sync client for scenario 3 (retrieve, POST with a JSON body) representing the "expected emitter output"
- * (§6c). Mirrors {@link RetrieveSseAsyncClient} using the blocking parser.
+ * (§5a). Mirrors {@link RetrieveSseAsyncClient} using the blocking parser.
  */
 public final class RetrieveSseClient {
     private final HttpPipeline pipeline;

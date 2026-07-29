@@ -15,7 +15,7 @@ import com.azure.core.util.sse.ServerSentEventParser;
 import java.util.stream.Collectors;
 
 /**
- * Fixture sync client for the mixed union in the flat/raw shape. Mirrors {@link MixedSseAsyncClient} using the
+ * Fixture sync client for the mixed union in the flat/raw shape (§4). Mirrors {@link MixedSseAsyncClient} using the
  * blocking parser and returns an {@link IterableStream} of the runtime {@link ServerSentEvent} envelope directly.
  */
 public final class MixedSseClient {

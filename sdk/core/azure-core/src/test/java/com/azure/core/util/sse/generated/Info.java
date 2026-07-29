@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Fixture representing the model emitted from the single unnamed variant of scenario 1's {@code @events} union.
  * <p>
- * This is hand-written to represent the "expected emitter output" of the SSE code-generation contract (§6a of the
+ * This is hand-written to represent the "expected emitter output" of the SSE code-generation contract (§4a of the
  * design). It is a normal {@code azure-json} stream-style serializable model.
  */
 public final class Info implements JsonSerializable<Info> {

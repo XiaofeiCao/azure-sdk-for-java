@@ -15,7 +15,7 @@ import com.azure.core.util.sse.ServerSentEventParser;
 import java.util.stream.Collectors;
 
 /**
- * Fixture sync client for scenario 1 (unnamed events) representing the "expected emitter output" (§6a).
+ * Fixture sync client for scenario 1 (unnamed events) representing the "expected emitter output" (§4a).
  * <p>
  * Mirrors {@link UnnamedSseAsyncClient} but exposes a blocking {@link IterableStream} fed by the same
  * {@link ServerSentEventParser}.

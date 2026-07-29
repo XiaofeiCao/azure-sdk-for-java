@@ -8,7 +8,7 @@ import com.azure.json.JsonReader;
 import java.io.IOException;
 
 /**
- * Fixture base type for the scenario 3 {@code @events} union (§6c, wrapper-hierarchy shape). Identical dispatch
+ * Fixture base type for the scenario 3 {@code @events} union (§5a, wrapper-hierarchy shape). Identical dispatch
  * shape to {@link ResponseEventsBase}; only the variant set differs.
  */
 public abstract class RetrievalEventsBase {

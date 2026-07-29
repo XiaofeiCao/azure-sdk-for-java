@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 /**
- * End-to-end runtime tests for the <strong>marker-interface</strong> SSE fixtures (§6f), driving the fixture clients
+ * End-to-end runtime tests for the <strong>marker-interface</strong> SSE fixtures (§5b), driving the fixture clients
  * through a real HTTP round-trip against {@link SseMockServer}. Unlike the wrapper-hierarchy variant, consumers
  * switch directly on the concrete event models (no wrapper {@code getValue()}), which these tests assert for
  * scenarios 2 and 3 (async {@code Flux} + sync {@code IterableStream}). Scenario 1 (unnamed) is identical to the

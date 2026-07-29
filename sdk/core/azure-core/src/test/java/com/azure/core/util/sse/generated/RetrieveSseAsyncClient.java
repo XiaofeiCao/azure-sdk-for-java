@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * Fixture async client for scenario 3 (retrieve, POST with a JSON body) representing the "expected emitter output"
- * (§6c). Identical streaming/dispatch shape to {@link NamedSseAsyncClient}; only the protocol method changes
+ * (§5a). Identical streaming/dispatch shape to {@link NamedSseAsyncClient}; only the protocol method changes
  * (POST + {@code @body}).
  */
 public final class RetrieveSseAsyncClient {

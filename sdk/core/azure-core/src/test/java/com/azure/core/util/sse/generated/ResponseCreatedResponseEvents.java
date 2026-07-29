@@ -10,11 +10,11 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * Fixture wrapper subtype for the {@code responseCreated} variant of the scenario 2 union (§6b).
+ * Fixture wrapper subtype for the {@code responseCreated} variant of the scenario 2 union (§5a).
  * <p>
  * The wrapper {@code extends} the union base and holds the real {@link ResponseCreated} model in a {@code value}
  * field, delegating {@code toJson}/{@code fromJson} to it. The wrapper never touches the variant model, which keeps
- * the shape non-breaking across the union edge cases (§6d).
+ * the shape non-breaking across the union edge cases (§5a).
  */
 public final class ResponseCreatedResponseEvents extends ResponseEventsBase
     implements JsonSerializable<ResponseCreatedResponseEvents> {

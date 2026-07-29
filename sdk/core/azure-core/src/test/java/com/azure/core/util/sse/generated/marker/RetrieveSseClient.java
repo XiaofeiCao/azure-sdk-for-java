@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Fixture sync client for scenario 3 (retrieve, POST with a JSON body) in the marker-interface shape (§6f).
+ * Fixture sync client for scenario 3 (retrieve, POST with a JSON body) in the marker-interface shape (§5b).
  * Mirrors {@link RetrieveSseAsyncClient} using the blocking parser.
  */
 public final class RetrieveSseClient {

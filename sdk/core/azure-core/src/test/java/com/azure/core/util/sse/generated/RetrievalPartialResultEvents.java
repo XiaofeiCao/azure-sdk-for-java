@@ -10,7 +10,7 @@ import com.azure.json.JsonWriter;
 import java.io.IOException;
 
 /**
- * Fixture wrapper subtype for the {@code partialResult} variant of the scenario 3 union (§6c).
+ * Fixture wrapper subtype for the {@code partialResult} variant of the scenario 3 union (§5a).
  */
 public final class RetrievalPartialResultEvents extends RetrievalEventsBase
     implements JsonSerializable<RetrievalPartialResultEvents> {
