@@ -15,7 +15,7 @@ import reactor.core.publisher.Flux;
  * <p>
  * The client returns the runtime {@link ServerSentEvent} envelope directly ({@code Flux<ServerSentEvent>}) and does
  * <strong>no</strong> typed deserialization: the consumer inspects {@link ServerSentEvent#getEvent()} and
- * deserializes {@link ServerSentEvent#getDataString()} into the model of its choice ({@link Info} /
+ * deserializes {@link ServerSentEvent#getData()} into the model of its choice ({@link Info} /
  * {@link ResponseDelta}). This mirrors how {@code io.clientcore} surfaces SSE — a flat, untyped event stream.
  * <p>
  * The terminal {@code [DONE]} event is a content-matched sentinel that ends the stream and is not emitted.
@@ -51,6 +51,6 @@ public final class MixedSseAsyncClient {
     }
 
     static boolean isTerminal(ServerSentEvent evt) {
-        return TERMINAL_EVENT.equals(evt.getDataString().trim());
+        return evt.getData() != null && TERMINAL_EVENT.equals(String.join("\n", evt.getData()).trim());
     }
 }

@@ -41,6 +41,7 @@ public final class UnnamedSseAsyncClient {
         return pipeline.send(request)
             .flatMapMany(response -> ServerSentEventParser.parse(response.getBody()))
             .filter(evt -> evt.getData() != null && !evt.getData().isEmpty())
-            .map(evt -> com.azure.core.util.BinaryData.fromString(evt.getDataString()).toObject(Info.class));
+            .map(evt -> com.azure.core.util.BinaryData.fromString(String.join("\n", evt.getData()))
+                .toObject(Info.class));
     }
 }

@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * {@code Info} {@code message} events, named {@code responseDelta} events, terminal {@code [DONE]}).
  * <p>
  * The clients expose the runtime {@link ServerSentEvent} envelope directly; these tests act as the consumer,
- * dispatching on {@link ServerSentEvent#getEvent()} and deserializing {@link ServerSentEvent#getDataString()} into
+ * dispatching on {@link ServerSentEvent#getEvent()} and deserializing {@link ServerSentEvent#getData()} into
  * the model of choice.
  */
 public class ServerSentEventFlatEnvelopeRuntimeIntegrationTests {
@@ -77,13 +77,13 @@ public class ServerSentEventFlatEnvelopeRuntimeIntegrationTests {
     // Consumer-side dispatch: key on the SSE event name, deserialize the data payload into the chosen model.
     private static void assertInfo(ServerSentEvent evt, String expectedDesc) {
         assertEquals("message", evt.getEvent());
-        Info info = BinaryData.fromString(evt.getDataString()).toObject(Info.class);
+        Info info = BinaryData.fromString(String.join("\n", evt.getData())).toObject(Info.class);
         assertEquals(expectedDesc, info.getDesc());
     }
 
     private static void assertDelta(ServerSentEvent evt, String expectedDelta) {
         assertEquals("responseDelta", evt.getEvent());
-        ResponseDelta delta = BinaryData.fromString(evt.getDataString()).toObject(ResponseDelta.class);
+        ResponseDelta delta = BinaryData.fromString(String.join("\n", evt.getData())).toObject(ResponseDelta.class);
         assertEquals(expectedDelta, delta.getDelta());
     }
 }

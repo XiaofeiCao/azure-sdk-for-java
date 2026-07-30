@@ -41,7 +41,7 @@ public class ServerSentEventParserTests {
         assertEquals(1, events.size());
         ServerSentEvent event = events.get(0);
         assertEquals("message", event.getEvent());
-        assertEquals("{\"desc\": \"one\"}", event.getDataString());
+        assertEquals("{\"desc\": \"one\"}", String.join("\n", event.getData()));
         assertNull(event.getId());
         assertNull(event.getComment());
         assertNull(event.getRetryAfter());
@@ -52,9 +52,9 @@ public class ServerSentEventParserTests {
         List<ServerSentEvent> events = parseAll("data: one\n\n" + "data: two\n\n" + "data: three\n\n");
 
         assertEquals(3, events.size());
-        assertEquals("one", events.get(0).getDataString());
-        assertEquals("two", events.get(1).getDataString());
-        assertEquals("three", events.get(2).getDataString());
+        assertEquals("one", String.join("\n", events.get(0).getData()));
+        assertEquals("two", String.join("\n", events.get(1).getData()));
+        assertEquals("three", String.join("\n", events.get(2).getData()));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ServerSentEventParserTests {
 
         assertEquals(1, events.size());
         assertEquals(Arrays.asList("line one", "line two"), events.get(0).getData());
-        assertEquals("line one\nline two", events.get(0).getDataString());
+        assertEquals("line one\nline two", String.join("\n", events.get(0).getData()));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ServerSentEventParserTests {
         assertEquals("responseCreated", event.getEvent());
         assertEquals("42", event.getId());
         assertEquals(Duration.ofMillis(5000), event.getRetryAfter());
-        assertEquals("{\"id\": \"resp_1\"}", event.getDataString());
+        assertEquals("{\"id\": \"resp_1\"}", String.join("\n", event.getData()));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ServerSentEventParserTests {
         List<ServerSentEvent> events = parseAll(": keep-alive\n\n" + "data: real\n\n");
 
         assertEquals(1, events.size());
-        assertEquals("real", events.get(0).getDataString());
+        assertEquals("real", String.join("\n", events.get(0).getData()));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ServerSentEventParserTests {
         List<ServerSentEvent> events = parseAll("data: [DONE]\n\n");
 
         assertEquals(1, events.size());
-        assertEquals("[DONE]", events.get(0).getDataString());
+        assertEquals("[DONE]", String.join("\n", events.get(0).getData()));
     }
 
     @Test
@@ -109,10 +109,10 @@ public class ServerSentEventParserTests {
 
         StepVerifier.create(ServerSentEventParser.parse(Flux.fromIterable(singleByteBuffers))).assertNext(evt -> {
             assertEquals("responseDelta", evt.getEvent());
-            assertEquals("{\"delta\": \"Hello\"}", evt.getDataString());
+            assertEquals("{\"delta\": \"Hello\"}", String.join("\n", evt.getData()));
         }).assertNext(evt -> {
             assertEquals("responseDelta", evt.getEvent());
-            assertEquals("{\"delta\": \" world\"}", evt.getDataString());
+            assertEquals("{\"delta\": \" world\"}", String.join("\n", evt.getData()));
         }).verifyComplete();
     }
 
@@ -126,7 +126,7 @@ public class ServerSentEventParserTests {
 
         List<ServerSentEvent> events = ServerSentEventParser.parse(source).collectList().block();
         assertEquals(1, events.size());
-        assertEquals("café", events.get(0).getDataString());
+        assertEquals("café", String.join("\n", events.get(0).getData()));
     }
 
     @Test
@@ -134,12 +134,12 @@ public class ServerSentEventParserTests {
         List<ServerSentEvent> crlf = parseAll("event: a\r\ndata: one\r\n\r\n");
         assertEquals(1, crlf.size());
         assertEquals("a", crlf.get(0).getEvent());
-        assertEquals("one", crlf.get(0).getDataString());
+        assertEquals("one", String.join("\n", crlf.get(0).getData()));
 
         List<ServerSentEvent> cr = parseAll("event: b\rdata: two\r\r");
         assertEquals(1, cr.size());
         assertEquals("b", cr.get(0).getEvent());
-        assertEquals("two", cr.get(0).getDataString());
+        assertEquals("two", String.join("\n", cr.get(0).getData()));
     }
 
     @Test
@@ -147,15 +147,15 @@ public class ServerSentEventParserTests {
         List<ServerSentEvent> events = parseAll("data: one\n\ndata: last");
 
         assertEquals(2, events.size());
-        assertEquals("one", events.get(0).getDataString());
-        assertEquals("last", events.get(1).getDataString());
+        assertEquals("one", String.join("\n", events.get(0).getData()));
+        assertEquals("last", String.join("\n", events.get(1).getData()));
     }
 
     @Test
     public void leadingSpaceAfterColonIsStrippedOnce() {
         // Two spaces after the colon: WHATWG strips exactly one, leaving a single leading space.
         List<ServerSentEvent> events = parseAll("data:  two-spaces\n\n");
-        assertEquals(" two-spaces", events.get(0).getDataString());
+        assertEquals(" two-spaces", String.join("\n", events.get(0).getData()));
     }
 
     @Test
@@ -169,8 +169,8 @@ public class ServerSentEventParserTests {
 
         assertEquals(2, list.size());
         assertEquals("responseCreated", list.get(0).getEvent());
-        assertEquals("{\"id\": \"resp_1\"}", list.get(0).getDataString());
-        assertEquals("[DONE]", list.get(1).getDataString());
+        assertEquals("{\"id\": \"resp_1\"}", String.join("\n", list.get(0).getData()));
+        assertEquals("[DONE]", String.join("\n", list.get(1).getData()));
     }
 
     @Test

@@ -71,8 +71,8 @@ public final class ServerSentEvent {
      * Gets the event data lines.
      * <p>
      * Contains the values of the SSE {@code "data"} fields. A single event may carry multiple {@code data:} lines; the
-     * WHATWG specification concatenates them with a newline to form the payload (see {@link #getDataString()}). This
-     * field is optional and may return {@code null} if the event carries no data.
+     * WHATWG specification concatenates them with a newline to form the payload. This field is optional and may return
+     * {@code null} if the event carries no data.
      *
      * @return An unmodifiable list of the raw {@code data:} lines, or {@code null} if the event has no data.
      */
@@ -103,20 +103,5 @@ public final class ServerSentEvent {
      */
     public Duration getRetryAfter() {
         return retryAfter;
-    }
-
-    /**
-     * Gets the event data as a single string.
-     * <p>
-     * Convenience method that joins the individual {@link #getData() data lines} with a newline ({@code "\n"}), as
-     * described by the WHATWG event stream parsing algorithm. Returns an empty string if the event carries no data.
-     *
-     * @return The event data lines joined with {@code "\n"}, or an empty string if the event has no data.
-     */
-    public String getDataString() {
-        if (data == null || data.isEmpty()) {
-            return "";
-        }
-        return String.join("\n", data);
     }
 }

@@ -46,7 +46,7 @@ public final class UnnamedSseClient {
         return new IterableStream<>(ServerSentEventParser.parse(response.getBodyAsInputStreamSync())
             .stream()
             .filter(evt -> evt.getData() != null && !evt.getData().isEmpty())
-            .map(evt -> BinaryData.fromString(evt.getDataString()).toObject(Info.class))
+            .map(evt -> BinaryData.fromString(String.join("\n", evt.getData())).toObject(Info.class))
             .collect(Collectors.toList()));
     }
 }

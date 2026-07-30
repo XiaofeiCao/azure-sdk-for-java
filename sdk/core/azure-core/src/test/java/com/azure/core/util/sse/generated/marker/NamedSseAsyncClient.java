@@ -59,11 +59,12 @@ public final class NamedSseAsyncClient {
     }
 
     static boolean isTerminal(ServerSentEvent evt) {
-        return TERMINAL_EVENT.equals(evt.getDataString().trim());
+        return evt.getData() != null && TERMINAL_EVENT.equals(String.join("\n", evt.getData()).trim());
     }
 
     static ResponseEvents toResponseEvent(ServerSentEvent evt) {
-        try (JsonReader reader = JsonProviders.createReader(evt.getDataString())) {
+        String payload = evt.getData() == null ? "" : String.join("\n", evt.getData());
+        try (JsonReader reader = JsonProviders.createReader(payload)) {
             return ResponseEvents.fromJson(reader, evt.getEvent());
         } catch (IOException e) {
             throw LOGGER.logExceptionAsError(new UncheckedIOException(e));
