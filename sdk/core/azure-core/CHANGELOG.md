@@ -5,6 +5,7 @@
 ### Features Added
 
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
+- Added callback-based Server-Sent Events support through `ServerSentEvent`, `ServerSentEventListener`, and `HttpRequest#setServerSentEventListener`.
 
 ### Breaking Changes
 

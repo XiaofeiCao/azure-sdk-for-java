@@ -142,8 +142,11 @@ public class HttpRequestTests {
     public void testClone() throws IOException {
         final HttpHeaders headers = new HttpHeaders().set("my-header", "my-value").set("other-header", "other-value");
 
+        ServerSentEventListener listener = event -> {
+        };
         final HttpRequest request
-            = new HttpRequest(HttpMethod.PUT, createUrl("http://request.url"), headers, Flux.empty());
+            = new HttpRequest(HttpMethod.PUT, createUrl("http://request.url"), headers, Flux.empty())
+                .setServerSentEventListener(listener);
 
         final HttpRequest bufferedRequest = request.copy();
 
@@ -164,6 +167,7 @@ public class HttpRequestTests {
 
         assertSame(request.getBody(), bufferedRequest.getBody());
         assertSame(request.getBodyAsBinaryData(), request.getBodyAsBinaryData());
+        assertSame(listener, bufferedRequest.getServerSentEventListener());
     }
 
     private static Stream<Arguments> getBinaryDataBodyVariants() {

@@ -120,7 +120,11 @@ public final class HttpPipeline {
         // Return deferred to mono for complete lazy behaviour.
         return Mono.defer(() -> {
             HttpPipelineNextPolicy next = new HttpPipelineNextPolicy(new HttpPipelineCallState(this, context));
-            return next.process();
+            Mono<HttpResponse> response = next.process();
+            return context.getHttpRequest().getServerSentEventListener() == null
+                ? response
+                : response.flatMap(
+                    httpResponse -> ServerSentEventProcessor.processAsync(this, httpResponse, context.getContext()));
         });
     }
 
@@ -133,8 +137,15 @@ public final class HttpPipeline {
      * upon completion.
      */
     public HttpResponse sendSync(HttpRequest request, Context data) {
+        return sendSync(request, data, true);
+    }
+
+    HttpResponse sendSync(HttpRequest request, Context data, boolean processServerSentEvents) {
         HttpPipelineNextSyncPolicy next = new HttpPipelineNextSyncPolicy(
             new HttpPipelineCallState(this, new HttpPipelineCallContext(request, data)));
-        return next.processSync();
+        HttpResponse response = next.processSync();
+        return processServerSentEvents && request.getServerSentEventListener() != null
+            ? ServerSentEventProcessor.processSync(this, response, data)
+            : response;
     }
 }

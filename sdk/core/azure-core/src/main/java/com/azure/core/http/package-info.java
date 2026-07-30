@@ -37,5 +37,7 @@
  * @see com.azure.core.http.HttpPipeline
  * @see com.azure.core.http.HttpHeaders
  * @see com.azure.core.http.HttpMethod
+ * @see com.azure.core.http.ServerSentEvent
+ * @see com.azure.core.http.ServerSentEventListener
  */
 package com.azure.core.http;

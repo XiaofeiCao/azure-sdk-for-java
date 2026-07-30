@@ -31,6 +31,7 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.HttpRequest;
 import com.azure.core.http.HttpResponse;
+import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
@@ -55,6 +56,9 @@ import com.azure.core.validation.http.models.HttpBinHeaders;
 import com.azure.core.validation.http.models.HttpBinJson;
 import com.azure.core.validation.http.models.MyRestException;
 import com.azure.core.validation.http.models.PizzaSize;
+import com.azure.core.validation.http.sse.RetrievalRequest;
+import com.azure.core.validation.http.sse.SseClient;
+import com.azure.core.validation.http.sse.SseClientBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Named;
@@ -115,6 +119,9 @@ import static com.azure.core.validation.http.HttpClientTestsServer.HUGE_HEADER_V
 import static com.azure.core.validation.http.HttpClientTestsServer.INVALID_HEADER_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.PLAIN_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.RETURN_BYTES;
+import static com.azure.core.validation.http.HttpClientTestsServer.SSE_RESPONSE;
+import static com.azure.core.validation.http.HttpClientTestsServer.SSE_INVALID_CONTENT_TYPE_RESPONSE;
+import static com.azure.core.validation.http.HttpClientTestsServer.SSE_RETRY_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_16BE_BOM_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_16LE_BOM_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_32BE_BOM_RESPONSE;
@@ -188,6 +195,117 @@ public abstract class HttpClientTests {
 
     private String getRequestScheme() {
         return isSecure() ? "https" : "http";
+    }
+
+    @Test
+    public void receivesServerSentEventsSync() {
+        List<ServerSentEvent> events = new ArrayList<>();
+        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUri() + "/" + SSE_RESPONSE)
+            .setServerSentEventListener(events::add);
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(createHttpClient()).build();
+
+        try (HttpResponse response = pipeline.sendSync(request, Context.NONE)) {
+            assertEquals(200, response.getStatusCode());
+            assertEquals(0, response.getBodyAsByteArray().block().length);
+        }
+
+        assertServerSentEvents(events);
+    }
+
+    @Test
+    public void receivesServerSentEventsAsync() {
+        List<ServerSentEvent> events = new ArrayList<>();
+        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUri() + "/" + SSE_RESPONSE)
+            .setServerSentEventListener(events::add);
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(createHttpClient()).build();
+
+        StepVerifier.create(pipeline.send(request)).assertNext(response -> {
+            assertEquals(200, response.getStatusCode());
+            assertEquals(0, response.getBodyAsByteArray().block().length);
+            response.close();
+        }).verifyComplete();
+
+        assertServerSentEvents(events);
+    }
+
+    @Test
+    public void reconnectsServerSentEventsWithLastEventId() {
+        List<ServerSentEvent> events = new ArrayList<>();
+        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUri() + "/" + SSE_RETRY_RESPONSE)
+            .setServerSentEventListener(events::add);
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(createHttpClient()).build();
+
+        try (HttpResponse response = pipeline.sendSync(request, Context.NONE)) {
+            assertEquals(200, response.getStatusCode());
+            assertEquals(2, events.size());
+            assertEquals("first event", events.get(0).getData().get(0));
+            assertEquals("second event", events.get(1).getData().get(0));
+            assertEquals("2", events.get(1).getId());
+        }
+    }
+
+    @Test
+    public void preservesRawServerSentEventStreamWithoutListener() {
+        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUri() + "/" + SSE_RESPONSE);
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(createHttpClient()).build();
+
+        try (HttpResponse response = pipeline.sendSync(request, Context.NONE)) {
+            String body = response.getBodyAsString().block();
+            assertTrue(body.contains("data: first event"));
+            assertTrue(body.contains("event: responseDelta"));
+        }
+    }
+
+    @Test
+    public void doesNotProcessInvalidServerSentEventContentType() {
+        List<ServerSentEvent> events = new ArrayList<>();
+        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUri() + "/" + SSE_INVALID_CONTENT_TYPE_RESPONSE)
+            .setServerSentEventListener(events::add);
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(createHttpClient()).build();
+
+        try (HttpResponse response = pipeline.sendSync(request, Context.NONE)) {
+            assertEquals("data: raw\n\n", response.getBodyAsString().block());
+        }
+        assertTrue(events.isEmpty());
+    }
+
+    private static void assertServerSentEvents(List<ServerSentEvent> events) {
+        assertEquals(2, events.size());
+        assertEquals("message", events.get(0).getEvent());
+        assertEquals("test stream", events.get(0).getComment());
+        assertEquals("first event", events.get(0).getData().get(0));
+        assertEquals("1", events.get(0).getId());
+        assertEquals("responseDelta", events.get(1).getEvent());
+        assertEquals(Arrays.asList("second line one", "second line two"), events.get(1).getData());
+        assertEquals("2", events.get(1).getId());
+    }
+
+    @Test
+    public void generatedStyleRestProxyClientReceivesSseScenarios() {
+        SseClient client
+            = new SseClientBuilder().endpoint(getRequestUri()).httpClient(createHttpClient()).buildClient();
+
+        List<ServerSentEvent> unnamed = new ArrayList<>();
+        client.receiveUnnamed(unnamed::add);
+        assertEquals(3, unnamed.size());
+        assertEquals("{\"desc\":\"one\"}", unnamed.get(0).getData().get(0));
+        assertEquals("{\"desc\":\"three\"}", unnamed.get(2).getData().get(0));
+
+        List<ServerSentEvent> named = new ArrayList<>();
+        client.receiveNamed(named::add);
+        assertEquals(4, named.size());
+        assertEquals("responseCreated", named.get(0).getEvent());
+        assertEquals("responseDelta", named.get(1).getEvent());
+        assertEquals("message", named.get(3).getEvent());
+        assertEquals("[DONE]", named.get(3).getData().get(0));
+
+        List<ServerSentEvent> retrieval = new ArrayList<>();
+        client.streamRetrieval(new RetrievalRequest("what is typespec?"), retrieval::add);
+        assertEquals(4, retrieval.size());
+        assertEquals("partialResult", retrieval.get(0).getEvent());
+        assertEquals("finalResult", retrieval.get(2).getEvent());
+        assertEquals("{\"references\":[\"doc1\",\"doc2\"]}", retrieval.get(2).getData().get(0));
+        assertEquals("[DONE]", retrieval.get(3).getData().get(0));
     }
 
     /**

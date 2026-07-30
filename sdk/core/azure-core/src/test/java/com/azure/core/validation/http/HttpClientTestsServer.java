@@ -47,6 +47,9 @@ public final class HttpClientTestsServer {
     static final String BOM_WITH_DIFFERENT_HEADER = "bomBytesWithDifferentHeader";
     public static final String ECHO_RESPONSE = "echo";
     static final String HUGE_HEADER_RESPONSE = "hugeHeader";
+    static final String SSE_RESPONSE = "serverSentEvents";
+    static final String SSE_RETRY_RESPONSE = "serverSentEventsRetry";
+    static final String SSE_INVALID_CONTENT_TYPE_RESPONSE = "serverSentEventsInvalidContentType";
 
     private static final byte[] UTF_8_BOM = { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
     private static final byte[] UTF_16BE_BOM = { (byte) 0xFE, (byte) 0xFF };
@@ -143,6 +146,18 @@ public final class HttpClientTestsServer {
                 resp.addHeader(HUGE_HEADER_NAME.getCaseSensitiveName(), HUGE_HEADER_VALUE);
                 resp.setStatus(200);
                 resp.flushBuffer();
+            } else if (get && pathMatches(path, SSE_RESPONSE)) {
+                sendServerSentEvents(resp);
+            } else if (get && pathMatches(path, SSE_RETRY_RESPONSE)) {
+                sendRetryingServerSentEvents(req, resp);
+            } else if (get && pathMatches(path, SSE_INVALID_CONTENT_TYPE_RESPONSE)) {
+                handleRequest(resp, "text/event-streaming", "data: raw\n\n".getBytes(StandardCharsets.UTF_8));
+            } else if (get && "/streaming/sse/unnamed/receive".equals(path)) {
+                sendUnnamedScenario(resp);
+            } else if (get && "/streaming/sse/named/receive".equals(path)) {
+                sendNamedScenario(resp);
+            } else if (post && "/streaming/sse/retrieve/stream".equals(path)) {
+                sendRetrievalScenario(requestBody, resp);
             } else {
                 throw new ServletException("Unexpected method: " + req.getMethod());
             }
@@ -175,6 +190,46 @@ public final class HttpClientTestsServer {
         System.arraycopy(RETURN_BYTES, 0, mergedArray, arr1.length, RETURN_BYTES.length);
 
         return mergedArray;
+    }
+
+    private static void sendServerSentEvents(Response response) throws IOException {
+        String body = ": test stream\r\n" + "data: first event\r\n" + "id: 1\r\n\r\n" + "event: responseDelta\n"
+            + "data: second line one\n" + "data: second line two\n" + "id: 2\n\n";
+        handleRequest(response, "text/event-stream; charset=utf-8", body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static void sendRetryingServerSentEvents(Request request, Response response) throws IOException {
+        String lastEventId = request.getHeader("Last-Event-Id");
+        String body = lastEventId == null ? "data: first event\nid: 1\nretry: 1\n\n" : "data: second event\nid: 2\n\n";
+        handleRequest(response, "text/event-stream", body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static void sendUnnamedScenario(Response response) throws IOException {
+        String body
+            = "data: {\"desc\":\"one\"}\n\n" + "data: {\"desc\":\"two\"}\n\n" + "data: {\"desc\":\"three\"}\n\n";
+        handleRequest(response, "text/event-stream", body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static void sendNamedScenario(Response response) throws IOException {
+        String body = "event: responseCreated\n" + "data: {\"id\":\"resp_1\"}\n\n" + "event: responseDelta\n"
+            + "data: {\"delta\":\"Hello\"}\n\n" + "event: responseDelta\n" + "data: {\"delta\":\" world\"}\n\n"
+            + "data: [DONE]\n\n";
+        handleRequest(response, "text/event-stream", body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static void sendRetrievalScenario(byte[] requestBody, Response response) throws IOException {
+        String request = new String(requestBody, StandardCharsets.UTF_8);
+        if (!"{\"query\":\"what is typespec?\"}".equals(request)) {
+            response.setStatus(400);
+            response.getHttpOutput().write("Unexpected request body".getBytes(StandardCharsets.UTF_8));
+            response.getHttpOutput().complete(Callback.NOOP);
+            return;
+        }
+
+        String body = "event: partialResult\n" + "data: {\"text\":\"partial one\"}\n\n" + "event: partialResult\n"
+            + "data: {\"text\":\"partial two\"}\n\n" + "event: finalResult\n"
+            + "data: {\"references\":[\"doc1\",\"doc2\"]}\n\n" + "data: [DONE]\n\n";
+        handleRequest(response, "text/event-stream", body.getBytes(StandardCharsets.UTF_8));
     }
 
     private static void handleRequest(Response response, String contentType, byte[] responseBody) throws IOException {

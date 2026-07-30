@@ -35,6 +35,7 @@ public class HttpRequest {
     private URL url;
     private HttpHeaders headers;
     private BinaryData body;
+    private ServerSentEventListener serverSentEventListener;
 
     /**
      * Create a new HttpRequest instance.
@@ -286,6 +287,29 @@ public class HttpRequest {
         return this;
     }
 
+    /**
+     * Gets the listener that handles a {@code text/event-stream} response.
+     *
+     * @return The server-sent event listener, or {@code null} if one hasn't been configured.
+     */
+    public ServerSentEventListener getServerSentEventListener() {
+        return serverSentEventListener;
+    }
+
+    /**
+     * Sets the listener that handles a {@code text/event-stream} response.
+     * <p>
+     * When a listener is configured, the HTTP pipeline consumes the response body while dispatching events. The
+     * returned response therefore has an empty body.
+     *
+     * @param serverSentEventListener The server-sent event listener.
+     * @return The updated request.
+     */
+    public HttpRequest setServerSentEventListener(ServerSentEventListener serverSentEventListener) {
+        this.serverSentEventListener = serverSentEventListener;
+        return this;
+    }
+
     private void setContentLength(long contentLength) {
         headers.set(HttpHeaderName.CONTENT_LENGTH, String.valueOf(contentLength));
     }
@@ -301,6 +325,7 @@ public class HttpRequest {
      */
     public HttpRequest copy() {
         final HttpHeaders bufferedHeaders = new HttpHeaders(headers);
-        return new HttpRequest(httpMethod, url, bufferedHeaders, body);
+        return new HttpRequest(httpMethod, url, bufferedHeaders, body)
+            .setServerSentEventListener(serverSentEventListener);
     }
 }
