@@ -6,17 +6,24 @@ package com.azure.core.util;
 import com.azure.core.http.ServerSentEvent;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServerSentEventUtilsTests {
     @Test
@@ -50,5 +57,27 @@ public class ServerSentEventUtilsTests {
             assertNull(event.getComment());
             assertNull(ServerSentEventHelper.getRetryAfter(event));
         }).verifyComplete();
+    }
+
+    @Test
+    public void toStreamIsLazyAndCloseCancelsBody() {
+        AtomicBoolean subscribed = new AtomicBoolean();
+        AtomicBoolean cancelled = new AtomicBoolean();
+        Flux<ByteBuffer> content = Flux
+            .concat(Flux.just(ByteBuffer.wrap("data: payload\n\n".getBytes(StandardCharsets.UTF_8))), Flux.never())
+            .doOnSubscribe(ignored -> subscribed.set(true))
+            .doOnCancel(() -> cancelled.set(true));
+        BinaryData body = BinaryData.fromFlux(content, null, false).block();
+
+        assertFalse(subscribed.get());
+        try (Stream<ServerSentEvent> stream = ServerSentEventUtils.toStream(body)) {
+            assertFalse(subscribed.get());
+            Iterator<ServerSentEvent> iterator = stream.iterator();
+            assertTrue(iterator.hasNext());
+            assertEquals(Collections.singletonList("payload"), iterator.next().getData());
+            assertTrue(subscribed.get());
+        }
+
+        assertTrue(cancelled.get());
     }
 }

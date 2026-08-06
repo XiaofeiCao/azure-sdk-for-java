@@ -11,9 +11,6 @@
 
 ### Bugs Fixed
 
-- Changed non-replayable, Flux-backed `BinaryData` streams to read lazily and propagate stream closure as upstream
-  cancellation.
-
 ### Other Changes
 
 ## 1.58.1 (2026-06-08)

@@ -4,6 +4,7 @@
 package com.azure.core.util;
 
 import com.azure.core.http.ServerSentEvent;
+import com.azure.core.implementation.FluxInputStream;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
@@ -81,7 +82,8 @@ public final class ServerSentEventUtils {
 
         private ServerSentEventIterator(BinaryData body) {
             Objects.requireNonNull(body, "'body' cannot be null.");
-            this.reader = new BufferedReader(new InputStreamReader(body.toStream(), StandardCharsets.UTF_8));
+            this.reader = new BufferedReader(
+                new InputStreamReader(new FluxInputStream(body.toFluxByteBuffer()), StandardCharsets.UTF_8));
         }
 
         @Override

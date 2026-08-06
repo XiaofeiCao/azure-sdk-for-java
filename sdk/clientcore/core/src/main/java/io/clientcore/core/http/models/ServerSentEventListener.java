@@ -3,6 +3,7 @@
 
 package io.clientcore.core.http.models;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
