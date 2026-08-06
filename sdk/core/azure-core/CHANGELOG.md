@@ -5,10 +5,14 @@
 ### Features Added
 
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
+- Added `ServerSentEvent` and `ServerSentEventUtils` to lazily decode server-sent event streams.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Changed non-replayable, Flux-backed `BinaryData` streams to read lazily and propagate stream closure as upstream
+  cancellation.
 
 ### Other Changes
 
