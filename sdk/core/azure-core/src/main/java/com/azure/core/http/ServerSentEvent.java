@@ -10,12 +10,14 @@ import java.time.Duration;
 /**
  * Represents a server-sent event with a typed data payload.
  *
- * <p>A server-sent event may contain an identifier, event name, data, a comment, and a retry interval. All fields are
- * optional.</p>
+ * <p>An emitted server-sent event contains data and may expose an identifier, event name, comment, and retry interval.
+ * The identifier and retry interval represent the effective stream state when the event was dispatched, including
+ * values inherited from earlier metadata-only blocks.</p>
  *
  * <p>This type exposes the metadata needed for caller-managed reconnection, but Azure Core doesn't automatically
- * reconnect an event stream. Callers can use {@link #getId()} as the next request's {@code Last-Event-Id} value and
- * {@link #getRetryAfter()} as the reconnect delay.</p>
+ * reconnect an event stream. Callers can use the latest emitted event's {@link #getId()} as the next request's
+ * {@code Last-Event-Id} value and {@link #getRetryAfter()} as the reconnect delay. Metadata-only updates received
+ * after the latest emitted event aren't exposed when the stream terminates.</p>
  *
  * @param <T> The type of the event data.
  * @see <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">
@@ -64,9 +66,11 @@ public final class ServerSentEvent<T> {
     }
 
     /**
-     * Gets the event identifier.
+     * Gets the effective last-event identifier when this event was dispatched.
      *
-     * @return The event identifier, or {@code null} if it wasn't specified.
+     * @return The effective last-event identifier, {@code null} if no valid {@code id} field was received before this
+     * event, or an empty string if an empty {@code id} field reset the identifier. An empty identifier should not be
+     * sent as a {@code Last-Event-Id} request header.
      */
     public String getId() {
         return id;
@@ -75,7 +79,7 @@ public final class ServerSentEvent<T> {
     /**
      * Gets the event name.
      *
-     * @return The event name, or {@code null} if it wasn't specified.
+     * @return The event name, or {@code message} if no non-empty {@code event} field was specified.
      */
     public String getEvent() {
         return event;
@@ -100,9 +104,10 @@ public final class ServerSentEvent<T> {
     }
 
     /**
-     * Gets the reconnection delay requested by the event source.
+     * Gets the effective reconnection delay when this event was dispatched.
      *
-     * @return The reconnection delay, or {@code null} if it wasn't specified.
+     * @return The latest valid reconnection delay received before this event, or {@code null} if no valid
+     * {@code retry} field was received.
      */
     public Duration getRetryAfter() {
         return retryAfter;

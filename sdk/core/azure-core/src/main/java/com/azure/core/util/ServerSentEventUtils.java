@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,8 @@ import java.util.Objects;
  * Utility methods for incrementally decoding one server-sent event response body.
  *
  * <p>These methods don't automatically reconnect when the response terminates. Retry and last-event identifier
- * metadata are available from {@link ServerSentEvent} for caller-managed reconnection.</p>
+ * metadata are available from the latest emitted {@link ServerSentEvent} for caller-managed reconnection.
+ * Metadata-only updates received after that event aren't exposed when the stream terminates.</p>
  */
 public final class ServerSentEventUtils {
     private static final String DEFAULT_EVENT = "message";
@@ -52,9 +54,10 @@ public final class ServerSentEventUtils {
      * <p>Multiple {@code data} fields in an event are joined with a newline before deserialization. Cancelling the
      * returned {@link Flux} cancels the response body subscription.</p>
      *
-     * <p>This method doesn't reconnect if the response body terminates. Callers that require reconnection can use
-     * {@link ServerSentEvent#getId()} and {@link ServerSentEvent#getRetryAfter()} to construct a subsequent
-     * request.</p>
+     * <p>This method doesn't reconnect if the response body terminates. Callers that require reconnection can use the
+     * latest emitted event's {@link ServerSentEvent#getId()} and {@link ServerSentEvent#getRetryAfter()} to construct
+     * a subsequent request. Metadata-only updates received after the latest emitted event aren't exposed on
+     * completion.</p>
      *
      * @param body The response body containing a server-sent event stream.
      * @param deserializer The deserializer that converts event data to {@code T}.
@@ -225,16 +228,8 @@ public final class ServerSentEventUtils {
         }
 
         private List<ServerSentEventFrame> finish() {
-            List<ServerSentEventFrame> events = new ArrayList<>();
-            if (lineLength > 0) {
-                processLine(decodeLine(), events);
-            }
-
-            ServerSentEventFrame event = buildEvent();
-            if (event != null) {
-                events.add(event);
-            }
-            return events;
+            // The SSE parsing algorithm discards an event that wasn't terminated by a blank line.
+            return Collections.emptyList();
         }
 
         private void appendByte(byte value) {

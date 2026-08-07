@@ -7,8 +7,8 @@
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
 - Added generic `ServerSentEvent<T>`, `ServerSentEventDeserializer<T>`, `ServerSentEventListener<T>`, and
   `ServerSentEventUtils` types for typed, incrementally decoded server-sent event streams. Synchronous listeners can
-  stop processing early, persistent retry metadata is exposed for caller-managed reconnection, and asynchronous
-  decoding parses the reactive response body without blocking worker threads.
+  stop processing early, persistent retry metadata on emitted events is exposed for caller-managed reconnection, and
+  asynchronous decoding parses the reactive response body without blocking worker threads.
 - Added `ResponseBodyStreaming` operation metadata so generated clients can prevent unbounded response bodies from
   being eagerly buffered independently of mutable request headers.
 
