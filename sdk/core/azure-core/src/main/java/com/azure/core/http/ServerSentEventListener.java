@@ -11,6 +11,9 @@ import java.io.IOException;
  * <p>Returning {@code false} from {@link #onEvent(ServerSentEvent)} stops normal processing and closes the response
  * body without invoking {@link #onError(Throwable)}. {@link #onClose()} is invoked when processing ends.</p>
  *
+ * <p>Generated Azure Core clients consume this listener above the HTTP transport after receiving a streaming response
+ * body. The listener isn't attached to the underlying {@link HttpRequest}.</p>
+ *
  * @param <T> The type of the event data.
  */
 @FunctionalInterface

@@ -22,18 +22,24 @@ final class ServiceStreamEvents {
     static void listen(BinaryData body, ServerSentEventListener<ServiceStreamEvent> listener) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
 
-        try {
-            ServerSentEventUtils.process(body, ServiceStreamEvents::deserialize, event -> {
-                boolean shouldContinue = listener.onEvent(event);
-                return shouldContinue && !event.getData().isTerminal();
+        ServerSentEventUtils.process(body, ServiceStreamEvents::deserialize,
+            new ServerSentEventListener<ServiceStreamEvent>() {
+                @Override
+                public boolean onEvent(ServerSentEvent<ServiceStreamEvent> event) throws IOException {
+                    boolean shouldContinue = listener.onEvent(event);
+                    return shouldContinue && !event.getData().isTerminal();
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    listener.onError(error);
+                }
+
+                @Override
+                public void onClose() {
+                    listener.onClose();
+                }
             });
-        } catch (IOException exception) {
-            listener.onError(exception);
-        } catch (RuntimeException exception) {
-            listener.onError(exception);
-        } finally {
-            listener.onClose();
-        }
     }
 
     static Flux<ServerSentEvent<ServiceStreamEvent>> toFlux(BinaryData body) {

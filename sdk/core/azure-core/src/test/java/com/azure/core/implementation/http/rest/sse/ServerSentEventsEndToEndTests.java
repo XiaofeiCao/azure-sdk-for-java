@@ -57,6 +57,7 @@ public class ServerSentEventsEndToEndTests {
     private CountDownLatch firstEventReceived;
     private CountDownLatch sendRemainingEvents;
     private String responseContentType;
+    private String expectedAccept;
     private volatile StreamScenario scenario;
 
     @BeforeEach
@@ -68,6 +69,7 @@ public class ServerSentEventsEndToEndTests {
         firstEventReceived = new CountDownLatch(1);
         sendRemainingEvents = new CountDownLatch(1);
         responseContentType = CONTENT_TYPE;
+        expectedAccept = CONTENT_TYPE;
         scenario = StreamScenario.TERMINAL;
         server = new LocalTestServer(this::handleRequest);
         server.start();
@@ -201,6 +203,26 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
+    public void operationMetadataKeepsStreamingWhenAcceptIsReplaced() {
+        scenario = StreamScenario.OPEN;
+        expectedAccept = "*/*";
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        RequestOptions options = new RequestOptions()
+            .addRequestCallback(request -> request.setHeader(HttpHeaderName.ACCEPT, expectedAccept));
+
+        StepVerifier.create(client.getEventsWithResponse(options).flatMapMany(response -> {
+            assertEquals(200, response.getStatusCode());
+            sendEvents.countDown();
+            return response.getValue();
+        })).assertNext(this::assertUserLogin).thenCancel().verify(TIMEOUT);
+
+        assertTrue(httpClient.awaitCancellation(TIMEOUT));
+        assertTrue(httpClient.isCancelled());
+        assertTrue(httpClient.isStreamingResponse());
+    }
+
+    @Test
     public void syncListenerReceivesErrorThenClose() throws Exception {
         scenario = StreamScenario.MALFORMED;
         EventsClient client
@@ -259,7 +281,7 @@ public class ServerSentEventsEndToEndTests {
         if (!"GET".equals(request.getMethod()) || !"/events".equals(request.getServletPath())) {
             throw new ServletException("Unexpected request: " + request.getMethod() + " " + request.getServletPath());
         }
-        if (!CONTENT_TYPE.equals(request.getHeader("Accept"))) {
+        if (!expectedAccept.equals(request.getHeader("Accept"))) {
             throw new ServletException("Unexpected Accept header: " + request.getHeader("Accept"));
         }
 

@@ -18,6 +18,7 @@ import com.azure.core.annotation.PathParam;
 import com.azure.core.annotation.Post;
 import com.azure.core.annotation.Put;
 import com.azure.core.annotation.QueryParam;
+import com.azure.core.annotation.ResponseBodyStreaming;
 import com.azure.core.annotation.ReturnValueWireType;
 import com.azure.core.annotation.UnexpectedResponseExceptionType;
 import com.azure.core.exception.HttpResponseException;
@@ -102,6 +103,7 @@ public class SwaggerMethodParser implements HttpResponseDecodeData {
     private final boolean isStreamResponse;
     private final boolean returnTypeDecodeable;
     private final boolean responseEagerlyRead;
+    private final boolean responseBodyStreaming;
     private final boolean ignoreResponseBody;
     private final boolean headersEagerlyConverted;
     private final String spanName;
@@ -283,6 +285,7 @@ public class SwaggerMethodParser implements HttpResponseDecodeData {
         Type unwrappedReturnType = unwrapReturnType(returnType);
         this.returnTypeDecodeable = isReturnTypeDecodeable(unwrappedReturnType);
         this.responseEagerlyRead = isResponseEagerlyRead(unwrappedReturnType);
+        this.responseBodyStreaming = swaggerMethod.isAnnotationPresent(ResponseBodyStreaming.class);
         this.ignoreResponseBody = isResponseBodyIgnored(unwrappedReturnType);
         this.spanName = interfaceParser.getServiceName() + "." + swaggerMethod.getName();
 
@@ -724,6 +727,15 @@ public class SwaggerMethodParser implements HttpResponseDecodeData {
     @Override
     public boolean isResponseEagerlyRead() {
         return responseEagerlyRead;
+    }
+
+    /**
+     * Indicates whether the response body for the Swagger method must be streamed instead of eagerly buffered.
+     *
+     * @return {@code true} if the response body must be streamed, otherwise {@code false}.
+     */
+    public boolean isResponseBodyStreaming() {
+        return responseBodyStreaming;
     }
 
     @Override

@@ -64,6 +64,22 @@ public class ServerSentEventUtilsTests {
     }
 
     @Test
+    public void metadataBlocksPersistAcrossEvents() {
+        BinaryData body = BinaryData.fromString("id: 42\nretry: 2000\n\ndata: first\n\ndata: second\n\n");
+        List<ServerSentEvent<String>> syncEvents = new ArrayList<>();
+
+        ServerSentEventUtils.process(body, event -> {
+            syncEvents.add(event);
+            return true;
+        });
+
+        assertPersistentMetadata(syncEvents);
+        StepVerifier.create(ServerSentEventUtils.decode(body).collectList())
+            .assertNext(ServerSentEventUtilsTests::assertPersistentMetadata)
+            .verifyComplete();
+    }
+
+    @Test
     public void processDeserializesTypedEventData() throws IOException {
         BinaryData body = BinaryData.fromString("id: 42\nevent: number\ndata: 123\n\n");
         AtomicReference<ServerSentEvent<Integer>> eventReference = new AtomicReference<>();
@@ -184,5 +200,14 @@ public class ServerSentEventUtilsTests {
             Arrays.asList(asyncEvents.get(0).getEvent(), asyncEvents.get(1).getEvent()));
         assertEquals(Arrays.asList(syncEvents.get(0).getData(), syncEvents.get(1).getData()),
             Arrays.asList(asyncEvents.get(0).getData(), asyncEvents.get(1).getData()));
+    }
+
+    private static void assertPersistentMetadata(List<ServerSentEvent<String>> events) {
+        assertEquals(2, events.size());
+        assertEquals(Arrays.asList("first", "second"), Arrays.asList(events.get(0).getData(), events.get(1).getData()));
+        for (ServerSentEvent<String> event : events) {
+            assertEquals("42", event.getId());
+            assertEquals(Duration.ofSeconds(2), event.getRetryAfter());
+        }
     }
 }

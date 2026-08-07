@@ -5,7 +5,7 @@ package com.azure.core.util;
 
 import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.ServerSentEventDeserializer;
-import com.azure.core.http.ServerSentEventProcessor;
+import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.implementation.FluxInputStream;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 import reactor.core.publisher.Flux;
@@ -80,15 +80,16 @@ public final class ServerSentEventUtils {
      *
      * <p>Multiple {@code data} fields in an event are joined with a newline in the decoded event data.</p>
      *
-     * <p>The response body is closed when it completes, processing fails, or the processor returns {@code false}.</p>
+     * <p>The response body is closed when it completes, processing fails, or the listener returns {@code false}.
+     * Processing failures are delivered to {@link ServerSentEventListener#onError(Throwable)}, followed by
+     * {@link ServerSentEventListener#onClose()}.</p>
      *
      * @param body The response body containing a server-sent event stream.
-     * @param processor The processor invoked for each decoded event.
-     * @throws IOException If an I/O error occurs while decoding or processing an event.
-     * @throws NullPointerException If {@code body} or {@code processor} is {@code null}.
+     * @param listener The listener invoked for each decoded event.
+     * @throws NullPointerException If {@code body} or {@code listener} is {@code null}.
      */
-    public static void process(BinaryData body, ServerSentEventProcessor<String> processor) throws IOException {
-        process(body, (event, data) -> data, processor);
+    public static void process(BinaryData body, ServerSentEventListener<String> listener) {
+        process(body, (event, data) -> data, listener);
     }
 
     /**
@@ -96,20 +97,21 @@ public final class ServerSentEventUtils {
      *
      * <p>Multiple {@code data} fields in an event are joined with a newline before deserialization.</p>
      *
-     * <p>The response body is closed when it completes, processing fails, or the processor returns {@code false}.</p>
+     * <p>The response body is closed when it completes, processing fails, or the listener returns {@code false}.
+     * Processing failures are delivered to {@link ServerSentEventListener#onError(Throwable)}, followed by
+     * {@link ServerSentEventListener#onClose()}.</p>
      *
      * @param body The response body containing a server-sent event stream.
      * @param deserializer The deserializer that converts event data to {@code T}.
-     * @param processor The processor invoked with each typed event.
+     * @param listener The listener invoked with each typed event.
      * @param <T> The type of the deserialized event data.
-     * @throws IOException If an I/O error occurs while decoding, deserializing, or processing an event.
-     * @throws NullPointerException If {@code body}, {@code deserializer}, or {@code processor} is {@code null}.
+     * @throws NullPointerException If {@code body}, {@code deserializer}, or {@code listener} is {@code null}.
      */
     public static <T> void process(BinaryData body, ServerSentEventDeserializer<T> deserializer,
-        ServerSentEventProcessor<T> processor) throws IOException {
+        ServerSentEventListener<T> listener) {
         Objects.requireNonNull(body, "'body' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
-        Objects.requireNonNull(processor, "'processor' cannot be null.");
+        Objects.requireNonNull(listener, "'listener' cannot be null.");
 
         ServerSentEventDecoder decoder = new ServerSentEventDecoder();
         byte[] readBuffer = new byte[8192];
@@ -118,12 +120,16 @@ public final class ServerSentEventUtils {
             int read;
             while ((read = stream.read(readBuffer)) != -1) {
                 if (read > 0
-                    && !processFrames(decoder.feed(ByteBuffer.wrap(readBuffer, 0, read)), deserializer, processor)) {
+                    && !processFrames(decoder.feed(ByteBuffer.wrap(readBuffer, 0, read)), deserializer, listener)) {
                     return;
                 }
             }
 
-            processFrames(decoder.finish(), deserializer, processor);
+            processFrames(decoder.finish(), deserializer, listener);
+        } catch (IOException | RuntimeException exception) {
+            listener.onError(exception);
+        } finally {
+            listener.onClose();
         }
     }
 
@@ -146,10 +152,10 @@ public final class ServerSentEventUtils {
     }
 
     private static <T> boolean processFrames(List<ServerSentEventFrame> frames,
-        ServerSentEventDeserializer<T> deserializer, ServerSentEventProcessor<T> processor) throws IOException {
+        ServerSentEventDeserializer<T> deserializer, ServerSentEventListener<T> listener) throws IOException {
         for (ServerSentEventFrame frame : frames) {
             T data = deserializer.deserialize(frame.event, frame.data);
-            if (data != null && !processor.process(frame.toEvent(data))) {
+            if (data != null && !listener.onEvent(frame.toEvent(data))) {
                 return false;
             }
         }
@@ -185,7 +191,7 @@ public final class ServerSentEventUtils {
         private int lineLength;
         private boolean pendingCarriageReturn;
         private boolean firstLine = true;
-        private String id;
+        private String lastEventId;
         private String event;
         private List<String> data;
         private String comment;
@@ -284,7 +290,7 @@ public final class ServerSentEventUtils {
 
                 case "id":
                     if (value.indexOf('\0') < 0) {
-                        id = value;
+                        lastEventId = value;
                     }
                     break;
 
@@ -301,11 +307,9 @@ public final class ServerSentEventUtils {
         }
 
         private ServerSentEventFrame buildEvent() {
-            String currentId = id;
             String currentEvent = event;
             List<String> currentData = data;
             String currentComment = comment;
-            Duration currentRetryAfter = retryAfter;
             resetEvent();
 
             if (currentData == null) {
@@ -316,16 +320,14 @@ public final class ServerSentEventUtils {
                 currentEvent = DEFAULT_EVENT;
             }
 
-            return new ServerSentEventFrame(currentId, currentEvent, String.join("\n", currentData), currentComment,
-                currentRetryAfter);
+            return new ServerSentEventFrame(lastEventId, currentEvent, String.join("\n", currentData), currentComment,
+                retryAfter);
         }
 
         private void resetEvent() {
-            id = null;
             event = null;
             data = null;
             comment = null;
-            retryAfter = null;
         }
     }
 
