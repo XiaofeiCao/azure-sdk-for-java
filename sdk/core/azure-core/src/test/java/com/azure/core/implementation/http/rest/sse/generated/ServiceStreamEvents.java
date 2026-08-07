@@ -12,6 +12,7 @@ import com.azure.json.JsonReader;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ final class ServiceStreamEvents {
         ServerSentEventUtils.process(body, ServiceStreamEvents::deserialize,
             new ServerSentEventListener<ServiceStreamEvent>() {
                 @Override
-                public boolean onEvent(ServerSentEvent<ServiceStreamEvent> event) throws IOException {
+                public boolean onEvent(ServerSentEvent<ServiceStreamEvent> event) {
                     boolean shouldContinue = listener.onEvent(event);
                     return shouldContinue && !event.getData().isTerminal();
                 }
@@ -49,13 +50,15 @@ final class ServiceStreamEvents {
             .takeUntil(event -> event.getData().isTerminal());
     }
 
-    private static ServiceStreamEvent deserialize(String eventName, String data) throws IOException {
+    private static ServiceStreamEvent deserialize(String eventName, String data) {
         if ("[DONE]".equals(data)) {
             return ServiceStreamEvent.terminal();
         }
 
         try (JsonReader reader = JsonProviders.createReader(data.getBytes(StandardCharsets.UTF_8))) {
             return ServiceStreamEvent.fromJson(reader, eventName);
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
         }
     }
 }

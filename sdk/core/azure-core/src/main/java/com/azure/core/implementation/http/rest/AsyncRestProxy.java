@@ -208,9 +208,9 @@ public class AsyncRestProxy extends RestProxyBase {
             // different methods to read the response. The reading of the response is delayed until BinaryData
             // is read and depending on which format the content is converted into, the response is not necessarily
             // fully copied into memory resulting in lesser overall memory usage.
-            if (HttpUtils.isTextEventStream(contentType)) {
-                // if the response content type is a stream, create a BinaryData instance with bufferContent set to
-                // false.
+            if (methodParser.isResponseBodyStreaming() || HttpUtils.isTextEventStream(contentType)) {
+                // If the operation or response content type identifies a stream, create a BinaryData instance with
+                // bufferContent set to false.
                 asyncResult = BinaryData.fromFlux(sourceResponse.getBody(), null, false);
             } else {
                 asyncResult = BinaryData.fromFlux(sourceResponse.getBody());

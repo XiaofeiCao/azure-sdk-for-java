@@ -3,8 +3,6 @@
 
 package com.azure.core.http;
 
-import java.io.IOException;
-
 /**
  * Deserializes server-sent event data.
  *
@@ -18,7 +16,7 @@ public interface ServerSentEventDeserializer<T> {
      * @param event The event name.
      * @param data The event data.
      * @return The deserialized event data, or {@code null} if the event isn't supported.
-     * @throws IOException If an I/O error occurs while deserializing the event data.
+     * @throws RuntimeException If the event data cannot be deserialized.
      */
-    T deserialize(String event, String data) throws IOException;
+    T deserialize(String event, String data);
 }

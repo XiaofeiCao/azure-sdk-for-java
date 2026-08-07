@@ -4,11 +4,13 @@
 package com.azure.core.util;
 
 import com.azure.core.http.ServerSentEvent;
+import com.azure.core.http.ServerSentEventListener;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -21,6 +23,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServerSentEventUtilsTests {
@@ -196,6 +200,81 @@ public class ServerSentEventUtilsTests {
         StepVerifier.create(ServerSentEventUtils.decode(body))
             .expectErrorMatches(error -> error == disconnect)
             .verify();
+    }
+
+    @Test
+    public void processNotifiesAndRethrowsNetworkError() {
+        IOException disconnect = new IOException("connection closed");
+        Flux<ByteBuffer> content = Flux.concat(
+            Flux.just(ByteBuffer.wrap("data: first\n\n".getBytes(StandardCharsets.UTF_8))), Flux.error(disconnect));
+        BinaryData body = BinaryData.fromFlux(content, null, false).block();
+        AtomicReference<Throwable> listenerError = new AtomicReference<>();
+        AtomicBoolean closed = new AtomicBoolean();
+
+        UncheckedIOException exception = assertThrows(UncheckedIOException.class,
+            () -> ServerSentEventUtils.process(body, new ServerSentEventListener<String>() {
+                @Override
+                public boolean onEvent(ServerSentEvent<String> event) {
+                    return true;
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    listenerError.set(error);
+                }
+
+                @Override
+                public void onClose() {
+                    closed.set(true);
+                }
+            }));
+
+        assertSame(disconnect, exception.getCause());
+        assertSame(disconnect, listenerError.get());
+        assertTrue(closed.get());
+    }
+
+    @Test
+    public void processRethrowsDeserializerRuntimeException() {
+        UncheckedIOException deserializationError = new UncheckedIOException(new IOException("invalid event"));
+        BinaryData body = BinaryData.fromString("data: invalid\n\n");
+
+        UncheckedIOException exception
+            = assertThrows(UncheckedIOException.class, () -> ServerSentEventUtils.process(body, (event, data) -> {
+                throw deserializationError;
+            }, ignored -> true));
+
+        assertSame(deserializationError, exception);
+    }
+
+    @Test
+    public void processNotifiesAndRethrowsListenerRuntimeException() {
+        RuntimeException listenerFailure = new IllegalStateException("listener failed");
+        AtomicReference<Throwable> listenerError = new AtomicReference<>();
+        AtomicBoolean closed = new AtomicBoolean();
+        BinaryData body = BinaryData.fromString("data: event\n\n");
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+            () -> ServerSentEventUtils.process(body, new ServerSentEventListener<String>() {
+                @Override
+                public boolean onEvent(ServerSentEvent<String> event) {
+                    throw listenerFailure;
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    listenerError.set(error);
+                }
+
+                @Override
+                public void onClose() {
+                    closed.set(true);
+                }
+            }));
+
+        assertSame(listenerFailure, exception);
+        assertSame(listenerFailure, listenerError.get());
+        assertTrue(closed.get());
     }
 
     @Test

@@ -25,6 +25,7 @@ import reactor.test.StepVerifier;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -34,14 +35,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Execution(ExecutionMode.SAME_THREAD)
@@ -113,8 +116,9 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
-    public void syncListenerProcessesEventBeforeResponseBodyCompletes() throws Exception {
+    public void syncOperationMetadataStreamsGenericContentTypeBeforeBodyCompletes() throws Exception {
         scenario = StreamScenario.INTERLEAVED;
+        responseContentType = "application/octet-stream";
         EventsClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
         RecordingListener listener = new RecordingListener(firstEventReceived);
@@ -223,7 +227,29 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
-    public void syncListenerReceivesErrorThenClose() throws Exception {
+    public void asyncOperationMetadataStreamsGenericContentTypeBeforeBodyCompletes() {
+        scenario = StreamScenario.INTERLEAVED;
+        responseContentType = "application/octet-stream";
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+
+        StepVerifier.create(client.getEventsWithResponse(new RequestOptions()).flatMapMany(response -> {
+            assertTrue(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE).startsWith(responseContentType));
+            sendEvents.countDown();
+            return response.getValue();
+        })).assertNext(event -> {
+            assertUserLogin(event);
+            firstEventReceived.countDown();
+            sendRemainingEvents.countDown();
+        }).assertNext(this::assertTerminal).verifyComplete();
+
+        assertTrue(httpClient.awaitCancellation(TIMEOUT));
+        assertTrue(httpClient.isCancelled());
+        assertTrue(httpClient.isStreamingResponse());
+    }
+
+    @Test
+    public void syncListenerReceivesErrorThenCallFailsAndCloses() throws Exception {
         scenario = StreamScenario.MALFORMED;
         EventsClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
@@ -235,10 +261,11 @@ public class ServerSentEventsEndToEndTests {
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         sendEvents.countDown();
 
-        Response<Void> response = responseFuture.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
-        assertEquals(200, response.getStatusCode());
+        ExecutionException exception = assertThrows(ExecutionException.class,
+            () -> responseFuture.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
+        assertTrue(exception.getCause() instanceof UncheckedIOException);
         assertTrue(listener.events.isEmpty());
-        assertNotNull(listener.error.get());
+        assertSame(exception.getCause(), listener.error.get());
         assertEquals(1, listener.closeCount.get());
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
     }

@@ -8,10 +8,12 @@ import com.azure.core.http.ServerSentEventDeserializer;
 import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.implementation.FluxInputStream;
 import com.azure.core.implementation.util.ServerSentEventHelper;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -85,10 +87,12 @@ public final class ServerSentEventUtils {
      *
      * <p>The response body is closed when it completes, processing fails, or the listener returns {@code false}.
      * Processing failures are delivered to {@link ServerSentEventListener#onError(Throwable)}, followed by
-     * {@link ServerSentEventListener#onClose()}.</p>
+     * {@link ServerSentEventListener#onClose()}, and rethrown to the caller.</p>
      *
      * @param body The response body containing a server-sent event stream.
      * @param listener The listener invoked for each decoded event.
+     * @throws UncheckedIOException If an I/O error occurs while decoding the stream.
+     * @throws RuntimeException If the listener fails while processing an event.
      * @throws NullPointerException If {@code body} or {@code listener} is {@code null}.
      */
     public static void process(BinaryData body, ServerSentEventListener<String> listener) {
@@ -102,12 +106,14 @@ public final class ServerSentEventUtils {
      *
      * <p>The response body is closed when it completes, processing fails, or the listener returns {@code false}.
      * Processing failures are delivered to {@link ServerSentEventListener#onError(Throwable)}, followed by
-     * {@link ServerSentEventListener#onClose()}.</p>
+     * {@link ServerSentEventListener#onClose()}, and rethrown to the caller.</p>
      *
      * @param body The response body containing a server-sent event stream.
      * @param deserializer The deserializer that converts event data to {@code T}.
      * @param listener The listener invoked with each typed event.
      * @param <T> The type of the deserialized event data.
+     * @throws UncheckedIOException If an I/O error occurs while decoding the stream.
+     * @throws RuntimeException If deserialization or the listener fails while processing an event.
      * @throws NullPointerException If {@code body}, {@code deserializer}, or {@code listener} is {@code null}.
      */
     public static <T> void process(BinaryData body, ServerSentEventDeserializer<T> deserializer,
@@ -129,8 +135,12 @@ public final class ServerSentEventUtils {
             }
 
             processFrames(decoder.finish(), deserializer, listener);
-        } catch (IOException | RuntimeException exception) {
+        } catch (IOException exception) {
             listener.onError(exception);
+            throw new UncheckedIOException(exception);
+        } catch (RuntimeException exception) {
+            listener.onError(exception);
+            throw Exceptions.propagate(exception);
         } finally {
             listener.onClose();
         }
@@ -146,16 +156,12 @@ public final class ServerSentEventUtils {
 
     private static <T> Flux<ServerSentEvent<T>> deserializeFrame(ServerSentEventFrame frame,
         ServerSentEventDeserializer<T> deserializer) {
-        try {
-            T data = deserializer.deserialize(frame.event, frame.data);
-            return data == null ? Flux.empty() : Flux.just(frame.toEvent(data));
-        } catch (IOException exception) {
-            return Flux.error(exception);
-        }
+        T data = deserializer.deserialize(frame.event, frame.data);
+        return data == null ? Flux.empty() : Flux.just(frame.toEvent(data));
     }
 
     private static <T> boolean processFrames(List<ServerSentEventFrame> frames,
-        ServerSentEventDeserializer<T> deserializer, ServerSentEventListener<T> listener) throws IOException {
+        ServerSentEventDeserializer<T> deserializer, ServerSentEventListener<T> listener) {
         for (ServerSentEventFrame frame : frames) {
             T data = deserializer.deserialize(frame.event, frame.data);
             if (data != null && !listener.onEvent(frame.toEvent(data))) {
@@ -342,13 +348,7 @@ public final class ServerSentEventUtils {
         }
 
         private <T> ServerSentEvent<T> toEvent(T data) {
-            ServerSentEvent<T> result = new ServerSentEvent<>();
-            ServerSentEventHelper.setId(result, id);
-            ServerSentEventHelper.setEvent(result, event);
-            ServerSentEventHelper.setData(result, data);
-            ServerSentEventHelper.setComment(result, comment);
-            ServerSentEventHelper.setRetryAfter(result, retryAfter);
-            return result;
+            return ServerSentEventHelper.create(id, event, data, comment, retryAfter);
         }
     }
 }

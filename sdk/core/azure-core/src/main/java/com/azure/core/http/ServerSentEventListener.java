@@ -3,13 +3,14 @@
 
 package com.azure.core.http;
 
-import java.io.IOException;
-
 /**
  * A listener for receiving server-sent events.
  *
  * <p>Returning {@code false} from {@link #onEvent(ServerSentEvent)} stops normal processing and closes the response
  * body without invoking {@link #onError(Throwable)}. {@link #onClose()} is invoked when processing ends.</p>
+ *
+ * <p>Errors terminate processing, invoke {@link #onError(Throwable)} and {@link #onClose()}, and are rethrown to the
+ * synchronous service caller as unchecked exceptions.</p>
  *
  * <p>Generated Azure Core clients consume this listener above the HTTP transport after receiving a streaming response
  * body. The listener isn't attached to the underlying {@link HttpRequest}.</p>
@@ -23,9 +24,9 @@ public interface ServerSentEventListener<T> {
      *
      * @param event The server-sent event.
      * @return {@code true} to continue receiving events, or {@code false} to stop and close the response body.
-     * @throws IOException If an I/O error occurs while handling the event.
+     * @throws RuntimeException If an error occurs while handling the event.
      */
-    boolean onEvent(ServerSentEvent<T> event) throws IOException;
+    boolean onEvent(ServerSentEvent<T> event);
 
     /**
      * Handles an error that terminates event processing.

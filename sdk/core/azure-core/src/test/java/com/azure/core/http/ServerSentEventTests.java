@@ -12,14 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ServerSentEventTests {
     @Test
-    public void helperPopulatesEventFields() {
-        ServerSentEvent<String> event = new ServerSentEvent<>();
-
-        ServerSentEventHelper.setId(event, "42");
-        ServerSentEventHelper.setEvent(event, "stockUpdate");
-        ServerSentEventHelper.setData(event, "payload");
-        ServerSentEventHelper.setComment(event, "comment");
-        ServerSentEventHelper.setRetryAfter(event, Duration.ofSeconds(2));
+    public void helperCreatesEvent() {
+        ServerSentEvent<String> event
+            = ServerSentEventHelper.create("42", "stockUpdate", "payload", "comment", Duration.ofSeconds(2));
 
         assertEquals("42", event.getId());
         assertEquals("stockUpdate", event.getEvent());

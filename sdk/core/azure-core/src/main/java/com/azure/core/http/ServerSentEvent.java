@@ -3,6 +3,7 @@
 
 package com.azure.core.http;
 
+import com.azure.core.annotation.Immutable;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 
 import java.time.Duration;
@@ -23,46 +24,29 @@ import java.time.Duration;
  * @see <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">
  * Parsing an event stream</a>
  */
+@Immutable
 public final class ServerSentEvent<T> {
-    private String id;
-    private String event;
-    private T data;
-    private String comment;
-    private Duration retryAfter;
+    private final String id;
+    private final String event;
+    private final T data;
+    private final String comment;
+    private final Duration retryAfter;
 
     static {
         ServerSentEventHelper.setAccessor(new ServerSentEventHelper.ServerSentEventAccessor() {
             @Override
-            public void setId(ServerSentEvent<?> serverSentEvent, String id) {
-                serverSentEvent.setId(id);
-            }
-
-            @Override
-            public void setEvent(ServerSentEvent<?> serverSentEvent, String event) {
-                serverSentEvent.setEvent(event);
-            }
-
-            @Override
-            public <U> void setData(ServerSentEvent<U> serverSentEvent, U data) {
-                serverSentEvent.setData(data);
-            }
-
-            @Override
-            public void setComment(ServerSentEvent<?> serverSentEvent, String comment) {
-                serverSentEvent.setComment(comment);
-            }
-
-            @Override
-            public void setRetryAfter(ServerSentEvent<?> serverSentEvent, Duration retryAfter) {
-                serverSentEvent.setRetryAfter(retryAfter);
+            public <U> ServerSentEvent<U> create(String id, String event, U data, String comment, Duration retryAfter) {
+                return new ServerSentEvent<>(id, event, data, comment, retryAfter);
             }
         });
     }
 
-    /**
-     * Creates a server-sent event.
-     */
-    public ServerSentEvent() {
+    private ServerSentEvent(String id, String event, T data, String comment, Duration retryAfter) {
+        this.id = id;
+        this.event = event;
+        this.data = data;
+        this.comment = comment;
+        this.retryAfter = retryAfter;
     }
 
     /**
@@ -113,23 +97,4 @@ public final class ServerSentEvent<T> {
         return retryAfter;
     }
 
-    private void setId(String id) {
-        this.id = id;
-    }
-
-    private void setEvent(String event) {
-        this.event = event;
-    }
-
-    private void setData(T data) {
-        this.data = data;
-    }
-
-    private void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    private void setRetryAfter(Duration retryAfter) {
-        this.retryAfter = retryAfter;
-    }
 }
