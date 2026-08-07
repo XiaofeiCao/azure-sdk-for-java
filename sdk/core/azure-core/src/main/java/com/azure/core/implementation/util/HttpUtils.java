@@ -3,6 +3,7 @@
 package com.azure.core.implementation.util;
 
 import com.azure.core.util.Configuration;
+import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 
 import java.time.Duration;
@@ -17,6 +18,7 @@ import static com.azure.core.util.CoreUtils.getDefaultTimeoutFromEnvironment;
  * Utilities shared with HttpClient implementations.
  */
 public final class HttpUtils {
+    private static final String TEXT_EVENT_STREAM = "text/event-stream";
     private static final ClientLogger LOGGER = new ClientLogger(HttpUtils.class);
 
     private static final Duration MINIMUM_TIMEOUT = Duration.ofMillis(1);
@@ -44,6 +46,12 @@ public final class HttpUtils {
     public static final String AZURE_EAGERLY_READ_RESPONSE = "azure-eagerly-read-response";
 
     /**
+     * Context key used to indicate that an HttpClient implementation must return the response before consuming its
+     * body.
+     */
+    public static final String AZURE_RESPONSE_BODY_STREAMING = "azure-response-body-streaming";
+
+    /**
      * Context key used to indicate to an HttpClient implementation if the response body should be ignored and eagerly
      * drained from the network.
      */
@@ -59,6 +67,49 @@ public final class HttpUtils {
      * Azure Core HttpHeaders.
      */
     public static final String AZURE_EAGERLY_CONVERT_HEADERS = "azure-eagerly-convert-headers";
+
+    /**
+     * Determines whether a response body must remain streaming.
+     *
+     * @param context Contextual information about the request.
+     * @return Whether the response body must remain streaming.
+     */
+    public static boolean isResponseBodyStreaming(Context context) {
+        return Boolean.TRUE.equals(context.getData(AZURE_RESPONSE_BODY_STREAMING).orElse(false));
+    }
+
+    /**
+     * Determines whether a response should be eagerly read.
+     *
+     * @param context Contextual information about the request.
+     * @return Whether the response should be eagerly read.
+     */
+    public static boolean shouldEagerlyReadResponse(Context context) {
+        return !isResponseBodyStreaming(context)
+            && Boolean.TRUE.equals(context.getData(AZURE_EAGERLY_READ_RESPONSE).orElse(false));
+    }
+
+    /**
+     * Determines whether a Content-Type or Accept header contains the {@code text/event-stream} media type.
+     *
+     * @param headerValue The header value.
+     * @return Whether the header contains the {@code text/event-stream} media type.
+     */
+    public static boolean isTextEventStream(String headerValue) {
+        if (headerValue == null) {
+            return false;
+        }
+
+        for (String value : headerValue.split(",")) {
+            int parameterSeparator = value.indexOf(';');
+            String mediaType = parameterSeparator < 0 ? value : value.substring(0, parameterSeparator);
+            if (TEXT_EVENT_STREAM.equalsIgnoreCase(mediaType.trim())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Gets the default connect timeout.

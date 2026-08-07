@@ -76,7 +76,7 @@ class JdkHttpClient implements HttpClient {
 
     @Override
     public Mono<HttpResponse> send(HttpRequest request, Context context) {
-        boolean eagerlyReadResponse = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE).orElse(false);
+        boolean eagerlyReadResponse = HttpUtils.shouldEagerlyReadResponse(context);
         boolean ignoreResponseBody = (boolean) context.getData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY).orElse(false);
         Duration readTimeout = (Duration) context.getData(HttpUtils.AZURE_RESPONSE_TIMEOUT)
             .filter(timeoutDuration -> timeoutDuration instanceof Duration)
@@ -111,7 +111,7 @@ class JdkHttpClient implements HttpClient {
 
     @Override
     public HttpResponse sendSync(HttpRequest request, Context context) {
-        boolean eagerlyReadResponse = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE).orElse(false);
+        boolean eagerlyReadResponse = HttpUtils.shouldEagerlyReadResponse(context);
         boolean ignoreResponseBody = (boolean) context.getData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY).orElse(false);
 
         java.net.http.HttpRequest jdkRequest = toJdkHttpRequest(request, context);

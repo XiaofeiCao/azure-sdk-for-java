@@ -3,11 +3,13 @@
 
 package com.azure.core.implementation.http.rest.sse.generated;
 
+import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.BinaryData;
-import com.azure.core.util.IterableStream;
+
+import java.util.Objects;
 
 public final class EventsClient {
     private final EventsClientImpl serviceClient;
@@ -16,13 +18,15 @@ public final class EventsClient {
         this.serviceClient = serviceClient;
     }
 
-    public IterableStream<ServiceStreamEvent> getEvents() {
-        return getEventsWithResponse(new RequestOptions()).getValue();
+    public void getEvents(ServerSentEventListener<ServiceStreamEvent> listener) {
+        getEventsWithResponse(listener, new RequestOptions());
     }
 
-    public Response<IterableStream<ServiceStreamEvent>> getEventsWithResponse(RequestOptions requestOptions) {
+    public Response<Void> getEventsWithResponse(ServerSentEventListener<ServiceStreamEvent> listener,
+        RequestOptions requestOptions) {
+        Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response = serviceClient.getEventsWithResponse(requestOptions);
-        IterableStream<ServiceStreamEvent> events = ServiceStreamEvents.toIterableStream(response.getValue());
-        return new SimpleResponse<>(response, events);
+        ServiceStreamEvents.listen(response.getValue(), listener);
+        return new SimpleResponse<>(response, null);
     }
 }

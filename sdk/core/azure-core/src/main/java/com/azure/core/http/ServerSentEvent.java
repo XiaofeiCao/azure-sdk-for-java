@@ -6,56 +6,53 @@ package com.azure.core.http;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
- * Represents a server-sent event.
+ * Represents a server-sent event with a typed data payload.
  *
- * <p>A server-sent event may contain an identifier, event name, one or more data lines, a comment, and a retry
- * interval. All fields are optional.</p>
+ * <p>A server-sent event may contain an identifier, event name, data, a comment, and a retry interval. All fields are
+ * optional.</p>
  *
+ * <p>This type exposes the metadata needed for caller-managed reconnection, but Azure Core doesn't automatically
+ * reconnect an event stream. Callers can use {@link #getId()} as the next request's {@code Last-Event-Id} value and
+ * {@link #getRetryAfter()} as the reconnect delay.</p>
+ *
+ * @param <T> The type of the event data.
  * @see <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">
  * Parsing an event stream</a>
  */
-public final class ServerSentEvent {
+public final class ServerSentEvent<T> {
     private String id;
     private String event;
-    private List<String> data;
+    private T data;
     private String comment;
     private Duration retryAfter;
 
     static {
         ServerSentEventHelper.setAccessor(new ServerSentEventHelper.ServerSentEventAccessor() {
             @Override
-            public void setId(ServerSentEvent serverSentEvent, String id) {
+            public void setId(ServerSentEvent<?> serverSentEvent, String id) {
                 serverSentEvent.setId(id);
             }
 
             @Override
-            public void setEvent(ServerSentEvent serverSentEvent, String event) {
+            public void setEvent(ServerSentEvent<?> serverSentEvent, String event) {
                 serverSentEvent.setEvent(event);
             }
 
             @Override
-            public void setData(ServerSentEvent serverSentEvent, List<String> data) {
+            public <U> void setData(ServerSentEvent<U> serverSentEvent, U data) {
                 serverSentEvent.setData(data);
             }
 
             @Override
-            public void setComment(ServerSentEvent serverSentEvent, String comment) {
+            public void setComment(ServerSentEvent<?> serverSentEvent, String comment) {
                 serverSentEvent.setComment(comment);
             }
 
             @Override
-            public void setRetryAfter(ServerSentEvent serverSentEvent, Duration retryAfter) {
+            public void setRetryAfter(ServerSentEvent<?> serverSentEvent, Duration retryAfter) {
                 serverSentEvent.setRetryAfter(retryAfter);
-            }
-
-            @Override
-            public Duration getRetryAfter(ServerSentEvent serverSentEvent) {
-                return serverSentEvent.getRetryAfter();
             }
         });
     }
@@ -85,11 +82,11 @@ public final class ServerSentEvent {
     }
 
     /**
-     * Gets the event data lines.
+     * Gets the event data.
      *
-     * @return An unmodifiable list of event data lines, or {@code null} if event data wasn't specified.
+     * @return The event data, or {@code null} if event data wasn't specified.
      */
-    public List<String> getData() {
+    public T getData() {
         return data;
     }
 
@@ -102,7 +99,12 @@ public final class ServerSentEvent {
         return comment;
     }
 
-    private Duration getRetryAfter() {
+    /**
+     * Gets the reconnection delay requested by the event source.
+     *
+     * @return The reconnection delay, or {@code null} if it wasn't specified.
+     */
+    public Duration getRetryAfter() {
         return retryAfter;
     }
 
@@ -114,8 +116,8 @@ public final class ServerSentEvent {
         this.event = event;
     }
 
-    private void setData(List<String> data) {
-        this.data = data == null ? null : Collections.unmodifiableList(new ArrayList<>(data));
+    private void setData(T data) {
+        this.data = data;
     }
 
     private void setComment(String comment) {

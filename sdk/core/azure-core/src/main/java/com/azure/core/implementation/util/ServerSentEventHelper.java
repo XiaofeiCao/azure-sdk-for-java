@@ -6,7 +6,6 @@ package com.azure.core.implementation.util;
 import com.azure.core.http.ServerSentEvent;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -29,7 +28,7 @@ public final class ServerSentEventHelper {
          * @param serverSentEvent The event.
          * @param id The event identifier.
          */
-        void setId(ServerSentEvent serverSentEvent, String id);
+        void setId(ServerSentEvent<?> serverSentEvent, String id);
 
         /**
          * Sets the event name.
@@ -37,15 +36,16 @@ public final class ServerSentEventHelper {
          * @param serverSentEvent The event.
          * @param event The event name.
          */
-        void setEvent(ServerSentEvent serverSentEvent, String event);
+        void setEvent(ServerSentEvent<?> serverSentEvent, String event);
 
         /**
-         * Sets the event data lines.
+         * Sets the event data.
          *
          * @param serverSentEvent The event.
-         * @param data The event data lines.
+         * @param data The event data.
+         * @param <T> The type of the event data.
          */
-        void setData(ServerSentEvent serverSentEvent, List<String> data);
+        <T> void setData(ServerSentEvent<T> serverSentEvent, T data);
 
         /**
          * Sets the event comment.
@@ -53,7 +53,7 @@ public final class ServerSentEventHelper {
          * @param serverSentEvent The event.
          * @param comment The event comment.
          */
-        void setComment(ServerSentEvent serverSentEvent, String comment);
+        void setComment(ServerSentEvent<?> serverSentEvent, String comment);
 
         /**
          * Sets the reconnection delay.
@@ -61,15 +61,8 @@ public final class ServerSentEventHelper {
          * @param serverSentEvent The event.
          * @param retryAfter The reconnection delay.
          */
-        void setRetryAfter(ServerSentEvent serverSentEvent, Duration retryAfter);
+        void setRetryAfter(ServerSentEvent<?> serverSentEvent, Duration retryAfter);
 
-        /**
-         * Gets the reconnection delay.
-         *
-         * @param serverSentEvent The event.
-         * @return The reconnection delay.
-         */
-        Duration getRetryAfter(ServerSentEvent serverSentEvent);
     }
 
     /**
@@ -87,7 +80,7 @@ public final class ServerSentEventHelper {
      * @param serverSentEvent The event.
      * @param id The event identifier.
      */
-    public static void setId(ServerSentEvent serverSentEvent, String id) {
+    public static void setId(ServerSentEvent<?> serverSentEvent, String id) {
         getAccessor().setId(serverSentEvent, id);
     }
 
@@ -97,17 +90,18 @@ public final class ServerSentEventHelper {
      * @param serverSentEvent The event.
      * @param event The event name.
      */
-    public static void setEvent(ServerSentEvent serverSentEvent, String event) {
+    public static void setEvent(ServerSentEvent<?> serverSentEvent, String event) {
         getAccessor().setEvent(serverSentEvent, event);
     }
 
     /**
-     * Sets the event data lines.
+     * Sets the event data.
      *
      * @param serverSentEvent The event.
-     * @param data The event data lines.
+     * @param data The event data.
+     * @param <T> The type of the event data.
      */
-    public static void setData(ServerSentEvent serverSentEvent, List<String> data) {
+    public static <T> void setData(ServerSentEvent<T> serverSentEvent, T data) {
         getAccessor().setData(serverSentEvent, data);
     }
 
@@ -117,7 +111,7 @@ public final class ServerSentEventHelper {
      * @param serverSentEvent The event.
      * @param comment The event comment.
      */
-    public static void setComment(ServerSentEvent serverSentEvent, String comment) {
+    public static void setComment(ServerSentEvent<?> serverSentEvent, String comment) {
         getAccessor().setComment(serverSentEvent, comment);
     }
 
@@ -127,24 +121,14 @@ public final class ServerSentEventHelper {
      * @param serverSentEvent The event.
      * @param retryAfter The reconnection delay.
      */
-    public static void setRetryAfter(ServerSentEvent serverSentEvent, Duration retryAfter) {
+    public static void setRetryAfter(ServerSentEvent<?> serverSentEvent, Duration retryAfter) {
         getAccessor().setRetryAfter(serverSentEvent, retryAfter);
-    }
-
-    /**
-     * Gets the reconnection delay.
-     *
-     * @param serverSentEvent The event.
-     * @return The reconnection delay.
-     */
-    public static Duration getRetryAfter(ServerSentEvent serverSentEvent) {
-        return getAccessor().getRetryAfter(serverSentEvent);
     }
 
     private static ServerSentEventAccessor getAccessor() {
         ServerSentEventAccessor accessor = ACCESSOR.get();
         if (accessor == null) {
-            new ServerSentEvent();
+            new ServerSentEvent<>();
             accessor = ACCESSOR.get();
         }
         return accessor;

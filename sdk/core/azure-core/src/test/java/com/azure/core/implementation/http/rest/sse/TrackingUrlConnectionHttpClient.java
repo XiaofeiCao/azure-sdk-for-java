@@ -9,6 +9,7 @@ import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpRequest;
 import com.azure.core.http.HttpResponse;
+import com.azure.core.implementation.util.HttpUtils;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
 import reactor.core.publisher.Flux;
@@ -33,14 +34,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 final class TrackingUrlConnectionHttpClient implements HttpClient {
     private final CountDownLatch cancellationLatch = new CountDownLatch(1);
     private final AtomicBoolean cancelled = new AtomicBoolean();
+    private final AtomicBoolean streamingResponse = new AtomicBoolean();
 
     @Override
     public Mono<HttpResponse> send(HttpRequest request) {
+        return send(request, Context.NONE);
+    }
+
+    @Override
+    public Mono<HttpResponse> send(HttpRequest request, Context context) {
+        trackStreamingResponse(context);
         return Mono.fromCallable(() -> openResponse(request)).subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override
     public HttpResponse sendSync(HttpRequest request, Context context) {
+        trackStreamingResponse(context);
         try {
             return openResponse(request);
         } catch (IOException exception) {
@@ -59,6 +68,16 @@ final class TrackingUrlConnectionHttpClient implements HttpClient {
 
     boolean isCancelled() {
         return cancelled.get();
+    }
+
+    boolean isStreamingResponse() {
+        return streamingResponse.get();
+    }
+
+    private void trackStreamingResponse(Context context) {
+        if (HttpUtils.isResponseBodyStreaming(context)) {
+            streamingResponse.set(true);
+        }
     }
 
     private HttpResponse openResponse(HttpRequest request) throws IOException {

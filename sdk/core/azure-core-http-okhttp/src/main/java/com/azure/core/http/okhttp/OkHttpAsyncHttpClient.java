@@ -95,7 +95,7 @@ class OkHttpAsyncHttpClient implements HttpClient {
 
     @Override
     public Mono<HttpResponse> send(HttpRequest request, Context context) {
-        boolean eagerlyReadResponse = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE).orElse(false);
+        boolean eagerlyReadResponse = HttpUtils.shouldEagerlyReadResponse(context);
         boolean ignoreResponseBody = (boolean) context.getData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY).orElse(false);
         boolean eagerlyConvertHeaders
             = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_CONVERT_HEADERS).orElse(false);
@@ -134,7 +134,7 @@ class OkHttpAsyncHttpClient implements HttpClient {
 
     @Override
     public HttpResponse sendSync(HttpRequest request, Context context) {
-        boolean eagerlyReadResponse = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE).orElse(false);
+        boolean eagerlyReadResponse = HttpUtils.shouldEagerlyReadResponse(context);
         boolean ignoreResponseBody = (boolean) context.getData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY).orElse(false);
         boolean eagerlyConvertHeaders
             = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_CONVERT_HEADERS).orElse(false);

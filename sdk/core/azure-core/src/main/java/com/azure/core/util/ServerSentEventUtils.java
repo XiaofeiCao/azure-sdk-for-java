@@ -4,28 +4,27 @@
 package com.azure.core.util;
 
 import com.azure.core.http.ServerSentEvent;
+import com.azure.core.http.ServerSentEventDeserializer;
+import com.azure.core.http.ServerSentEventProcessor;
+import com.azure.core.implementation.FluxInputStream;
 import com.azure.core.implementation.util.ServerSentEventHelper;
 import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
- * Utility methods for lazily decoding server-sent event streams.
+ * Utility methods for incrementally decoding one server-sent event response body.
+ *
+ * <p>These methods don't automatically reconnect when the response terminates. Retry and last-event identifier
+ * metadata are available from {@link ServerSentEvent} for caller-managed reconnection.</p>
  */
 public final class ServerSentEventUtils {
     private static final String DEFAULT_EVENT = "message";
@@ -34,205 +33,325 @@ public final class ServerSentEventUtils {
     }
 
     /**
-     * Lazily decodes a response body into server-sent events.
+     * Incrementally decodes a response body containing server-sent events.
      *
-     * <p>The returned stream must be closed to release the response body if event iteration stops before the response
-     * body completes.</p>
+     * <p>Multiple {@code data} fields in an event are joined with a newline in the decoded event data. Cancelling the
+     * returned {@link Flux} cancels the response body subscription.</p>
      *
      * @param body The response body containing a server-sent event stream.
-     * @return A sequential stream of server-sent events.
+     * @return A flux of decoded server-sent events.
      * @throws NullPointerException If {@code body} is {@code null}.
      */
-    public static Stream<ServerSentEvent> toStream(BinaryData body) {
-        ServerSentEventIterator iterator = new ServerSentEventIterator(body);
-        return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED | Spliterator.NONNULL), false)
-            .onClose(iterator::close);
+    public static Flux<ServerSentEvent<String>> decode(BinaryData body) {
+        return decode(body, (event, data) -> data);
     }
 
     /**
-     * Lazily decodes a response body into server-sent events.
+     * Incrementally decodes and deserializes a response body containing server-sent events.
      *
-     * <p>Completion, cancellation, or an error closes the response body. Reading is performed on the bounded elastic
-     * scheduler because response body streams may block.</p>
+     * <p>Multiple {@code data} fields in an event are joined with a newline before deserialization. Cancelling the
+     * returned {@link Flux} cancels the response body subscription.</p>
+     *
+     * <p>This method doesn't reconnect if the response body terminates. Callers that require reconnection can use
+     * {@link ServerSentEvent#getId()} and {@link ServerSentEvent#getRetryAfter()} to construct a subsequent
+     * request.</p>
      *
      * @param body The response body containing a server-sent event stream.
-     * @return A flux of server-sent events.
-     * @throws NullPointerException If {@code body} is {@code null}.
+     * @param deserializer The deserializer that converts event data to {@code T}.
+     * @param <T> The type of the deserialized event data.
+     * @return A flux of decoded server-sent events.
+     * @throws NullPointerException If {@code body} or {@code deserializer} is {@code null}.
      */
-    public static Flux<ServerSentEvent> toFlux(BinaryData body) {
+    public static <T> Flux<ServerSentEvent<T>> decode(BinaryData body, ServerSentEventDeserializer<T> deserializer) {
         Objects.requireNonNull(body, "'body' cannot be null.");
+        Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
 
-        return Flux.using(() -> new ServerSentEventIterator(body), iterator -> Flux.<ServerSentEvent>generate(sink -> {
-            if (iterator.hasNext()) {
-                sink.next(iterator.next());
-            } else {
-                sink.complete();
-            }
-        }), ServerSentEventIterator::close).subscribeOn(Schedulers.boundedElastic());
+        return Flux.defer(() -> {
+            ServerSentEventDecoder decoder = new ServerSentEventDecoder();
+            Flux<ServerSentEventFrame> frames = body.toFluxByteBuffer()
+                .concatMap(buffer -> decodeBuffer(decoder, buffer), 1)
+                .concatWith(Flux.defer(() -> decodeRemaining(decoder)));
+            return frames.concatMap(frame -> deserializeFrame(frame, deserializer), 1);
+        });
     }
 
-    private static final class ServerSentEventIterator implements Iterator<ServerSentEvent> {
-        private final BufferedReader reader;
-        private boolean firstLine = true;
-        private boolean closed;
-        private boolean nextLoaded;
-        private ServerSentEvent next;
+    /**
+     * Incrementally decodes and processes a response body containing server-sent events.
+     *
+     * <p>Multiple {@code data} fields in an event are joined with a newline in the decoded event data.</p>
+     *
+     * <p>The response body is closed when it completes, processing fails, or the processor returns {@code false}.</p>
+     *
+     * @param body The response body containing a server-sent event stream.
+     * @param processor The processor invoked for each decoded event.
+     * @throws IOException If an I/O error occurs while decoding or processing an event.
+     * @throws NullPointerException If {@code body} or {@code processor} is {@code null}.
+     */
+    public static void process(BinaryData body, ServerSentEventProcessor<String> processor) throws IOException {
+        process(body, (event, data) -> data, processor);
+    }
 
-        private ServerSentEventIterator(BinaryData body) {
-            Objects.requireNonNull(body, "'body' cannot be null.");
-            this.reader = new BufferedReader(new InputStreamReader(body.toStream(), StandardCharsets.UTF_8));
+    /**
+     * Incrementally decodes, deserializes, and processes a response body containing server-sent events.
+     *
+     * <p>Multiple {@code data} fields in an event are joined with a newline before deserialization.</p>
+     *
+     * <p>The response body is closed when it completes, processing fails, or the processor returns {@code false}.</p>
+     *
+     * @param body The response body containing a server-sent event stream.
+     * @param deserializer The deserializer that converts event data to {@code T}.
+     * @param processor The processor invoked with each typed event.
+     * @param <T> The type of the deserialized event data.
+     * @throws IOException If an I/O error occurs while decoding, deserializing, or processing an event.
+     * @throws NullPointerException If {@code body}, {@code deserializer}, or {@code processor} is {@code null}.
+     */
+    public static <T> void process(BinaryData body, ServerSentEventDeserializer<T> deserializer,
+        ServerSentEventProcessor<T> processor) throws IOException {
+        Objects.requireNonNull(body, "'body' cannot be null.");
+        Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
+        Objects.requireNonNull(processor, "'processor' cannot be null.");
+
+        ServerSentEventDecoder decoder = new ServerSentEventDecoder();
+        byte[] readBuffer = new byte[8192];
+
+        try (InputStream stream = new FluxInputStream(body.toFluxByteBuffer())) {
+            int read;
+            while ((read = stream.read(readBuffer)) != -1) {
+                if (read > 0
+                    && !processFrames(decoder.feed(ByteBuffer.wrap(readBuffer, 0, read)), deserializer, processor)) {
+                    return;
+                }
+            }
+
+            processFrames(decoder.finish(), deserializer, processor);
         }
+    }
 
-        @Override
-        public boolean hasNext() {
-            if (closed && !nextLoaded) {
+    private static Flux<ServerSentEventFrame> decodeBuffer(ServerSentEventDecoder decoder, ByteBuffer buffer) {
+        return Flux.fromIterable(decoder.feed(buffer));
+    }
+
+    private static Flux<ServerSentEventFrame> decodeRemaining(ServerSentEventDecoder decoder) {
+        return Flux.fromIterable(decoder.finish());
+    }
+
+    private static <T> Flux<ServerSentEvent<T>> deserializeFrame(ServerSentEventFrame frame,
+        ServerSentEventDeserializer<T> deserializer) {
+        try {
+            T data = deserializer.deserialize(frame.event, frame.data);
+            return data == null ? Flux.empty() : Flux.just(frame.toEvent(data));
+        } catch (IOException exception) {
+            return Flux.error(exception);
+        }
+    }
+
+    private static <T> boolean processFrames(List<ServerSentEventFrame> frames,
+        ServerSentEventDeserializer<T> deserializer, ServerSentEventProcessor<T> processor) throws IOException {
+        for (ServerSentEventFrame frame : frames) {
+            T data = deserializer.deserialize(frame.event, frame.data);
+            if (data != null && !processor.process(frame.toEvent(data))) {
                 return false;
             }
-
-            if (!nextLoaded) {
-                try {
-                    next = readNext();
-                    nextLoaded = true;
-                    if (next == null) {
-                        close();
-                    }
-                } catch (IOException exception) {
-                    closeAfterFailure(exception);
-                    throw new UncheckedIOException(exception);
-                }
-            }
-
-            return next != null;
         }
-
-        @Override
-        public ServerSentEvent next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-
-            ServerSentEvent current = next;
-            next = null;
-            nextLoaded = false;
-            return current;
-        }
-
-        private ServerSentEvent readNext() throws IOException {
-            while (!closed) {
-                ServerSentEvent event = new ServerSentEvent();
-                List<String> data = null;
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    if (firstLine) {
-                        firstLine = false;
-                        if (!line.isEmpty() && line.charAt(0) == '\uFEFF') {
-                            line = line.substring(1);
-                        }
-                    }
-
-                    if (line.isEmpty()) {
-                        break;
-                    }
-
-                    if (line.charAt(0) == ':') {
-                        ServerSentEventHelper.setComment(event, removeOptionalSpace(line.substring(1)));
-                        continue;
-                    }
-
-                    int colonIndex = line.indexOf(':');
-                    String field = colonIndex < 0 ? line : line.substring(0, colonIndex);
-                    String value = colonIndex < 0 ? "" : removeOptionalSpace(line.substring(colonIndex + 1));
-
-                    switch (field) {
-                        case "event":
-                            ServerSentEventHelper.setEvent(event, value);
-                            break;
-
-                        case "data":
-                            if (data == null) {
-                                data = new ArrayList<>();
-                            }
-                            data.add(value);
-                            break;
-
-                        case "id":
-                            if (value.indexOf('\0') < 0) {
-                                ServerSentEventHelper.setId(event, value);
-                            }
-                            break;
-
-                        case "retry":
-                            setRetryAfter(event, value);
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                if (data != null) {
-                    if (event.getEvent() == null || event.getEvent().isEmpty()) {
-                        ServerSentEventHelper.setEvent(event, DEFAULT_EVENT);
-                    }
-                    ServerSentEventHelper.setData(event, data);
-                    if (line == null) {
-                        close();
-                    }
-                    return event;
-                }
-
-                if (line == null) {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
-        private void closeAfterFailure(IOException exception) {
-            try {
-                close();
-            } catch (UncheckedIOException closeException) {
-                exception.addSuppressed(closeException.getCause());
-            }
-        }
-
-        private void close() {
-            if (closed) {
-                return;
-            }
-
-            closed = true;
-            try {
-                reader.close();
-            } catch (IOException exception) {
-                throw new UncheckedIOException(exception);
-            }
-        }
+        return true;
     }
 
     private static String removeOptionalSpace(String value) {
         return value.startsWith(" ") ? value.substring(1) : value;
     }
 
-    private static void setRetryAfter(ServerSentEvent event, String value) {
+    private static Duration parseRetryAfter(String value) {
         if (value.isEmpty()) {
-            return;
+            return null;
         }
 
         for (int i = 0; i < value.length(); i++) {
             char character = value.charAt(i);
             if (character < '0' || character > '9') {
-                return;
+                return null;
             }
         }
 
         try {
-            ServerSentEventHelper.setRetryAfter(event, Duration.ofMillis(Long.parseLong(value)));
+            return Duration.ofMillis(Long.parseLong(value));
         } catch (NumberFormatException ignored) {
             // Ignore retry values that don't fit in a long.
+            return null;
+        }
+    }
+
+    private static final class ServerSentEventDecoder {
+        private byte[] lineBytes = new byte[256];
+        private int lineLength;
+        private boolean pendingCarriageReturn;
+        private boolean firstLine = true;
+        private String id;
+        private String event;
+        private List<String> data;
+        private String comment;
+        private Duration retryAfter;
+
+        private List<ServerSentEventFrame> feed(ByteBuffer source) {
+            ByteBuffer buffer = source.duplicate();
+            List<ServerSentEventFrame> events = new ArrayList<>();
+
+            while (buffer.hasRemaining()) {
+                byte value = buffer.get();
+
+                if (pendingCarriageReturn) {
+                    pendingCarriageReturn = false;
+                    if (value == '\n') {
+                        continue;
+                    }
+                }
+
+                if (value == '\n') {
+                    processLine(decodeLine(), events);
+                } else if (value == '\r') {
+                    processLine(decodeLine(), events);
+                    pendingCarriageReturn = true;
+                } else {
+                    appendByte(value);
+                }
+            }
+
+            return events;
+        }
+
+        private List<ServerSentEventFrame> finish() {
+            List<ServerSentEventFrame> events = new ArrayList<>();
+            if (lineLength > 0) {
+                processLine(decodeLine(), events);
+            }
+
+            ServerSentEventFrame event = buildEvent();
+            if (event != null) {
+                events.add(event);
+            }
+            return events;
+        }
+
+        private void appendByte(byte value) {
+            if (lineLength == lineBytes.length) {
+                lineBytes = Arrays.copyOf(lineBytes, lineBytes.length * 2);
+            }
+            lineBytes[lineLength++] = value;
+        }
+
+        private String decodeLine() {
+            String line = new String(lineBytes, 0, lineLength, StandardCharsets.UTF_8);
+            lineLength = 0;
+
+            if (firstLine) {
+                firstLine = false;
+                if (!line.isEmpty() && line.charAt(0) == '\uFEFF') {
+                    return line.substring(1);
+                }
+            }
+
+            return line;
+        }
+
+        private void processLine(String line, List<ServerSentEventFrame> events) {
+            if (line.isEmpty()) {
+                ServerSentEventFrame event = buildEvent();
+                if (event != null) {
+                    events.add(event);
+                }
+                return;
+            }
+
+            if (line.charAt(0) == ':') {
+                comment = removeOptionalSpace(line.substring(1));
+                return;
+            }
+
+            int colonIndex = line.indexOf(':');
+            String field = colonIndex < 0 ? line : line.substring(0, colonIndex);
+            String value = colonIndex < 0 ? "" : removeOptionalSpace(line.substring(colonIndex + 1));
+
+            switch (field) {
+                case "event":
+                    event = value;
+                    break;
+
+                case "data":
+                    if (data == null) {
+                        data = new ArrayList<>();
+                    }
+                    data.add(value);
+                    break;
+
+                case "id":
+                    if (value.indexOf('\0') < 0) {
+                        id = value;
+                    }
+                    break;
+
+                case "retry":
+                    Duration parsedRetryAfter = parseRetryAfter(value);
+                    if (parsedRetryAfter != null) {
+                        retryAfter = parsedRetryAfter;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private ServerSentEventFrame buildEvent() {
+            String currentId = id;
+            String currentEvent = event;
+            List<String> currentData = data;
+            String currentComment = comment;
+            Duration currentRetryAfter = retryAfter;
+            resetEvent();
+
+            if (currentData == null) {
+                return null;
+            }
+
+            if (currentEvent == null || currentEvent.isEmpty()) {
+                currentEvent = DEFAULT_EVENT;
+            }
+
+            return new ServerSentEventFrame(currentId, currentEvent, String.join("\n", currentData), currentComment,
+                currentRetryAfter);
+        }
+
+        private void resetEvent() {
+            id = null;
+            event = null;
+            data = null;
+            comment = null;
+            retryAfter = null;
+        }
+    }
+
+    private static final class ServerSentEventFrame {
+        private final String id;
+        private final String event;
+        private final String data;
+        private final String comment;
+        private final Duration retryAfter;
+
+        private ServerSentEventFrame(String id, String event, String data, String comment, Duration retryAfter) {
+            this.id = id;
+            this.event = event;
+            this.data = data;
+            this.comment = comment;
+            this.retryAfter = retryAfter;
+        }
+
+        private <T> ServerSentEvent<T> toEvent(T data) {
+            ServerSentEvent<T> result = new ServerSentEvent<>();
+            ServerSentEventHelper.setId(result, id);
+            ServerSentEventHelper.setEvent(result, event);
+            ServerSentEventHelper.setData(result, data);
+            ServerSentEventHelper.setComment(result, comment);
+            ServerSentEventHelper.setRetryAfter(result, retryAfter);
+            return result;
         }
     }
 }

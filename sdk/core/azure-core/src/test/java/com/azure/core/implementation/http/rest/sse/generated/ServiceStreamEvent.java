@@ -3,10 +3,15 @@
 
 package com.azure.core.implementation.http.rest.sse.generated;
 
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonWriter;
+
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class ServiceStreamEvent {
+public final class ServiceStreamEvent implements JsonSerializable<ServiceStreamEvent> {
     private final UserLogin userLogin;
     private final UserLogout userLogout;
     private final StockUpdate stockUpdate;
@@ -84,29 +89,64 @@ public final class ServiceStreamEvent {
 
     public UserLogin asUserLogin() {
         if (userLogin == null) {
-            throw new IllegalStateException("Event is not a userLogin event.");
+            throw new IllegalStateException("Event data is not userLogin.");
         }
         return userLogin;
     }
 
     public UserLogout asUserLogout() {
         if (userLogout == null) {
-            throw new IllegalStateException("Event is not a userLogout event.");
+            throw new IllegalStateException("Event data is not userLogout.");
         }
         return userLogout;
     }
 
     public StockUpdate asStockUpdate() {
         if (stockUpdate == null) {
-            throw new IllegalStateException("Event is not a stockUpdate event.");
+            throw new IllegalStateException("Event data is not stockUpdate.");
         }
         return stockUpdate;
     }
 
     public SystemAlert asSystemAlert() {
         if (systemAlert == null) {
-            throw new IllegalStateException("Event is not a systemAlert event.");
+            throw new IllegalStateException("Event data is not systemAlert.");
         }
         return systemAlert;
+    }
+
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        if (terminal) {
+            return jsonWriter.writeString("[DONE]");
+        } else if (userLogin != null) {
+            return userLogin.toJson(jsonWriter);
+        } else if (userLogout != null) {
+            return userLogout.toJson(jsonWriter);
+        } else if (stockUpdate != null) {
+            return stockUpdate.toJson(jsonWriter);
+        } else if (systemAlert != null) {
+            return systemAlert.toJson(jsonWriter);
+        }
+        throw new IllegalStateException("No event data is set.");
+    }
+
+    public static ServiceStreamEvent fromJson(JsonReader jsonReader, String eventName) throws IOException {
+        switch (eventName) {
+            case "userLogin":
+                return ofUserLogin(UserLogin.fromJson(jsonReader));
+
+            case "userLogout":
+                return ofUserLogout(UserLogout.fromJson(jsonReader));
+
+            case "stockUpdate":
+                return ofStockUpdate(StockUpdate.fromJson(jsonReader));
+
+            case "systemAlert":
+                return ofSystemAlert(SystemAlert.fromJson(jsonReader));
+
+            default:
+                return null;
+        }
     }
 }

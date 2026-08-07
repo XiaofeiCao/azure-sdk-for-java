@@ -100,7 +100,7 @@ class VertxHttpClient implements HttpClient {
 
     private CompletableFuture<HttpResponse> sendInternal(HttpRequest request, Context context,
         ContextView contextView) {
-        boolean eagerlyReadResponse = (boolean) context.getData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE).orElse(false);
+        boolean eagerlyReadResponse = HttpUtils.shouldEagerlyReadResponse(context);
         boolean ignoreResponseBody = (boolean) context.getData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY).orElse(false);
         Duration perCallTimeout = (Duration) context.getData(HttpUtils.AZURE_RESPONSE_TIMEOUT)
             .filter(timeoutDuration -> timeoutDuration instanceof Duration)

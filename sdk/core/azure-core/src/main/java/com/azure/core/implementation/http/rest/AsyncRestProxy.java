@@ -13,6 +13,7 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.implementation.TypeUtil;
 import com.azure.core.implementation.serializer.HttpResponseDecoder;
+import com.azure.core.implementation.util.HttpUtils;
 import com.azure.core.util.Base64Url;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
@@ -45,8 +46,6 @@ import static com.azure.core.implementation.logging.LoggingKeys.CANCELLED_ERROR_
  * An asynchronous REST proxy implementation.
  */
 public class AsyncRestProxy extends RestProxyBase {
-
-    private static final String TEXT_EVENT_STREAM = "text/event-stream";
 
     /**
      * Create a RestProxy.
@@ -82,6 +81,8 @@ public class AsyncRestProxy extends RestProxyBase {
         if (options != null && requestCallback != null) {
             requestCallback.accept(request);
         }
+
+        context = addResponseBodyStreamingContext(request, context);
 
         final Context finalContext = context;
         final Mono<HttpResponse> asyncResponse = RestProxyUtils.validateLengthAsync(request).flatMap(r -> {
@@ -207,7 +208,7 @@ public class AsyncRestProxy extends RestProxyBase {
             // different methods to read the response. The reading of the response is delayed until BinaryData
             // is read and depending on which format the content is converted into, the response is not necessarily
             // fully copied into memory resulting in lesser overall memory usage.
-            if (contentType != null && contentType.startsWith(TEXT_EVENT_STREAM)) {
+            if (HttpUtils.isTextEventStream(contentType)) {
                 // if the response content type is a stream, create a BinaryData instance with bufferContent set to
                 // false.
                 asyncResult = BinaryData.fromFlux(sourceResponse.getBody(), null, false);
