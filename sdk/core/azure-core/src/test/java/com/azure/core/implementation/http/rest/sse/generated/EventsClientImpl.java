@@ -16,6 +16,7 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
+import com.azure.core.implementation.util.ServerSentEventStream;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
@@ -30,14 +31,15 @@ public final class EventsClientImpl {
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
         Mono<Response<BinaryData>> getEvents(@HostParam("endpoint") String endpoint,
-            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+            @HeaderParam("Accept") String accept, @HeaderParam("Last-Event-Id") String lastEventId,
+            RequestOptions requestOptions, Context context);
 
         @Get("/events")
         @ResponseBodyStreaming
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
         Response<BinaryData> getEventsSync(@HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept,
-            RequestOptions requestOptions, Context context);
+            @HeaderParam("Last-Event-Id") String lastEventId, RequestOptions requestOptions, Context context);
     }
 
     private final EventsClientService service;
@@ -49,11 +51,21 @@ public final class EventsClientImpl {
     }
 
     public Response<BinaryData> getEventsWithResponse(RequestOptions requestOptions) {
-        return service.getEventsSync(endpoint, "text/event-stream", requestOptions, Context.NONE);
+        return service.getEventsSync(endpoint, "text/event-stream", null, requestOptions, Context.NONE);
+    }
+
+    Response<BinaryData> getEventsWithResponse(RequestOptions requestOptions, String lastEventId) {
+        Context context = ServerSentEventStream.addReconnectContext(Context.NONE, lastEventId);
+        return service.getEventsSync(endpoint, "text/event-stream", lastEventId, requestOptions, context);
     }
 
     public Mono<Response<BinaryData>> getEventsWithResponseAsync(RequestOptions requestOptions) {
         return FluxUtil
-            .withContext(context -> service.getEvents(endpoint, "text/event-stream", requestOptions, context));
+            .withContext(context -> service.getEvents(endpoint, "text/event-stream", null, requestOptions, context));
+    }
+
+    Mono<Response<BinaryData>> getEventsWithResponseAsync(RequestOptions requestOptions, String lastEventId) {
+        return FluxUtil.withContext(context -> service.getEvents(endpoint, "text/event-stream", lastEventId,
+            requestOptions, ServerSentEventStream.addReconnectContext(context, lastEventId)));
     }
 }

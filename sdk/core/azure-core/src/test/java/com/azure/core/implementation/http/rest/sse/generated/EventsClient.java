@@ -26,7 +26,8 @@ public final class EventsClient {
         RequestOptions requestOptions) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response = serviceClient.getEventsWithResponse(requestOptions);
-        ServiceStreamEvents.listen(response.getValue(), listener);
+        ServiceStreamEvents.listen(response.getValue(),
+            lastEventId -> serviceClient.getEventsWithResponse(requestOptions, lastEventId).getValue(), listener);
         return new SimpleResponse<>(response, null);
     }
 }

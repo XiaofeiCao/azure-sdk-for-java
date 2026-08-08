@@ -15,10 +15,9 @@ import java.time.Duration;
  * The identifier and retry interval represent the effective stream state when the event was dispatched, including
  * values inherited from earlier metadata-only blocks.</p>
  *
- * <p>This type exposes the metadata needed for caller-managed reconnection, but Azure Core doesn't automatically
- * reconnect an event stream. Callers can use the latest emitted event's {@link #getId()} as the next request's
- * {@code Last-Event-Id} value and {@link #getRetryAfter()} as the reconnect delay. Metadata-only updates received
- * after the latest emitted event aren't exposed when the stream terminates.</p>
+ * <p>Generated clients may use the effective identifier and retry interval to reconnect after a response body ends.
+ * These values remain available to callers for diagnostics and service-specific stream handling. Metadata-only
+ * updates received after the latest emitted event aren't exposed as an additional event.</p>
  *
  * @param <T> The type of the event data.
  * @see <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">

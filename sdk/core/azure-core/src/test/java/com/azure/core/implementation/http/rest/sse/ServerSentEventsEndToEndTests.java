@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -51,6 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ServerSentEventsEndToEndTests {
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
     private static final String CONTENT_TYPE = "text/event-stream";
+    private static final HttpHeaderName LAST_EVENT_ID = HttpHeaderName.fromString("Last-Event-Id");
 
     private TrackingUrlConnectionHttpClient httpClient;
     private LocalTestServer server;
@@ -61,6 +63,9 @@ public class ServerSentEventsEndToEndTests {
     private CountDownLatch sendRemainingEvents;
     private String responseContentType;
     private String expectedAccept;
+    private AtomicInteger requestCount;
+    private AtomicReference<String> reconnectLastEventId;
+    private AtomicBoolean resetLastEventIdOmitted;
     private volatile StreamScenario scenario;
 
     @BeforeEach
@@ -73,6 +78,9 @@ public class ServerSentEventsEndToEndTests {
         sendRemainingEvents = new CountDownLatch(1);
         responseContentType = CONTENT_TYPE;
         expectedAccept = CONTENT_TYPE;
+        requestCount = new AtomicInteger();
+        reconnectLastEventId = new AtomicReference<>();
+        resetLastEventIdOmitted = new AtomicBoolean();
         scenario = StreamScenario.TERMINAL;
         server = new LocalTestServer(this::handleRequest);
         server.start();
@@ -145,22 +153,30 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
-    public void syncListenerCanStopBeforeTerminalEvent() throws Exception {
-        scenario = StreamScenario.OPEN;
+    public void syncClientReconnectsWithMetadataOnlyState() throws Exception {
+        scenario = StreamScenario.RECONNECT;
         EventsClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
-        RecordingListener listener = new RecordingListener(null, 1);
+        RecordingListener listener = new RecordingListener();
+        RequestOptions requestOptions = new RequestOptions().setHeader(LAST_EVENT_ID, "stale");
 
         CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
+            .supplyAsync(() -> client.getEventsWithResponse(listener, requestOptions), executorService);
 
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         sendEvents.countDown();
         Response<Void> response = responseFuture.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
 
         assertEquals(200, response.getStatusCode());
-        assertEquals(1, listener.events.size());
+        assertEquals(3, listener.events.size());
         assertUserLogin(listener.events.get(0));
+        assertStockUpdate(listener.events.get(1));
+        assertTerminal(listener.events.get(2));
+        assertEquals("", listener.events.get(2).getId());
+        assertEquals(Duration.ofMillis(1), listener.events.get(2).getRetryAfter());
+        assertEquals(3, requestCount.get());
+        assertEquals("reconnect-id", reconnectLastEventId.get());
+        assertTrue(resetLastEventIdOmitted.get());
         assertNull(listener.error.get());
         assertEquals(1, listener.closeCount.get());
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
@@ -184,6 +200,30 @@ public class ServerSentEventsEndToEndTests {
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
         assertTrue(httpClient.isCancelled());
         assertTrue(httpClient.isStreamingResponse());
+    }
+
+    @Test
+    public void asyncClientReconnectsWithMetadataOnlyState() {
+        scenario = StreamScenario.RECONNECT;
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        RequestOptions requestOptions = new RequestOptions().setHeader(LAST_EVENT_ID, "stale");
+
+        StepVerifier.create(getEvents(client, requestOptions))
+            .assertNext(this::assertUserLogin)
+            .assertNext(this::assertStockUpdate)
+            .assertNext(event -> {
+                assertTerminal(event);
+                assertEquals("", event.getId());
+                assertEquals(Duration.ofMillis(1), event.getRetryAfter());
+            })
+            .verifyComplete();
+
+        assertEquals(3, requestCount.get());
+        assertEquals("reconnect-id", reconnectLastEventId.get());
+        assertTrue(resetLastEventIdOmitted.get());
+        assertTrue(httpClient.awaitCancellation(TIMEOUT));
+        assertTrue(httpClient.isCancelled());
     }
 
     @Test
@@ -295,7 +335,12 @@ public class ServerSentEventsEndToEndTests {
     }
 
     private Flux<ServerSentEvent<ServiceStreamEvent>> getEvents(EventsAsyncClient client) {
-        return client.getEventsWithResponse(new RequestOptions()).flatMapMany(response -> {
+        return getEvents(client, new RequestOptions());
+    }
+
+    private Flux<ServerSentEvent<ServiceStreamEvent>> getEvents(EventsAsyncClient client,
+        RequestOptions requestOptions) {
+        return client.getEventsWithResponse(requestOptions).flatMapMany(response -> {
             assertEquals(200, response.getStatusCode());
             assertEventStreamContentType(response);
             sendEvents.countDown();
@@ -310,6 +355,25 @@ public class ServerSentEventsEndToEndTests {
         }
         if (!expectedAccept.equals(request.getHeader("Accept"))) {
             throw new ServletException("Unexpected Accept header: " + request.getHeader("Accept"));
+        }
+        int currentRequest = requestCount.incrementAndGet();
+        if (scenario == StreamScenario.RECONNECT) {
+            String lastEventId = request.getHeader("Last-Event-Id");
+            if (currentRequest == 1 && !"stale".equals(lastEventId)) {
+                throw new ServletException("The initial request didn't preserve the caller's Last-Event-Id.");
+            }
+            if (currentRequest == 2) {
+                reconnectLastEventId.set(lastEventId);
+                if (!"reconnect-id".equals(lastEventId)) {
+                    throw new ServletException("The reconnect request didn't use the retained Last-Event-Id.");
+                }
+            }
+            if (currentRequest == 3) {
+                resetLastEventIdOmitted.set(lastEventId == null);
+                if (lastEventId != null) {
+                    throw new ServletException("The reset Last-Event-Id must be omitted.");
+                }
+            }
         }
 
         response.setStatus(200);
@@ -354,6 +418,25 @@ public class ServerSentEventsEndToEndTests {
                 await(sendRemainingEvents, "The test didn't allow the remaining events to be written.");
                 write(output, "event: terminal\ndata: [DONE]\n\n");
                 break;
+
+            case RECONNECT:
+                if (currentRequest == 1) {
+                    write(output,
+                        ": login event\nretry: 1\nid: login-1\nevent: userLogin\n"
+                            + "data: {\"userId\":\"user-1\",\"loginTime\":\"2026-08-05T21:00:00Z\"}\n\n"
+                            + "id: reconnect-id\nretry: invalid\n\n");
+                    return;
+                }
+                if (currentRequest == 2) {
+                    write(output, "event: stockUpdate\ndata: {\"symbol\":\"MSFT\",\"price\":123.45}\n\nid:\n\n");
+                    return;
+                }
+                if (currentRequest == 3) {
+                    write(output, "event: terminal\ndata: [DONE]\n\n"
+                        + "event: systemAlert\ndata: {\"level\":\"warning\",\"message\":\"must not be emitted\"}\n\n");
+                    break;
+                }
+                throw new ServletException("Unexpected SSE reconnect attempt: " + currentRequest);
 
             default:
                 throw new IllegalStateException("Unknown stream scenario: " + scenario);
@@ -416,7 +499,7 @@ public class ServerSentEventsEndToEndTests {
     }
 
     private enum StreamScenario {
-        TERMINAL, MALFORMED, OPEN, INTERLEAVED
+        TERMINAL, MALFORMED, OPEN, INTERLEAVED, RECONNECT
     }
 
     private static final class RecordingListener implements ServerSentEventListener<ServiceStreamEvent> {
@@ -424,28 +507,21 @@ public class ServerSentEventsEndToEndTests {
         private final AtomicReference<Throwable> error = new AtomicReference<>();
         private final AtomicInteger closeCount = new AtomicInteger();
         private final CountDownLatch firstEventReceived;
-        private final int maximumEvents;
 
         private RecordingListener() {
-            this(null, Integer.MAX_VALUE);
+            this(null);
         }
 
         private RecordingListener(CountDownLatch firstEventReceived) {
-            this(firstEventReceived, Integer.MAX_VALUE);
-        }
-
-        private RecordingListener(CountDownLatch firstEventReceived, int maximumEvents) {
             this.firstEventReceived = firstEventReceived;
-            this.maximumEvents = maximumEvents;
         }
 
         @Override
-        public boolean onEvent(ServerSentEvent<ServiceStreamEvent> event) {
+        public void onEvent(ServerSentEvent<ServiceStreamEvent> event) {
             events.add(event);
             if (firstEventReceived != null) {
                 firstEventReceived.countDown();
             }
-            return events.size() < maximumEvents;
         }
 
         @Override

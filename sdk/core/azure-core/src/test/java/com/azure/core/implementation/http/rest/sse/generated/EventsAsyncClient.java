@@ -18,14 +18,21 @@ public final class EventsAsyncClient {
     }
 
     public Flux<ServerSentEvent<ServiceStreamEvent>> getEvents() {
-        return Flux.defer(() -> serviceClient.getEventsWithResponseAsync(new RequestOptions())
-            .flatMapMany(response -> ServiceStreamEvents.toFlux(response.getValue())));
+        return Flux.defer(() -> {
+            RequestOptions requestOptions = new RequestOptions();
+            return serviceClient.getEventsWithResponseAsync(requestOptions)
+                .flatMapMany(response -> ServiceStreamEvents.toFlux(response.getValue(),
+                    lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
+                        .map(Response::getValue)));
+        });
     }
 
     public Mono<Response<Flux<ServerSentEvent<ServiceStreamEvent>>>>
         getEventsWithResponse(RequestOptions requestOptions) {
         return serviceClient.getEventsWithResponseAsync(requestOptions)
             .map(response -> new SimpleResponse<Flux<ServerSentEvent<ServiceStreamEvent>>>(response,
-                ServiceStreamEvents.toFlux(response.getValue())));
+                ServiceStreamEvents.toFlux(response.getValue(),
+                    lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
+                        .map(Response::getValue))));
     }
 }

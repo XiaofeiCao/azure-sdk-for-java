@@ -28,6 +28,7 @@ import com.azure.core.implementation.http.UnexpectedExceptionInformation;
 import com.azure.core.implementation.serializer.HttpResponseDecoder;
 import com.azure.core.implementation.serializer.MalformedValueException;
 import com.azure.core.implementation.util.HttpUtils;
+import com.azure.core.implementation.util.ServerSentEventStream;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.UrlBuilder;
@@ -153,7 +154,9 @@ public abstract class RestProxyBase {
         EnumSet<ErrorOptions> errorOptions, Consumer<HttpRequest> httpRequestConsumer, SwaggerMethodParser methodParser,
         HttpRequest request, Context context);
 
-    final Context addResponseBodyStreamingContext(HttpRequest request, Context context) {
+    final Context updateRequestContext(HttpRequest request, Context context) {
+        ServerSentEventStream.applyReconnectContext(request, context);
+
         if (HttpUtils.isTextEventStream(request.getHeaders().getValue(HttpHeaderName.ACCEPT))) {
             return context.addData(HttpUtils.AZURE_RESPONSE_BODY_STREAMING, true);
         }

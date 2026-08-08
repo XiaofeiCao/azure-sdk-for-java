@@ -34,10 +34,7 @@ public class ServerSentEventUtilsTests {
             + "retry: 2000\n" + "ignored: value\n" + "data: first\n" + "data: second\n\n");
         List<ServerSentEvent<String>> events = new ArrayList<>();
 
-        ServerSentEventUtils.process(body, event -> {
-            events.add(event);
-            return true;
-        });
+        ServerSentEventUtils.process(body, events::add);
 
         assertEquals(1, events.size());
         ServerSentEvent<String> event = events.get(0);
@@ -54,10 +51,7 @@ public class ServerSentEventUtilsTests {
             ": keep alive\n" + "retry: invalid\n\n" + "id: contains\0null\n" + "event:\n" + "data: payload\n\n");
         AtomicReference<ServerSentEvent<String>> eventReference = new AtomicReference<>();
 
-        ServerSentEventUtils.process(body, event -> {
-            eventReference.set(event);
-            return true;
-        });
+        ServerSentEventUtils.process(body, eventReference::set);
 
         ServerSentEvent<String> event = eventReference.get();
         assertNull(event.getId());
@@ -72,10 +66,7 @@ public class ServerSentEventUtilsTests {
         BinaryData body = BinaryData.fromString("id: 42\nretry: 2000\n\ndata: first\n\ndata: second\n\n");
         List<ServerSentEvent<String>> syncEvents = new ArrayList<>();
 
-        ServerSentEventUtils.process(body, event -> {
-            syncEvents.add(event);
-            return true;
-        });
+        ServerSentEventUtils.process(body, syncEvents::add);
 
         assertPersistentMetadata(syncEvents);
         StepVerifier.create(ServerSentEventUtils.decode(body).collectList())
@@ -98,10 +89,7 @@ public class ServerSentEventUtilsTests {
         BinaryData body = BinaryData.fromString("id: 1\nretry: 1000\ndata: first\n\nid: 2\nretry: 2000\n\n");
         List<ServerSentEvent<String>> syncEvents = new ArrayList<>();
 
-        ServerSentEventUtils.process(body, event -> {
-            syncEvents.add(event);
-            return true;
-        });
+        ServerSentEventUtils.process(body, syncEvents::add);
 
         assertEquals(1, syncEvents.size());
         assertInitialMetadata(syncEvents.get(0));
@@ -118,37 +106,12 @@ public class ServerSentEventUtilsTests {
         ServerSentEventUtils.process(body, (eventName, data) -> {
             assertEquals("number", eventName);
             return Integer.parseInt(data);
-        }, event -> {
-            eventReference.set(event);
-            return true;
-        });
+        }, eventReference::set);
 
         ServerSentEvent<Integer> event = eventReference.get();
         assertEquals("42", event.getId());
         assertEquals("number", event.getEvent());
         assertEquals(123, event.getData());
-    }
-
-    @Test
-    public void stoppingListenerCancelsFluxBackedBody() {
-        AtomicBoolean subscribed = new AtomicBoolean();
-        AtomicBoolean cancelled = new AtomicBoolean();
-        AtomicReference<ServerSentEvent<String>> eventReference = new AtomicReference<>();
-        byte[] eventBytes = "data: payload\n\n".getBytes(StandardCharsets.UTF_8);
-        Flux<ByteBuffer> content = Flux.concat(Flux.just(ByteBuffer.wrap(eventBytes)), Flux.never())
-            .doOnSubscribe(ignored -> subscribed.set(true))
-            .doOnCancel(() -> cancelled.set(true));
-        BinaryData body = BinaryData.fromFlux(content, null, false).block();
-
-        assertFalse(subscribed.get());
-        ServerSentEventUtils.process(body, event -> {
-            eventReference.set(event);
-            assertTrue(subscribed.get());
-            return false;
-        });
-
-        assertEquals("payload", eventReference.get().getData());
-        assertTrue(cancelled.get());
     }
 
     @Test
@@ -182,10 +145,7 @@ public class ServerSentEventUtilsTests {
         StepVerifier.create(ServerSentEventUtils.decode(body)).verifyComplete();
 
         AtomicBoolean eventReceived = new AtomicBoolean();
-        ServerSentEventUtils.process(body, event -> {
-            eventReceived.set(true);
-            return true;
-        });
+        ServerSentEventUtils.process(body, event -> eventReceived.set(true));
         assertFalse(eventReceived.get());
     }
 
@@ -214,8 +174,7 @@ public class ServerSentEventUtilsTests {
         UncheckedIOException exception = assertThrows(UncheckedIOException.class,
             () -> ServerSentEventUtils.process(body, new ServerSentEventListener<String>() {
                 @Override
-                public boolean onEvent(ServerSentEvent<String> event) {
-                    return true;
+                public void onEvent(ServerSentEvent<String> event) {
                 }
 
                 @Override
@@ -242,7 +201,8 @@ public class ServerSentEventUtilsTests {
         UncheckedIOException exception
             = assertThrows(UncheckedIOException.class, () -> ServerSentEventUtils.process(body, (event, data) -> {
                 throw deserializationError;
-            }, ignored -> true));
+            }, ignored -> {
+            }));
 
         assertSame(deserializationError, exception);
     }
@@ -257,7 +217,7 @@ public class ServerSentEventUtilsTests {
         RuntimeException exception = assertThrows(RuntimeException.class,
             () -> ServerSentEventUtils.process(body, new ServerSentEventListener<String>() {
                 @Override
-                public boolean onEvent(ServerSentEvent<String> event) {
+                public void onEvent(ServerSentEvent<String> event) {
                     throw listenerFailure;
                 }
 
@@ -297,10 +257,7 @@ public class ServerSentEventUtilsTests {
     public void syncAndAsyncDecodingHaveMatchingFraming() {
         String content = "event: first\ndata: one\r\n\r\nevent: second\ndata: two\n\n";
         List<ServerSentEvent<String>> syncEvents = new ArrayList<>();
-        ServerSentEventUtils.process(BinaryData.fromString(content), event -> {
-            syncEvents.add(event);
-            return true;
-        });
+        ServerSentEventUtils.process(BinaryData.fromString(content), syncEvents::add);
 
         List<ServerSentEvent<String>> asyncEvents
             = ServerSentEventUtils.decode(BinaryData.fromString(content)).collectList().block();

@@ -6,9 +6,6 @@ package com.azure.core.http;
 /**
  * A listener for receiving server-sent events.
  *
- * <p>Returning {@code false} from {@link #onEvent(ServerSentEvent)} stops normal processing and closes the response
- * body without invoking {@link #onError(Throwable)}. {@link #onClose()} is invoked when processing ends.</p>
- *
  * <p>Errors terminate processing, invoke {@link #onError(Throwable)} and {@link #onClose()}, and are rethrown to the
  * synchronous service caller as unchecked exceptions.</p>
  *
@@ -23,10 +20,9 @@ public interface ServerSentEventListener<T> {
      * Handles a server-sent event.
      *
      * @param event The server-sent event.
-     * @return {@code true} to continue receiving events, or {@code false} to stop and close the response body.
      * @throws RuntimeException If an error occurs while handling the event.
      */
-    boolean onEvent(ServerSentEvent<T> event);
+    void onEvent(ServerSentEvent<T> event);
 
     /**
      * Handles an error that terminates event processing.
@@ -38,8 +34,7 @@ public interface ServerSentEventListener<T> {
     }
 
     /**
-     * Handles closure of the event stream, including closure requested by returning {@code false} from
-     * {@link #onEvent(ServerSentEvent)}.
+     * Handles closure of the event stream.
      */
     default void onClose() {
         // No-op by default.

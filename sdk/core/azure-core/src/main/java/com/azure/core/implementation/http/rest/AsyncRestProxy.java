@@ -82,7 +82,7 @@ public class AsyncRestProxy extends RestProxyBase {
             requestCallback.accept(request);
         }
 
-        context = addResponseBodyStreamingContext(request, context);
+        context = updateRequestContext(request, context);
 
         final Context finalContext = context;
         final Mono<HttpResponse> asyncResponse = RestProxyUtils.validateLengthAsync(request).flatMap(r -> {
