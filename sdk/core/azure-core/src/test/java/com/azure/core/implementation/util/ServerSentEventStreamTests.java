@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -101,12 +102,53 @@ public class ServerSentEventStreamTests {
     }
 
     @Test
-    public void bodyErrorDoesNotReconnect() {
+    public void asyncBodyErrorReconnectsWithRetainedRetry() {
         IOException disconnect = new IOException("connection closed");
         byte[] prefix = "retry: 0\ndata: one\n\n".getBytes(StandardCharsets.UTF_8);
         BinaryData body
             = BinaryData.fromFlux(Flux.concat(Flux.just(ByteBuffer.wrap(prefix)), Flux.error(disconnect)), null, false)
                 .block();
+        AtomicInteger reconnectCount = new AtomicInteger();
+
+        StepVerifier.create(ServerSentEventStream.decode(body, eventId -> {
+            reconnectCount.incrementAndGet();
+            return Mono.just(BinaryData.fromString("data: [DONE]\n\n"));
+        }, (event, data) -> data).takeUntil(event -> "[DONE]".equals(event.getData())))
+            .assertNext(event -> assertEquals("one", event.getData()))
+            .assertNext(event -> assertEquals("[DONE]", event.getData()))
+            .verifyComplete();
+
+        assertEquals(1, reconnectCount.get());
+    }
+
+    @Test
+    public void syncBodyErrorReconnectsWithRetainedRetry() {
+        IOException disconnect = new IOException("connection closed");
+        byte[] prefix = "retry: 0\ndata: one\n\n".getBytes(StandardCharsets.UTF_8);
+        BinaryData body
+            = BinaryData.fromFlux(Flux.concat(Flux.just(ByteBuffer.wrap(prefix)), Flux.error(disconnect)), null, false)
+                .block();
+        AtomicInteger reconnectCount = new AtomicInteger();
+        List<String> events = new ArrayList<>();
+
+        ServerSentEventStream.process(body, eventId -> {
+            reconnectCount.incrementAndGet();
+            return BinaryData.fromString("data: [DONE]\n\n");
+        }, (event, data) -> data, event -> "[DONE]".equals(event.getData()), event -> events.add(event.getData()));
+
+        assertEquals(1, reconnectCount.get());
+        assertEquals(2, events.size());
+        assertEquals("one", events.get(0));
+        assertEquals("[DONE]", events.get(1));
+    }
+
+    @Test
+    public void bodyErrorWithoutRetryTerminatesAsyncStream() {
+        IOException disconnect = new IOException("connection closed");
+        BinaryData body = BinaryData
+            .fromFlux(Flux.concat(Flux.just(ByteBuffer.wrap("data: one\n\n".getBytes(StandardCharsets.UTF_8))),
+                Flux.error(disconnect)), null, false)
+            .block();
         AtomicInteger reconnectCount = new AtomicInteger();
 
         StepVerifier.create(ServerSentEventStream.decode(body, eventId -> {
@@ -118,6 +160,52 @@ public class ServerSentEventStreamTests {
             .verify();
 
         assertEquals(0, reconnectCount.get());
+    }
+
+    @Test
+    public void deserializerErrorDoesNotReconnectAsyncStream() {
+        RuntimeException deserializerError = new IllegalStateException("deserialization failed");
+        BinaryData body = BinaryData.fromString("retry: 0\ndata: one\n\n");
+        AtomicInteger reconnectCount = new AtomicInteger();
+
+        StepVerifier.create(ServerSentEventStream.decode(body, eventId -> {
+            reconnectCount.incrementAndGet();
+            return Mono.just(BinaryData.fromString("data: unexpected\n\n"));
+        }, (event, data) -> {
+            throw deserializerError;
+        })).expectErrorMatches(error -> error == deserializerError).verify();
+
+        assertEquals(0, reconnectCount.get());
+    }
+
+    @Test
+    public void asyncReconnectsWithoutGrowingPublisherDepth() {
+        int eventCount = 10_000;
+        BinaryData body = BinaryData.fromString("retry: 0\ndata: one\n\n");
+        AtomicInteger reconnectCount = new AtomicInteger();
+
+        StepVerifier.create(ServerSentEventStream.decode(body, eventId -> {
+            reconnectCount.incrementAndGet();
+            return Mono.just(BinaryData.fromString("data: one\n\n"));
+        }, (event, data) -> data).take(eventCount)).expectNextCount(eventCount).verifyComplete();
+
+        assertEquals(eventCount - 1, reconnectCount.get());
+    }
+
+    @Test
+    public void zeroRetryUsesAsyncSchedulingBoundary() {
+        BinaryData body = BinaryData.fromString("retry: 0\ndata: one\n\n");
+        Thread subscriptionThread = Thread.currentThread();
+        AtomicReference<Thread> reconnectThread = new AtomicReference<>();
+
+        StepVerifier.create(ServerSentEventStream.decode(body, eventId -> {
+            reconnectThread.set(Thread.currentThread());
+            return Mono.just(BinaryData.fromString("data: [DONE]\n\n"));
+        }, (event, data) -> data).takeUntil(event -> "[DONE]".equals(event.getData())))
+            .expectNextCount(2)
+            .verifyComplete();
+
+        assertNotSame(subscriptionThread, reconnectThread.get());
     }
 
     @Test
@@ -224,6 +312,41 @@ public class ServerSentEventStreamTests {
             assertTrue(Thread.currentThread().isInterrupted());
             assertSame(exception, listenerError.get());
             assertTrue(closed.get());
+        } finally {
+            Thread.interrupted();
+        }
+    }
+
+    @Test
+    public void syncInterruptionBeforeZeroDelayReconnectIsPropagated() {
+        BinaryData body = BinaryData.fromString("retry: 0\ndata: one\n\n");
+        AtomicReference<Throwable> listenerError = new AtomicReference<>();
+        AtomicInteger reconnectCount = new AtomicInteger();
+        AtomicInteger eventCount = new AtomicInteger();
+        ServerSentEventListener<String> listener = new ServerSentEventListener<String>() {
+            @Override
+            public void onEvent(ServerSentEvent<String> event) {
+                eventCount.incrementAndGet();
+                Thread.currentThread().interrupt();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                listenerError.set(error);
+            }
+        };
+
+        try {
+            RuntimeException exception
+                = assertThrows(RuntimeException.class, () -> ServerSentEventStream.process(body, eventId -> {
+                    reconnectCount.incrementAndGet();
+                    return BinaryData.fromString("data: unexpected\n\n");
+                }, (event, data) -> data, event -> false, listener));
+
+            assertTrue(Thread.currentThread().isInterrupted());
+            assertSame(exception, listenerError.get());
+            assertEquals(1, eventCount.get());
+            assertEquals(0, reconnectCount.get());
         } finally {
             Thread.interrupted();
         }
