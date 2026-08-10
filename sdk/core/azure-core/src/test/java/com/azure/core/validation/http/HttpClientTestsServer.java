@@ -26,10 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 import static com.azure.core.validation.http.HttpValidatonUtils.md5;
 
@@ -50,7 +47,6 @@ public final class HttpClientTestsServer {
     static final String BOM_WITH_DIFFERENT_HEADER = "bomBytesWithDifferentHeader";
     public static final String ECHO_RESPONSE = "echo";
     static final String HUGE_HEADER_RESPONSE = "hugeHeader";
-    static final String STREAMING_RESPONSE = "streamingResponse";
 
     private static final byte[] UTF_8_BOM = { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
     private static final byte[] UTF_16BE_BOM = { (byte) 0xFE, (byte) 0xFF };
@@ -60,10 +56,8 @@ public final class HttpClientTestsServer {
 
     private static final String HELLO_WORLD = "Hello World!";
     static final byte[] RETURN_BYTES = HELLO_WORLD.getBytes(StandardCharsets.UTF_8);
-    static final byte[] STREAMING_RESPONSE_BODY = "first chunksecond chunk".getBytes(StandardCharsets.UTF_8);
     static final HttpHeaderName HUGE_HEADER_NAME = HttpHeaderName.fromString("x-huge-header");
     static final String HUGE_HEADER_VALUE;
-    private static final Map<String, CountDownLatch> STREAMING_RESPONSE_COMPLETIONS = new ConcurrentHashMap<>();
 
     static {
         // Create the huge header value, which is 1024 HELLO_WORLDs (about 12 KB).
@@ -96,8 +90,6 @@ public final class HttpClientTestsServer {
                 // Stub that will return a response with the passed status code.
                 resp.setStatus(Integer.parseInt(path.split("/", 3)[2]));
                 resp.getHttpOutput().flush();
-            } else if (get && path.startsWith("/" + STREAMING_RESPONSE + "/")) {
-                sendStreamingResponse(path, resp);
             } else if (post && path.startsWith("/post")) {
                 if ("application/x-www-form-urlencoded".equalsIgnoreCase(req.getHeader("Content-Type"))) {
                     sendFormResponse(resp, new String(requestBody, StandardCharsets.UTF_8));
@@ -157,17 +149,6 @@ public final class HttpClientTestsServer {
         }, 100);
     }
 
-    static void prepareStreamingResponse(String responseId) {
-        STREAMING_RESPONSE_COMPLETIONS.putIfAbsent(responseId, new CountDownLatch(1));
-    }
-
-    static void completeStreamingResponse(String responseId) {
-        CountDownLatch completion = STREAMING_RESPONSE_COMPLETIONS.get(responseId);
-        if (completion != null) {
-            completion.countDown();
-        }
-    }
-
     /**
      * Helper method to check if the path matches the test path.
      * <p>
@@ -203,33 +184,6 @@ public final class HttpClientTestsServer {
         response.getHttpOutput().write(responseBody);
         response.getHttpOutput().flush();
         response.getHttpOutput().complete(Callback.NOOP);
-    }
-
-    private static void sendStreamingResponse(String path, Response response) throws IOException {
-        String pathPrefix = "/" + STREAMING_RESPONSE + "/";
-        String responseId = path.substring(pathPrefix.length());
-        CountDownLatch completion
-            = STREAMING_RESPONSE_COMPLETIONS.computeIfAbsent(responseId, ignored -> new CountDownLatch(1));
-
-        try {
-            response.setStatus(200);
-            response.setContentType(ContentType.APPLICATION_OCTET_STREAM);
-            response.getHttpOutput().write("first chunk".getBytes(StandardCharsets.UTF_8));
-            response.getHttpOutput().flush();
-
-            if (!completion.await(10, TimeUnit.SECONDS)) {
-                throw new IOException("Timed out waiting to complete the streaming response.");
-            }
-
-            response.getHttpOutput().write("second chunk".getBytes(StandardCharsets.UTF_8));
-            response.getHttpOutput().flush();
-            response.getHttpOutput().complete(Callback.NOOP);
-        } catch (InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            throw new IOException(exception);
-        } finally {
-            STREAMING_RESPONSE_COMPLETIONS.remove(responseId, completion);
-        }
     }
 
     private static void sendBytesResponse(String urlPath, Response resp) throws IOException {
