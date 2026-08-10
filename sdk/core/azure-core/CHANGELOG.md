@@ -10,9 +10,6 @@
   reconnect sync and async operations with retained retry and last-event identifier state, including metadata-only
   updates and retryable mid-body transport failures, stop cleanly on HTTP 204, and close every physical streaming
   response. Asynchronous decoding parses the reactive response body without blocking worker threads.
-- Added `ResponseBodyStreaming` operation metadata so generated clients can prevent unbounded response bodies from
-  being eagerly buffered independently of mutable request headers.
-
 ### Breaking Changes
 
 ### Bugs Fixed

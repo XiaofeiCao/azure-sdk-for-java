@@ -116,10 +116,6 @@ public abstract class RestProxyBase {
                 context = context.addData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE, true);
             }
 
-            if (methodParser.isResponseBodyStreaming()) {
-                context = context.addData(HttpUtils.AZURE_RESPONSE_BODY_STREAMING, true);
-            }
-
             if (methodParser.isResponseBodyIgnored()) {
                 context = context.addData(HttpUtils.AZURE_IGNORE_RESPONSE_BODY, true);
             }

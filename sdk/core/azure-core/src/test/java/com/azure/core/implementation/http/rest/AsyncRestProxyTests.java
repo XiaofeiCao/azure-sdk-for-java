@@ -6,7 +6,6 @@ package com.azure.core.implementation.http.rest;
 import com.azure.core.annotation.Get;
 import com.azure.core.annotation.Head;
 import com.azure.core.annotation.Host;
-import com.azure.core.annotation.ResponseBodyStreaming;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.http.ContentType;
 import com.azure.core.http.HttpHeaderName;
@@ -31,7 +30,6 @@ import java.util.stream.Stream;
 
 import static com.azure.core.CoreTestUtils.assertArraysEqual;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -57,9 +55,6 @@ public class AsyncRestProxyTests {
         @Get("getStreamResponse")
         Flux<ByteBuffer> getStreamResponse();
 
-        @Get("getStreamingBinaryData")
-        @ResponseBodyStreaming
-        BinaryData getStreamingBinaryData();
     }
 
     @BeforeEach
@@ -198,18 +193,5 @@ public class AsyncRestProxyTests {
             Arguments.of(new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, "text/event-stream; charset=utf-8"), false),
             Arguments.of(new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, ContentType.APPLICATION_JSON), true),
             Arguments.of(new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, "application/xml"), true));
-    }
-
-    @Test
-    public void operationMetadataOverridesNonStreamingContentType() throws NoSuchMethodException {
-        SwaggerMethodParser methodParser
-            = swaggerInterfaceParser.getMethodParser(MockService.class.getDeclaredMethod("getStreamingBinaryData"));
-        HttpHeaders headers = new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, ContentType.APPLICATION_OCTET_STREAM);
-        HttpResponse response = new MockHttpResponse(null, 200, headers, new byte[0]);
-
-        StepVerifier
-            .create(AsyncRestProxy.handleBodyReturnType(response, ignored -> null, methodParser, BinaryData.class))
-            .assertNext(value -> assertFalse(((BinaryData) value).isReplayable()))
-            .verifyComplete();
     }
 }
