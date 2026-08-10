@@ -5,11 +5,17 @@
 ### Features Added
 
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
-
+- Added generic `ServerSentEvent<T>` and `ServerSentEventListener<T>` types for typed, incrementally decoded
+  server-sent event streams. Generated clients can
+  reconnect sync and async operations with retained retry and last-event identifier state, including metadata-only
+  updates and retryable mid-body transport failures, stop cleanly on HTTP 204, and close every physical streaming
+  response. Asynchronous decoding parses the reactive response body without blocking worker threads.
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Prevented streaming responses, including `text/event-stream`, from being eagerly buffered by HTTP transports or
+  response body logging.
 - Fixed a bug where retrying requests with bodies created from a mark/reset-capable `InputStream` could fail because the stream was closed between retry attempts. ([#49650](https://github.com/Azure/azure-sdk-for-java/pull/49650))
 - Fixed GraalVM native-image compilation with SLF4J 2 by no longer forcing Azure Core logging and logging provider
   classes to initialize at image build time. ([#49844](https://github.com/Azure/azure-sdk-for-java/issues/49844))

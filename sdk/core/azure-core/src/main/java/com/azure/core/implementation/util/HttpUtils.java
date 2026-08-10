@@ -17,6 +17,7 @@ import static com.azure.core.util.CoreUtils.getDefaultTimeoutFromEnvironment;
  * Utilities shared with HttpClient implementations.
  */
 public final class HttpUtils {
+    private static final String TEXT_EVENT_STREAM = "text/event-stream";
     private static final ClientLogger LOGGER = new ClientLogger(HttpUtils.class);
 
     private static final Duration MINIMUM_TIMEOUT = Duration.ofMillis(1);
@@ -59,6 +60,58 @@ public final class HttpUtils {
      * Azure Core HttpHeaders.
      */
     public static final String AZURE_EAGERLY_CONVERT_HEADERS = "azure-eagerly-convert-headers";
+
+    /**
+     * Determines whether an Accept header contains an enabled {@code text/event-stream} media range.
+     *
+     * @param headerValue The header value.
+     * @return Whether the header contains an enabled {@code text/event-stream} media range.
+     */
+    public static boolean acceptsTextEventStream(String headerValue) {
+        if (headerValue == null) {
+            return false;
+        }
+
+        for (String value : headerValue.split(",")) {
+            String[] mediaRange = value.split(";");
+            if (TEXT_EVENT_STREAM.equalsIgnoreCase(mediaRange[0].trim()) && !hasZeroQuality(mediaRange)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines whether a Content-Type header identifies exactly one {@code text/event-stream} representation.
+     *
+     * @param headerValue The Content-Type header value.
+     * @return Whether the header identifies a {@code text/event-stream} representation.
+     */
+    public static boolean isTextEventStreamContentType(String headerValue) {
+        if (headerValue == null || headerValue.indexOf(',') >= 0) {
+            return false;
+        }
+
+        int parameterSeparator = headerValue.indexOf(';');
+        String mediaType = parameterSeparator < 0 ? headerValue : headerValue.substring(0, parameterSeparator);
+        return TEXT_EVENT_STREAM.equalsIgnoreCase(mediaType.trim());
+    }
+
+    private static boolean hasZeroQuality(String[] mediaRange) {
+        for (int i = 1; i < mediaRange.length; i++) {
+            String parameter = mediaRange[i].trim();
+            if (parameter.regionMatches(true, 0, "q=", 0, 2)) {
+                try {
+                    return Double.parseDouble(parameter.substring(2).trim()) == 0D;
+                } catch (NumberFormatException ignored) {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Gets the default connect timeout.

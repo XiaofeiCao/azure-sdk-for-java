@@ -28,6 +28,7 @@ import com.azure.core.implementation.http.UnexpectedExceptionInformation;
 import com.azure.core.implementation.serializer.HttpResponseDecoder;
 import com.azure.core.implementation.serializer.MalformedValueException;
 import com.azure.core.implementation.util.HttpUtils;
+import com.azure.core.implementation.util.ServerSentEventStream;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.UrlBuilder;
@@ -36,12 +37,14 @@ import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.tracing.Tracer;
 import reactor.core.Exceptions;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import static com.azure.core.util.FluxUtil.monoError;
@@ -149,6 +152,10 @@ public abstract class RestProxyBase {
         EnumSet<ErrorOptions> errorOptions, Consumer<HttpRequest> httpRequestConsumer, SwaggerMethodParser methodParser,
         HttpRequest request, Context context);
 
+    final void applyReconnectContext(HttpRequest request, Context context) {
+        ServerSentEventStream.applyReconnectContext(request, context);
+    }
+
     /**
      * Update the request with the provided configuration.
      *
@@ -185,6 +192,10 @@ public abstract class RestProxyBase {
         // If the type is either the Response or PagedResponse interface from azure-core a new instance of either
         // ResponseBase or PagedResponseBase can be returned.
         if (cls.equals(Response.class)) {
+            if (isResponseBodyStreaming(httpResponse)) {
+                return cls.cast(new CloseableResponse<>(httpResponse, bodyAsObject, decodedHeaders));
+            }
+
             // For Response return a new instance of ResponseBase cast to the class.
             return cls.cast(new ResponseBase<>(request, statusCode, headers, bodyAsObject, decodedHeaders));
         } else if (cls.equals(PagedResponse.class)) {
@@ -211,6 +222,30 @@ public abstract class RestProxyBase {
         // body as an Object.
         ReflectiveInvoker constructorReflectiveInvoker = RESPONSE_CONSTRUCTORS_CACHE.get(cls);
         return RESPONSE_CONSTRUCTORS_CACHE.invoke(constructorReflectiveInvoker, response, bodyAsObject);
+    }
+
+    static boolean isResponseBodyStreaming(HttpResponse response) {
+        HttpRequest request = response.getRequest();
+        return (request != null
+            && HttpUtils.acceptsTextEventStream(request.getHeaders().getValue(HttpHeaderName.ACCEPT)))
+            || HttpUtils.isTextEventStreamContentType(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
+    }
+
+    private static final class CloseableResponse<T> extends ResponseBase<Object, T> implements Closeable {
+        private final AtomicBoolean closed = new AtomicBoolean();
+        private final HttpResponse response;
+
+        private CloseableResponse(HttpResponse response, T value, Object decodedHeaders) {
+            super(response.getRequest(), response.getStatusCode(), response.getHeaders(), value, decodedHeaders);
+            this.response = response;
+        }
+
+        @Override
+        public void close() {
+            if (closed.compareAndSet(false, true)) {
+                response.close();
+            }
+        }
     }
 
     /**
