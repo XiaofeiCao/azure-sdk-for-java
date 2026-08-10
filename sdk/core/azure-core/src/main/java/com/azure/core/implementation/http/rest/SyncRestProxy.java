@@ -142,8 +142,8 @@ public class SyncRestProxy extends RestProxyBase {
     private Object handleRestResponseReturnType(HttpResponseDecoder.HttpDecodedResponse response,
         SwaggerMethodParser methodParser, Type entityType, boolean responseBodyStreaming) {
         responseBodyStreaming = responseBodyStreaming
-            || HttpUtils
-                .isTextEventStream(response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
+            || HttpUtils.isTextEventStreamContentType(
+                response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
         if (methodParser.isStreamResponse()) {
             return new StreamResponse(response.getSourceResponse());
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, Response.class)) {

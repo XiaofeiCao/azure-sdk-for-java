@@ -195,6 +195,22 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
+    public void syncStreamingApiRejectsMultipleContentTypesBeforeReadingBody() {
+        responseContentType = JSON_CONTENT_TYPE + ", " + CONTENT_TYPE;
+        EventsClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
+        RecordingListener listener = new RecordingListener();
+        sendEvents.countDown();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> client.getEventsStreamWithResponse(listener, new RequestOptions()));
+
+        assertTrue(exception.getMessage().contains("Content-Type 'text/event-stream'"));
+        assertTrue(listener.events.isEmpty());
+        assertEquals(1, httpClient.getClosedResponseCount());
+    }
+
+    @Test
     public void syncClientReconnectsWithMetadataOnlyState() throws Exception {
         scenario = StreamScenario.RECONNECT;
         EventsClient client

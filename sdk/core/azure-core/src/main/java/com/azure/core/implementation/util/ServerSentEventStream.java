@@ -4,7 +4,6 @@
 package com.azure.core.implementation.util;
 
 import com.azure.core.http.ServerSentEvent;
-import com.azure.core.http.ServerSentEventDeserializer;
 import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpRequest;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -59,7 +59,7 @@ public final class ServerSentEventStream {
      * @param <T> The event data type.
      * @return The decoded events.
      */
-    public static <T> Flux<ServerSentEvent<T>> decode(BinaryData body, ServerSentEventDeserializer<T> deserializer) {
+    public static <T> Flux<ServerSentEvent<T>> decode(BinaryData body, BiFunction<String, String, T> deserializer) {
         Objects.requireNonNull(body, "'body' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
         return Flux.defer(() -> decodeBody(body, new StreamState(), deserializer));
@@ -77,7 +77,7 @@ public final class ServerSentEventStream {
      * @return The decoded events.
      */
     public static <T> Flux<ServerSentEvent<T>> decode(ServerSentEventStreamResponse response,
-        Function<String, Mono<ServerSentEventStreamResponse>> reconnect, ServerSentEventDeserializer<T> deserializer) {
+        Function<String, Mono<ServerSentEventStreamResponse>> reconnect, BiFunction<String, String, T> deserializer) {
         Objects.requireNonNull(response, "'response' cannot be null.");
         Objects.requireNonNull(reconnect, "'reconnect' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
@@ -116,7 +116,7 @@ public final class ServerSentEventStream {
      * @param listener The event listener.
      * @param <T> The event data type.
      */
-    public static <T> void process(BinaryData body, ServerSentEventDeserializer<T> deserializer,
+    public static <T> void process(BinaryData body, BiFunction<String, String, T> deserializer,
         ServerSentEventListener<T> listener) {
         processInternal(body, null, deserializer, event -> false, listener);
     }
@@ -134,7 +134,7 @@ public final class ServerSentEventStream {
      * @param <T> The event data type.
      */
     public static <T> void process(ServerSentEventStreamResponse response,
-        Function<String, ServerSentEventStreamResponse> reconnect, ServerSentEventDeserializer<T> deserializer,
+        Function<String, ServerSentEventStreamResponse> reconnect, BiFunction<String, String, T> deserializer,
         Predicate<ServerSentEvent<T>> terminalEvent, ServerSentEventListener<T> listener) {
         Objects.requireNonNull(reconnect, "'reconnect' cannot be null.");
         processInternal(response, reconnect, deserializer, terminalEvent, listener);
@@ -176,14 +176,14 @@ public final class ServerSentEventStream {
     }
 
     private static <T> void processInternal(BinaryData body, Function<String, ServerSentEventStreamResponse> reconnect,
-        ServerSentEventDeserializer<T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
+        BiFunction<String, String, T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
         ServerSentEventListener<T> listener) {
         processInternal(new ServerSentEventStreamResponse(200, body, () -> {
         }), reconnect, deserializer, terminalEvent, listener);
     }
 
     private static <T> void processInternal(ServerSentEventStreamResponse response,
-        Function<String, ServerSentEventStreamResponse> reconnect, ServerSentEventDeserializer<T> deserializer,
+        Function<String, ServerSentEventStreamResponse> reconnect, BiFunction<String, String, T> deserializer,
         Predicate<ServerSentEvent<T>> terminalEvent, ServerSentEventListener<T> listener) {
         Objects.requireNonNull(response, "'response' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
@@ -238,12 +238,12 @@ public final class ServerSentEventStream {
     }
 
     private static <T> Flux<ServerSentEvent<T>> decodeBody(BinaryData body, StreamState state,
-        ServerSentEventDeserializer<T> deserializer) {
+        BiFunction<String, String, T> deserializer) {
         return decodeBody(body, state, deserializer, false);
     }
 
     private static <T> Flux<ServerSentEvent<T>> decodeBody(BinaryData body, StreamState state,
-        ServerSentEventDeserializer<T> deserializer, boolean reconnectBodyFailures) {
+        BiFunction<String, String, T> deserializer, boolean reconnectBodyFailures) {
         ServerSentEventDecoder decoder = new ServerSentEventDecoder(state);
         Flux<ByteBuffer> content = body.toFluxByteBuffer();
         if (reconnectBodyFailures) {
@@ -256,13 +256,13 @@ public final class ServerSentEventStream {
     }
 
     private static <T> Flux<ServerSentEvent<T>> deserializeFrame(ServerSentEventFrame frame,
-        ServerSentEventDeserializer<T> deserializer) {
-        T data = deserializer.deserialize(frame.event, frame.data);
+        BiFunction<String, String, T> deserializer) {
+        T data = deserializer.apply(frame.event, frame.data);
         return data == null ? Flux.empty() : Flux.just(frame.toEvent(data));
     }
 
     private static <T> boolean processBody(BinaryData body, StreamState state,
-        ServerSentEventDeserializer<T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
+        BiFunction<String, String, T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
         ServerSentEventListener<T> listener) throws IOException {
         ServerSentEventDecoder decoder = new ServerSentEventDecoder(state);
         byte[] readBuffer = new byte[8192];
@@ -282,10 +282,10 @@ public final class ServerSentEventStream {
     }
 
     private static <T> boolean processFrames(List<ServerSentEventFrame> frames,
-        ServerSentEventDeserializer<T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
+        BiFunction<String, String, T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
         ServerSentEventListener<T> listener) {
         for (ServerSentEventFrame frame : frames) {
-            T data = deserializer.deserialize(frame.event, frame.data);
+            T data = deserializer.apply(frame.event, frame.data);
             if (data != null) {
                 ServerSentEvent<T> event = frame.toEvent(data);
                 listener.onEvent(event);

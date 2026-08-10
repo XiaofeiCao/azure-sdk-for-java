@@ -40,7 +40,7 @@ public final class ServerSentEventStreamResponse implements AutoCloseable {
     public static ServerSentEventStreamResponse fromResponse(Response<BinaryData> response) {
         Objects.requireNonNull(response, "'response' cannot be null.");
         if (response.getStatusCode() != 204
-            && !HttpUtils.isTextEventStream(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE))) {
+            && !HttpUtils.isTextEventStreamContentType(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE))) {
             closeResponse(response);
             throw LOGGER.logExceptionAsError(new IllegalStateException(
                 "Expected a successful server-sent event response to have Content-Type 'text/event-stream'."));

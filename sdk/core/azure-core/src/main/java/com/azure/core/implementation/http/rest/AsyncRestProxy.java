@@ -145,8 +145,8 @@ public class AsyncRestProxy extends RestProxyBase {
     private Mono<?> handleRestResponseReturnType(final HttpResponseDecoder.HttpDecodedResponse response,
         final SwaggerMethodParser methodParser, final Type entityType, boolean responseBodyStreaming) {
         final boolean isResponseBodyStreaming = responseBodyStreaming
-            || HttpUtils
-                .isTextEventStream(response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
+            || HttpUtils.isTextEventStreamContentType(
+                response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
         if (methodParser.isStreamResponse()) {
             return Mono.fromSupplier(() -> new StreamResponse(response.getSourceResponse()));
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, Response.class)) {
@@ -215,7 +215,7 @@ public class AsyncRestProxy extends RestProxyBase {
             // different methods to read the response. The reading of the response is delayed until BinaryData
             // is read and depending on which format the content is converted into, the response is not necessarily
             // fully copied into memory resulting in lesser overall memory usage.
-            if (responseBodyStreaming || HttpUtils.isTextEventStream(contentType)) {
+            if (responseBodyStreaming || HttpUtils.isTextEventStreamContentType(contentType)) {
                 // If the request or response content type identifies a stream, create a BinaryData instance with
                 // bufferContent set to false.
                 asyncResult = BinaryData.fromFlux(sourceResponse.getBody(), null, false);

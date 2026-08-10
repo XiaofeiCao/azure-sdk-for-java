@@ -526,7 +526,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
     private static boolean shouldResponseBodyBeLogged(HttpResponseLoggingContext loggingOptions,
         String contentTypeHeader, Long contentLength) {
         return !HttpUtils.isResponseBodyStreaming(loggingOptions.getContext())
-            && !HttpUtils.isTextEventStream(contentTypeHeader)
+            && !HttpUtils.isTextEventStreamContentType(contentTypeHeader)
             && shouldBodyBeLogged(contentTypeHeader, contentLength);
     }
 

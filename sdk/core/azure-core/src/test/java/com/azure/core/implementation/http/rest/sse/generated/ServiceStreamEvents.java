@@ -8,7 +8,6 @@ import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.implementation.util.ServerSentEventStream;
 import com.azure.core.implementation.util.ServerSentEventStreamResponse;
 import com.azure.core.util.BinaryData;
-import com.azure.core.util.ServerSentEventUtils;
 import com.azure.json.JsonProviders;
 import com.azure.json.JsonReader;
 import reactor.core.publisher.Flux;
@@ -26,7 +25,7 @@ final class ServiceStreamEvents {
 
     static void listen(BinaryData body, ServerSentEventListener<ServiceStreamEvent> listener) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
-        ServerSentEventUtils.process(body, ServiceStreamEvents::deserialize, listener);
+        ServerSentEventStream.process(body, ServiceStreamEvents::deserialize, listener);
     }
 
     static void listen(ServerSentEventStreamResponse response,
@@ -40,7 +39,7 @@ final class ServiceStreamEvents {
     static Flux<ServerSentEvent<ServiceStreamEvent>> toFlux(BinaryData body) {
         Objects.requireNonNull(body, "'body' cannot be null.");
 
-        return ServerSentEventUtils.decode(body, ServiceStreamEvents::deserialize)
+        return ServerSentEventStream.decode(body, ServiceStreamEvents::deserialize)
             .takeUntil(event -> event.getData().isTerminal());
     }
 
