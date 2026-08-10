@@ -6,6 +6,7 @@ package com.azure.core.implementation.http.rest.sse.generated;
 import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.implementation.util.ServerSentEventStream;
+import com.azure.core.implementation.util.ServerSentEventStreamResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.ServerSentEventUtils;
 import com.azure.json.JsonProviders;
@@ -28,10 +29,11 @@ final class ServiceStreamEvents {
         ServerSentEventUtils.process(body, ServiceStreamEvents::deserialize, listener);
     }
 
-    static void listen(BinaryData body, Function<String, BinaryData> reconnect,
+    static void listen(ServerSentEventStreamResponse response,
+        Function<String, ServerSentEventStreamResponse> reconnect,
         ServerSentEventListener<ServiceStreamEvent> listener) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
-        ServerSentEventStream.process(body, reconnect, ServiceStreamEvents::deserialize,
+        ServerSentEventStream.process(response, reconnect, ServiceStreamEvents::deserialize,
             event -> event.getData().isTerminal(), listener);
     }
 
@@ -42,12 +44,12 @@ final class ServiceStreamEvents {
             .takeUntil(event -> event.getData().isTerminal());
     }
 
-    static Flux<ServerSentEvent<ServiceStreamEvent>> toFlux(BinaryData body,
-        Function<String, Mono<BinaryData>> reconnect) {
-        Objects.requireNonNull(body, "'body' cannot be null.");
+    static Flux<ServerSentEvent<ServiceStreamEvent>> toFlux(ServerSentEventStreamResponse response,
+        Function<String, Mono<ServerSentEventStreamResponse>> reconnect) {
+        Objects.requireNonNull(response, "'response' cannot be null.");
         Objects.requireNonNull(reconnect, "'reconnect' cannot be null.");
 
-        return ServerSentEventStream.decode(body, reconnect, ServiceStreamEvents::deserialize)
+        return ServerSentEventStream.decode(response, reconnect, ServiceStreamEvents::deserialize)
             .takeUntil(event -> event.getData().isTerminal());
     }
 

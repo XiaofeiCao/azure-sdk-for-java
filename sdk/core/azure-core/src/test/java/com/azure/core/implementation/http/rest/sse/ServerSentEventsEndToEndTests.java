@@ -227,6 +227,42 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
+    public void syncClientStopsReconnectingOnNoContent() throws Exception {
+        scenario = StreamScenario.NO_CONTENT;
+        EventsClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
+        RecordingListener listener = new RecordingListener();
+
+        CompletableFuture<Response<Void>> responseFuture = CompletableFuture
+            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
+
+        assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
+        sendEvents.countDown();
+        Response<Void> response = responseFuture.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
+
+        assertEquals(200, response.getStatusCode());
+        assertEquals(1, listener.events.size());
+        assertUserLogin(listener.events.get(0));
+        assertNull(listener.error.get());
+        assertEquals(1, listener.closeCount.get());
+        assertEquals(2, requestCount.get());
+        assertEquals(2, httpClient.getClosedResponseCount());
+    }
+
+    @Test
+    public void asyncClientStopsReconnectingOnNoContent() {
+        scenario = StreamScenario.NO_CONTENT;
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        sendEvents.countDown();
+
+        StepVerifier.create(getEvents(client)).assertNext(this::assertUserLogin).verifyComplete();
+
+        assertEquals(2, requestCount.get());
+        assertEquals(2, httpClient.getClosedResponseCount());
+    }
+
+    @Test
     public void asyncClientAcceptsMixedCaseEventStreamContentType() {
         responseContentType = "Text/Event-Stream";
         EventsAsyncClient client
@@ -357,6 +393,12 @@ public class ServerSentEventsEndToEndTests {
             throw new ServletException("Unexpected Accept header: " + request.getHeader("Accept"));
         }
         int currentRequest = requestCount.incrementAndGet();
+        if (scenario == StreamScenario.NO_CONTENT && currentRequest == 2) {
+            response.setStatus(204);
+            response.flushBuffer();
+            return;
+        }
+
         if (scenario == StreamScenario.RECONNECT) {
             String lastEventId = request.getHeader("Last-Event-Id");
             if (currentRequest == 1 && !"stale".equals(lastEventId)) {
@@ -438,6 +480,11 @@ public class ServerSentEventsEndToEndTests {
                 }
                 throw new ServletException("Unexpected SSE reconnect attempt: " + currentRequest);
 
+            case NO_CONTENT:
+                write(output, ": login event\nretry: 1\nid: login-1\nevent: userLogin\n"
+                    + "data: {\"userId\":\"user-1\",\"loginTime\":\"2026-08-05T21:00:00Z\"}\n\n");
+                return;
+
             default:
                 throw new IllegalStateException("Unknown stream scenario: " + scenario);
         }
@@ -499,7 +546,7 @@ public class ServerSentEventsEndToEndTests {
     }
 
     private enum StreamScenario {
-        TERMINAL, MALFORMED, OPEN, INTERLEAVED, RECONNECT
+        TERMINAL, MALFORMED, OPEN, INTERLEAVED, RECONNECT, NO_CONTENT
     }
 
     private static final class RecordingListener implements ServerSentEventListener<ServiceStreamEvent> {

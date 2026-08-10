@@ -7,6 +7,7 @@ import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.implementation.util.ServerSentEventStreamResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,9 +22,10 @@ public final class EventsAsyncClient {
         return Flux.defer(() -> {
             RequestOptions requestOptions = new RequestOptions();
             return serviceClient.getEventsWithResponseAsync(requestOptions)
-                .flatMapMany(response -> ServiceStreamEvents.toFlux(response.getValue(),
-                    lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
-                        .map(Response::getValue)));
+                .flatMapMany(
+                    response -> ServiceStreamEvents.toFlux(ServerSentEventStreamResponse.fromResponse(response),
+                        lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
+                            .map(ServerSentEventStreamResponse::fromResponse)));
         });
     }
 
@@ -31,8 +33,8 @@ public final class EventsAsyncClient {
         getEventsWithResponse(RequestOptions requestOptions) {
         return serviceClient.getEventsWithResponseAsync(requestOptions)
             .map(response -> new SimpleResponse<Flux<ServerSentEvent<ServiceStreamEvent>>>(response,
-                ServiceStreamEvents.toFlux(response.getValue(),
+                ServiceStreamEvents.toFlux(ServerSentEventStreamResponse.fromResponse(response),
                     lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
-                        .map(Response::getValue))));
+                        .map(ServerSentEventStreamResponse::fromResponse))));
     }
 }

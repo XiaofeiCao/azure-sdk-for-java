@@ -30,11 +30,13 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 final class TrackingUrlConnectionHttpClient implements HttpClient {
     private final CountDownLatch cancellationLatch = new CountDownLatch(1);
     private final AtomicBoolean cancelled = new AtomicBoolean();
     private final AtomicBoolean streamingResponse = new AtomicBoolean();
+    private final AtomicInteger closedResponseCount = new AtomicInteger();
 
     @Override
     public Mono<HttpResponse> send(HttpRequest request) {
@@ -72,6 +74,10 @@ final class TrackingUrlConnectionHttpClient implements HttpClient {
 
     boolean isStreamingResponse() {
         return streamingResponse.get();
+    }
+
+    int getClosedResponseCount() {
+        return closedResponseCount.get();
     }
 
     private void trackStreamingResponse(Context context) {
@@ -113,11 +119,16 @@ final class TrackingUrlConnectionHttpClient implements HttpClient {
         }
     }
 
+    private void markClosed() {
+        closedResponseCount.incrementAndGet();
+    }
+
     private static final class UrlConnectionHttpResponse extends HttpResponse {
         private final int statusCode;
         private final HttpHeaders headers;
         private final HttpURLConnection connection;
         private final InputStream responseStream;
+        private final TrackingUrlConnectionHttpClient owner;
         private final AtomicBoolean closed = new AtomicBoolean();
         private final Flux<ByteBuffer> body;
 
@@ -128,6 +139,7 @@ final class TrackingUrlConnectionHttpClient implements HttpClient {
             this.headers = headers;
             this.connection = connection;
             this.responseStream = responseStream;
+            this.owner = owner;
             this.body = Flux.<ByteBuffer>generate(sink -> {
                 byte[] bytes = new byte[32];
                 try {
@@ -191,6 +203,7 @@ final class TrackingUrlConnectionHttpClient implements HttpClient {
                 // The connection is disconnected below.
             } finally {
                 connection.disconnect();
+                owner.markClosed();
             }
         }
     }

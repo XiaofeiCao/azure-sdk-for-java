@@ -7,6 +7,7 @@ import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.implementation.util.ServerSentEventStreamResponse;
 import com.azure.core.util.BinaryData;
 
 import java.util.Objects;
@@ -26,8 +27,10 @@ public final class EventsClient {
         RequestOptions requestOptions) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response = serviceClient.getEventsWithResponse(requestOptions);
-        ServiceStreamEvents.listen(response.getValue(),
-            lastEventId -> serviceClient.getEventsWithResponse(requestOptions, lastEventId).getValue(), listener);
+        ServiceStreamEvents.listen(ServerSentEventStreamResponse.fromResponse(response),
+            lastEventId -> ServerSentEventStreamResponse
+                .fromResponse(serviceClient.getEventsWithResponse(requestOptions, lastEventId)),
+            listener);
         return new SimpleResponse<>(response, null);
     }
 }

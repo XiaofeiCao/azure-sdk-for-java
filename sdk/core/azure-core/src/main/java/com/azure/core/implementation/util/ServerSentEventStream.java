@@ -69,32 +69,42 @@ public final class ServerSentEventStream {
      * Decodes a logical server-sent event stream, reconnecting after response completion or a response-body failure
      * when the server has supplied a valid retry interval.
      *
-     * @param body The initial response body.
-     * @param reconnect Creates a fresh response body. Its argument is the last event identifier or {@code null} when
-     * no {@code Last-Event-Id} header should be sent.
+     * @param response The initial response.
+     * @param reconnect Creates a fresh response. Its argument is the last event identifier or {@code null} when no
+     * {@code Last-Event-Id} header should be sent.
      * @param deserializer The event data deserializer.
      * @param <T> The event data type.
      * @return The decoded events.
      */
-    public static <T> Flux<ServerSentEvent<T>> decode(BinaryData body, Function<String, Mono<BinaryData>> reconnect,
-        ServerSentEventDeserializer<T> deserializer) {
-        Objects.requireNonNull(body, "'body' cannot be null.");
+    public static <T> Flux<ServerSentEvent<T>> decode(ServerSentEventStreamResponse response,
+        Function<String, Mono<ServerSentEventStreamResponse>> reconnect, ServerSentEventDeserializer<T> deserializer) {
+        Objects.requireNonNull(response, "'response' cannot be null.");
         Objects.requireNonNull(reconnect, "'reconnect' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
 
         return Flux.defer(() -> {
             StreamState state = new StreamState();
-            AtomicReference<BinaryData> currentBody = new AtomicReference<>(body);
-            Flux<ServerSentEvent<T>> decodeCurrentBody
-                = Flux.defer(() -> decodeBody(currentBody.get(), state, deserializer, true));
+            AtomicReference<ServerSentEventStreamResponse> currentResponse = new AtomicReference<>(response);
+            Flux<ServerSentEvent<T>> decodeCurrentResponse = Flux.defer(() -> {
+                ServerSentEventStreamResponse responseToDecode = currentResponse.get();
+                if (responseToDecode.getStatusCode() == 204) {
+                    state.stopReconnecting = true;
+                    responseToDecode.close();
+                    return Flux.empty();
+                }
 
-            return decodeCurrentBody.repeatWhen(completions -> completions
-                .takeWhile(ignored -> state.retryAfter != null)
-                .concatMap(ignored -> delay(state.retryAfter)
-                    .then(Mono.defer(() -> Objects.requireNonNull(reconnect.apply(state.getReconnectEventId()),
-                        "'reconnect' cannot return null.")))
-                    .map(nextBody -> currentBody.updateAndGet(
-                        ignoredBody -> Objects.requireNonNull(nextBody, "'reconnect' cannot produce a null body.")))));
+                return decodeBody(responseToDecode.getBody(), state, deserializer, true)
+                    .doFinally(ignored -> responseToDecode.close());
+            });
+
+            return decodeCurrentResponse
+                .repeatWhen(
+                    completions -> completions.takeWhile(ignored -> state.retryAfter != null && !state.stopReconnecting)
+                        .concatMap(ignored -> delay(state.retryAfter)
+                            .then(Mono.defer(() -> Objects.requireNonNull(reconnect.apply(state.getReconnectEventId()),
+                                "'reconnect' cannot return null.")))
+                            .doOnNext(currentResponse::set)))
+                .doFinally(ignored -> currentResponse.get().close());
         });
     }
 
@@ -115,19 +125,19 @@ public final class ServerSentEventStream {
      * Processes a logical server-sent event stream, reconnecting after response completion or a response-body failure
      * when the server has supplied a valid retry interval.
      *
-     * @param body The initial response body.
-     * @param reconnect Creates a fresh response body. Its argument is the last event identifier or {@code null} when
-     * no {@code Last-Event-Id} header should be sent.
+     * @param response The initial response.
+     * @param reconnect Creates a fresh response. Its argument is the last event identifier or {@code null} when no
+     * {@code Last-Event-Id} header should be sent.
      * @param deserializer The event data deserializer.
      * @param terminalEvent Identifies an inclusive terminal event.
      * @param listener The event listener.
      * @param <T> The event data type.
      */
-    public static <T> void process(BinaryData body, Function<String, BinaryData> reconnect,
-        ServerSentEventDeserializer<T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
-        ServerSentEventListener<T> listener) {
+    public static <T> void process(ServerSentEventStreamResponse response,
+        Function<String, ServerSentEventStreamResponse> reconnect, ServerSentEventDeserializer<T> deserializer,
+        Predicate<ServerSentEvent<T>> terminalEvent, ServerSentEventListener<T> listener) {
         Objects.requireNonNull(reconnect, "'reconnect' cannot be null.");
-        processInternal(body, reconnect, deserializer, terminalEvent, listener);
+        processInternal(response, reconnect, deserializer, terminalEvent, listener);
     }
 
     /**
@@ -165,22 +175,34 @@ public final class ServerSentEventStream {
         }
     }
 
-    private static <T> void processInternal(BinaryData body, Function<String, BinaryData> reconnect,
+    private static <T> void processInternal(BinaryData body, Function<String, ServerSentEventStreamResponse> reconnect,
         ServerSentEventDeserializer<T> deserializer, Predicate<ServerSentEvent<T>> terminalEvent,
         ServerSentEventListener<T> listener) {
-        Objects.requireNonNull(body, "'body' cannot be null.");
+        processInternal(new ServerSentEventStreamResponse(200, body, () -> {
+        }), reconnect, deserializer, terminalEvent, listener);
+    }
+
+    private static <T> void processInternal(ServerSentEventStreamResponse response,
+        Function<String, ServerSentEventStreamResponse> reconnect, ServerSentEventDeserializer<T> deserializer,
+        Predicate<ServerSentEvent<T>> terminalEvent, ServerSentEventListener<T> listener) {
+        Objects.requireNonNull(response, "'response' cannot be null.");
         Objects.requireNonNull(deserializer, "'deserializer' cannot be null.");
         Objects.requireNonNull(terminalEvent, "'terminalEvent' cannot be null.");
         Objects.requireNonNull(listener, "'listener' cannot be null.");
 
         StreamState state = new StreamState();
-        BinaryData currentBody = body;
+        ServerSentEventStreamResponse currentResponse = response;
 
         try {
             while (true) {
+                if (currentResponse.getStatusCode() == 204) {
+                    currentResponse.close();
+                    return;
+                }
+
                 boolean terminal;
-                try {
-                    terminal = processBody(currentBody, state, deserializer, terminalEvent, listener);
+                try (ServerSentEventStreamResponse responseToProcess = currentResponse) {
+                    terminal = processBody(responseToProcess.getBody(), state, deserializer, terminalEvent, listener);
                 } catch (IOException exception) {
                     if (reconnect == null || state.retryAfter == null) {
                         throw exception;
@@ -194,9 +216,15 @@ public final class ServerSentEventStream {
 
                 waitForRetry(state.retryAfter);
                 checkInterrupted();
-                currentBody = Objects.requireNonNull(reconnect.apply(state.getReconnectEventId()),
-                    "'reconnect' cannot return null.");
-                checkInterrupted();
+                ServerSentEventStreamResponse nextResponse = Objects
+                    .requireNonNull(reconnect.apply(state.getReconnectEventId()), "'reconnect' cannot return null.");
+                try {
+                    checkInterrupted();
+                } catch (RuntimeException exception) {
+                    nextResponse.close();
+                    throw exception;
+                }
+                currentResponse = nextResponse;
             }
         } catch (IOException exception) {
             listener.onError(exception);
@@ -326,6 +354,7 @@ public final class ServerSentEventStream {
     private static final class StreamState {
         private String lastEventId;
         private Duration retryAfter;
+        private boolean stopReconnecting;
 
         private void setLastEventId(String lastEventId) {
             this.lastEventId = lastEventId;

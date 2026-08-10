@@ -8,8 +8,8 @@
 - Added generic `ServerSentEvent<T>`, `ServerSentEventDeserializer<T>`, `ServerSentEventListener<T>`, and
   `ServerSentEventUtils` types for typed, incrementally decoded server-sent event streams. Generated clients can
   reconnect sync and async operations with retained retry and last-event identifier state, including metadata-only
-  updates and retryable mid-body transport failures, while asynchronous decoding parses the reactive response body
-  without blocking worker threads.
+  updates and retryable mid-body transport failures, stop cleanly on HTTP 204, and close every physical streaming
+  response. Asynchronous decoding parses the reactive response body without blocking worker threads.
 - Added `ResponseBodyStreaming` operation metadata so generated clients can prevent unbounded response bodies from
   being eagerly buffered independently of mutable request headers.
 

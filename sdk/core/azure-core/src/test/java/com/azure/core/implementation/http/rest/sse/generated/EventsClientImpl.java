@@ -28,7 +28,7 @@ public final class EventsClientImpl {
     public interface EventsClientService {
         @Get("/events")
         @ResponseBodyStreaming
-        @ExpectedResponses({ 200 })
+        @ExpectedResponses({ 200, 204 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
         Mono<Response<BinaryData>> getEvents(@HostParam("endpoint") String endpoint,
             @HeaderParam("Accept") String accept, @HeaderParam("Last-Event-Id") String lastEventId,
@@ -36,7 +36,7 @@ public final class EventsClientImpl {
 
         @Get("/events")
         @ResponseBodyStreaming
-        @ExpectedResponses({ 200 })
+        @ExpectedResponses({ 200, 204 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
         Response<BinaryData> getEventsSync(@HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept,
             @HeaderParam("Last-Event-Id") String lastEventId, RequestOptions requestOptions, Context context);
