@@ -18,23 +18,31 @@ public final class EventsAsyncClient {
         this.serviceClient = serviceClient;
     }
 
-    public Flux<ServerSentEvent<ServiceStreamEvent>> getEvents() {
+    public Mono<StockUpdate> getEvents() {
+        return serviceClient.getEventsAsync();
+    }
+
+    public Mono<Response<StockUpdate>> getEventsWithResponse(RequestOptions requestOptions) {
+        return serviceClient.getEventsWithResponseAsync(requestOptions);
+    }
+
+    public Flux<ServerSentEvent<ServiceStreamEvent>> getEventsStream() {
         return Flux.defer(() -> {
             RequestOptions requestOptions = new RequestOptions();
-            return serviceClient.getEventsWithResponseAsync(requestOptions)
+            return serviceClient.getEventsStreamWithResponseAsync(requestOptions)
                 .flatMapMany(
                     response -> ServiceStreamEvents.toFlux(ServerSentEventStreamResponse.fromResponse(response),
-                        lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
+                        lastEventId -> serviceClient.getEventsStreamWithResponseAsync(requestOptions, lastEventId)
                             .map(ServerSentEventStreamResponse::fromResponse)));
         });
     }
 
     public Mono<Response<Flux<ServerSentEvent<ServiceStreamEvent>>>>
-        getEventsWithResponse(RequestOptions requestOptions) {
-        return serviceClient.getEventsWithResponseAsync(requestOptions)
+        getEventsStreamWithResponse(RequestOptions requestOptions) {
+        return serviceClient.getEventsStreamWithResponseAsync(requestOptions)
             .map(response -> new SimpleResponse<Flux<ServerSentEvent<ServiceStreamEvent>>>(response,
                 ServiceStreamEvents.toFlux(ServerSentEventStreamResponse.fromResponse(response),
-                    lastEventId -> serviceClient.getEventsWithResponseAsync(requestOptions, lastEventId)
+                    lastEventId -> serviceClient.getEventsStreamWithResponseAsync(requestOptions, lastEventId)
                         .map(ServerSentEventStreamResponse::fromResponse))));
     }
 }

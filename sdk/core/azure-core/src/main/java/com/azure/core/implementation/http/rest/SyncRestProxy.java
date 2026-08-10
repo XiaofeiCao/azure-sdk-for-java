@@ -3,6 +3,7 @@
 
 package com.azure.core.implementation.http.rest;
 
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpRequest;
@@ -140,6 +141,9 @@ public class SyncRestProxy extends RestProxyBase {
 
     private Object handleRestResponseReturnType(HttpResponseDecoder.HttpDecodedResponse response,
         SwaggerMethodParser methodParser, Type entityType, boolean responseBodyStreaming) {
+        responseBodyStreaming = responseBodyStreaming
+            || HttpUtils
+                .isTextEventStream(response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
         if (methodParser.isStreamResponse()) {
             return new StreamResponse(response.getSourceResponse());
         } else if (TypeUtil.isTypeOrSubTypeOf(entityType, Response.class)) {

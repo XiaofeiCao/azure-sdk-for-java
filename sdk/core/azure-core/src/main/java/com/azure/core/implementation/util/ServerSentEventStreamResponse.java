@@ -3,6 +3,7 @@
 
 package com.azure.core.implementation.util;
 
+import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.logging.ClientLogger;
@@ -38,6 +39,12 @@ public final class ServerSentEventStreamResponse implements AutoCloseable {
      */
     public static ServerSentEventStreamResponse fromResponse(Response<BinaryData> response) {
         Objects.requireNonNull(response, "'response' cannot be null.");
+        if (response.getStatusCode() != 204
+            && !HttpUtils.isTextEventStream(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE))) {
+            closeResponse(response);
+            throw LOGGER.logExceptionAsError(new IllegalStateException(
+                "Expected a successful server-sent event response to have Content-Type 'text/event-stream'."));
+        }
         if (!(response instanceof Closeable)) {
             throw new IllegalArgumentException("'response' must own a closeable streaming response.");
         }
@@ -47,6 +54,18 @@ public final class ServerSentEventStreamResponse implements AutoCloseable {
             Objects.requireNonNull(body, "'response.getValue()' cannot be null unless the status code is 204.");
         }
         return new ServerSentEventStreamResponse(response.getStatusCode(), body, (Closeable) response);
+    }
+
+    private static void closeResponse(Response<BinaryData> response) {
+        if (!(response instanceof Closeable)) {
+            return;
+        }
+
+        try {
+            ((Closeable) response).close();
+        } catch (IOException exception) {
+            throw LOGGER.logExceptionAsError(new UncheckedIOException(exception));
+        }
     }
 
     int getStatusCode() {

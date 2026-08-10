@@ -12,6 +12,7 @@ import com.azure.core.implementation.http.rest.sse.generated.EventsAsyncClient;
 import com.azure.core.implementation.http.rest.sse.generated.EventsClient;
 import com.azure.core.implementation.http.rest.sse.generated.EventsClientBuilder;
 import com.azure.core.implementation.http.rest.sse.generated.ServiceStreamEvent;
+import com.azure.core.implementation.http.rest.sse.generated.StockUpdate;
 import com.azure.core.validation.http.LocalTestServer;
 import org.eclipse.jetty.server.Request;
 import org.junit.jupiter.api.AfterEach;
@@ -52,6 +53,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ServerSentEventsEndToEndTests {
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
     private static final String CONTENT_TYPE = "text/event-stream";
+    private static final String JSON_CONTENT_TYPE = "application/json";
     private static final HttpHeaderName LAST_EVENT_ID = HttpHeaderName.fromString("Last-Event-Id");
 
     private TrackingUrlConnectionHttpClient httpClient;
@@ -99,13 +101,64 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
+    public void syncNormalApiUsesFiniteJsonRepresentation() {
+        expectedAccept = JSON_CONTENT_TYPE;
+        EventsClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
+
+        Response<StockUpdate> response = client.getEventsWithResponse(new RequestOptions());
+
+        assertEquals(200, response.getStatusCode());
+        assertTrue(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE).startsWith(JSON_CONTENT_TYPE));
+        assertEquals("MSFT", response.getValue().getSymbol());
+        assertEquals(420.5F, response.getValue().getPrice());
+        assertEquals(1, requestCount.get());
+        assertFalse(httpClient.isStreamingResponse());
+    }
+
+    @Test
+    public void asyncNormalApiUsesFiniteJsonRepresentation() {
+        expectedAccept = JSON_CONTENT_TYPE;
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+
+        StepVerifier.create(client.getEventsWithResponse(new RequestOptions())).assertNext(response -> {
+            assertEquals(200, response.getStatusCode());
+            assertTrue(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE).startsWith(JSON_CONTENT_TYPE));
+            assertEquals("MSFT", response.getValue().getSymbol());
+            assertEquals(420.5F, response.getValue().getPrice());
+        }).verifyComplete();
+
+        assertEquals(1, requestCount.get());
+        assertFalse(httpClient.isStreamingResponse());
+    }
+
+    @Test
+    public void normalApisAllowNoContentFromSharedProxy() {
+        scenario = StreamScenario.NORMAL_NO_CONTENT;
+        expectedAccept = JSON_CONTENT_TYPE;
+        EventsClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
+        EventsAsyncClient asyncClient
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+
+        Response<StockUpdate> response = client.getEventsWithResponse(new RequestOptions());
+
+        assertEquals(204, response.getStatusCode());
+        assertNull(response.getValue());
+        StepVerifier.create(asyncClient.getEvents()).verifyComplete();
+        assertEquals(2, requestCount.get());
+        assertFalse(httpClient.isStreamingResponse());
+    }
+
+    @Test
     public void syncClientListensUntilInclusiveTerminalEvent() throws Exception {
         EventsClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
         RecordingListener listener = new RecordingListener();
 
         CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
+            .supplyAsync(() -> client.getEventsStreamWithResponse(listener, new RequestOptions()), executorService);
 
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         assertFalse(responseFuture.isDone());
@@ -124,31 +177,20 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
-    public void syncOperationMetadataStreamsGenericContentTypeBeforeBodyCompletes() throws Exception {
-        scenario = StreamScenario.INTERLEAVED;
+    public void syncStreamingApiRejectsNonEventStreamContentTypeBeforeReadingBody() {
         responseContentType = "application/octet-stream";
         EventsClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildClient();
-        RecordingListener listener = new RecordingListener(firstEventReceived);
-
-        CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
-
-        assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
+        RecordingListener listener = new RecordingListener();
         sendEvents.countDown();
-        assertTrue(firstEventReceived.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
-        assertFalse(responseFuture.isDone());
 
-        sendRemainingEvents.countDown();
-        Response<Void> response = responseFuture.get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> client.getEventsStreamWithResponse(listener, new RequestOptions()));
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals(2, listener.events.size());
-        assertUserLogin(listener.events.get(0));
-        assertTerminal(listener.events.get(1));
-        assertNull(listener.error.get());
-        assertEquals(1, listener.closeCount.get());
-        assertTrue(httpClient.awaitCancellation(TIMEOUT));
+        assertTrue(exception.getMessage().contains("Content-Type 'text/event-stream'"));
+        assertTrue(listener.events.isEmpty());
+        assertEquals(0, listener.closeCount.get());
+        assertEquals(1, httpClient.getClosedResponseCount());
         assertTrue(httpClient.isStreamingResponse());
     }
 
@@ -161,7 +203,7 @@ public class ServerSentEventsEndToEndTests {
         RequestOptions requestOptions = new RequestOptions().setHeader(LAST_EVENT_ID, "stale");
 
         CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, requestOptions), executorService);
+            .supplyAsync(() -> client.getEventsStreamWithResponse(listener, requestOptions), executorService);
 
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         sendEvents.countDown();
@@ -188,7 +230,7 @@ public class ServerSentEventsEndToEndTests {
         EventsAsyncClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
 
-        Flux<ServerSentEvent<ServiceStreamEvent>> events = getEvents(client);
+        Flux<ServerSentEvent<ServiceStreamEvent>> events = getEventsStream(client);
 
         StepVerifier.create(events)
             .assertNext(this::assertUserLogin)
@@ -209,7 +251,7 @@ public class ServerSentEventsEndToEndTests {
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
         RequestOptions requestOptions = new RequestOptions().setHeader(LAST_EVENT_ID, "stale");
 
-        StepVerifier.create(getEvents(client, requestOptions))
+        StepVerifier.create(getEventsStream(client, requestOptions))
             .assertNext(this::assertUserLogin)
             .assertNext(this::assertStockUpdate)
             .assertNext(event -> {
@@ -234,7 +276,7 @@ public class ServerSentEventsEndToEndTests {
         RecordingListener listener = new RecordingListener();
 
         CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
+            .supplyAsync(() -> client.getEventsStreamWithResponse(listener, new RequestOptions()), executorService);
 
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         sendEvents.countDown();
@@ -256,7 +298,7 @@ public class ServerSentEventsEndToEndTests {
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
         sendEvents.countDown();
 
-        StepVerifier.create(getEvents(client)).assertNext(this::assertUserLogin).verifyComplete();
+        StepVerifier.create(getEventsStream(client)).assertNext(this::assertUserLogin).verifyComplete();
 
         assertEquals(2, requestCount.get());
         assertEquals(2, httpClient.getClosedResponseCount());
@@ -268,7 +310,7 @@ public class ServerSentEventsEndToEndTests {
         EventsAsyncClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
 
-        StepVerifier.create(client.getEventsWithResponse(new RequestOptions()).flatMapMany(response -> {
+        StepVerifier.create(client.getEventsStreamWithResponse(new RequestOptions()).flatMapMany(response -> {
             assertTrue(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE).startsWith(responseContentType));
             sendEvents.countDown();
             return response.getValue();
@@ -283,7 +325,7 @@ public class ServerSentEventsEndToEndTests {
     }
 
     @Test
-    public void operationMetadataKeepsStreamingWhenAcceptIsReplaced() {
+    public void eventStreamResponsePreservesStreamingWhenAcceptIsReplaced() {
         scenario = StreamScenario.OPEN;
         expectedAccept = "*/*";
         EventsAsyncClient client
@@ -291,7 +333,7 @@ public class ServerSentEventsEndToEndTests {
         RequestOptions options = new RequestOptions()
             .addRequestCallback(request -> request.setHeader(HttpHeaderName.ACCEPT, expectedAccept));
 
-        StepVerifier.create(client.getEventsWithResponse(options).flatMapMany(response -> {
+        StepVerifier.create(client.getEventsStreamWithResponse(options).flatMapMany(response -> {
             assertEquals(200, response.getStatusCode());
             sendEvents.countDown();
             return response.getValue();
@@ -299,29 +341,55 @@ public class ServerSentEventsEndToEndTests {
 
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
         assertTrue(httpClient.isCancelled());
+        assertFalse(httpClient.isStreamingResponse());
+    }
+
+    @Test
+    public void asyncStreamingApiRejectsNonEventStreamContentTypeBeforeReadingBody() {
+        responseContentType = "application/octet-stream";
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        sendEvents.countDown();
+
+        StepVerifier.create(client.getEventsStream())
+            .expectErrorMatches(error -> error instanceof IllegalStateException
+                && error.getMessage().contains("Content-Type 'text/event-stream'"))
+            .verify(TIMEOUT);
+
+        assertEquals(1, httpClient.getClosedResponseCount());
         assertTrue(httpClient.isStreamingResponse());
     }
 
     @Test
-    public void asyncOperationMetadataStreamsGenericContentTypeBeforeBodyCompletes() {
-        scenario = StreamScenario.INTERLEAVED;
-        responseContentType = "application/octet-stream";
+    public void asyncStreamingApiRejectsMissingContentTypeBeforeReadingBody() {
+        responseContentType = null;
         EventsAsyncClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        sendEvents.countDown();
 
-        StepVerifier.create(client.getEventsWithResponse(new RequestOptions()).flatMapMany(response -> {
-            assertTrue(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE).startsWith(responseContentType));
-            sendEvents.countDown();
-            return response.getValue();
-        })).assertNext(event -> {
-            assertUserLogin(event);
-            firstEventReceived.countDown();
-            sendRemainingEvents.countDown();
-        }).assertNext(this::assertTerminal).verifyComplete();
+        StepVerifier.create(client.getEventsStream())
+            .expectErrorMatches(error -> error instanceof IllegalStateException
+                && error.getMessage().contains("Content-Type 'text/event-stream'"))
+            .verify(TIMEOUT);
 
-        assertTrue(httpClient.awaitCancellation(TIMEOUT));
-        assertTrue(httpClient.isCancelled());
-        assertTrue(httpClient.isStreamingResponse());
+        assertEquals(1, httpClient.getClosedResponseCount());
+    }
+
+    @Test
+    public void asyncStreamingApiRejectsNonEventStreamReconnectResponse() {
+        scenario = StreamScenario.INVALID_RECONNECT_CONTENT_TYPE;
+        EventsAsyncClient client
+            = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
+        sendEvents.countDown();
+
+        StepVerifier.create(client.getEventsStream())
+            .assertNext(this::assertUserLogin)
+            .expectErrorMatches(error -> error instanceof IllegalStateException
+                && error.getMessage().contains("Content-Type 'text/event-stream'"))
+            .verify(TIMEOUT);
+
+        assertEquals(2, requestCount.get());
+        assertEquals(2, httpClient.getClosedResponseCount());
     }
 
     @Test
@@ -332,7 +400,7 @@ public class ServerSentEventsEndToEndTests {
         RecordingListener listener = new RecordingListener();
 
         CompletableFuture<Response<Void>> responseFuture = CompletableFuture
-            .supplyAsync(() -> client.getEventsWithResponse(listener, new RequestOptions()), executorService);
+            .supplyAsync(() -> client.getEventsStreamWithResponse(listener, new RequestOptions()), executorService);
 
         assertTrue(headersSent.await(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS));
         sendEvents.countDown();
@@ -352,7 +420,7 @@ public class ServerSentEventsEndToEndTests {
         EventsAsyncClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
 
-        StepVerifier.create(getEvents(client)).expectError().verify(TIMEOUT);
+        StepVerifier.create(getEventsStream(client)).expectError().verify(TIMEOUT);
 
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
         assertTrue(httpClient.isCancelled());
@@ -364,19 +432,19 @@ public class ServerSentEventsEndToEndTests {
         EventsAsyncClient client
             = new EventsClientBuilder().endpoint(server.getHttpUri()).httpClient(httpClient).buildAsyncClient();
 
-        StepVerifier.create(getEvents(client)).assertNext(this::assertUserLogin).thenCancel().verify(TIMEOUT);
+        StepVerifier.create(getEventsStream(client)).assertNext(this::assertUserLogin).thenCancel().verify(TIMEOUT);
 
         assertTrue(httpClient.awaitCancellation(TIMEOUT));
         assertTrue(httpClient.isCancelled());
     }
 
-    private Flux<ServerSentEvent<ServiceStreamEvent>> getEvents(EventsAsyncClient client) {
-        return getEvents(client, new RequestOptions());
+    private Flux<ServerSentEvent<ServiceStreamEvent>> getEventsStream(EventsAsyncClient client) {
+        return getEventsStream(client, new RequestOptions());
     }
 
-    private Flux<ServerSentEvent<ServiceStreamEvent>> getEvents(EventsAsyncClient client,
+    private Flux<ServerSentEvent<ServiceStreamEvent>> getEventsStream(EventsAsyncClient client,
         RequestOptions requestOptions) {
-        return client.getEventsWithResponse(requestOptions).flatMapMany(response -> {
+        return client.getEventsStreamWithResponse(requestOptions).flatMapMany(response -> {
             assertEquals(200, response.getStatusCode());
             assertEventStreamContentType(response);
             sendEvents.countDown();
@@ -393,6 +461,21 @@ public class ServerSentEventsEndToEndTests {
             throw new ServletException("Unexpected Accept header: " + request.getHeader("Accept"));
         }
         int currentRequest = requestCount.incrementAndGet();
+        if (JSON_CONTENT_TYPE.equals(expectedAccept)) {
+            if (scenario == StreamScenario.NORMAL_NO_CONTENT) {
+                response.setStatus(204);
+                response.flushBuffer();
+                return;
+            }
+            byte[] body = "{\"symbol\":\"MSFT\",\"price\":420.5}".getBytes(StandardCharsets.UTF_8);
+            response.setStatus(200);
+            response.setContentType(JSON_CONTENT_TYPE);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setContentLength(body.length);
+            response.getOutputStream().write(body);
+            return;
+        }
+
         if (scenario == StreamScenario.NO_CONTENT && currentRequest == 2) {
             response.setStatus(204);
             response.flushBuffer();
@@ -419,7 +502,13 @@ public class ServerSentEventsEndToEndTests {
         }
 
         response.setStatus(200);
-        response.setContentType(responseContentType);
+        String currentResponseContentType
+            = scenario == StreamScenario.INVALID_RECONNECT_CONTENT_TYPE && currentRequest == 2
+                ? JSON_CONTENT_TYPE
+                : responseContentType;
+        if (currentResponseContentType != null) {
+            response.setContentType(currentResponseContentType);
+        }
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.flushBuffer();
         headersSent.countDown();
@@ -485,6 +574,15 @@ public class ServerSentEventsEndToEndTests {
                     + "data: {\"userId\":\"user-1\",\"loginTime\":\"2026-08-05T21:00:00Z\"}\n\n");
                 return;
 
+            case INVALID_RECONNECT_CONTENT_TYPE:
+                if (currentRequest == 1) {
+                    write(output, ": login event\nretry: 1\nid: login-1\nevent: userLogin\n"
+                        + "data: {\"userId\":\"user-1\",\"loginTime\":\"2026-08-05T21:00:00Z\"}\n\n");
+                    return;
+                }
+                write(output, "{\"symbol\":\"MSFT\",\"price\":420.5}");
+                return;
+
             default:
                 throw new IllegalStateException("Unknown stream scenario: " + scenario);
         }
@@ -546,7 +644,7 @@ public class ServerSentEventsEndToEndTests {
     }
 
     private enum StreamScenario {
-        TERMINAL, MALFORMED, OPEN, INTERLEAVED, RECONNECT, NO_CONTENT
+        TERMINAL, MALFORMED, OPEN, INTERLEAVED, RECONNECT, NO_CONTENT, NORMAL_NO_CONTENT, INVALID_RECONNECT_CONTENT_TYPE
     }
 
     private static final class RecordingListener implements ServerSentEventListener<ServiceStreamEvent> {

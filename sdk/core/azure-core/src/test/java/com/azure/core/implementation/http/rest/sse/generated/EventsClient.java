@@ -19,17 +19,25 @@ public final class EventsClient {
         this.serviceClient = serviceClient;
     }
 
-    public void getEvents(ServerSentEventListener<ServiceStreamEvent> listener) {
-        getEventsWithResponse(listener, new RequestOptions());
+    public StockUpdate getEvents() {
+        return serviceClient.getEvents();
     }
 
-    public Response<Void> getEventsWithResponse(ServerSentEventListener<ServiceStreamEvent> listener,
+    public Response<StockUpdate> getEventsWithResponse(RequestOptions requestOptions) {
+        return serviceClient.getEventsWithResponse(requestOptions);
+    }
+
+    public void getEventsStream(ServerSentEventListener<ServiceStreamEvent> listener) {
+        getEventsStreamWithResponse(listener, new RequestOptions());
+    }
+
+    public Response<Void> getEventsStreamWithResponse(ServerSentEventListener<ServiceStreamEvent> listener,
         RequestOptions requestOptions) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
-        Response<BinaryData> response = serviceClient.getEventsWithResponse(requestOptions);
+        Response<BinaryData> response = serviceClient.getEventsStreamWithResponse(requestOptions);
         ServiceStreamEvents.listen(ServerSentEventStreamResponse.fromResponse(response),
             lastEventId -> ServerSentEventStreamResponse
-                .fromResponse(serviceClient.getEventsWithResponse(requestOptions, lastEventId)),
+                .fromResponse(serviceClient.getEventsStreamWithResponse(requestOptions, lastEventId)),
             listener);
         return new SimpleResponse<>(response, null);
     }
