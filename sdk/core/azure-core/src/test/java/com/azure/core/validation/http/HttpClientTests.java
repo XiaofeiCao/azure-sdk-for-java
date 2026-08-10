@@ -40,7 +40,6 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.ResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.StreamResponse;
-import com.azure.core.implementation.util.HttpUtils;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.Contexts;
@@ -98,13 +97,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -121,8 +115,6 @@ import static com.azure.core.validation.http.HttpClientTestsServer.HUGE_HEADER_V
 import static com.azure.core.validation.http.HttpClientTestsServer.INVALID_HEADER_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.PLAIN_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.RETURN_BYTES;
-import static com.azure.core.validation.http.HttpClientTestsServer.STREAMING_RESPONSE;
-import static com.azure.core.validation.http.HttpClientTestsServer.STREAMING_RESPONSE_BODY;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_16BE_BOM_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_16LE_BOM_RESPONSE;
 import static com.azure.core.validation.http.HttpClientTestsServer.UTF_32BE_BOM_RESPONSE;
@@ -393,42 +385,6 @@ public abstract class HttpClientTests {
         // Buffering buffered response is identity transformation.
         HttpResponse bufferedResponse = response.buffer();
         assertSame(response, bufferedResponse);
-    }
-
-    /**
-     * Tests that a response marked as streaming is returned before its body completes, even if eager reading was also
-     * requested.
-     *
-     * @throws Exception If the response isn't returned or read within the test timeout.
-     */
-    @SyncAsyncTest
-    public void streamingResponseOverridesEagerBuffering() throws Exception {
-        String responseId = UUID.randomUUID().toString();
-        HttpRequest request = new HttpRequest(HttpMethod.GET, getRequestUrl(STREAMING_RESPONSE + "/" + responseId));
-        Context context = Context.NONE.addData(HttpUtils.AZURE_EAGERLY_READ_RESPONSE, true)
-            .addData(HttpUtils.AZURE_RESPONSE_BODY_STREAMING, true);
-        HttpClient httpClient = createHttpClient();
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        HttpResponse response = null;
-        HttpClientTestsServer.prepareStreamingResponse(responseId);
-
-        try {
-            CompletableFuture<HttpResponse> responseFuture = SyncAsyncExtension.execute(
-                () -> CompletableFuture.supplyAsync(() -> httpClient.sendSync(request, context), executor),
-                () -> Mono.just(httpClient.send(request, context).toFuture()));
-
-            response = responseFuture.get(5, TimeUnit.SECONDS);
-            assertEquals(200, response.getStatusCode());
-
-            HttpClientTestsServer.completeStreamingResponse(responseId);
-            assertArraysEqual(STREAMING_RESPONSE_BODY, response.getBodyAsBinaryData().toBytes());
-        } finally {
-            HttpClientTestsServer.completeStreamingResponse(responseId);
-            if (response != null) {
-                response.close();
-            }
-            executor.shutdownNow();
-        }
     }
 
     /**

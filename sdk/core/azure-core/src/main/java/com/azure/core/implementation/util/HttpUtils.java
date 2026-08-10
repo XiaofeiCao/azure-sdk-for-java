@@ -79,17 +79,6 @@ public final class HttpUtils {
     }
 
     /**
-     * Determines whether a response should be eagerly read.
-     *
-     * @param context Contextual information about the request.
-     * @return Whether the response should be eagerly read.
-     */
-    public static boolean shouldEagerlyReadResponse(Context context) {
-        return !isResponseBodyStreaming(context)
-            && Boolean.TRUE.equals(context.getData(AZURE_EAGERLY_READ_RESPONSE).orElse(false));
-    }
-
-    /**
      * Determines whether an Accept header contains an enabled {@code text/event-stream} media range.
      *
      * @param headerValue The header value.
