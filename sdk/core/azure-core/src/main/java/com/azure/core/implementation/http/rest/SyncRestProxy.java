@@ -226,7 +226,7 @@ public class SyncRestProxy extends RestProxyBase {
             // ProxyMethod ReturnType: T where T != async (Mono, Flux) or sync Void
             // Block the deserialization until a value T is received
             result = handleRestResponseReturnType(httpDecodedResponse, methodParser, returnType,
-                HttpUtils.isResponseBodyStreaming(context));
+                HttpUtils.shouldPreserveResponseBodyAsStream(context));
         }
         return result;
     }

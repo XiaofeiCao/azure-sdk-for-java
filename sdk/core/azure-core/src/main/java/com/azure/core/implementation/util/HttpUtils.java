@@ -46,10 +46,10 @@ public final class HttpUtils {
     public static final String AZURE_EAGERLY_READ_RESPONSE = "azure-eagerly-read-response";
 
     /**
-     * Context key used to indicate that an HttpClient implementation must return the response before consuming its
-     * body.
+     * Context key that instructs REST proxy response ownership and HTTP response logging to preserve the response body
+     * as a live stream. HTTP client implementations do not consume this key.
      */
-    public static final String AZURE_RESPONSE_BODY_STREAMING = "azure-response-body-streaming";
+    public static final String AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM = "azure-preserve-response-body-as-stream";
 
     /**
      * Context key used to indicate to an HttpClient implementation if the response body should be ignored and eagerly
@@ -69,13 +69,13 @@ public final class HttpUtils {
     public static final String AZURE_EAGERLY_CONVERT_HEADERS = "azure-eagerly-convert-headers";
 
     /**
-     * Determines whether a response body must remain streaming.
+     * Determines whether the response body must be preserved as a live stream.
      *
      * @param context Contextual information about the request.
-     * @return Whether the response body must remain streaming.
+     * @return Whether the response body must be preserved as a live stream.
      */
-    public static boolean isResponseBodyStreaming(Context context) {
-        return Boolean.TRUE.equals(context.getData(AZURE_RESPONSE_BODY_STREAMING).orElse(false));
+    public static boolean shouldPreserveResponseBodyAsStream(Context context) {
+        return Boolean.TRUE.equals(context.getData(AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM).orElse(false));
     }
 
     /**

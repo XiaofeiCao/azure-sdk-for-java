@@ -143,8 +143,8 @@ public class AsyncRestProxy extends RestProxyBase {
     }
 
     private Mono<?> handleRestResponseReturnType(final HttpResponseDecoder.HttpDecodedResponse response,
-        final SwaggerMethodParser methodParser, final Type entityType, boolean responseBodyStreaming) {
-        final boolean isResponseBodyStreaming = responseBodyStreaming
+        final SwaggerMethodParser methodParser, final Type entityType, boolean preserveResponseBodyAsStream) {
+        final boolean shouldPreserveResponseBodyAsStream = preserveResponseBodyAsStream
             || HttpUtils.isTextEventStreamContentType(
                 response.getSourceResponse().getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
         if (methodParser.isStreamResponse()) {
@@ -155,19 +155,20 @@ public class AsyncRestProxy extends RestProxyBase {
                 return response.getSourceResponse()
                     .getBody()
                     .ignoreElements()
-                    .then(Mono.fromCallable(() -> createResponse(response, entityType, null, isResponseBodyStreaming)));
+                    .then(Mono.fromCallable(
+                        () -> createResponse(response, entityType, null, shouldPreserveResponseBodyAsStream)));
             } else {
                 return handleBodyReturnType(response.getSourceResponse(), decodeBytes(response), methodParser, bodyType,
-                    isResponseBodyStreaming)
-                        .map(
-                            bodyAsObject -> createResponse(response, entityType, bodyAsObject, isResponseBodyStreaming))
-                        .switchIfEmpty(Mono
-                            .fromCallable(() -> createResponse(response, entityType, null, isResponseBodyStreaming)));
+                    shouldPreserveResponseBodyAsStream)
+                        .map(bodyAsObject -> createResponse(response, entityType, bodyAsObject,
+                            shouldPreserveResponseBodyAsStream))
+                        .switchIfEmpty(Mono.fromCallable(
+                            () -> createResponse(response, entityType, null, shouldPreserveResponseBodyAsStream)));
             }
         } else {
             // For now, we're just throwing if the Maybe didn't emit a value.
             return handleBodyReturnType(response.getSourceResponse(), decodeBytes(response), methodParser, entityType,
-                isResponseBodyStreaming);
+                shouldPreserveResponseBodyAsStream);
         }
     }
 
@@ -251,7 +252,7 @@ public class AsyncRestProxy extends RestProxyBase {
         EnumSet<ErrorOptions> errorOptionsSet) {
         final Mono<HttpResponseDecoder.HttpDecodedResponse> asyncExpectedResponse = endSpanWhenDone(
             ensureExpectedStatus(asyncHttpDecodedResponse, methodParser, options, errorOptionsSet), context);
-        final boolean responseBodyStreaming = HttpUtils.isResponseBodyStreaming(context);
+        final boolean preserveResponseBodyAsStream = HttpUtils.shouldPreserveResponseBodyAsStream(context);
 
         final Object result;
         if (TypeUtil.isTypeOrSubTypeOf(returnType, Mono.class)) {
@@ -262,7 +263,7 @@ public class AsyncRestProxy extends RestProxyBase {
             } else {
                 // ProxyMethod ReturnType: Mono<? extends ResponseBase<?, ?>>
                 result = asyncExpectedResponse.flatMap(response -> handleRestResponseReturnType(response, methodParser,
-                    monoTypeParam, responseBodyStreaming));
+                    monoTypeParam, preserveResponseBodyAsStream));
             }
         } else if (FluxUtil.isFluxByteBuffer(returnType)) {
             // ProxyMethod ReturnType: Flux<ByteBuffer>
@@ -276,7 +277,7 @@ public class AsyncRestProxy extends RestProxyBase {
             // ProxyMethod ReturnType: T where T != async (Mono, Flux) or sync Void
             // Block the deserialization until a value T is received
             result = asyncExpectedResponse.flatMap(httpResponse -> handleRestResponseReturnType(httpResponse,
-                methodParser, returnType, responseBodyStreaming)).block();
+                methodParser, returnType, preserveResponseBodyAsStream)).block();
         }
         return result;
     }

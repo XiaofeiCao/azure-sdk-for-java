@@ -263,7 +263,7 @@ public class HttpLoggingPolicyTests {
 
         Context context = getCallerMethodContext("streamingResponsesAreNotBuffered", LogLevel.INFORMATIONAL);
         if (useStreamingContext) {
-            context = context.addData(HttpUtils.AZURE_RESPONSE_BODY_STREAMING, true);
+            context = context.addData(HttpUtils.AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM, true);
         }
 
         try (HttpResponse response = pipeline.send(request, context).block()) {

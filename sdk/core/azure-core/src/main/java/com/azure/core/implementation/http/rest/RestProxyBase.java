@@ -156,7 +156,7 @@ public abstract class RestProxyBase {
         ServerSentEventStream.applyReconnectContext(request, context);
 
         if (HttpUtils.acceptsTextEventStream(request.getHeaders().getValue(HttpHeaderName.ACCEPT))) {
-            return context.addData(HttpUtils.AZURE_RESPONSE_BODY_STREAMING, true);
+            return context.addData(HttpUtils.AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM, true);
         }
 
         return context;
