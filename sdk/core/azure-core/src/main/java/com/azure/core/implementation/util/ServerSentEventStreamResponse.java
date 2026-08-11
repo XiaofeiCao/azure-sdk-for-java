@@ -51,7 +51,10 @@ final class ServerSentEventStreamResponse implements AutoCloseable {
 
         BinaryData body = response.getValue();
         if (response.getStatusCode() != 204) {
-            Objects.requireNonNull(body, "'response.getValue()' cannot be null unless the status code is 204.");
+            if (body == null) {
+                closeResponse(response);
+                throw new NullPointerException("'response.getValue()' cannot be null unless the status code is 204.");
+            }
         }
         return new ServerSentEventStreamResponse(response.getStatusCode(), body, (Closeable) response);
     }

@@ -139,7 +139,12 @@ public final class ServerSentEventStream {
 
         try (InputStream stream = new FluxInputStream(body.toFluxByteBuffer())) {
             int read;
-            while ((read = stream.read(readBuffer)) != -1) {
+            while (true) {
+                checkInterrupted();
+                read = stream.read(readBuffer);
+                if (read == -1) {
+                    break;
+                }
                 if (read > 0) {
                     processFrames(decoder.feed(ByteBuffer.wrap(readBuffer, 0, read)), deserializer, listener);
                 }
@@ -152,10 +157,18 @@ public final class ServerSentEventStream {
     private static <T> void processFrames(List<ServerSentEventFrame> frames, BiFunction<String, String, T> deserializer,
         ServerSentEventListener<T> listener) {
         for (ServerSentEventFrame frame : frames) {
+            checkInterrupted();
             T data = deserializer.apply(frame.event, frame.data);
             if (data != null) {
                 listener.onEvent(frame.toEvent(data));
             }
+        }
+    }
+
+    private static void checkInterrupted() {
+        if (Thread.currentThread().isInterrupted()) {
+            throw new RuntimeException("Interrupted while processing the server-sent event stream.",
+                new InterruptedException());
         }
     }
 
