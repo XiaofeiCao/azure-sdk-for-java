@@ -98,7 +98,8 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public Mono<Response<KnowledgeBaseRetrievalResult>>
         retrieveWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
-        return mapResponse(retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
+        return mapResponse(
+            this.serviceClient.retrieveWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions),
             KnowledgeBaseRetrievalResult.class);
     }
 
@@ -230,8 +231,9 @@ public final class KnowledgeBaseRetrievalAsyncClient {
      * {@link Mono}.
      */
     @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<BinaryData>> retrieveWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    Mono<Response<BinaryData>> hiddenGeneratedRetrieveWithResponse(BinaryData retrievalRequest,
+        RequestOptions requestOptions) {
         return this.serviceClient.retrieveWithResponseAsync(retrievalRequest, requestOptions);
     }
 
@@ -250,8 +252,10 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @Generated
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KnowledgeBaseRetrievalResult> retrieve(KnowledgeBaseRetrievalOptions retrievalRequest) {
+        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
-        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).flatMap(FluxUtil::toMono)
+        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
     }
 
@@ -273,12 +277,14 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KnowledgeBaseRetrievalResult> retrieve(KnowledgeBaseRetrievalOptions retrievalRequest,
         String querySourceAuthorization) {
+        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
         if (querySourceAuthorization != null) {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
                 querySourceAuthorization);
         }
-        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).flatMap(FluxUtil::toMono)
+        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
     }
 
