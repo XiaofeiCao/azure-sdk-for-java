@@ -14,14 +14,18 @@ import com.azure.core.exception.ResourceModifiedException;
 import com.azure.core.exception.ResourceNotFoundException;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.ServerSentEvent;
+import com.azure.core.http.ServerSentEventStreams;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.FluxUtil;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -90,7 +94,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
      * @return the output contract for the retrieval response along with {@link Response} on successful completion of
      * {@link Mono}.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     public Mono<Response<KnowledgeBaseRetrievalResult>>
         retrieveWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
         return mapResponse(
@@ -226,7 +230,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
      * {@link Mono}.
      */
     @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     Mono<Response<BinaryData>> hiddenGeneratedRetrieveWithResponse(BinaryData retrievalRequest,
         RequestOptions requestOptions) {
         return this.serviceClient.retrieveWithResponseAsync(retrievalRequest, requestOptions);
@@ -281,5 +285,66 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @return the server-sent events.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>
+        retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
+        return Flux.defer(() -> serviceClient
+            .retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), new RequestOptions())
+            .flatMapMany(response -> toEventFlux(response)));
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param querySourceAuthorization Token used to enforce document-level access restrictions.
+     * @param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of authentication.
+     * @return the server-sent events.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> retrieveStream(
+        KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization,
+        String queryWorkIQSourceAuthorization) {
+        return Flux.defer(() -> {
+            RequestOptions requestOptions = new RequestOptions();
+            if (querySourceAuthorization != null) {
+                requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                    querySourceAuthorization);
+            }
+            if (queryWorkIQSourceAuthorization != null) {
+                requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
+                    queryWorkIQSourceAuthorization);
+            }
+            return serviceClient
+                .retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions)
+                .flatMapMany(KnowledgeBaseRetrievalAsyncClient::toEventFlux);
+        });
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the HTTP response and server-sent events on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>>>
+        retrieveStreamWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
+        return serviceClient.retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .map(response -> new SimpleResponse<>(response, toEventFlux(response)));
+    }
+
+    private static Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> toEventFlux(Response<BinaryData> response) {
+        return ServerSentEventStreams.toFlux(response, KnowledgeBaseRetrievalStreamEvents::deserialize)
+            .takeUntil(event -> event.getData() != null && event.getData().isTerminal());
     }
 }

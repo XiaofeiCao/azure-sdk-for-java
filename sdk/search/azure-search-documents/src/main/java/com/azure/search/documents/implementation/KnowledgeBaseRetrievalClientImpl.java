@@ -329,6 +329,23 @@ public final class KnowledgeBaseRetrievalClientImpl {
     }
 
     /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the streaming response on successful completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<BinaryData>> retrieveStreamWithResponseAsync(BinaryData retrievalRequest,
+        RequestOptions requestOptions) {
+        final String accept = "text/event-stream";
+        final String contentType = "application/json";
+        return FluxUtil
+            .withContext(context -> service.retrieve(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
+                this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, context));
+    }
+
+    /**
      * KnowledgeBase retrieves relevant data from backing stores.
      * <p><strong>Header Parameters</strong></p>
      * <table border="1">
@@ -457,6 +474,21 @@ public final class KnowledgeBaseRetrievalClientImpl {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<BinaryData> retrieveWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
         final String accept = "application/json;odata.metadata=minimal";
+        final String contentType = "application/json";
+        return service.retrieveSync(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
+            this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, Context.NONE);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the streaming response.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+        final String accept = "text/event-stream";
         final String contentType = "application/json";
         return service.retrieveSync(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
             this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, Context.NONE);
