@@ -96,8 +96,7 @@ public final class KnowledgeBaseRetrievalClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public Response<KnowledgeBaseRetrievalResult> retrieveWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest,
         RequestOptions requestOptions) {
-        return convertResponse(
-            this.serviceClient.retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
+        return convertResponse(retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
             KnowledgeBaseRetrievalResult.class);
     }
 
@@ -228,9 +227,8 @@ public final class KnowledgeBaseRetrievalClient {
      * @return the output contract for the retrieval response along with {@link Response}.
      */
     @Generated
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    Response<BinaryData> hiddenGeneratedRetrieveWithResponse(BinaryData retrievalRequest,
-        RequestOptions requestOptions) {
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> retrieveWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
         return this.serviceClient.retrieveWithResponse(retrievalRequest, requestOptions);
     }
 
@@ -249,9 +247,8 @@ public final class KnowledgeBaseRetrievalClient {
     @Generated
     @ServiceMethod(returns = ReturnType.SINGLE)
     public KnowledgeBaseRetrievalResult retrieve(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
-        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
+        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
             .toObject(KnowledgeBaseRetrievalResult.class);
     }
 
@@ -273,14 +270,26 @@ public final class KnowledgeBaseRetrievalClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public KnowledgeBaseRetrievalResult retrieve(KnowledgeBaseRetrievalOptions retrievalRequest,
         String querySourceAuthorization) {
-        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
         if (querySourceAuthorization != null) {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
                 querySourceAuthorization);
         }
-        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
+        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
             .toObject(KnowledgeBaseRetrievalResult.class);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a raw server-sent event response.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the raw server-sent event response.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+        return serviceClient.retrieveStreamWithResponse(retrievalRequest, requestOptions);
     }
 
     /**
@@ -334,7 +343,7 @@ public final class KnowledgeBaseRetrievalClient {
         ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener, RequestOptions requestOptions) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response
-            = serviceClient.retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
+            = retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
         ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvent::fromEvent, listener);
         return new SimpleResponse<>(response, null);
     }

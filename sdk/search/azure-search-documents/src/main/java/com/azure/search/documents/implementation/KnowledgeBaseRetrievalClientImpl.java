@@ -185,7 +185,29 @@ public final class KnowledgeBaseRetrievalClientImpl {
         @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
         @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> retrieveStream(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept,
+            @PathParam("knowledgeBaseName") String knowledgeBaseName, @HeaderParam("Content-Type") String contentType,
+            @BodyParam("application/json") BinaryData retrievalRequest, RequestOptions requestOptions, Context context);
+
+        @Post("/knowledgebases('{knowledgeBaseName}')/retrieve")
+        @ExpectedResponses({ 200, 206 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
         Response<BinaryData> retrieveSync(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept,
+            @PathParam("knowledgeBaseName") String knowledgeBaseName, @HeaderParam("Content-Type") String contentType,
+            @BodyParam("application/json") BinaryData retrievalRequest, RequestOptions requestOptions, Context context);
+
+        @Post("/knowledgebases('{knowledgeBaseName}')/retrieve")
+        @ExpectedResponses({ 200, 206 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> retrieveStreamSync(@HostParam("endpoint") String endpoint,
             @QueryParam("api-version") String apiVersion, @HeaderParam("Accept") String accept,
             @PathParam("knowledgeBaseName") String knowledgeBaseName, @HeaderParam("Content-Type") String contentType,
             @BodyParam("application/json") BinaryData retrievalRequest, RequestOptions requestOptions, Context context);
@@ -341,8 +363,8 @@ public final class KnowledgeBaseRetrievalClientImpl {
         final String accept = "text/event-stream";
         final String contentType = "application/json";
         return FluxUtil
-            .withContext(context -> service.retrieve(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
-                this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, context));
+            .withContext(context -> service.retrieveStream(this.getEndpoint(), this.getServiceVersion().getVersion(),
+                accept, this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, context));
     }
 
     /**
@@ -490,7 +512,7 @@ public final class KnowledgeBaseRetrievalClientImpl {
     public Response<BinaryData> retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
         final String accept = "text/event-stream";
         final String contentType = "application/json";
-        return service.retrieveSync(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
+        return service.retrieveStreamSync(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
             this.getKnowledgeBaseName(), contentType, retrievalRequest, requestOptions, Context.NONE);
     }
 }

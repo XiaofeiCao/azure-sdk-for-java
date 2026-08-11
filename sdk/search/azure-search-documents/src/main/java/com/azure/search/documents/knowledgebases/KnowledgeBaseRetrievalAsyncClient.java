@@ -98,8 +98,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public Mono<Response<KnowledgeBaseRetrievalResult>>
         retrieveWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
-        return mapResponse(
-            this.serviceClient.retrieveWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions),
+        return mapResponse(retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
             KnowledgeBaseRetrievalResult.class);
     }
 
@@ -231,9 +230,8 @@ public final class KnowledgeBaseRetrievalAsyncClient {
      * {@link Mono}.
      */
     @Generated
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    Mono<Response<BinaryData>> hiddenGeneratedRetrieveWithResponse(BinaryData retrievalRequest,
-        RequestOptions requestOptions) {
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<BinaryData>> retrieveWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
         return this.serviceClient.retrieveWithResponseAsync(retrievalRequest, requestOptions);
     }
 
@@ -252,10 +250,8 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @Generated
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KnowledgeBaseRetrievalResult> retrieve(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
-        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono)
+        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
     }
 
@@ -277,15 +273,27 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KnowledgeBaseRetrievalResult> retrieve(KnowledgeBaseRetrievalOptions retrievalRequest,
         String querySourceAuthorization) {
-        // Generated convenience method for hiddenGeneratedRetrieveWithResponse
         RequestOptions requestOptions = new RequestOptions();
         if (querySourceAuthorization != null) {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
                 querySourceAuthorization);
         }
-        return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono)
+        return retrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a raw server-sent event response.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the raw server-sent event response on successful completion of {@link Mono}.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<BinaryData>> retrieveStreamWithResponse(BinaryData retrievalRequest,
+        RequestOptions requestOptions) {
+        return serviceClient.retrieveStreamWithResponseAsync(retrievalRequest, requestOptions);
     }
 
     /**
@@ -297,9 +305,9 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>
         retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        return Flux.defer(() -> serviceClient
-            .retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), new RequestOptions())
-            .flatMapMany(response -> toEventFlux(response)));
+        return Flux
+            .defer(() -> retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), new RequestOptions())
+                .flatMapMany(response -> toEventFlux(response)));
     }
 
     /**
@@ -324,8 +332,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
                 requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
                     queryWorkIQSourceAuthorization);
             }
-            return serviceClient
-                .retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions)
+            return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
                 .flatMapMany(KnowledgeBaseRetrievalAsyncClient::toEventFlux);
         });
     }
@@ -340,7 +347,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>>>
         retrieveStreamWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
-        return serviceClient.retrieveStreamWithResponseAsync(BinaryData.fromObject(retrievalRequest), requestOptions)
+        return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .map(response -> new SimpleResponse<>(response, toEventFlux(response)));
     }
 
