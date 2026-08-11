@@ -24,6 +24,7 @@ import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 
 import java.util.Objects;
 
@@ -334,7 +335,7 @@ public final class KnowledgeBaseRetrievalClient {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response
             = serviceClient.retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
-        ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvents::deserialize, listener);
+        ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvent::fromEvent, listener);
         return new SimpleResponse<>(response, null);
     }
 }

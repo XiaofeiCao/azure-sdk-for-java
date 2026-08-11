@@ -10,6 +10,7 @@ import com.azure.core.http.ServerSentEvent;
 import com.azure.core.test.http.MockHttpResponse;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;

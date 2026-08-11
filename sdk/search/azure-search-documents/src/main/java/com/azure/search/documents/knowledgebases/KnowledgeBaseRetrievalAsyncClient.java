@@ -25,6 +25,7 @@ import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -344,7 +345,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     }
 
     private static Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> toEventFlux(Response<BinaryData> response) {
-        return ServerSentEventStreams.toFlux(response, KnowledgeBaseRetrievalStreamEvents::deserialize)
+        return ServerSentEventStreams.toFlux(response, KnowledgeBaseRetrievalStreamEvent::fromEvent)
             .takeUntil(event -> event.getData() != null && event.getData().isTerminal());
     }
 }

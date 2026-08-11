@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-package com.azure.search.documents.knowledgebases;
+package com.azure.search.documents.knowledgebases.models;
 
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseActivityRecordType;
-import com.azure.search.documents.knowledgebases.models.KnowledgeRetrievalOutputMode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class KnowledgeBaseRetrievalStreamEventsTests {
+public class KnowledgeBaseRetrievalStreamEventTests {
     @Test
     public void deserializesEveryEventVariant() {
         KnowledgeBaseRetrievalStreamEvent retrievalStarted = deserialize("retrieval.started",
@@ -66,7 +64,7 @@ public class KnowledgeBaseRetrievalStreamEventsTests {
 
     @Test
     public void unknownEventsRetainOnlyProtocolMetadata() {
-        KnowledgeBaseRetrievalStreamEvent event = KnowledgeBaseRetrievalStreamEvents.deserialize("future.event", "{}");
+        KnowledgeBaseRetrievalStreamEvent event = KnowledgeBaseRetrievalStreamEvent.fromEvent("future.event", "{}");
 
         assertFalse(event.isRetrievalStarted());
         assertFalse(event.isActivityStarted());
@@ -79,6 +77,6 @@ public class KnowledgeBaseRetrievalStreamEventsTests {
     }
 
     private static KnowledgeBaseRetrievalStreamEvent deserialize(String eventName, String data) {
-        return KnowledgeBaseRetrievalStreamEvents.deserialize(eventName, data);
+        return KnowledgeBaseRetrievalStreamEvent.fromEvent(eventName, data);
     }
 }

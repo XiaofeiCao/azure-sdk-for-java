@@ -7,11 +7,11 @@ import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
-import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReference;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeRetrievalSemanticIntent;
 import com.azure.search.documents.knowledgebases.models.SearchIndexKnowledgeSourceParams;
 
