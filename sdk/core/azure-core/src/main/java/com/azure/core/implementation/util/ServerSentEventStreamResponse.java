@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Owns a physical response used by a logical server-sent event stream.
  */
-public final class ServerSentEventStreamResponse implements AutoCloseable {
+final class ServerSentEventStreamResponse implements AutoCloseable {
     private static final ClientLogger LOGGER = new ClientLogger(ServerSentEventStreamResponse.class);
 
     private final int statusCode;
@@ -37,7 +37,7 @@ public final class ServerSentEventStreamResponse implements AutoCloseable {
      * @param response The REST response.
      * @return The stream response.
      */
-    public static ServerSentEventStreamResponse fromResponse(Response<BinaryData> response) {
+    static ServerSentEventStreamResponse fromResponse(Response<BinaryData> response) {
         Objects.requireNonNull(response, "'response' cannot be null.");
         if (response.getStatusCode() != 204
             && !HttpUtils.isTextEventStreamContentType(response.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE))) {
