@@ -18,7 +18,6 @@ import com.azure.core.http.ServerSentEventListener;
 import com.azure.core.http.ServerSentEventStreams;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
-import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
@@ -299,8 +298,7 @@ public final class KnowledgeBaseRetrievalClient {
     /**
      * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
      *
-     * <p>The call returns after the service closes the response stream. Use {@link RequestOptions#addHeader} on the
-     * response overload to add query-source authorization headers.</p>
+     * <p>The call returns after the service closes the response stream.</p>
      *
      * @param retrievalRequest The retrieval request to process.
      * @param listener The listener that receives server-sent events.
@@ -308,7 +306,7 @@ public final class KnowledgeBaseRetrievalClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
         ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener) {
-        retrieveStreamWithResponse(retrievalRequest, listener, new RequestOptions());
+        listen(retrievalRequest, listener, new RequestOptions());
     }
 
     /**
@@ -331,24 +329,14 @@ public final class KnowledgeBaseRetrievalClient {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
                 queryWorkIQSourceAuthorization);
         }
-        retrieveStreamWithResponse(retrievalRequest, listener, requestOptions);
+        listen(retrievalRequest, listener, requestOptions);
     }
 
-    /**
-     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
-     *
-     * @param retrievalRequest The retrieval request to process.
-     * @param listener The listener that receives server-sent events.
-     * @param requestOptions The options to configure the HTTP request before it is sent.
-     * @return the HTTP response metadata after the stream completes.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> retrieveStreamWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest,
+    private void listen(KnowledgeBaseRetrievalOptions retrievalRequest,
         ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener, RequestOptions requestOptions) {
         Objects.requireNonNull(listener, "'listener' cannot be null.");
         Response<BinaryData> response
             = retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
         ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvent::fromEvent, listener);
-        return new SimpleResponse<>(response, null);
     }
 }

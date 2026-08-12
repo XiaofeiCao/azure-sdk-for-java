@@ -18,7 +18,6 @@ import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.ServerSentEventStreams;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
-import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.FluxUtil;
 import com.azure.search.documents.SearchServiceVersion;
@@ -341,20 +340,6 @@ public final class KnowledgeBaseRetrievalAsyncClient {
             return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
                 .flatMapMany(KnowledgeBaseRetrievalAsyncClient::toEventFlux);
         });
-    }
-
-    /**
-     * Retrieves relevant data from backing stores as a server-sent event stream.
-     *
-     * @param retrievalRequest The retrieval request to process.
-     * @param requestOptions The options to configure the HTTP request before it is sent.
-     * @return the HTTP response and server-sent events on successful completion of {@link Mono}.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>>>
-        retrieveStreamWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest, RequestOptions requestOptions) {
-        return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .map(response -> new SimpleResponse<>(response, toEventFlux(response)));
     }
 
     private static Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> toEventFlux(Response<BinaryData> response) {
