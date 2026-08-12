@@ -16,11 +16,14 @@ import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+
+import java.util.Objects;
 
 /**
  * Initializes a new instance of the synchronous KnowledgeBaseRetrievalClient type.
@@ -275,5 +278,71 @@ public final class KnowledgeBaseRetrievalClient {
         }
         return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
             .toObject(KnowledgeBaseRetrievalResult.class);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a raw server-sent event response.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the raw server-sent event response.
+     */
+    public StreamResponse retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+        return new KnowledgeBaseRetrievalStreamProtocol(serviceClient).retrieve(retrievalRequest, requestOptions);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
+     *
+     * <p>The call returns after the service closes the response stream.</p>
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param listener The listener that receives server-sent events.
+     */
+    public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        KnowledgeBaseRetrievalStreamEventListener listener) {
+        listen(retrievalRequest, listener, new RequestOptions());
+    }
+
+    /**
+     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param listener The listener that receives server-sent events.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     */
+    public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        KnowledgeBaseRetrievalStreamEventListener listener, RequestOptions requestOptions) {
+        listen(retrievalRequest, listener, requestOptions);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param querySourceAuthorization Token used to enforce document-level access restrictions.
+     * @param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of authentication.
+     * @param listener The listener that receives server-sent events.
+     */
+    public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization,
+        String queryWorkIQSourceAuthorization, KnowledgeBaseRetrievalStreamEventListener listener) {
+        RequestOptions requestOptions = new RequestOptions();
+        if (querySourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                querySourceAuthorization);
+        }
+        if (queryWorkIQSourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
+                queryWorkIQSourceAuthorization);
+        }
+        listen(retrievalRequest, listener, requestOptions);
+    }
+
+    private void listen(KnowledgeBaseRetrievalOptions retrievalRequest,
+        KnowledgeBaseRetrievalStreamEventListener listener, RequestOptions requestOptions) {
+        Objects.requireNonNull(retrievalRequest, "'retrievalRequest' cannot be null.");
+        Objects.requireNonNull(listener, "'listener' cannot be null.");
+        StreamResponse response = retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
+        KnowledgeBaseRetrievalSseParser.parse(response).doOnNext(listener::onEvent).blockLast();
     }
 }

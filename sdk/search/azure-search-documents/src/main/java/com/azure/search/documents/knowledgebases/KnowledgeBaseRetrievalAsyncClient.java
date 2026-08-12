@@ -16,13 +16,18 @@ import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.FluxUtil;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
 
 /**
  * Initializes a new instance of the asynchronous KnowledgeBaseRetrievalClient type.
@@ -281,5 +286,66 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a raw server-sent event response.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the raw server-sent event response on successful completion of {@link Mono}.
+     */
+    public Mono<StreamResponse> retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+        return new KnowledgeBaseRetrievalStreamProtocol(serviceClient).retrieveAsync(retrievalRequest, requestOptions);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @return the server-sent events.
+     */
+    public Flux<KnowledgeBaseRetrievalStreamEvent> retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
+        return retrieveStream(retrievalRequest, new RequestOptions());
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the server-sent events.
+     */
+    public Flux<KnowledgeBaseRetrievalStreamEvent> retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        RequestOptions requestOptions) {
+        Objects.requireNonNull(retrievalRequest, "'retrievalRequest' cannot be null.");
+        return Flux.defer(() -> retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .flatMapMany(KnowledgeBaseRetrievalSseParser::parse));
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a server-sent event stream.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param querySourceAuthorization Token used to enforce document-level access restrictions.
+     * @param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of authentication.
+     * @return the server-sent events.
+     */
+    public Flux<KnowledgeBaseRetrievalStreamEvent> retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        String querySourceAuthorization, String queryWorkIQSourceAuthorization) {
+        Objects.requireNonNull(retrievalRequest, "'retrievalRequest' cannot be null.");
+        return Flux.defer(() -> {
+            RequestOptions requestOptions = new RequestOptions();
+            if (querySourceAuthorization != null) {
+                requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                    querySourceAuthorization);
+            }
+            if (queryWorkIQSourceAuthorization != null) {
+                requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
+                    queryWorkIQSourceAuthorization);
+            }
+            return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+                .flatMapMany(KnowledgeBaseRetrievalSseParser::parse);
+        });
     }
 }
