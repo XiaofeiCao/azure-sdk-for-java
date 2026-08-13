@@ -5,7 +5,16 @@
 ### Features Added
 
 - Promoted `AccessTokenCache` to a public API in the `com.azure.core.credential` package. This class provides a thread-safe, proactively refreshing token cache that wraps a `TokenCredential`, supporting both synchronous and asynchronous token retrieval.
-
+- Added generic `ServerSentEvent<T>`, `ServerSentEventListener<T>`, and `ServerSentEventStreams` for typed,
+  incrementally decoded server-sent event streams. The REST proxy preserves live-body ownership, HTTP response logging
+  does not consume SSE bodies, and streams stop cleanly on HTTP 204 or response-body EOF. Each physical response is
+  closed on completion, failure, interruption, or asynchronous cancellation. Asynchronous decoding parses the reactive
+  response body without blocking worker threads.
+- Added optional service-defined terminal-event predicates for server-sent event streams. Predicate overloads complete
+  after delivering a terminal event and report an incomplete stream when response-body EOF occurs first; existing
+  overloads continue to complete on HTTP 204 or EOF.
+- Server-sent event response streams are single-subscription and accept only closeable HTTP 200 or 204 responses.
+  Terminal-event predicates require a terminal event even when the response is HTTP 204.
 ### Breaking Changes
 
 ### Bugs Fixed
