@@ -317,6 +317,38 @@ public class ServerSentEventStreamTests {
     }
 
     @Test
+    public void toFluxCloseFailureFailsNormalCompletion() {
+        IOException closeFailure = new IOException("close failed");
+        TestResponse response
+            = response(200, BinaryData.fromString("data: one\n\n"), "text/event-stream", closeFailure);
+
+        StepVerifier.create(ServerSentEventStreams.toFlux(response, (event, data) -> data))
+            .assertNext(event -> assertEquals("one", event.getData()))
+            .expectErrorMatches(
+                error -> error instanceof java.io.UncheckedIOException && error.getCause() == closeFailure)
+            .verify();
+
+        assertTrue(response.closed.get());
+    }
+
+    @Test
+    public void toFluxPrioritizesCloseFailureWhenBodyAndCloseFail() {
+        IOException bodyFailure = new IOException("body failed");
+        IOException closeFailure = new IOException("close failed");
+        BinaryData body = BinaryData.fromFlux(Flux.error(bodyFailure), null, false).block();
+        TestResponse response = response(200, body, "text/event-stream", closeFailure);
+
+        StepVerifier.create(ServerSentEventStreams.toFlux(response, (event, data) -> data))
+            .expectErrorMatches(error -> error instanceof java.io.UncheckedIOException
+                && error.getCause() == closeFailure
+                && error.getSuppressed().length == 1
+                && error.getSuppressed()[0] == bodyFailure)
+            .verify();
+
+        assertTrue(response.closed.get());
+    }
+
+    @Test
     public void toFluxPropagatesConverterFailureAndClosesResponse() {
         RuntimeException failure = new IllegalStateException("invalid event");
         TestResponse response = response(200, BinaryData.fromString("data: invalid\n\n"));
@@ -528,19 +560,34 @@ public class ServerSentEventStreamTests {
     }
 
     private static TestResponse response(int statusCode, BinaryData body, String contentType) {
-        return new TestResponse(statusCode, new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, contentType), body);
+        return response(statusCode, body, contentType, null);
+    }
+
+    private static TestResponse response(int statusCode, BinaryData body, String contentType,
+        IOException closeFailure) {
+        return new TestResponse(statusCode, new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, contentType), body,
+            closeFailure);
     }
 
     private static final class TestResponse extends ResponseBase<Object, BinaryData> implements Closeable {
         private final AtomicBoolean closed = new AtomicBoolean();
+        private final IOException closeFailure;
 
         private TestResponse(int statusCode, HttpHeaders headers, BinaryData value) {
+            this(statusCode, headers, value, null);
+        }
+
+        private TestResponse(int statusCode, HttpHeaders headers, BinaryData value, IOException closeFailure) {
             super(null, statusCode, headers, value, null);
+            this.closeFailure = closeFailure;
         }
 
         @Override
         public void close() throws IOException {
             closed.set(true);
+            if (closeFailure != null) {
+                throw closeFailure;
+            }
         }
     }
 }

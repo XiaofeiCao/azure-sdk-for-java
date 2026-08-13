@@ -20,6 +20,9 @@ import java.util.function.Predicate;
  * <p>A returned {@link Flux} consumes one supplied physical response and supports exactly one subscription. Before
  * that subscription claims the response, ownership remains with the caller; if it is never subscribed, the caller
  * must close the response.</p>
+ *
+ * <p>If both stream processing and eager response cleanup fail, the cleanup failure is emitted and the processing
+ * failure is suppressed.</p>
  */
 public final class ServerSentEventStreams {
     private ServerSentEventStreams() {

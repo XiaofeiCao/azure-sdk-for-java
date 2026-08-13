@@ -130,8 +130,11 @@ public final class ServerSentEventStream {
                 });
             }
 
-            return events.concatWith(Mono.fromRunnable(() -> terminalPolicy.validateCompletion(terminalObserved.get())))
-                .doFinally(ignored -> streamResponse.close());
+            Flux<ServerSentEvent<T>> decodedEvents = events;
+            return Flux.using(() -> streamResponse,
+                ignored -> decodedEvents
+                    .concatWith(Mono.fromRunnable(() -> terminalPolicy.validateCompletion(terminalObserved.get()))),
+                ServerSentEventStreamResponse::close, true);
         });
     }
 
