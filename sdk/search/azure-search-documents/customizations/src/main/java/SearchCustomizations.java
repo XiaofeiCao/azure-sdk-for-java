@@ -29,6 +29,7 @@ public class SearchCustomizations extends Customization {
         PackageCustomization documents = libraryCustomization.getPackage("com.azure.search.documents");
         PackageCustomization indexes = libraryCustomization.getPackage("com.azure.search.documents.indexes");
         PackageCustomization knowledge = libraryCustomization.getPackage("com.azure.search.documents.knowledgebases");
+        PackageCustomization implementation = libraryCustomization.getPackage("com.azure.search.documents.implementation");
 
         hideGeneratedSearchApis(documents);
 
@@ -56,8 +57,15 @@ public class SearchCustomizations extends Customization {
         hideWithResponseBinaryDataApis(indexes.getClass("SearchIndexAsyncClient"));
         hideWithResponseBinaryDataApis(indexes.getClass("SearchIndexerClient"));
         hideWithResponseBinaryDataApis(indexes.getClass("SearchIndexerAsyncClient"));
+        fixPagedFluxProtocolDelegation(indexes.getClass("SearchIndexAsyncClient"));
+        fixPagedFluxProtocolDelegation(indexes.getClass("SearchIndexerAsyncClient"));
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalClient"));
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"));
+        addKnowledgeBaseRetrievalStreamMethods(knowledge.getClass("KnowledgeBaseRetrievalClient"), false);
+        addKnowledgeBaseRetrievalStreamMethods(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"), true);
+        addKnowledgeBaseRetrievalCompatibilityOverload(knowledge.getClass("KnowledgeBaseRetrievalClient"), false);
+        addKnowledgeBaseRetrievalCompatibilityOverload(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"), true);
+        makeMultipartRequestOptionsFinal(implementation.getClass("MultipartFormDataHelper"));
 
         // After hiding BinaryData protocol methods, add typed public convenience wrappers on the async client
         // that mirror what the sync client already has as hand-written methods.
@@ -147,6 +155,10 @@ public class SearchCustomizations extends Customization {
                     return;
                 }
 
+                if (shouldKeepBinaryDataProtocolMethod(method.getNameAsString())) {
+                    return;
+                }
+
                 boolean returnsBinaryData = hasBinaryDataInType(method.getType());
                 boolean acceptsBinaryData
                     = method.getParameters().stream().anyMatch(param -> hasBinaryDataInType(param.getType()));
@@ -177,6 +189,159 @@ public class SearchCustomizations extends Customization {
 
     private static boolean hasBinaryDataInType(Type type) {
         return type.toString().contains("BinaryData");
+    }
+
+    private static boolean shouldKeepBinaryDataProtocolMethod(String methodName) {
+        return "retrieveStreamWithResponse".equals(methodName);
+    }
+
+    private static void fixPagedFluxProtocolDelegation(ClassCustomization customization) {
+        customization.customizeAst(ast -> ast.getClassByName(customization.getClassName())
+            .ifPresent(clazz -> clazz.getMethods().forEach(method -> {
+                if (!method.getType().toString().contains("PagedFlux") || !method.getParameters().isEmpty()) {
+                    return;
+                }
+
+                method.getBody().ifPresent(body -> {
+                    String protocolCall = "PagedFlux<BinaryData> pagedFluxResponse = " + method.getNameAsString()
+                        + "(requestOptions);";
+                    if (body.toString().contains(protocolCall)) {
+                        method.setBody(StaticJavaParser.parseBlock(body.toString()
+                            .replace(protocolCall, "PagedFlux<BinaryData> pagedFluxResponse = this.serviceClient."
+                                + method.getNameAsString() + "Async(requestOptions);")));
+                    }
+                });
+            })));
+    }
+
+    private static void makeMultipartRequestOptionsFinal(ClassCustomization customization) {
+        customization.customizeAst(ast -> ast.getClassByName(customization.getClassName())
+            .flatMap(clazz -> clazz.getFieldByName("requestOptions"))
+            .ifPresent(field -> field.setFinal(true)));
+    }
+
+    private static void addKnowledgeBaseRetrievalStreamMethods(ClassCustomization customization, boolean async) {
+        customization.customizeAst(ast -> ast.getClassByName(customization.getClassName()).ifPresent(clazz -> {
+            ast.addImport("com.azure.core.http.ServerSentEvent");
+            ast.addImport("com.azure.core.http.ServerSentEventStreams");
+            ast.addImport("com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent");
+
+            if (async) {
+                ast.addImport("reactor.core.publisher.Flux");
+                clazz.addMember(createAsyncRetrieveStreamMethod(false));
+                clazz.addMember(createAsyncRetrieveStreamMethod(true));
+            } else {
+                ast.addImport("com.azure.core.http.ServerSentEventListener");
+                ast.addImport("java.util.Objects");
+                clazz.addMember(createSyncRetrieveStreamMethod(false));
+                clazz.addMember(createSyncRetrieveStreamMethod(true));
+            }
+        }));
+    }
+
+    private static void addKnowledgeBaseRetrievalCompatibilityOverload(ClassCustomization customization,
+        boolean async) {
+        customization.customizeAst(ast -> ast.getClassByName(customization.getClassName()).ifPresent(clazz -> {
+            MethodDeclaration method = StaticJavaParser.parseBodyDeclaration(
+                "@Generated\n"
+                    + "@ServiceMethod(returns = ReturnType.SINGLE)\n"
+                    + "public " + (async ? "Mono<KnowledgeBaseRetrievalResult>" : "KnowledgeBaseRetrievalResult")
+                    + " retrieve(KnowledgeBaseRetrievalOptions retrievalRequest, "
+                    + "String querySourceAuthorization) {\n"
+                    + "    return retrieve(retrievalRequest, querySourceAuthorization, null);\n"
+                    + "}\n").asMethodDeclaration();
+            method.setJavadocComment("Retrieves relevant data from backing stores.\n"
+                + "\n"
+                + "@param retrievalRequest The retrieval request to process.\n"
+                + "@param querySourceAuthorization Token identifying the user for which the query is being executed.\n"
+                + "@return The retrieval response" + (async ? " on successful completion." : "."));
+            clazz.addMember(method);
+        }));
+    }
+
+    private static MethodDeclaration createSyncRetrieveStreamMethod(boolean includeAuthorization) {
+        String parameters = includeAuthorization
+            ? "KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization, "
+                + "String queryWorkIQSourceAuthorization, "
+                + "ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener"
+            : "KnowledgeBaseRetrievalOptions retrievalRequest, "
+                + "ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener";
+        String body = includeAuthorization
+            ? "Objects.requireNonNull(listener, \"'listener' cannot be null.\");\n"
+                + "RequestOptions requestOptions = new RequestOptions();\n"
+                + "if (querySourceAuthorization != null) {\n"
+                + "    requestOptions.setHeader(HttpHeaderName.fromString(\"x-ms-query-source-authorization\"), "
+                + "querySourceAuthorization);\n"
+                + "}\n"
+                + "if (queryWorkIQSourceAuthorization != null) {\n"
+                + "    requestOptions.setHeader(HttpHeaderName.fromString("
+                + "\"x-ms-query-work-iq-source-authorization\"), queryWorkIQSourceAuthorization);\n"
+                + "}\n"
+                + "Response<BinaryData> response = retrieveStreamWithResponse("
+                + "BinaryData.fromObject(retrievalRequest), requestOptions);\n"
+                + "ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvent::fromEvent, "
+                + "event -> event.getData() != null && event.getData().isTerminal(), listener);"
+            : "retrieveStream(retrievalRequest, null, null, listener);";
+        MethodDeclaration method = StaticJavaParser.parseBodyDeclaration(
+            "@Generated\n"
+                + "@ServiceMethod(returns = ReturnType.SINGLE)\n"
+                + "public void retrieveStream(" + parameters + ") {\n" + body + "\n}\n").asMethodDeclaration();
+        method.setJavadocComment(includeAuthorization
+            ? "Retrieves relevant data from backing stores and delivers progress and results as server-sent events.\n"
+                + "\n"
+                + "@param retrievalRequest The retrieval request to process.\n"
+                + "@param querySourceAuthorization Token used to enforce document-level access restrictions.\n"
+                + "@param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of "
+                + "authentication.\n"
+                + "@param listener The listener that receives server-sent events."
+            : "Retrieves relevant data from backing stores and delivers progress and results as server-sent events.\n"
+                + "\n"
+                + "<p>The call returns after a terminal event is received or the stream fails.</p>\n"
+                + "\n"
+                + "@param retrievalRequest The retrieval request to process.\n"
+                + "@param listener The listener that receives server-sent events.");
+        return method;
+    }
+
+    private static MethodDeclaration createAsyncRetrieveStreamMethod(boolean includeAuthorization) {
+        String parameters = includeAuthorization
+            ? "KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization, "
+                + "String queryWorkIQSourceAuthorization"
+            : "KnowledgeBaseRetrievalOptions retrievalRequest";
+        String body = includeAuthorization
+            ? "return Flux.defer(() -> {\n"
+                + "    RequestOptions requestOptions = new RequestOptions();\n"
+                + "    if (querySourceAuthorization != null) {\n"
+                + "        requestOptions.setHeader(HttpHeaderName.fromString(\"x-ms-query-source-authorization\"), "
+                + "querySourceAuthorization);\n"
+                + "    }\n"
+                + "    if (queryWorkIQSourceAuthorization != null) {\n"
+                + "        requestOptions.setHeader(HttpHeaderName.fromString("
+                + "\"x-ms-query-work-iq-source-authorization\"), queryWorkIQSourceAuthorization);\n"
+                + "    }\n"
+                + "    return retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)\n"
+                + "        .flatMapMany(response -> ServerSentEventStreams.toFlux(response, "
+                + "KnowledgeBaseRetrievalStreamEvent::fromEvent,\n"
+                + "            event -> event.getData() != null && event.getData().isTerminal()));\n"
+                + "});"
+            : "return retrieveStream(retrievalRequest, null, null);";
+        MethodDeclaration method = StaticJavaParser.parseBodyDeclaration(
+            "@Generated\n"
+                + "public Flux<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> retrieveStream("
+                + parameters + ") {\n" + body + "\n}\n").asMethodDeclaration();
+        method.setJavadocComment(includeAuthorization
+            ? "Retrieves relevant data from backing stores as a server-sent event stream.\n"
+                + "\n"
+                + "@param retrievalRequest The retrieval request to process.\n"
+                + "@param querySourceAuthorization Token used to enforce document-level access restrictions.\n"
+                + "@param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of "
+                + "authentication.\n"
+                + "@return The server-sent events."
+            : "Retrieves relevant data from backing stores as a server-sent event stream.\n"
+                + "\n"
+                + "@param retrievalRequest The retrieval request to process.\n"
+                + "@return The server-sent events.");
+        return method;
     }
 
     // Removes GET equivalents of POST APIs in SearchClient and SearchAsyncClient as we never plan to expose those.
