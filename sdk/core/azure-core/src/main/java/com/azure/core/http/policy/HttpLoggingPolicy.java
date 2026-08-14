@@ -21,6 +21,7 @@ import com.azure.core.implementation.util.BinaryDataHelper;
 import com.azure.core.implementation.util.ByteArrayContent;
 import com.azure.core.implementation.util.ByteBufferContent;
 import com.azure.core.implementation.util.HttpHeadersAccessHelper;
+import com.azure.core.implementation.util.HttpUtils;
 import com.azure.core.implementation.util.InputStreamContent;
 import com.azure.core.implementation.util.SerializableContent;
 import com.azure.core.implementation.util.StringContent;
@@ -55,8 +56,8 @@ import static com.azure.core.http.HttpHeaderName.X_MS_CLIENT_REQUEST_ID;
  * control the amount of information that is logged, including the URL, headers, and body of requests and responses.</p>
  *
  * <p><b>NOTE:</b> Enabling body logging (using the {@link HttpLogDetailLevel#BODY BODY} or
- * {@link HttpLogDetailLevel#BODY_AND_HEADERS BODY_AND_HEADERS} levels) will buffer the response body into memory even
- * if it is never consumed by your application, possibly impacting performance.</p>
+ * {@link HttpLogDetailLevel#BODY_AND_HEADERS BODY_AND_HEADERS} levels) will buffer non-streaming response bodies into
+ * memory even if they are never consumed by your application, possibly impacting performance.</p>
  *
  * <p><strong>Code sample:</strong></p>
  *
@@ -338,7 +339,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             if (httpLogDetailLevel.shouldLogBody()) {
                 String contentTypeHeader = response.getHeaderValue(HttpHeaderName.CONTENT_TYPE);
 
-                if (shouldBodyBeLogged(contentTypeHeader, contentLength)) {
+                if (shouldResponseBodyBeLogged(loggingOptions, contentTypeHeader, contentLength)) {
                     // Make sure we buffer the response body to avoid keeping the connection open.
                     final HttpResponse bufferedResponse = response.buffer();
 
@@ -389,7 +390,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             if (httpLogDetailLevel.shouldLogBody()) {
                 String contentTypeHeader = response.getHeaderValue(HttpHeaderName.CONTENT_TYPE);
 
-                if (shouldBodyBeLogged(contentTypeHeader, contentLength)) {
+                if (shouldResponseBodyBeLogged(loggingOptions, contentTypeHeader, contentLength)) {
                     // Make sure we buffer the response body to avoid keeping the connection open.
                     response = response.buffer();
 
@@ -520,6 +521,13 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             && !ContentType.APPLICATION_OCTET_STREAM.equalsIgnoreCase(contentTypeHeader)
             && contentLength != 0
             && contentLength < MAX_BODY_LOG_SIZE;
+    }
+
+    private static boolean shouldResponseBodyBeLogged(HttpResponseLoggingContext loggingOptions,
+        String contentTypeHeader, Long contentLength) {
+        return !HttpUtils.shouldPreserveResponseBodyAsStream(loggingOptions.getContext())
+            && !HttpUtils.isTextEventStreamContentType(contentTypeHeader)
+            && shouldBodyBeLogged(contentTypeHeader, contentLength);
     }
 
     /*
