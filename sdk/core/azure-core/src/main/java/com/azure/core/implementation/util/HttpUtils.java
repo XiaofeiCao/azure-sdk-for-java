@@ -49,8 +49,8 @@ public final class HttpUtils {
     public static final String AZURE_EAGERLY_READ_RESPONSE = "azure-eagerly-read-response";
 
     /**
-     * Context key that instructs REST proxy response ownership and HTTP response logging to preserve the response body
-     * as a live stream. HTTP client implementations do not consume this key.
+     * Context key that instructs REST proxy response handling to preserve the response body as a live stream. HTTP
+     * policies and HTTP client implementations do not consume this key.
      */
     public static final String AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM = "azure-preserve-response-body-as-stream";
 
@@ -105,7 +105,10 @@ public final class HttpUtils {
     }
 
     /**
-     * Determines whether a Content-Type header identifies exactly one {@code text/event-stream} representation.
+     * Determines whether a Content-Type header identifies a {@code text/event-stream} representation.
+     *
+     * <p>Media type parameters aren't validated here because the response must remain unbuffered before a protocol
+     * decoder can validate them.</p>
      *
      * @param headerValue The Content-Type header value.
      * @return Whether the header identifies a {@code text/event-stream} representation.
@@ -115,24 +118,9 @@ public final class HttpUtils {
             return false;
         }
 
-        List<String> mediaTypeAndParameters = splitHeaderValue(headerValue, ';');
-        if (mediaTypeAndParameters.isEmpty()
-            || !TEXT_EVENT_STREAM.equalsIgnoreCase(mediaTypeAndParameters.get(0).trim())
-            || splitHeaderValue(headerValue, ',').size() != 1) {
-            return false;
-        }
-
-        for (int i = 1; i < mediaTypeAndParameters.size(); i++) {
-            String parameter = mediaTypeAndParameters.get(i).trim();
-            int equalsIndex = parameter.indexOf('=');
-            if (equalsIndex > 0
-                && "charset".equalsIgnoreCase(parameter.substring(0, equalsIndex).trim())
-                && !isUtf8(parameter.substring(equalsIndex + 1).trim())) {
-                return false;
-            }
-        }
-
-        return true;
+        int parametersIndex = headerValue.indexOf(';');
+        String mediaType = parametersIndex < 0 ? headerValue : headerValue.substring(0, parametersIndex);
+        return TEXT_EVENT_STREAM.equalsIgnoreCase(mediaType.trim());
     }
 
     private static boolean hasPositiveQuality(List<String> mediaRange) {
@@ -155,16 +143,6 @@ public final class HttpUtils {
 
     private static boolean isValidPositiveQuality(String quality) {
         return quality.matches("0(?:\\.[0-9]{0,3})?|1(?:\\.0{0,3})?") && !quality.matches("0(?:\\.0{0,3})?");
-    }
-
-    private static boolean isUtf8(String charset) {
-        return "utf-8".equalsIgnoreCase(unquote(charset));
-    }
-
-    private static String unquote(String value) {
-        return value.length() > 1 && value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"'
-            ? value.substring(1, value.length() - 1)
-            : value;
     }
 
     private static List<String> splitHeaderValue(String value, char delimiter) {

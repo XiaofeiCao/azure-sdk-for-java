@@ -339,7 +339,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             if (httpLogDetailLevel.shouldLogBody()) {
                 String contentTypeHeader = response.getHeaderValue(HttpHeaderName.CONTENT_TYPE);
 
-                if (shouldResponseBodyBeLogged(loggingOptions, contentTypeHeader, contentLength)) {
+                if (shouldResponseBodyBeLogged(contentTypeHeader, contentLength)) {
                     // Make sure we buffer the response body to avoid keeping the connection open.
                     final HttpResponse bufferedResponse = response.buffer();
 
@@ -390,7 +390,7 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             if (httpLogDetailLevel.shouldLogBody()) {
                 String contentTypeHeader = response.getHeaderValue(HttpHeaderName.CONTENT_TYPE);
 
-                if (shouldResponseBodyBeLogged(loggingOptions, contentTypeHeader, contentLength)) {
+                if (shouldResponseBodyBeLogged(contentTypeHeader, contentLength)) {
                     // Make sure we buffer the response body to avoid keeping the connection open.
                     response = response.buffer();
 
@@ -523,10 +523,8 @@ public class HttpLoggingPolicy implements HttpPipelinePolicy {
             && contentLength < MAX_BODY_LOG_SIZE;
     }
 
-    private static boolean shouldResponseBodyBeLogged(HttpResponseLoggingContext loggingOptions,
-        String contentTypeHeader, Long contentLength) {
-        return !HttpUtils.shouldPreserveResponseBodyAsStream(loggingOptions.getContext())
-            && !HttpUtils.isTextEventStreamContentType(contentTypeHeader)
+    private static boolean shouldResponseBodyBeLogged(String contentTypeHeader, Long contentLength) {
+        return !HttpUtils.isTextEventStreamContentType(contentTypeHeader)
             && shouldBodyBeLogged(contentTypeHeader, contentLength);
     }
 
