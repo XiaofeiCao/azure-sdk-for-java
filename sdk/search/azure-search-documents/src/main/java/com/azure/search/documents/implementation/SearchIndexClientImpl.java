@@ -61,7 +61,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Gets The endpoint URL of the search service.
-     * 
+     *
      * @return the endpoint value.
      */
     public String getEndpoint() {
@@ -75,7 +75,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Gets Service version.
-     * 
+     *
      * @return the serviceVersion value.
      */
     public SearchServiceVersion getServiceVersion() {
@@ -89,7 +89,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Gets The HTTP pipeline to send requests through.
-     * 
+     *
      * @return the httpPipeline value.
      */
     public HttpPipeline getHttpPipeline() {
@@ -103,7 +103,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Gets The serializer to serialize an object into a string.
-     * 
+     *
      * @return the serializerAdapter value.
      */
     public SerializerAdapter getSerializerAdapter() {
@@ -112,7 +112,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Initializes an instance of SearchIndexClient client.
-     * 
+     *
      * @param endpoint The endpoint URL of the search service.
      * @param serviceVersion Service version.
      */
@@ -123,7 +123,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Initializes an instance of SearchIndexClient client.
-     * 
+     *
      * @param httpPipeline The HTTP pipeline to send requests through.
      * @param endpoint The endpoint URL of the search service.
      * @param serviceVersion Service version.
@@ -134,7 +134,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Initializes an instance of SearchIndexClient client.
-     * 
+     *
      * @param httpPipeline The HTTP pipeline to send requests through.
      * @param serializerAdapter The serializer to serialize an object into a string.
      * @param endpoint The endpoint URL of the search service.
@@ -782,6 +782,30 @@ public final class SearchIndexClientImpl {
             @HeaderParam("Accept") String accept, @BodyParam("application/octet-stream") BinaryData file,
             RequestOptions requestOptions, Context context);
 
+        // @Multipart not supported by RestProxy
+        @Post("/knowledgesources('{sourceName}')/files")
+        @ExpectedResponses({ 201 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> uploadKnowledgeSourceFileMultipart(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("sourceName") String name,
+            @HeaderParam("Content-Type") String contentType, @HeaderParam("Accept") String accept,
+            @BodyParam("multipart/form-data") BinaryData body, RequestOptions requestOptions, Context context);
+
+        // @Multipart not supported by RestProxy
+        @Post("/knowledgesources('{sourceName}')/files")
+        @ExpectedResponses({ 201 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> uploadKnowledgeSourceFileMultipartSync(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("sourceName") String name,
+            @HeaderParam("Content-Type") String contentType, @HeaderParam("Accept") String accept,
+            @BodyParam("multipart/form-data") BinaryData body, RequestOptions requestOptions, Context context);
+
         @Get("/knowledgesources('{sourceName}')/files")
         @ExpectedResponses({ 200 })
         @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
@@ -821,6 +845,32 @@ public final class SearchIndexClientImpl {
             @QueryParam("api-version") String apiVersion, @PathParam("fileId") String fileId,
             @HeaderParam("Accept") String accept, @PathParam("sourceName") String name, RequestOptions requestOptions,
             Context context);
+
+        // @Multipart not supported by RestProxy
+        @Put("/knowledgesources('{sourceName}')/files('{fileId}')")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> updateKnowledgeSourceFile(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("fileId") String fileId,
+            @PathParam("sourceName") String name, @HeaderParam("Content-Type") String contentType,
+            @HeaderParam("Accept") String accept, @BodyParam("multipart/form-data") BinaryData body,
+            RequestOptions requestOptions, Context context);
+
+        // @Multipart not supported by RestProxy
+        @Put("/knowledgesources('{sourceName}')/files('{fileId}')")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> updateKnowledgeSourceFileSync(@HostParam("endpoint") String endpoint,
+            @QueryParam("api-version") String apiVersion, @PathParam("fileId") String fileId,
+            @PathParam("sourceName") String name, @HeaderParam("Content-Type") String contentType,
+            @HeaderParam("Accept") String accept, @BodyParam("multipart/form-data") BinaryData body,
+            RequestOptions requestOptions, Context context);
 
         @Get("/servicestats")
         @ExpectedResponses({ 200 })
@@ -868,6 +918,26 @@ public final class SearchIndexClientImpl {
         @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
         @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> getSynonymMapsNext(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
+            Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> getSynonymMapsNextSync(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
+            Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
         Mono<Response<BinaryData>> listIndexesNext(@PathParam(value = "nextLink", encoded = true) String nextLink,
             @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
             Context context);
@@ -908,6 +978,86 @@ public final class SearchIndexClientImpl {
         @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
         @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
         @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> listAliasesNext(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
+            Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> listAliasesNextSync(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
+            Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> listKnowledgeBasesNext(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> listKnowledgeBasesNextSync(@PathParam(value = "nextLink", encoded = true) String nextLink,
+            @HostParam("endpoint") String endpoint, @HeaderParam("Accept") String accept, RequestOptions requestOptions,
+            Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> listKnowledgeSourcesNext(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> listKnowledgeSourcesNextSync(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Mono<Response<BinaryData>> listKnowledgeSourceFilesNext(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        Response<BinaryData> listKnowledgeSourceFilesNextSync(
+            @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
+            @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({ 200 })
+        @UnexpectedResponseExceptionType(value = ClientAuthenticationException.class, code = { 401 })
+        @UnexpectedResponseExceptionType(value = ResourceNotFoundException.class, code = { 404 })
+        @UnexpectedResponseExceptionType(value = ResourceModifiedException.class, code = { 409 })
+        @UnexpectedResponseExceptionType(HttpResponseException.class)
         Mono<Response<BinaryData>> listIndexStatsSummaryNext(
             @PathParam(value = "nextLink", encoded = true) String nextLink, @HostParam("endpoint") String endpoint,
             @HeaderParam("Accept") String accept, RequestOptions requestOptions, Context context);
@@ -936,7 +1086,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -962,9 +1112,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -990,7 +1140,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the synonym map.
      * @param synonymMap The definition of the synonym map to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -1024,7 +1174,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1050,9 +1200,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1078,7 +1228,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the synonym map.
      * @param synonymMap The definition of the synonym map to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -1110,7 +1260,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the synonym map.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1137,7 +1287,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the synonym map.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1155,7 +1305,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a synonym map definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1181,7 +1331,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the synonym map.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1200,7 +1350,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a synonym map definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1226,7 +1376,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the synonym map.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1251,53 +1401,58 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
-     *     value (Required): [
-     *          (Required){
-     *             name: String (Required)
-     *             format: String (Required)
-     *             synonyms (Required): [
-     *                 String (Required)
-     *             ]
-     *             encryptionKey (Optional): {
-     *                 keyVaultKeyName: String (Required)
-     *                 keyVaultKeyVersion: String (Optional)
-     *                 keyVaultUri: String (Required)
-     *                 accessCredentials (Optional): {
-     *                     applicationId: String (Required)
-     *                     applicationSecret: String (Optional)
-     *                 }
-     *                 identity (Optional): {
-     *                     &#64;odata.type: String (Required)
-     *                 }
-     *                 isServiceLevelKey: Boolean (Optional)
-     *             }
-     *             &#64;odata.etag: String (Optional)
-     *         }
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
      *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
      * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
      * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
-     * @return response from a List SynonymMaps request along with {@link Response} on successful completion of
+     * @return response from a List SynonymMaps request along with {@link PagedResponse} on successful completion of
      * {@link Mono}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<BinaryData>> getSynonymMapsWithResponseAsync(RequestOptions requestOptions) {
+    private Mono<PagedResponse<BinaryData>> getSynonymMapsSinglePageAsync(RequestOptions requestOptions) {
         final String accept = "application/json;odata.metadata=minimal";
-        return FluxUtil.withContext(context -> service.getSynonymMaps(this.getEndpoint(),
-            this.getServiceVersion().getVersion(), accept, requestOptions, context));
+        return FluxUtil
+            .withContext(context -> service.getSynonymMaps(this.getEndpoint(), this.getServiceVersion().getVersion(),
+                accept, requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
     }
 
     /**
@@ -1309,58 +1464,184 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
-     *     value (Required): [
-     *          (Required){
-     *             name: String (Required)
-     *             format: String (Required)
-     *             synonyms (Required): [
-     *                 String (Required)
-     *             ]
-     *             encryptionKey (Optional): {
-     *                 keyVaultKeyName: String (Required)
-     *                 keyVaultKeyVersion: String (Optional)
-     *                 keyVaultUri: String (Required)
-     *                 accessCredentials (Optional): {
-     *                     applicationId: String (Required)
-     *                     applicationSecret: String (Optional)
-     *                 }
-     *                 identity (Optional): {
-     *                     &#64;odata.type: String (Required)
-     *                 }
-     *                 isServiceLevelKey: Boolean (Optional)
-     *             }
-     *             &#64;odata.etag: String (Optional)
-     *         }
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
      *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
      * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
      * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
-     * @return response from a List SynonymMaps request along with {@link Response}.
+     * @return response from a List SynonymMaps request as paginated response with {@link PagedFlux}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<BinaryData> getSynonymMapsAsync(RequestOptions requestOptions) {
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedFlux<>(() -> getSynonymMapsSinglePageAsync(requestOptions),
+            nextLink -> getSynonymMapsNextSinglePageAsync(nextLink, requestOptionsForNextPage));
+    }
+
+    /**
+     * Lists all synonym maps available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
+     * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
+     * properties. In the form of "," separated string.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
+     *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List SynonymMaps request along with {@link PagedResponse}.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<BinaryData> getSynonymMapsWithResponse(RequestOptions requestOptions) {
+    private PagedResponse<BinaryData> getSynonymMapsSinglePage(RequestOptions requestOptions) {
         final String accept = "application/json;odata.metadata=minimal";
-        return service.getSynonymMapsSync(this.getEndpoint(), this.getServiceVersion().getVersion(), accept,
-            requestOptions, Context.NONE);
+        Response<BinaryData> res = service.getSynonymMapsSync(this.getEndpoint(), this.getServiceVersion().getVersion(),
+            accept, requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Lists all synonym maps available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
+     * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
+     * properties. In the form of "," separated string.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
+     *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List SynonymMaps request as paginated response with {@link PagedIterable}.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<BinaryData> getSynonymMaps(RequestOptions requestOptions) {
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedIterable<>(() -> getSynonymMapsSinglePage(requestOptions),
+            nextLink -> getSynonymMapsNextSinglePage(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Creates a new synonym map.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1386,9 +1667,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1414,7 +1695,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param synonymMap The definition of the synonym map to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1435,7 +1716,7 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new synonym map.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1461,9 +1742,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1489,7 +1770,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param synonymMap The definition of the synonym map to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -1529,7 +1810,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1713,9 +1994,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -1899,7 +2180,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param index The definition of the index to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -1943,7 +2224,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -2127,9 +2408,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -2313,7 +2594,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param index The definition of the index to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -2348,7 +2629,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -2377,7 +2658,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -2395,7 +2676,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves an index definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -2579,7 +2860,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -2599,7 +2880,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves an index definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -2783,7 +3064,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -2806,15 +3087,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -2998,7 +3280,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -3023,15 +3305,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -3215,7 +3498,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -3238,15 +3521,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -3430,7 +3714,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -3453,15 +3737,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -3645,7 +3930,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -3671,15 +3956,16 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -3858,7 +4144,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -3887,15 +4173,16 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -4074,7 +4361,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -4100,15 +4387,16 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -4287,7 +4575,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -4313,15 +4601,16 @@ public final class SearchIndexClientImpl {
      * <tr><td>$select</td><td>List&lt;String&gt;</td><td>No</td><td>Selects which top-level properties to retrieve.
      * Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all
      * properties. In the form of "," separated string.</td></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -4500,7 +4789,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -4520,7 +4809,7 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new search index.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -4704,9 +4993,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -4890,7 +5179,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param index The definition of the index to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -4911,7 +5200,7 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new search index.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5095,9 +5384,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5281,7 +5570,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param index The definition of the index to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5302,7 +5591,7 @@ public final class SearchIndexClientImpl {
     /**
      * Returns statistics for the given index, including a document count and storage usage.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5312,7 +5601,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5331,7 +5620,7 @@ public final class SearchIndexClientImpl {
     /**
      * Returns statistics for the given index, including a document count and storage usage.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5341,7 +5630,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5360,7 +5649,7 @@ public final class SearchIndexClientImpl {
     /**
      * Shows how an analyzer breaks text into tokens.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5377,9 +5666,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5394,7 +5683,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param request The text and analyzer or analysis components to test.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -5417,7 +5706,7 @@ public final class SearchIndexClientImpl {
     /**
      * Shows how an analyzer breaks text into tokens.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5434,9 +5723,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5451,7 +5740,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the index.
      * @param request The text and analyzer or analysis components to test.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -5483,7 +5772,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5495,9 +5784,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5509,7 +5798,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the alias.
      * @param alias The definition of the alias to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -5543,7 +5832,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5555,9 +5844,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5569,7 +5858,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the alias.
      * @param alias The definition of the alias to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -5603,7 +5892,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the alias.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5631,7 +5920,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the alias.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5649,7 +5938,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves an alias definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5661,7 +5950,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the alias.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5681,7 +5970,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves an alias definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5693,7 +5982,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the alias.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5712,8 +6001,20 @@ public final class SearchIndexClientImpl {
 
     /**
      * Lists all aliases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5725,7 +6026,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -5741,13 +6042,25 @@ public final class SearchIndexClientImpl {
             .withContext(context -> service.listAliases(this.getEndpoint(), this.getServiceVersion().getVersion(),
                 accept, requestOptions, context))
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                getValues(res.getValue(), "value"), null, null));
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
     }
 
     /**
      * Lists all aliases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5759,7 +6072,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -5769,13 +6082,29 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<BinaryData> listAliasesAsync(RequestOptions requestOptions) {
-        return new PagedFlux<>(() -> listAliasesSinglePageAsync(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedFlux<>(() -> listAliasesSinglePageAsync(requestOptions),
+            nextLink -> listAliasesNextSinglePageAsync(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Lists all aliases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5787,7 +6116,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -5801,13 +6130,25 @@ public final class SearchIndexClientImpl {
         Response<BinaryData> res = service.listAliasesSync(this.getEndpoint(), this.getServiceVersion().getVersion(),
             accept, requestOptions, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-            getValues(res.getValue(), "value"), null, null);
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
     }
 
     /**
      * Lists all aliases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5819,7 +6160,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -5829,13 +6170,17 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<BinaryData> listAliases(RequestOptions requestOptions) {
-        return new PagedIterable<>(() -> listAliasesSinglePage(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedIterable<>(() -> listAliasesSinglePage(requestOptions),
+            nextLink -> listAliasesNextSinglePage(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Creates a new search alias.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5847,9 +6192,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5861,7 +6206,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param alias The definition of the alias to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5882,7 +6227,7 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new search alias.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5894,9 +6239,9 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5908,7 +6253,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param alias The definition of the alias to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -5939,7 +6284,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -5957,7 +6302,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -5975,6 +6320,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -5983,12 +6331,17 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6006,7 +6359,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6024,6 +6377,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6032,10 +6388,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param knowledgeBase The definition of the knowledge base to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -6070,7 +6431,7 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6088,7 +6449,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6106,6 +6467,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6114,12 +6478,17 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6137,7 +6506,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6155,6 +6524,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6163,10 +6535,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param knowledgeBase The definition of the knowledge base to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -6198,7 +6575,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6225,7 +6602,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6243,7 +6620,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a knowledge base definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6261,7 +6638,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6279,6 +6656,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6287,10 +6667,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6310,7 +6695,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a knowledge base definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6328,7 +6713,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6346,6 +6731,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6354,10 +6742,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge base.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6375,8 +6768,20 @@ public final class SearchIndexClientImpl {
 
     /**
      * Lists all knowledge bases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6394,7 +6799,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6412,6 +6817,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6420,10 +6828,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -6439,13 +6852,25 @@ public final class SearchIndexClientImpl {
             .withContext(context -> service.listKnowledgeBases(this.getEndpoint(),
                 this.getServiceVersion().getVersion(), accept, requestOptions, context))
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                getValues(res.getValue(), "value"), null, null));
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
     }
 
     /**
      * Lists all knowledge bases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6463,7 +6888,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6481,6 +6906,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6489,10 +6917,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -6502,13 +6935,29 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<BinaryData> listKnowledgeBasesAsync(RequestOptions requestOptions) {
-        return new PagedFlux<>(() -> listKnowledgeBasesSinglePageAsync(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedFlux<>(() -> listKnowledgeBasesSinglePageAsync(requestOptions),
+            nextLink -> listKnowledgeBasesNextSinglePageAsync(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Lists all knowledge bases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6526,7 +6975,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6544,6 +6993,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6552,10 +7004,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -6569,13 +7026,25 @@ public final class SearchIndexClientImpl {
         Response<BinaryData> res = service.listKnowledgeBasesSync(this.getEndpoint(),
             this.getServiceVersion().getVersion(), accept, requestOptions, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-            getValues(res.getValue(), "value"), null, null);
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
     }
 
     /**
      * Lists all knowledge bases available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6593,7 +7062,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6611,6 +7080,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6619,10 +7091,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -6632,13 +7109,17 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<BinaryData> listKnowledgeBases(RequestOptions requestOptions) {
-        return new PagedIterable<>(() -> listKnowledgeBasesSinglePage(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedIterable<>(() -> listKnowledgeBasesSinglePage(requestOptions),
+            nextLink -> listKnowledgeBasesNextSinglePage(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Creates a new knowledge base.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6656,7 +7137,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6674,6 +7155,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6682,12 +7166,17 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6705,7 +7194,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6723,6 +7212,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6731,10 +7223,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param knowledgeBase The definition of the knowledge base to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6756,7 +7253,7 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new knowledge base.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6774,7 +7271,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6792,6 +7289,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6800,12 +7300,17 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -6823,7 +7328,7 @@ public final class SearchIndexClientImpl {
      *         }
      *     ]
      *     retrievalReasoningEffort (Optional): {
-     *         kind: String(minimal/low/medium) (Required)
+     *         kind: String(minimal/low/medium/auto) (Required)
      *     }
      *     outputMode: String(extractiveData/answerSynthesis) (Optional)
      *     &#64;odata.etag: String (Optional)
@@ -6841,6 +7346,9 @@ public final class SearchIndexClientImpl {
      *         isServiceLevelKey: Boolean (Optional)
      *     }
      *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
      *     retrievalInstructions: String (Optional)
      *     answerInstructions: String (Optional)
      *     corsOptions (Optional): {
@@ -6849,10 +7357,15 @@ public final class SearchIndexClientImpl {
      *         ]
      *         maxAgeInSeconds: Long (Optional)
      *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
      * }
      * }
      * </pre>
-     * 
+     *
      * @param knowledgeBase The definition of the knowledge base to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -6883,13 +7396,14 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -6907,15 +7421,16 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -6933,7 +7448,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param knowledgeSource The definition of the knowledge source to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -6968,13 +7483,14 @@ public final class SearchIndexClientImpl {
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -6992,15 +7508,16 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7018,7 +7535,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param knowledgeSource The definition of the knowledge source to create or update.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -7050,7 +7567,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7077,7 +7594,7 @@ public final class SearchIndexClientImpl {
      * be performed only if the ETag on the server does not match this value.</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addHeader}
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7095,13 +7612,14 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a knowledge source definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7119,7 +7637,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7139,13 +7657,14 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves a knowledge source definition.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7163,7 +7682,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7181,14 +7700,27 @@ public final class SearchIndexClientImpl {
 
     /**
      * Lists all knowledge sources available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7206,7 +7738,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7222,19 +7754,32 @@ public final class SearchIndexClientImpl {
             .withContext(context -> service.listKnowledgeSources(this.getEndpoint(),
                 this.getServiceVersion().getVersion(), accept, requestOptions, context))
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                getValues(res.getValue(), "value"), null, null));
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
     }
 
     /**
      * Lists all knowledge sources available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7252,7 +7797,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7262,19 +7807,36 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<BinaryData> listKnowledgeSourcesAsync(RequestOptions requestOptions) {
-        return new PagedFlux<>(() -> listKnowledgeSourcesSinglePageAsync(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedFlux<>(() -> listKnowledgeSourcesSinglePageAsync(requestOptions),
+            nextLink -> listKnowledgeSourcesNextSinglePageAsync(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Lists all knowledge sources available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7292,7 +7854,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7306,19 +7868,32 @@ public final class SearchIndexClientImpl {
         Response<BinaryData> res = service.listKnowledgeSourcesSync(this.getEndpoint(),
             this.getServiceVersion().getVersion(), accept, requestOptions, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-            getValues(res.getValue(), "value"), null, null);
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
     }
 
     /**
      * Lists all knowledge sources available for a search service.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7336,7 +7911,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7346,19 +7921,24 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<BinaryData> listKnowledgeSources(RequestOptions requestOptions) {
-        return new PagedIterable<>(() -> listKnowledgeSourcesSinglePage(requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedIterable<>(() -> listKnowledgeSourcesSinglePage(requestOptions),
+            nextLink -> listKnowledgeSourcesNextSinglePage(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Creates a new knowledge source.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7376,15 +7956,16 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7402,7 +7983,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param knowledgeSource The definition of the knowledge source to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7424,13 +8005,14 @@ public final class SearchIndexClientImpl {
     /**
      * Creates a new knowledge source.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7448,15 +8030,16 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
      *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
      *     name: String (Required)
      *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
      *     &#64;odata.etag: String (Optional)
      *     encryptionKey (Optional): {
      *         keyVaultKeyName: String (Required)
@@ -7474,7 +8057,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param knowledgeSource The definition of the knowledge source to create.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7495,7 +8078,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves the status of a knowledge source.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7533,7 +8116,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7554,7 +8137,7 @@ public final class SearchIndexClientImpl {
     /**
      * Retrieves the status of a knowledge source.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7592,7 +8175,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7611,15 +8194,15 @@ public final class SearchIndexClientImpl {
     /**
      * Uploads a file to a File knowledge source for processing and indexing.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * BinaryData
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7629,10 +8212,16 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param contentDisposition The Content-Disposition header specifying the filename of the uploaded file.
      * Must follow the format: `attachment; filename="&lt;filename&gt;"`.
      * For example: `attachment; filename="installation-guide.pdf"`.
@@ -7659,15 +8248,15 @@ public final class SearchIndexClientImpl {
     /**
      * Uploads a file to a File knowledge source for processing and indexing.
      * <p><strong>Request Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * BinaryData
      * }
      * </pre>
-     * 
+     *
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7677,10 +8266,16 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param contentDisposition The Content-Disposition header specifying the filename of the uploaded file.
      * Must follow the format: `attachment; filename="&lt;filename&gt;"`.
      * For example: `attachment; filename="installation-guide.pdf"`.
@@ -7703,9 +8298,10 @@ public final class SearchIndexClientImpl {
     }
 
     /**
-     * Lists all files in a File knowledge source.
+     * Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom
+     * metadata) and a 'content' part with the raw file bytes.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7715,10 +8311,114 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
+     * @param name The name of the knowledge source.
+     * @param body The multipart/form-data body containing the metadata and content parts.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return metadata for a file uploaded to a File knowledge source along with {@link Response} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<BinaryData>> uploadKnowledgeSourceFileMultipartWithResponseAsync(String name, BinaryData body,
+        RequestOptions requestOptions) {
+        final String contentType = "multipart/form-data";
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.uploadKnowledgeSourceFileMultipart(this.getEndpoint(),
+            this.getServiceVersion().getVersion(), name, contentType, accept, body, requestOptions, context));
+    }
+
+    /**
+     * Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom
+     * metadata) and a 'content' part with the raw file bytes.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param name The name of the knowledge source.
+     * @param body The multipart/form-data body containing the metadata and content parts.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return metadata for a file uploaded to a File knowledge source along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> uploadKnowledgeSourceFileMultipartWithResponse(String name, BinaryData body,
+        RequestOptions requestOptions) {
+        final String contentType = "multipart/form-data";
+        final String accept = "application/json";
+        return service.uploadKnowledgeSourceFileMultipartSync(this.getEndpoint(), this.getServiceVersion().getVersion(),
+            name, contentType, accept, body, requestOptions, Context.NONE);
+    }
+
+    /**
+     * Lists all files in a File knowledge source.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>prefix</td><td>String</td><td>No</td><td>Optional prefix to filter files by their directory-like
+     * path.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7736,13 +8436,27 @@ public final class SearchIndexClientImpl {
             .withContext(context -> service.listKnowledgeSourceFiles(this.getEndpoint(),
                 this.getServiceVersion().getVersion(), accept, name, requestOptions, context))
             .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-                getValues(res.getValue(), "value"), null, null));
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
     }
 
     /**
      * Lists all files in a File knowledge source.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>prefix</td><td>String</td><td>No</td><td>Optional prefix to filter files by their directory-like
+     * path.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7752,10 +8466,16 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7766,13 +8486,31 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<BinaryData> listKnowledgeSourceFilesAsync(String name, RequestOptions requestOptions) {
-        return new PagedFlux<>(() -> listKnowledgeSourceFilesSinglePageAsync(name, requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedFlux<>(() -> listKnowledgeSourceFilesSinglePageAsync(name, requestOptions),
+            nextLink -> listKnowledgeSourceFilesNextSinglePageAsync(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Lists all files in a File knowledge source.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>prefix</td><td>String</td><td>No</td><td>Optional prefix to filter files by their directory-like
+     * path.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7782,10 +8520,16 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7800,13 +8544,27 @@ public final class SearchIndexClientImpl {
         Response<BinaryData> res = service.listKnowledgeSourceFilesSync(this.getEndpoint(),
             this.getServiceVersion().getVersion(), accept, name, requestOptions, Context.NONE);
         return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
-            getValues(res.getValue(), "value"), null, null);
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
     }
 
     /**
      * Lists all files in a File knowledge source.
+     * <p><strong>Query Parameters</strong></p>
+     * <table border="1">
+     * <caption>Query Parameters</caption>
+     * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
+     * <tr><td>prefix</td><td>String</td><td>No</td><td>Optional prefix to filter files by their directory-like
+     * path.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
+     * </table>
+     * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7816,10 +8574,16 @@ public final class SearchIndexClientImpl {
      *     createdAt: OffsetDateTime (Optional)
      *     lastUpdatedAt: OffsetDateTime (Optional)
      *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
      * }
      * }
      * </pre>
-     * 
+     *
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -7830,12 +8594,16 @@ public final class SearchIndexClientImpl {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<BinaryData> listKnowledgeSourceFiles(String name, RequestOptions requestOptions) {
-        return new PagedIterable<>(() -> listKnowledgeSourceFilesSinglePage(name, requestOptions));
+        RequestOptions requestOptionsForNextPage = new RequestOptions();
+        requestOptionsForNextPage.setContext(
+            requestOptions != null && requestOptions.getContext() != null ? requestOptions.getContext() : Context.NONE);
+        return new PagedIterable<>(() -> listKnowledgeSourceFilesSinglePage(name, requestOptions),
+            nextLink -> listKnowledgeSourceFilesNextSinglePage(nextLink, requestOptionsForNextPage));
     }
 
     /**
      * Deletes a file from a File knowledge source and removes all indexed content derived from it.
-     * 
+     *
      * @param fileId The unique identifier of the file to delete.
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -7854,7 +8622,7 @@ public final class SearchIndexClientImpl {
 
     /**
      * Deletes a file from a File knowledge source and removes all indexed content derived from it.
-     * 
+     *
      * @param fileId The unique identifier of the file to delete.
      * @param name The name of the knowledge source.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
@@ -7872,9 +8640,98 @@ public final class SearchIndexClientImpl {
     }
 
     /**
+     * Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses
+     * multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw
+     * file bytes.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param fileId The unique identifier of the file to update.
+     * @param name The name of the knowledge source.
+     * @param body The multipart/form-data body containing the metadata and content parts.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return metadata for a file uploaded to a File knowledge source along with {@link Response} on successful
+     * completion of {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<BinaryData>> updateKnowledgeSourceFileWithResponseAsync(String fileId, String name,
+        BinaryData body, RequestOptions requestOptions) {
+        final String contentType = "multipart/form-data";
+        final String accept = "application/json";
+        return FluxUtil.withContext(context -> service.updateKnowledgeSourceFile(this.getEndpoint(),
+            this.getServiceVersion().getVersion(), fileId, name, contentType, accept, body, requestOptions, context));
+    }
+
+    /**
+     * Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses
+     * multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw
+     * file bytes.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param fileId The unique identifier of the file to update.
+     * @param name The name of the knowledge source.
+     * @param body The multipart/form-data body containing the metadata and content parts.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return metadata for a file uploaded to a File knowledge source along with {@link Response}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> updateKnowledgeSourceFileWithResponse(String fileId, String name, BinaryData body,
+        RequestOptions requestOptions) {
+        final String contentType = "multipart/form-data";
+        final String accept = "application/json";
+        return service.updateKnowledgeSourceFileSync(this.getEndpoint(), this.getServiceVersion().getVersion(), fileId,
+            name, contentType, accept, body, requestOptions, Context.NONE);
+    }
+
+    /**
      * Gets service level statistics for a search service.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7901,6 +8758,7 @@ public final class SearchIndexClientImpl {
      *         maxComplexObjectsInCollectionsPerDocument: Integer (Optional)
      *         maxStoragePerIndex: Long (Optional)
      *         maxCumulativeIndexerRuntimeSeconds: Long (Optional)
+     *         maxVectorIndexSizePerIndexInBytes: Long (Optional)
      *     }
      *     indexersRuntime (Required): {
      *         usedSeconds: long (Required)
@@ -7911,7 +8769,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7930,7 +8788,7 @@ public final class SearchIndexClientImpl {
     /**
      * Gets service level statistics for a search service.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -7957,6 +8815,7 @@ public final class SearchIndexClientImpl {
      *         maxComplexObjectsInCollectionsPerDocument: Integer (Optional)
      *         maxStoragePerIndex: Long (Optional)
      *         maxCumulativeIndexerRuntimeSeconds: Long (Optional)
+     *         maxVectorIndexSizePerIndexInBytes: Long (Optional)
      *     }
      *     indexersRuntime (Required): {
      *         usedSeconds: long (Required)
@@ -7967,7 +8826,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -7988,15 +8847,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8007,7 +8867,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -8032,15 +8892,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8051,7 +8912,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -8075,15 +8936,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8094,7 +8956,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -8117,15 +8979,16 @@ public final class SearchIndexClientImpl {
      * <table border="1">
      * <caption>Query Parameters</caption>
      * <tr><th>Name</th><th>Type</th><th>Required</th><th>Description</th></tr>
-     * <tr><td>$top</td><td>Integer</td><td>No</td><td>The number of items to retrieve. Default is 50, maximum is
-     * 1000.</td></tr>
-     * <tr><td>$skip</td><td>Integer</td><td>No</td><td>The number of items to skip.</td></tr>
-     * <tr><td>$count</td><td>Boolean</td><td>No</td><td>A value that specifies whether to fetch the total count of
-     * items. Default is false.</td></tr>
+     * <tr><td>search</td><td>String</td><td>No</td><td>A string used to narrow down the listing so that fewer results
+     * need to be paged through. If omitted or an empty string is passed, no narrowing is applied.</td></tr>
+     * <tr><td>pageSize</td><td>Integer</td><td>No</td><td>The maximum number of items to return in a single page. The
+     * server enforces a maximum; if omitted, the server determines a suitable default.</td></tr>
+     * <tr><td>searchType</td><td>String</td><td>No</td><td>Specifies how the search parameter is interpreted. Currently
+     * only 'prefix' is supported. Allowed values: "prefix".</td></tr>
      * </table>
      * You can add these to a request with {@link RequestOptions#addQueryParam}
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8136,7 +8999,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
      * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
@@ -8157,7 +9020,104 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
+     *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List SynonymMaps request along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<BinaryData>> getSynonymMapsNextSinglePageAsync(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        return FluxUtil
+            .withContext(
+                context -> service.getSynonymMapsNext(nextLink, this.getEndpoint(), accept, requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     format: String (Required)
+     *     synonyms (Required): [
+     *         String (Required)
+     *     ]
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List SynonymMaps request along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<BinaryData> getSynonymMapsNextSinglePage(String nextLink, RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        Response<BinaryData> res
+            = service.getSynonymMapsNextSync(nextLink, this.getEndpoint(), accept, requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
      * <pre>
      * {@code
      * {
@@ -8341,7 +9301,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -8365,7 +9325,7 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8549,7 +9509,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -8570,7 +9530,7 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8749,7 +9709,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -8773,7 +9733,7 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -8952,7 +9912,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -8974,7 +9934,409 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     indexes (Required): [
+     *         String (Required)
+     *     ]
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List Aliases request along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<BinaryData>> listAliasesNextSinglePageAsync(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        return FluxUtil
+            .withContext(
+                context -> service.listAliasesNext(nextLink, this.getEndpoint(), accept, requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     indexes (Required): [
+     *         String (Required)
+     *     ]
+     *     &#64;odata.etag: String (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List Aliases request along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<BinaryData> listAliasesNextSinglePage(String nextLink, RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        Response<BinaryData> res
+            = service.listAliasesNextSync(nextLink, this.getEndpoint(), accept, requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     knowledgeSources (Required): [
+     *          (Required){
+     *             name: String (Required)
+     *             enableImageServing: Boolean (Optional)
+     *             enableFreshness: Boolean (Optional)
+     *         }
+     *     ]
+     *     models (Optional): [
+     *          (Optional){
+     *             kind: String(azureOpenAI) (Required)
+     *         }
+     *     ]
+     *     retrievalReasoningEffort (Optional): {
+     *         kind: String(minimal/low/medium/auto) (Required)
+     *     }
+     *     outputMode: String(extractiveData/answerSynthesis) (Optional)
+     *     &#64;odata.etag: String (Optional)
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
+     *     retrievalInstructions: String (Optional)
+     *     answerInstructions: String (Optional)
+     *     corsOptions (Optional): {
+     *         allowedOrigins (Required): [
+     *             String (Required)
+     *         ]
+     *         maxAgeInSeconds: Long (Optional)
+     *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return result from listing knowledge bases along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<BinaryData>> listKnowledgeBasesNextSinglePageAsync(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        return FluxUtil.withContext(
+            context -> service.listKnowledgeBasesNext(nextLink, this.getEndpoint(), accept, requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     name: String (Required)
+     *     knowledgeSources (Required): [
+     *          (Required){
+     *             name: String (Required)
+     *             enableImageServing: Boolean (Optional)
+     *             enableFreshness: Boolean (Optional)
+     *         }
+     *     ]
+     *     models (Optional): [
+     *          (Optional){
+     *             kind: String(azureOpenAI) (Required)
+     *         }
+     *     ]
+     *     retrievalReasoningEffort (Optional): {
+     *         kind: String(minimal/low/medium/auto) (Required)
+     *     }
+     *     outputMode: String(extractiveData/answerSynthesis) (Optional)
+     *     &#64;odata.etag: String (Optional)
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     *     description: String (Optional)
+     *     tags (Optional): {
+     *         String: String (Required)
+     *     }
+     *     retrievalInstructions: String (Optional)
+     *     answerInstructions: String (Optional)
+     *     corsOptions (Optional): {
+     *         allowedOrigins (Required): [
+     *             String (Required)
+     *         ]
+     *         maxAgeInSeconds: Long (Optional)
+     *     }
+     *     retrieveDefaults (Optional): {
+     *         maxRuntimeInSeconds: Integer (Optional)
+     *         maxOutputDocuments: Integer (Optional)
+     *         maxOutputSizeInTokens: Integer (Optional)
+     *     }
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return result from listing knowledge bases along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<BinaryData> listKnowledgeBasesNextSinglePage(String nextLink, RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        Response<BinaryData> res
+            = service.listKnowledgeBasesNextSync(nextLink, this.getEndpoint(), accept, requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
+     *     name: String (Required)
+     *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
+     *     &#64;odata.etag: String (Optional)
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return result from listing knowledge sources along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<BinaryData>> listKnowledgeSourcesNextSinglePageAsync(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        return FluxUtil.withContext(
+            context -> service.listKnowledgeSourcesNext(nextLink, this.getEndpoint(), accept, requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     kind: String(searchIndex/azureBlob/indexedSharePoint/indexedOneLake/indexedSql/web/remoteSharePoint/workIQ/file/mcpServer/fabricDataAgent/fabricOntology) (Required)
+     *     name: String (Required)
+     *     description: String (Optional)
+     *     resultsProcessing: String(rerank/none) (Optional)
+     *     &#64;odata.etag: String (Optional)
+     *     encryptionKey (Optional): {
+     *         keyVaultKeyName: String (Required)
+     *         keyVaultKeyVersion: String (Optional)
+     *         keyVaultUri: String (Required)
+     *         accessCredentials (Optional): {
+     *             applicationId: String (Required)
+     *             applicationSecret: String (Optional)
+     *         }
+     *         identity (Optional): {
+     *             &#64;odata.type: String (Required)
+     *         }
+     *         isServiceLevelKey: Boolean (Optional)
+     *     }
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return result from listing knowledge sources along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<BinaryData> listKnowledgeSourcesNextSinglePage(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        Response<BinaryData> res
+            = service.listKnowledgeSourcesNextSync(nextLink, this.getEndpoint(), accept, requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List Files request along with {@link PagedResponse} on successful completion of
+     * {@link Mono}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private Mono<PagedResponse<BinaryData>> listKnowledgeSourceFilesNextSinglePageAsync(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        return FluxUtil
+            .withContext(context -> service.listKnowledgeSourceFilesNext(nextLink, this.getEndpoint(), accept,
+                requestOptions, context))
+            .map(res -> new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+                getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null));
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
+     * <pre>
+     * {@code
+     * {
+     *     fileId: String (Optional)
+     *     fileName: String (Optional)
+     *     fileSizeBytes: Long (Optional)
+     *     createdAt: OffsetDateTime (Optional)
+     *     lastUpdatedAt: OffsetDateTime (Optional)
+     *     errorMessage: String (Optional)
+     *     prefix: String (Optional)
+     *     metadata (Optional): {
+     *         String: String (Required)
+     *     }
+     *     parsingMode: String(default/text/delimitedText/json/jsonArray/jsonLines/markdown) (Optional)
+     *     extractionMode: String(minimal/standard) (Optional)
+     * }
+     * }
+     * </pre>
+     *
+     * @param nextLink The URL to get the next list of items.
+     * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
+     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
+     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
+     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
+     * @return response from a List Files request along with {@link PagedResponse}.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    private PagedResponse<BinaryData> listKnowledgeSourceFilesNextSinglePage(String nextLink,
+        RequestOptions requestOptions) {
+        final String accept = "application/json;odata.metadata=minimal";
+        Response<BinaryData> res = service.listKnowledgeSourceFilesNextSync(nextLink, this.getEndpoint(), accept,
+            requestOptions, Context.NONE);
+        return new PagedResponseBase<>(res.getRequest(), res.getStatusCode(), res.getHeaders(),
+            getValues(res.getValue(), "value"), getNextLink(res.getValue(), "@odata.nextLink"), null);
+    }
+
+    /**
+     * Get the next page of items.
+     * <p><strong>Response Body Schema</strong></p>
+     *
      * <pre>
      * {@code
      * {
@@ -8985,7 +10347,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
@@ -9008,7 +10370,7 @@ public final class SearchIndexClientImpl {
     /**
      * Get the next page of items.
      * <p><strong>Response Body Schema</strong></p>
-     * 
+     *
      * <pre>
      * {@code
      * {
@@ -9019,7 +10381,7 @@ public final class SearchIndexClientImpl {
      * }
      * }
      * </pre>
-     * 
+     *
      * @param nextLink The URL to get the next list of items.
      * @param requestOptions The options to configure the HTTP request before HTTP client sends it.
      * @throws HttpResponseException thrown if the request is rejected by server.
