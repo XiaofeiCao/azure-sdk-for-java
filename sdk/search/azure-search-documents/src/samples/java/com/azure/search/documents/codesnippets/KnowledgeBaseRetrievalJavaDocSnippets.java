@@ -3,12 +3,14 @@
 package com.azure.search.documents.codesnippets;
 
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReference;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeRetrievalSemanticIntent;
 import com.azure.search.documents.knowledgebases.models.SearchIndexKnowledgeSourceParams;
 
@@ -18,6 +20,7 @@ import java.util.Arrays;
 public class KnowledgeBaseRetrievalJavaDocSnippets {
 
     private static KnowledgeBaseRetrievalClient retrievalClient;
+    private static KnowledgeBaseRetrievalAsyncClient retrievalAsyncClient;
 
     /**
      * Code snippet for creating a {@link KnowledgeBaseRetrievalClient}.
@@ -31,6 +34,14 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
             .buildClient();
         // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.instantiation
         return retrievalClient;
+    }
+
+    private static KnowledgeBaseRetrievalAsyncClient createRetrievalAsyncClient() {
+        return new KnowledgeBaseRetrievalClientBuilder()
+            .credential(new AzureKeyCredential("{key}"))
+            .endpoint("{endpoint}")
+            .knowledgeBaseName("my-knowledge-base")
+            .buildAsyncClient();
     }
 
     /**
@@ -104,5 +115,44 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
         }
         // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieve.withSourceParams
     }
-}
 
+    /**
+     * Code snippet for synchronously streaming knowledge base retrieval events.
+     */
+    public static void retrieveStream() {
+        retrievalClient = createRetrievalClient();
+        // BEGIN: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieveStream
+        KnowledgeBaseRetrievalOptions request = new KnowledgeBaseRetrievalOptions()
+            .setIntents(new KnowledgeRetrievalSemanticIntent("What hotels are near the ocean?"));
+
+        retrievalClient.retrieveStream(request, event -> {
+            KnowledgeBaseRetrievalStreamEvent data = event.getData();
+            if (data != null && data.isAnswerCompleted()) {
+                System.out.println(data.asAnswerCompleted().getMessage());
+            } else if (data != null && data.isResponseCompleted()) {
+                System.out.println(data.asResponseCompleted().getStatusCode());
+            }
+        });
+        // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieveStream
+    }
+
+    /**
+     * Code snippet for asynchronously streaming knowledge base retrieval events.
+     */
+    public static void retrieveStreamAsync() {
+        retrievalAsyncClient = createRetrievalAsyncClient();
+        // BEGIN: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient.retrieveStream
+        KnowledgeBaseRetrievalOptions request = new KnowledgeBaseRetrievalOptions()
+            .setIntents(new KnowledgeRetrievalSemanticIntent("What hotels are near the ocean?"));
+
+        retrievalAsyncClient.retrieveStream(request)
+            .doOnNext(event -> {
+                KnowledgeBaseRetrievalStreamEvent data = event.getData();
+                if (data != null && data.isAnswerCompleted()) {
+                    System.out.println(data.asAnswerCompleted().getMessage());
+                }
+            })
+            .blockLast();
+        // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient.retrieveStream
+    }
+}

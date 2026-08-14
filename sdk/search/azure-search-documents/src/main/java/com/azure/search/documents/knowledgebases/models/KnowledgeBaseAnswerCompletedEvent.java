@@ -1,0 +1,80 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+package com.azure.search.documents.knowledgebases.models;
+
+import com.azure.core.annotation.Immutable;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+
+import java.io.IOException;
+
+/**
+ * The event emitted when a synthesized answer message is complete.
+ */
+@Immutable
+public final class KnowledgeBaseAnswerCompletedEvent implements JsonSerializable<KnowledgeBaseAnswerCompletedEvent> {
+    private final int messageIndex;
+    private final KnowledgeBaseMessage message;
+
+    private KnowledgeBaseAnswerCompletedEvent(int messageIndex, KnowledgeBaseMessage message) {
+        this.messageIndex = messageIndex;
+        this.message = message;
+    }
+
+    /**
+     * Gets the zero-based index of the completed message.
+     *
+     * @return the message index.
+     */
+    public int getMessageIndex() {
+        return messageIndex;
+    }
+
+    /**
+     * Gets the completed answer message.
+     *
+     * @return the completed answer message.
+     */
+    public KnowledgeBaseMessage getMessage() {
+        return message;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeIntField("messageIndex", messageIndex);
+        jsonWriter.writeJsonField("message", message);
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads an answer-completed event from JSON.
+     *
+     * @param jsonReader the JSON reader.
+     * @return the deserialized event.
+     * @throws IOException if the event cannot be read.
+     */
+    public static KnowledgeBaseAnswerCompletedEvent fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            int messageIndex = 0;
+            KnowledgeBaseMessage message = null;
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+                if ("messageIndex".equals(fieldName)) {
+                    messageIndex = reader.getInt();
+                } else if ("message".equals(fieldName)) {
+                    message = KnowledgeBaseMessage.fromJson(reader);
+                } else {
+                    reader.skipChildren();
+                }
+            }
+            return new KnowledgeBaseAnswerCompletedEvent(messageIndex, message);
+        });
+    }
+}

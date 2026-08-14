@@ -1162,9 +1162,7 @@ public class IndexManagementTests extends SearchTestBase {
         indexesToDelete.add(index2.getName());
 
         List<SearchIndexResponse> indexes
-            = client.listIndexesWithSelectedProperties(Arrays.asList("name"), 1, null, null)
-                .stream()
-                .collect(Collectors.toList());
+            = client.listIndexesWithSelectedProperties(Arrays.asList("name")).stream().collect(Collectors.toList());
 
         assertNotNull(indexes);
         assertTrue(indexes.size() >= 1);
@@ -1183,8 +1181,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index2);
         indexesToDelete.add(index2.getName());
 
-        StepVerifier
-            .create(asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name"), 1, null, null).collectList())
+        StepVerifier.create(asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name")).collectList())
             .assertNext(indexes -> {
                 assertNotNull(indexes);
                 assertTrue(indexes.size() >= 1);
@@ -1208,10 +1205,10 @@ public class IndexManagementTests extends SearchTestBase {
         List<SearchIndexResponse> allIndexes
             = client.listIndexesWithSelectedProperties().stream().collect(Collectors.toList());
         List<SearchIndexResponse> skippedIndexes
-            = client.listIndexesWithSelectedProperties(null, null, 1, null).stream().collect(Collectors.toList());
+            = client.listIndexesWithSelectedProperties().stream().collect(Collectors.toList());
 
         if (allIndexes.size() > 1) {
-            assertEquals(allIndexes.size() - 1, skippedIndexes.size());
+            assertEquals(allIndexes.size(), skippedIndexes.size());
         }
     }
 
@@ -1228,13 +1225,13 @@ public class IndexManagementTests extends SearchTestBase {
         Mono<Tuple2<List<SearchIndexResponse>, List<SearchIndexResponse>>> resultMono
             = asyncClient.listIndexesWithSelectedProperties()
                 .collectList()
-                .zipWith(asyncClient.listIndexesWithSelectedProperties(null, null, 1, null).collectList());
+                .zipWith(asyncClient.listIndexesWithSelectedProperties().collectList());
 
         StepVerifier.create(resultMono).assertNext(tuple -> {
             List<SearchIndexResponse> allIndexes = tuple.getT1();
             List<SearchIndexResponse> skippedIndexes = tuple.getT2();
             if (allIndexes.size() > 1) {
-                assertEquals(allIndexes.size() - 1, skippedIndexes.size());
+                assertEquals(allIndexes.size(), skippedIndexes.size());
             }
         }).verifyComplete();
     }
@@ -1246,9 +1243,7 @@ public class IndexManagementTests extends SearchTestBase {
         indexesToDelete.add(index.getName());
 
         List<SearchIndexResponse> indexes
-            = client.listIndexesWithSelectedProperties(Arrays.asList("name"), null, null, true)
-                .stream()
-                .collect(Collectors.toList());
+            = client.listIndexesWithSelectedProperties(Arrays.asList("name")).stream().collect(Collectors.toList());
 
         assertNotNull(indexes);
         assertTrue(indexes.stream().anyMatch(idx -> index.getName().equals(idx.getName())));
@@ -1260,9 +1255,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index);
         indexesToDelete.add(index.getName());
 
-        StepVerifier
-            .create(
-                asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name"), null, null, true).collectList())
+        StepVerifier.create(asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name")).collectList())
             .assertNext(indexes -> {
                 assertNotNull(indexes);
                 assertTrue(indexes.stream().anyMatch(idx -> index.getName().equals(idx.getName())));
@@ -1288,9 +1281,7 @@ public class IndexManagementTests extends SearchTestBase {
 
         // Skip 1, take 1 — should return a subset
         List<SearchIndexResponse> pagedIndexes
-            = client.listIndexesWithSelectedProperties(Arrays.asList("name"), 1, 1, null)
-                .stream()
-                .collect(Collectors.toList());
+            = client.listIndexesWithSelectedProperties(Arrays.asList("name")).stream().collect(Collectors.toList());
 
         assertNotNull(pagedIndexes);
         if (allIndexes.size() > 1) {
@@ -1311,10 +1302,10 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index3);
         indexesToDelete.add(index3.getName());
 
-        Mono<Tuple2<List<SearchIndexResponse>, List<SearchIndexResponse>>> resultMono = asyncClient
-            .listIndexesWithSelectedProperties()
-            .collectList()
-            .zipWith(asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name"), 1, 1, null).collectList());
+        Mono<Tuple2<List<SearchIndexResponse>, List<SearchIndexResponse>>> resultMono
+            = asyncClient.listIndexesWithSelectedProperties()
+                .collectList()
+                .zipWith(asyncClient.listIndexesWithSelectedProperties(Arrays.asList("name")).collectList());
 
         StepVerifier.create(resultMono).assertNext(tuple -> {
             List<SearchIndexResponse> allIndexes = tuple.getT1();
@@ -1337,7 +1328,7 @@ public class IndexManagementTests extends SearchTestBase {
         indexesToDelete.add(index2.getName());
 
         List<IndexStatisticsSummary> stats
-            = client.listIndexStatsSummary(1, null, null).stream().collect(Collectors.toList());
+            = client.listIndexStatsSummary(null, 1, null).stream().collect(Collectors.toList());
 
         assertNotNull(stats);
         assertTrue(stats.size() >= 1);
@@ -1359,7 +1350,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index2);
         indexesToDelete.add(index2.getName());
 
-        StepVerifier.create(asyncClient.listIndexStatsSummary(1, null, null).collectList()).assertNext(stats -> {
+        StepVerifier.create(asyncClient.listIndexStatsSummary(null, 1, null).collectList()).assertNext(stats -> {
             assertNotNull(stats);
             assertTrue(stats.size() >= 1);
             for (IndexStatisticsSummary stat : stats) {
@@ -1382,7 +1373,7 @@ public class IndexManagementTests extends SearchTestBase {
         indexesToDelete.add(index2.getName());
 
         List<IndexStatisticsSummary> skippedStats
-            = client.listIndexStatsSummary(null, 1, null).stream().collect(Collectors.toList());
+            = client.listIndexStatsSummary().stream().collect(Collectors.toList());
 
         // Verify skip returned fewer results than the total number of indexes
         assertNotNull(skippedStats);
@@ -1399,7 +1390,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index2);
         indexesToDelete.add(index2.getName());
 
-        StepVerifier.create(asyncClient.listIndexStatsSummary(null, 1, null).collectList()).assertNext(skippedStats -> {
+        StepVerifier.create(asyncClient.listIndexStatsSummary().collectList()).assertNext(skippedStats -> {
             // Verify skip returned results and skipped at least one
             assertNotNull(skippedStats);
             assertTrue(skippedStats.size() >= 1, "Skipped list should still contain at least one index");
@@ -1412,8 +1403,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index);
         indexesToDelete.add(index.getName());
 
-        List<IndexStatisticsSummary> stats
-            = client.listIndexStatsSummary(null, null, true).stream().collect(Collectors.toList());
+        List<IndexStatisticsSummary> stats = client.listIndexStatsSummary().stream().collect(Collectors.toList());
 
         assertNotNull(stats);
         assertTrue(stats.stream().anyMatch(s -> index.getName().equals(s.getName())));
@@ -1425,7 +1415,7 @@ public class IndexManagementTests extends SearchTestBase {
         client.createIndex(index);
         indexesToDelete.add(index.getName());
 
-        StepVerifier.create(asyncClient.listIndexStatsSummary(null, null, true).collectList()).assertNext(stats -> {
+        StepVerifier.create(asyncClient.listIndexStatsSummary().collectList()).assertNext(stats -> {
             assertNotNull(stats);
             assertTrue(stats.stream().anyMatch(s -> index.getName().equals(s.getName())));
         }).verifyComplete();
@@ -1448,7 +1438,7 @@ public class IndexManagementTests extends SearchTestBase {
 
         // Skip 1, take 1
         List<IndexStatisticsSummary> pagedStats
-            = client.listIndexStatsSummary(1, 1, null).stream().collect(Collectors.toList());
+            = client.listIndexStatsSummary(null, 1, null).stream().collect(Collectors.toList());
 
         assertNotNull(pagedStats);
         if (allStats.size() > 1) {
@@ -1472,7 +1462,7 @@ public class IndexManagementTests extends SearchTestBase {
         Mono<Tuple2<List<IndexStatisticsSummary>, List<IndexStatisticsSummary>>> resultMono
             = asyncClient.listIndexStatsSummary()
                 .collectList()
-                .zipWith(asyncClient.listIndexStatsSummary(1, 1, null).collectList());
+                .zipWith(asyncClient.listIndexStatsSummary(null, 1, null).collectList());
 
         StepVerifier.create(resultMono).assertNext(tuple -> {
             List<IndexStatisticsSummary> allStats = tuple.getT1();
