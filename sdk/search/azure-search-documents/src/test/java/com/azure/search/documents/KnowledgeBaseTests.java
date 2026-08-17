@@ -988,9 +988,9 @@ public class KnowledgeBaseTests extends SearchTestBase {
         // At least one model-backed activity record should have modelName set
         boolean foundModelName = response.getActivity().stream().anyMatch(record -> {
             if (record instanceof KnowledgeBaseModelQueryPlanningActivityRecord) {
-                return ((KnowledgeBaseModelQueryPlanningActivityRecord) record).getModelName() != null;
+                return ((KnowledgeBaseModelQueryPlanningActivityRecord) record).getInputTokens() != null;
             } else if (record instanceof KnowledgeBaseModelAnswerSynthesisActivityRecord) {
-                return ((KnowledgeBaseModelAnswerSynthesisActivityRecord) record).getModelName() != null;
+                return ((KnowledgeBaseModelAnswerSynthesisActivityRecord) record).getInputTokens() != null;
             }
             return false;
         });
@@ -1023,9 +1023,9 @@ public class KnowledgeBaseTests extends SearchTestBase {
 
             boolean foundModelName = response.getActivity().stream().anyMatch(record -> {
                 if (record instanceof KnowledgeBaseModelQueryPlanningActivityRecord) {
-                    return ((KnowledgeBaseModelQueryPlanningActivityRecord) record).getModelName() != null;
+                    return ((KnowledgeBaseModelQueryPlanningActivityRecord) record).getInputTokens() != null;
                 } else if (record instanceof KnowledgeBaseModelAnswerSynthesisActivityRecord) {
-                    return ((KnowledgeBaseModelAnswerSynthesisActivityRecord) record).getModelName() != null;
+                    return ((KnowledgeBaseModelAnswerSynthesisActivityRecord) record).getInputTokens() != null;
                 }
                 return false;
             });

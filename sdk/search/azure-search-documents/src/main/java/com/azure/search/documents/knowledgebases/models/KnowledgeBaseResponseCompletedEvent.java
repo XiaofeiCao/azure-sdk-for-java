@@ -1,0 +1,89 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+package com.azure.search.documents.knowledgebases.models;
+
+import com.azure.core.annotation.Immutable;
+import com.azure.json.JsonReader;
+import com.azure.json.JsonSerializable;
+import com.azure.json.JsonToken;
+import com.azure.json.JsonWriter;
+
+import java.io.IOException;
+
+/**
+ * The event emitted after knowledge base retrieval completes successfully.
+ */
+@Immutable
+public final class KnowledgeBaseResponseCompletedEvent
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseResponseCompletedEvent> {
+    private final int statusCode;
+    private final KnowledgeBaseRetrievalResult response;
+
+    private KnowledgeBaseResponseCompletedEvent(int statusCode, KnowledgeBaseRetrievalResult response) {
+        this.statusCode = statusCode;
+        this.response = response;
+    }
+
+    /**
+     * Gets the semantic HTTP status of the completed retrieval.
+     *
+     * @return the semantic HTTP status code.
+     */
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    /**
+     * Gets the authoritative completed retrieval response.
+     *
+     * @return the completed retrieval response.
+     */
+    public KnowledgeBaseRetrievalResult getResponse() {
+        return response;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminal() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonWriter toJson(JsonWriter jsonWriter) throws IOException {
+        jsonWriter.writeStartObject();
+        jsonWriter.writeIntField("statusCode", statusCode);
+        jsonWriter.writeJsonField("response", response);
+        return jsonWriter.writeEndObject();
+    }
+
+    /**
+     * Reads a response-completed event from JSON.
+     *
+     * @param jsonReader the JSON reader.
+     * @return the deserialized event.
+     * @throws IOException if the event cannot be read.
+     */
+    public static KnowledgeBaseResponseCompletedEvent fromJson(JsonReader jsonReader) throws IOException {
+        return jsonReader.readObject(reader -> {
+            int statusCode = 0;
+            KnowledgeBaseRetrievalResult response = null;
+            while (reader.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = reader.getFieldName();
+                reader.nextToken();
+                if ("statusCode".equals(fieldName)) {
+                    statusCode = reader.getInt();
+                } else if ("response".equals(fieldName)) {
+                    response = KnowledgeBaseRetrievalResult.fromJson(reader);
+                } else {
+                    reader.skipChildren();
+                }
+            }
+            return new KnowledgeBaseResponseCompletedEvent(statusCode, response);
+        });
+    }
+}

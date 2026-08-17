@@ -47,7 +47,7 @@ import com.azure.search.documents.indexes.models.McpServerSplitOutputParsing;
 import com.azure.search.documents.indexes.models.McpServerStoredHeadersAuthentication;
 import com.azure.search.documents.indexes.models.McpServerStoredHeadersParameters;
 import com.azure.search.documents.indexes.models.McpServerTool;
-import com.azure.search.documents.indexes.models.McpServerToolInclusionMode;
+import com.azure.search.documents.indexes.models.KnowledgeSourceResultsProcessing;
 import com.azure.search.documents.indexes.models.SearchIndex;
 import com.azure.search.documents.indexes.models.SearchIndexFieldReference;
 import com.azure.search.documents.indexes.models.SearchIndexKnowledgeSource;
@@ -64,6 +64,8 @@ import com.azure.search.documents.knowledgebases.models.FreshnessPolicy;
 import com.azure.search.documents.knowledgebases.models.KnowledgeSourceAzureOpenAIVectorizer;
 import com.azure.search.documents.knowledgebases.models.KnowledgeSourceIngestionParameters;
 import com.azure.search.documents.knowledgebases.models.KnowledgeSourceStatus;
+import com.azure.search.documents.models.EntraAppAuthentication;
+import com.azure.search.documents.models.WorkIQKnowledgeSourceParameters;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -1290,7 +1292,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
         McpServerStoredHeadersAuthentication auth = new McpServerStoredHeadersAuthentication(storedHeadersParams);
 
         McpServerTool tool = new McpServerTool().setName("get_issues")
-            .setInclusionMode(McpServerToolInclusionMode.ALWAYS)
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.NONE)
             .setMaxOutputTokens(500);
 
         McpServerKnowledgeSourceParameters params
@@ -1311,7 +1313,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
         // Verify tool params
         McpServerTool createdTool = createdSource.getMcpServerParameters().getTools().get(0);
         assertEquals("get_issues", createdTool.getName());
-        assertEquals(McpServerToolInclusionMode.ALWAYS, createdTool.getInclusionMode());
+        assertEquals(KnowledgeSourceResultsProcessing.NONE, createdTool.getResultsProcessing());
         assertEquals(500, createdTool.getMaxOutputTokens());
     }
 
@@ -1326,7 +1328,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
         McpServerStoredHeadersAuthentication auth = new McpServerStoredHeadersAuthentication(storedHeadersParams);
 
         McpServerTool tool = new McpServerTool().setName("get_issues")
-            .setInclusionMode(McpServerToolInclusionMode.ALWAYS)
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.NONE)
             .setMaxOutputTokens(500);
 
         McpServerKnowledgeSourceParameters params
@@ -1344,7 +1346,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
 
             McpServerTool createdTool = createdSource.getMcpServerParameters().getTools().get(0);
             assertEquals("get_issues", createdTool.getName());
-            assertEquals(McpServerToolInclusionMode.ALWAYS, createdTool.getInclusionMode());
+            assertEquals(KnowledgeSourceResultsProcessing.NONE, createdTool.getResultsProcessing());
             assertEquals(500, createdTool.getMaxOutputTokens());
         }).verifyComplete();
     }
@@ -1419,11 +1421,11 @@ public class KnowledgeSourceTests extends SearchTestBase {
 
         McpServerTool tool1 = new McpServerTool().setName("search_code")
             .setOutputParsing(new McpServerJsonOutputParsing(new McpServerOutputParsingJsonParameters("$.results[*]")))
-            .setInclusionMode(McpServerToolInclusionMode.RERANKED);
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.RERANK);
 
         McpServerTool tool2 = new McpServerTool().setName("get_issues")
             .setOutputParsing(new McpServerNoneOutputParsing())
-            .setInclusionMode(McpServerToolInclusionMode.ALWAYS)
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.NONE)
             .setMaxOutputTokens(1000);
 
         McpServerKnowledgeSourceParameters params = new McpServerKnowledgeSourceParameters(
@@ -1445,12 +1447,12 @@ public class KnowledgeSourceTests extends SearchTestBase {
         McpServerTool createdTool1 = toolMap.get("search_code");
         assertNotNull(createdTool1);
         assertInstanceOf(McpServerJsonOutputParsing.class, createdTool1.getOutputParsing());
-        assertEquals(McpServerToolInclusionMode.RERANKED, createdTool1.getInclusionMode());
+        assertEquals(KnowledgeSourceResultsProcessing.RERANK, createdTool1.getResultsProcessing());
 
         McpServerTool createdTool2 = toolMap.get("get_issues");
         assertNotNull(createdTool2);
         assertInstanceOf(McpServerNoneOutputParsing.class, createdTool2.getOutputParsing());
-        assertEquals(McpServerToolInclusionMode.ALWAYS, createdTool2.getInclusionMode());
+        assertEquals(KnowledgeSourceResultsProcessing.NONE, createdTool2.getResultsProcessing());
         assertEquals(1000, createdTool2.getMaxOutputTokens());
     }
 
@@ -1460,11 +1462,11 @@ public class KnowledgeSourceTests extends SearchTestBase {
 
         McpServerTool tool1 = new McpServerTool().setName("search_code")
             .setOutputParsing(new McpServerJsonOutputParsing(new McpServerOutputParsingJsonParameters("$.results[*]")))
-            .setInclusionMode(McpServerToolInclusionMode.RERANKED);
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.RERANK);
 
         McpServerTool tool2 = new McpServerTool().setName("get_issues")
             .setOutputParsing(new McpServerNoneOutputParsing())
-            .setInclusionMode(McpServerToolInclusionMode.ALWAYS)
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.NONE)
             .setMaxOutputTokens(1000);
 
         McpServerKnowledgeSourceParameters params = new McpServerKnowledgeSourceParameters(
@@ -1488,7 +1490,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
             McpServerTool createdTool2 = toolMap.get("get_issues");
             assertNotNull(createdTool2);
             assertInstanceOf(McpServerNoneOutputParsing.class, createdTool2.getOutputParsing());
-            assertEquals(McpServerToolInclusionMode.ALWAYS, createdTool2.getInclusionMode());
+            assertEquals(KnowledgeSourceResultsProcessing.NONE, createdTool2.getResultsProcessing());
             assertEquals(1000, createdTool2.getMaxOutputTokens());
         }).verifyComplete();
     }
@@ -1611,11 +1613,11 @@ public class KnowledgeSourceTests extends SearchTestBase {
         McpServerTool tool1 = new McpServerTool().setName("search_code")
             .setOutputParsing(new McpServerJsonOutputParsing(
                 new McpServerOutputParsingJsonParameters("$.results[*]").setIncludeContext(true)))
-            .setInclusionMode(McpServerToolInclusionMode.RERANKED);
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.RERANK);
 
         McpServerTool tool2 = new McpServerTool().setName("get_issues")
             .setOutputParsing(new McpServerNoneOutputParsing())
-            .setInclusionMode(McpServerToolInclusionMode.ALWAYS)
+            .setResultsProcessing(KnowledgeSourceResultsProcessing.NONE)
             .setMaxOutputTokens(500);
 
         McpServerKnowledgeSourceParameters params
@@ -1668,7 +1670,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
             McpServerTool deserializedTool2 = deserializedSource.getMcpServerParameters().getTools().get(1);
             assertEquals("get_issues", deserializedTool2.getName());
             assertInstanceOf(McpServerNoneOutputParsing.class, deserializedTool2.getOutputParsing());
-            assertEquals(McpServerToolInclusionMode.ALWAYS, deserializedTool2.getInclusionMode());
+            assertEquals(KnowledgeSourceResultsProcessing.NONE, deserializedTool2.getResultsProcessing());
             assertEquals(500, deserializedTool2.getMaxOutputTokens());
         }
     }
@@ -2401,7 +2403,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void createWorkIQKnowledgeSourceSync() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
 
         KnowledgeSource created = searchIndexClient.createKnowledgeSource(workIQKS);
 
@@ -2413,7 +2415,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void createWorkIQKnowledgeSourceAsync() {
         SearchIndexAsyncClient searchIndexClient = getSearchIndexClientBuilder(false).buildAsyncClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
 
         StepVerifier.create(searchIndexClient.createKnowledgeSource(workIQKS)).assertNext(created -> {
             assertEquals(workIQKS.getName(), created.getName());
@@ -2425,8 +2427,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void createWorkIQKnowledgeSourceWithDescription() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS
-            = new WorkIQKnowledgeSource(randomKnowledgeSourceName()).setDescription("Work IQ KS for testing");
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource().setDescription("Work IQ KS for testing");
 
         KnowledgeSource created = searchIndexClient.createKnowledgeSource(workIQKS);
 
@@ -2438,7 +2439,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void getWorkIQKnowledgeSourceSync() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
         searchIndexClient.createKnowledgeSource(workIQKS);
 
         KnowledgeSource retrieved = searchIndexClient.getKnowledgeSource(workIQKS.getName());
@@ -2451,7 +2452,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void getWorkIQKnowledgeSourceAsync() {
         SearchIndexAsyncClient searchIndexClient = getSearchIndexClientBuilder(false).buildAsyncClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
 
         Mono<KnowledgeSource> createAndGetMono = searchIndexClient.createKnowledgeSource(workIQKS)
             .flatMap(created -> searchIndexClient.getKnowledgeSource(created.getName()));
@@ -2466,7 +2467,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void updateWorkIQKnowledgeSourceSync() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
         searchIndexClient.createKnowledgeSource(workIQKS);
 
         String newDescription = "Updated Work IQ description";
@@ -2481,7 +2482,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void updateWorkIQKnowledgeSourceAsync() {
         SearchIndexAsyncClient searchIndexClient = getSearchIndexClientBuilder(false).buildAsyncClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
 
         Mono<KnowledgeSource> createUpdateAndGetMono
             = searchIndexClient.createKnowledgeSource(workIQKS).flatMap(created -> {
@@ -2500,7 +2501,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void deleteWorkIQKnowledgeSourceSync() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
         searchIndexClient.createKnowledgeSource(workIQKS);
 
         searchIndexClient.deleteKnowledgeSource(workIQKS.getName());
@@ -2511,7 +2512,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void deleteWorkIQKnowledgeSourceAsync() {
         SearchIndexAsyncClient searchIndexClient = getSearchIndexClientBuilder(false).buildAsyncClient();
-        WorkIQKnowledgeSource workIQKS = new WorkIQKnowledgeSource(randomKnowledgeSourceName());
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource();
 
         Mono<Void> createAndDeleteMono = searchIndexClient.createKnowledgeSource(workIQKS)
             .flatMap(created -> searchIndexClient.deleteKnowledgeSource(created.getName()));
@@ -2525,8 +2526,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void listKnowledgeSourcesIncludesWorkIQType() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS
-            = new WorkIQKnowledgeSource(randomKnowledgeSourceName()).setDescription("Work IQ for listing test");
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource().setDescription("Work IQ for listing test");
 
         KnowledgeSource created = searchIndexClient.createKnowledgeSource(workIQKS);
 
@@ -2542,8 +2542,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
 
     @Test
     public void workIQKnowledgeSourceJsonSerializationRoundTrip() {
-        WorkIQKnowledgeSource workIQKS
-            = new WorkIQKnowledgeSource(randomKnowledgeSourceName()).setDescription("JSON serialization test");
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource().setDescription("JSON serialization test");
 
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -2571,8 +2570,7 @@ public class KnowledgeSourceTests extends SearchTestBase {
     @Test
     public void workIQKnowledgeSourceResponseShapeValidation() {
         SearchIndexClient searchIndexClient = getSearchIndexClientBuilder(true).buildClient();
-        WorkIQKnowledgeSource workIQKS
-            = new WorkIQKnowledgeSource(randomKnowledgeSourceName()).setDescription("Response shape test");
+        WorkIQKnowledgeSource workIQKS = createWorkIQKnowledgeSource().setDescription("Response shape test");
 
         KnowledgeSource created = searchIndexClient.createKnowledgeSource(workIQKS);
 
@@ -2592,6 +2590,13 @@ public class KnowledgeSourceTests extends SearchTestBase {
 
     private String randomKnowledgeSourceName() {
         return testResourceNamer.randomName("knowledge-source-", 63).toLowerCase();
+    }
+
+    private WorkIQKnowledgeSource createWorkIQKnowledgeSource() {
+        EntraAppAuthentication authentication
+            = new EntraAppAuthentication("application-id", "federated-identity-credential-id");
+        WorkIQKnowledgeSourceParameters parameters = new WorkIQKnowledgeSourceParameters(authentication);
+        return new WorkIQKnowledgeSource(randomKnowledgeSourceName(), parameters);
     }
 
     private static SearchIndexClient setupIndex() {

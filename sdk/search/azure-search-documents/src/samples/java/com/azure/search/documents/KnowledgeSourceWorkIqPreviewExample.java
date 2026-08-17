@@ -15,6 +15,8 @@ import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBui
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeRetrievalSemanticIntent;
+import com.azure.search.documents.models.EntraAppAuthentication;
+import com.azure.search.documents.models.WorkIQKnowledgeSourceParameters;
 
 /**
  * Demonstrates creating and using a Work IQ knowledge source in the preview API.
@@ -27,6 +29,8 @@ public class KnowledgeSourceWorkIqPreviewExample {
     public static void main(String[] args) {
         String endpoint = System.getenv("SEARCH_ENDPOINT");
         String apiKey = System.getenv("SEARCH_API_KEY");
+        String applicationId = System.getenv("WORK_IQ_APPLICATION_ID");
+        String federatedIdentityCredentialId = System.getenv("WORK_IQ_FEDERATED_IDENTITY_CREDENTIAL_ID");
 
         SearchIndexClient searchIndexClient = new SearchIndexClientBuilder()
             .endpoint(endpoint)
@@ -40,8 +44,10 @@ public class KnowledgeSourceWorkIqPreviewExample {
             .buildClient();
 
         try {
-            // Create KS — Work IQ requires only a name, no extra parameters
-            WorkIQKnowledgeSource knowledgeSource = new WorkIQKnowledgeSource(KS_NAME);
+            EntraAppAuthentication authentication
+                = new EntraAppAuthentication(applicationId, federatedIdentityCredentialId);
+            WorkIQKnowledgeSourceParameters parameters = new WorkIQKnowledgeSourceParameters(authentication);
+            WorkIQKnowledgeSource knowledgeSource = new WorkIQKnowledgeSource(KS_NAME, parameters);
             searchIndexClient.createOrUpdateKnowledgeSource(knowledgeSource);
 
             // Verify KS kind

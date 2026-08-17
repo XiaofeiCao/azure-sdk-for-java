@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added synchronous and asynchronous server-sent event APIs with marker-interface event payloads for streaming
+  knowledge base retrieval progress and results.
+
 ### Breaking Changes
 
 ### Bugs Fixed
