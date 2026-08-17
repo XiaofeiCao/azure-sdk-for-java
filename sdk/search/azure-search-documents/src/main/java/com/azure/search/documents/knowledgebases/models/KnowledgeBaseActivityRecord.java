@@ -18,7 +18,8 @@ import java.time.format.DateTimeFormatter;
  * Base type for activity records. Tracks execution details, timing, and errors for knowledge base operations.
  */
 @Immutable
-public class KnowledgeBaseActivityRecord implements JsonSerializable<KnowledgeBaseActivityRecord> {
+public class KnowledgeBaseActivityRecord
+    implements JsonSerializable<KnowledgeBaseActivityRecord>, KnowledgeBaseRetrievalStreamEvent {
 
     /*
      * The type of the activity record.

@@ -29,6 +29,8 @@ public class SearchCustomizations extends Customization {
         PackageCustomization documents = libraryCustomization.getPackage("com.azure.search.documents");
         PackageCustomization indexes = libraryCustomization.getPackage("com.azure.search.documents.indexes");
         PackageCustomization knowledge = libraryCustomization.getPackage("com.azure.search.documents.knowledgebases");
+        PackageCustomization knowledgeModels
+            = libraryCustomization.getPackage("com.azure.search.documents.knowledgebases.models");
         PackageCustomization implementation = libraryCustomization.getPackage("com.azure.search.documents.implementation");
 
         hideGeneratedSearchApis(documents);
@@ -65,6 +67,7 @@ public class SearchCustomizations extends Customization {
         addKnowledgeBaseRetrievalStreamMethods(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"), true);
         addKnowledgeBaseRetrievalCompatibilityOverload(knowledge.getClass("KnowledgeBaseRetrievalClient"), false);
         addKnowledgeBaseRetrievalCompatibilityOverload(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"), true);
+        implementKnowledgeBaseRetrievalStreamEvent(knowledgeModels.getClass("KnowledgeBaseActivityRecord"));
         makeMultipartRequestOptionsFinal(implementation.getClass("MultipartFormDataHelper"));
 
         // After hiding BinaryData protocol methods, add typed public convenience wrappers on the async client
@@ -218,6 +221,11 @@ public class SearchCustomizations extends Customization {
         customization.customizeAst(ast -> ast.getClassByName(customization.getClassName())
             .flatMap(clazz -> clazz.getFieldByName("requestOptions"))
             .ifPresent(field -> field.setFinal(true)));
+    }
+
+    private static void implementKnowledgeBaseRetrievalStreamEvent(ClassCustomization customization) {
+        customization.customizeAst(ast -> ast.getClassByName(customization.getClassName())
+            .ifPresent(clazz -> clazz.addImplementedType("KnowledgeBaseRetrievalStreamEvent")));
     }
 
     private static void addKnowledgeBaseRetrievalStreamMethods(ClassCustomization customization, boolean async) {

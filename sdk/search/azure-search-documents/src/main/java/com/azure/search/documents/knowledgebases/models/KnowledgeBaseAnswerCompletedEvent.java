@@ -14,7 +14,8 @@ import java.io.IOException;
  * The event emitted when a synthesized answer message is complete.
  */
 @Immutable
-public final class KnowledgeBaseAnswerCompletedEvent implements JsonSerializable<KnowledgeBaseAnswerCompletedEvent> {
+public final class KnowledgeBaseAnswerCompletedEvent
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseAnswerCompletedEvent> {
     private final int messageIndex;
     private final KnowledgeBaseMessage message;
 

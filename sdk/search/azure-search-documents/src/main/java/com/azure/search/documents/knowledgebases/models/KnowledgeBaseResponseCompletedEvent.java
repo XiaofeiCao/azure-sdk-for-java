@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 @Immutable
 public final class KnowledgeBaseResponseCompletedEvent
-    implements JsonSerializable<KnowledgeBaseResponseCompletedEvent> {
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseResponseCompletedEvent> {
     private final int statusCode;
     private final KnowledgeBaseRetrievalResult response;
 
@@ -40,6 +40,14 @@ public final class KnowledgeBaseResponseCompletedEvent
      */
     public KnowledgeBaseRetrievalResult getResponse() {
         return response;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminal() {
+        return true;
     }
 
     /**

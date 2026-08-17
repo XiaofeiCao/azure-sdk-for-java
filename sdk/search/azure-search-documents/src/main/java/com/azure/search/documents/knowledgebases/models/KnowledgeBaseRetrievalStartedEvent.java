@@ -14,7 +14,8 @@ import java.io.IOException;
  * The event emitted when knowledge base retrieval starts.
  */
 @Immutable
-public final class KnowledgeBaseRetrievalStartedEvent implements JsonSerializable<KnowledgeBaseRetrievalStartedEvent> {
+public final class KnowledgeBaseRetrievalStartedEvent
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseRetrievalStartedEvent> {
     private final String requestId;
     private final String knowledgeBaseName;
     private final KnowledgeRetrievalOutputMode outputMode;

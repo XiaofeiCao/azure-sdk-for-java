@@ -6,74 +6,80 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KnowledgeBaseRetrievalStreamEventTests {
     @Test
-    public void deserializesEveryEventVariant() {
+    public void deserializesEveryNamedEventToItsMarkerImplementation() {
         KnowledgeBaseRetrievalStreamEvent retrievalStarted = deserialize("retrieval.started",
             "{\"requestId\":\"request-1\",\"knowledgeBaseName\":\"kb\",\"outputMode\":\"answerSynthesis\","
                 + "\"reasoningEffort\":{\"kind\":\"minimal\"}}");
-        assertTrue(retrievalStarted.isRetrievalStarted());
-        assertEquals("request-1", retrievalStarted.asRetrievalStarted().getRequestId());
-        assertEquals(KnowledgeRetrievalOutputMode.ANSWER_SYNTHESIS,
-            retrievalStarted.asRetrievalStarted().getOutputMode());
+        KnowledgeBaseRetrievalStartedEvent retrievalStartedEvent
+            = assertInstanceOf(KnowledgeBaseRetrievalStartedEvent.class, retrievalStarted);
+        assertEquals("request-1", retrievalStartedEvent.getRequestId());
+        assertEquals(KnowledgeRetrievalOutputMode.ANSWER_SYNTHESIS, retrievalStartedEvent.getOutputMode());
+        assertFalse(retrievalStartedEvent.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent activityStarted = deserialize("activity.started",
             "{\"id\":1,\"type\":\"searchIndex\",\"startedAt\":\"2026-08-11T00:00:00Z\","
                 + "\"knowledgeSourceName\":\"source\"}");
-        assertTrue(activityStarted.isActivityStarted());
-        assertEquals(KnowledgeBaseActivityRecordType.SEARCH_INDEX, activityStarted.asActivityStarted().getType());
+        KnowledgeBaseActivityStartedEvent activityStartedEvent
+            = assertInstanceOf(KnowledgeBaseActivityStartedEvent.class, activityStarted);
+        assertEquals(KnowledgeBaseActivityRecordType.SEARCH_INDEX, activityStartedEvent.getType());
+        assertFalse(activityStartedEvent.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent activityCompleted
             = deserialize("activity.completed", "{\"id\":1,\"type\":\"searchIndex\"}");
-        assertTrue(activityCompleted.isActivityCompleted());
-        assertEquals(1, activityCompleted.asActivityCompleted().getId());
+        KnowledgeBaseActivityRecord activityRecord
+            = assertInstanceOf(KnowledgeBaseSearchIndexActivityRecord.class, activityCompleted);
+        assertEquals(1, activityRecord.getId());
+        assertFalse(activityRecord.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent answerCompleted
             = deserialize("answer.completed", "{\"messageIndex\":0,\"message\":{\"content\":[]}}");
-        assertTrue(answerCompleted.isAnswerCompleted());
-        assertEquals(0, answerCompleted.asAnswerCompleted().getMessageIndex());
+        KnowledgeBaseAnswerCompletedEvent answerCompletedEvent
+            = assertInstanceOf(KnowledgeBaseAnswerCompletedEvent.class, answerCompleted);
+        assertEquals(0, answerCompletedEvent.getMessageIndex());
+        assertFalse(answerCompletedEvent.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent referencesCompleted = deserialize("references.completed", "[]");
-        assertTrue(referencesCompleted.isReferencesCompleted());
-        assertTrue(referencesCompleted.asReferencesCompleted().isEmpty());
+        KnowledgeBaseReferencesCompletedEvent referencesCompletedEvent
+            = assertInstanceOf(KnowledgeBaseReferencesCompletedEvent.class, referencesCompleted);
+        assertTrue(referencesCompletedEvent.getReferences().isEmpty());
+        assertFalse(referencesCompletedEvent.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent error
             = deserialize("error", "{\"error\":{\"code\":\"RetrievalFailed\"},\"activity\":[]}");
-        assertTrue(error.isError());
-        assertTrue(error.isTerminal());
-        assertEquals("RetrievalFailed", error.asError().getError().getCode());
+        KnowledgeBaseStreamErrorEvent errorEvent = assertInstanceOf(KnowledgeBaseStreamErrorEvent.class, error);
+        assertEquals("RetrievalFailed", errorEvent.getError().getCode());
+        assertTrue(errorEvent.isTerminal());
 
         KnowledgeBaseRetrievalStreamEvent responseCompleted = deserialize("response.completed",
             "{\"statusCode\":200,\"response\":{\"response\":[],\"activity\":[],\"references\":[]}}");
-        assertTrue(responseCompleted.isResponseCompleted());
-        assertTrue(responseCompleted.isTerminal());
-        assertEquals(200, responseCompleted.asResponseCompleted().getStatusCode());
+        KnowledgeBaseResponseCompletedEvent responseCompletedEvent
+            = assertInstanceOf(KnowledgeBaseResponseCompletedEvent.class, responseCompleted);
+        assertEquals(200, responseCompletedEvent.getStatusCode());
+        assertTrue(responseCompletedEvent.isTerminal());
     }
 
     @Test
-    public void accessorsRejectTheWrongVariant() {
-        KnowledgeBaseRetrievalStreamEvent event = deserialize("references.completed", "[]");
+    public void unknownEventsRetainEventNameAndRawData() {
+        String rawData = "{\"value\":\"future\"}";
+        KnowledgeBaseRetrievalStreamEvent event = KnowledgeBaseRetrievalStreamEvent.fromEvent("future.event", rawData);
 
-        assertFalse(event.isTerminal());
-        assertTrue(event.referencesCompleted().isPresent());
-        assertThrows(IllegalStateException.class, event::asError);
+        UnknownKnowledgeBaseRetrievalStreamEvent unknown
+            = assertInstanceOf(UnknownKnowledgeBaseRetrievalStreamEvent.class, event);
+        assertEquals("future.event", unknown.getEventName());
+        assertEquals(rawData, unknown.getRawData());
+        assertFalse(unknown.isTerminal());
     }
 
     @Test
-    public void unknownEventsRetainOnlyProtocolMetadata() {
-        KnowledgeBaseRetrievalStreamEvent event = KnowledgeBaseRetrievalStreamEvent.fromEvent("future.event", "{}");
-
-        assertFalse(event.isRetrievalStarted());
-        assertFalse(event.isActivityStarted());
-        assertFalse(event.isActivityCompleted());
-        assertFalse(event.isAnswerCompleted());
-        assertFalse(event.isReferencesCompleted());
-        assertFalse(event.isError());
-        assertFalse(event.isResponseCompleted());
-        assertFalse(event.isTerminal());
+    public void missingProtocolFieldsDoNotProduceAnEventPayload() {
+        assertNull(KnowledgeBaseRetrievalStreamEvent.fromEvent(null, "{}"));
+        assertNull(KnowledgeBaseRetrievalStreamEvent.fromEvent("future.event", null));
     }
 
     private static KnowledgeBaseRetrievalStreamEvent deserialize(String eventName, String data) {

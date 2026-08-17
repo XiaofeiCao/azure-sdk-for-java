@@ -15,7 +15,8 @@ import java.util.List;
  * The event emitted when knowledge base retrieval fails after streaming starts.
  */
 @Immutable
-public final class KnowledgeBaseStreamErrorEvent implements JsonSerializable<KnowledgeBaseStreamErrorEvent> {
+public final class KnowledgeBaseStreamErrorEvent
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseStreamErrorEvent> {
     private final KnowledgeBaseErrorDetail error;
     private final List<KnowledgeBaseActivityRecord> activity;
 
@@ -40,6 +41,14 @@ public final class KnowledgeBaseStreamErrorEvent implements JsonSerializable<Kno
      */
     public List<KnowledgeBaseActivityRecord> getActivity() {
         return activity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminal() {
+        return true;
     }
 
     /**

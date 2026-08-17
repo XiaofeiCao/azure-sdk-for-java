@@ -17,7 +17,8 @@ import java.time.format.DateTimeFormatter;
  * The event emitted immediately before a knowledge base retrieval activity starts.
  */
 @Immutable
-public final class KnowledgeBaseActivityStartedEvent implements JsonSerializable<KnowledgeBaseActivityStartedEvent> {
+public final class KnowledgeBaseActivityStartedEvent
+    implements KnowledgeBaseRetrievalStreamEvent, JsonSerializable<KnowledgeBaseActivityStartedEvent> {
     private final int id;
     private final KnowledgeBaseActivityRecordType type;
     private final OffsetDateTime startedAt;

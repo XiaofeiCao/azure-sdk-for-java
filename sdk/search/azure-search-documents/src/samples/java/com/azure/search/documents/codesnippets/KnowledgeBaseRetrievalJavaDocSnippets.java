@@ -6,8 +6,10 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseAnswerCompletedEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReference;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseResponseCompletedEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
@@ -127,10 +129,10 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
 
         retrievalClient.retrieveStream(request, event -> {
             KnowledgeBaseRetrievalStreamEvent data = event.getData();
-            if (data != null && data.isAnswerCompleted()) {
-                System.out.println(data.asAnswerCompleted().getMessage());
-            } else if (data != null && data.isResponseCompleted()) {
-                System.out.println(data.asResponseCompleted().getStatusCode());
+            if (data instanceof KnowledgeBaseAnswerCompletedEvent) {
+                System.out.println(((KnowledgeBaseAnswerCompletedEvent) data).getMessage());
+            } else if (data instanceof KnowledgeBaseResponseCompletedEvent) {
+                System.out.println(((KnowledgeBaseResponseCompletedEvent) data).getStatusCode());
             }
         });
         // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieveStream
@@ -148,8 +150,8 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
         retrievalAsyncClient.retrieveStream(request)
             .doOnNext(event -> {
                 KnowledgeBaseRetrievalStreamEvent data = event.getData();
-                if (data != null && data.isAnswerCompleted()) {
-                    System.out.println(data.asAnswerCompleted().getMessage());
+                if (data instanceof KnowledgeBaseAnswerCompletedEvent) {
+                    System.out.println(((KnowledgeBaseAnswerCompletedEvent) data).getMessage());
                 }
             })
             .blockLast();
