@@ -10,12 +10,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Default HTTP response for Vert.x.
  */
 public final class VertxHttpResponse extends VertxHttpResponseBase {
-    private volatile boolean closed;
+    private final AtomicBoolean closed = new AtomicBoolean();
 
     /**
      * Creates a http response.
@@ -40,8 +41,9 @@ public final class VertxHttpResponse extends VertxHttpResponseBase {
     private Flux<ByteBuffer> streamResponseBody() {
         HttpClientResponse vertxHttpResponse = getVertxHttpResponse();
         return Flux.create(sink -> {
+            sink.onDispose(this::close);
             vertxHttpResponse.handler(buffer -> sink.next(ByteBuffer.wrap(buffer.getBytes()))).endHandler(event -> {
-                closed = true;
+                closed.set(true);
                 sink.complete();
             }).exceptionHandler(sink::error);
 
@@ -52,8 +54,8 @@ public final class VertxHttpResponse extends VertxHttpResponseBase {
     @Override
     public void close() {
         HttpClientResponse vertxHttpResponse = getVertxHttpResponse();
-        if (vertxHttpResponse != null && !closed) {
-            vertxHttpResponse.netSocket().close().andThen(ignored -> closed = true);
+        if (vertxHttpResponse != null && closed.compareAndSet(false, true)) {
+            vertxHttpResponse.netSocket().close();
         }
     }
 }
