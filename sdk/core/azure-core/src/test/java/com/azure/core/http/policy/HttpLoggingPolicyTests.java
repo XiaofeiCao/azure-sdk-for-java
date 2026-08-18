@@ -16,6 +16,7 @@ import com.azure.core.http.clients.NoOpHttpClient;
 import com.azure.core.implementation.AccessibleByteArrayOutputStream;
 import com.azure.core.implementation.accesshelpers.ClientLoggerAccessHelper;
 import com.azure.core.implementation.logging.DefaultLogger;
+import com.azure.core.implementation.util.HttpUtils;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.Context;
 import com.azure.core.util.FluxUtil;
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,6 +60,7 @@ import static com.azure.core.CoreTestUtils.assertArraysEqual;
 import static com.azure.core.CoreTestUtils.createUrl;
 import static com.azure.core.http.HttpHeaderName.X_MS_REQUEST_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -244,6 +247,72 @@ public class HttpLoggingPolicyTests {
         assertTrue(logString.contains(new String(data, StandardCharsets.UTF_8)));
     }
 
+    @ParameterizedTest(name = "[{index}] {displayName}")
+    @MethodSource("streamingResponseSupplier")
+    public void streamingResponsesAreNotBuffered(String contentType) {
+        byte[] data = "streaming response".getBytes(StandardCharsets.UTF_8);
+        AtomicInteger bufferCount = new AtomicInteger();
+        HttpRequest request = new HttpRequest(HttpMethod.GET, "https://test.com/streamingResponsesAreNotBuffered");
+        HttpHeaders responseHeaders = new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, contentType)
+            .set(HttpHeaderName.CONTENT_LENGTH, Integer.toString(data.length));
+
+        HttpPipeline pipeline = new HttpPipelineBuilder()
+            .policies(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY)))
+            .httpClient(ignored -> Mono.just(new BufferTrackingHttpResponse(ignored, responseHeaders,
+                Flux.just(ByteBuffer.wrap(data)), bufferCount)))
+            .build();
+
+        Context context = getCallerMethodContext("streamingResponsesAreNotBuffered", LogLevel.INFORMATIONAL);
+
+        try (HttpResponse response = pipeline.send(request, context).block()) {
+            assertNotNull(response);
+            assertArraysEqual(data, response.getBodyAsBinaryData().toBytes());
+        }
+
+        try (HttpResponse response = pipeline.sendSync(request, context)) {
+            assertArraysEqual(data, response.getBodyAsBinaryData().toBytes());
+        }
+
+        assertEquals(0, bufferCount.get());
+        assertFalse(convertOutputStreamToString(logCaptureStream).contains(new String(data, StandardCharsets.UTF_8)));
+    }
+
+    private static Stream<Arguments> streamingResponseSupplier() {
+        return Stream.of(Arguments.of("Text/Event-Stream; charset=utf-8"),
+            Arguments.of("text/event-stream; charset=utf-16"), Arguments.of("text/event-stream; charset=iso-8859-1"));
+    }
+
+    @Test
+    public void streamingRequestContextDoesNotSuppressJsonResponseBody() {
+        byte[] data = "json error response".getBytes(StandardCharsets.UTF_8);
+        AtomicInteger bufferCount = new AtomicInteger();
+        HttpRequest request = new HttpRequest(HttpMethod.GET,
+            "https://test.com/streamingRequestContextDoesNotSuppressJsonResponseBody");
+        HttpHeaders responseHeaders = new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, ContentType.APPLICATION_JSON)
+            .set(HttpHeaderName.CONTENT_LENGTH, Integer.toString(data.length));
+
+        HttpPipeline pipeline = new HttpPipelineBuilder()
+            .policies(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY)))
+            .httpClient(ignored -> Mono.just(new BufferTrackingHttpResponse(ignored, responseHeaders,
+                Flux.just(ByteBuffer.wrap(data)), bufferCount)))
+            .build();
+        Context context
+            = getCallerMethodContext("streamingRequestContextDoesNotSuppressJsonResponseBody", LogLevel.INFORMATIONAL)
+                .addData(HttpUtils.AZURE_PRESERVE_RESPONSE_BODY_AS_STREAM, true);
+
+        try (HttpResponse response = pipeline.send(request, context).block()) {
+            assertNotNull(response);
+            assertArraysEqual(data, response.getBodyAsBinaryData().toBytes());
+        }
+
+        try (HttpResponse response = pipeline.sendSync(request, context)) {
+            assertArraysEqual(data, response.getBodyAsBinaryData().toBytes());
+        }
+
+        assertEquals(2, bufferCount.get());
+        assertTrue(convertOutputStreamToString(logCaptureStream).contains(new String(data, StandardCharsets.UTF_8)));
+    }
+
     private static Stream<Arguments> validateLoggingDoesNotConsumeSupplierSync() {
         byte[] data = "this is a test".getBytes(StandardCharsets.UTF_8);
 
@@ -348,6 +417,22 @@ public class HttpLoggingPolicyTests {
         @Override
         public Mono<String> getBodyAsString(Charset charset) {
             return getBodyAsByteArray().map(bytes -> new String(bytes, charset));
+        }
+    }
+
+    private static final class BufferTrackingHttpResponse extends MockHttpResponse {
+        private final AtomicInteger bufferCount;
+
+        private BufferTrackingHttpResponse(HttpRequest request, HttpHeaders headers, Flux<ByteBuffer> body,
+            AtomicInteger bufferCount) {
+            super(request, headers, body);
+            this.bufferCount = bufferCount;
+        }
+
+        @Override
+        public HttpResponse buffer() {
+            bufferCount.incrementAndGet();
+            return super.buffer();
         }
     }
 

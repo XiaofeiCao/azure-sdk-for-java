@@ -13,6 +13,7 @@ import com.azure.core.annotation.Post;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeaderName;
+import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
@@ -34,12 +35,14 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.ByteArrayInputStream;
+import java.io.Closeable;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,6 +95,26 @@ public class RestProxyTests {
         @Get("my/url/path")
         @ExpectedResponses({ 200 })
         Mono<StreamResponse> testDownloadAsync();
+
+        @Get("my/sse-by-accept/path")
+        @ExpectedResponses({ 200 })
+        Response<BinaryData> testEventStreamByAcceptSync(@HeaderParam("Accept") String accept);
+
+        @Get("my/sse-by-content-type/path")
+        @ExpectedResponses({ 200 })
+        Response<BinaryData> testEventStreamByContentTypeSync();
+
+        @Get("my/sse-by-accept/path")
+        @ExpectedResponses({ 200 })
+        Mono<Response<BinaryData>> testEventStreamByAcceptAsync(@HeaderParam("Accept") String accept);
+
+        @Get("my/sse-by-content-type/path")
+        @ExpectedResponses({ 200 })
+        Mono<Response<BinaryData>> testEventStreamByContentTypeAsync();
+
+        @Get("my/binary/path")
+        @ExpectedResponses({ 200 })
+        Response<BinaryData> testBinaryDataResponse();
     }
 
     @Test
@@ -130,6 +153,74 @@ public class RestProxyTests {
             .verifyComplete();
         // This indirectly tests that StreamResponse has HttpResponse reference
         assertTrue(client.closeCalledOnResponse);
+    }
+
+    @Test
+    public void eventStreamAcceptReturnsCloseableResponseSync() {
+        LocalHttpClient client = new LocalHttpClient();
+        TestInterface testInterface
+            = RestProxy.create(TestInterface.class, new HttpPipelineBuilder().httpClient(client).build());
+
+        assertCloseableStreamingResponse(testInterface.testEventStreamByAcceptSync("text/event-stream"), client);
+        assertTrue((boolean) client.lastContext.getData("azure-preserve-response-body-as-stream").orElse(false));
+    }
+
+    @Test
+    public void eventStreamContentTypeReturnsCloseableResponseSync() {
+        LocalHttpClient client = new LocalHttpClient();
+        TestInterface testInterface
+            = RestProxy.create(TestInterface.class, new HttpPipelineBuilder().httpClient(client).build());
+
+        assertCloseableStreamingResponse(testInterface.testEventStreamByContentTypeSync(), client);
+    }
+
+    @Test
+    public void eventStreamAcceptReturnsCloseableResponseAsync() {
+        LocalHttpClient client = new LocalHttpClient();
+        TestInterface testInterface
+            = RestProxy.create(TestInterface.class, new HttpPipelineBuilder().httpClient(client).build());
+
+        StepVerifier.create(testInterface.testEventStreamByAcceptAsync("text/event-stream"))
+            .assertNext(response -> assertCloseableStreamingResponse(response, client))
+            .verifyComplete();
+        assertTrue((boolean) client.lastContext.getData("azure-preserve-response-body-as-stream").orElse(false));
+    }
+
+    @Test
+    public void eventStreamContentTypeReturnsCloseableResponseAsync() {
+        LocalHttpClient client = new LocalHttpClient();
+        TestInterface testInterface
+            = RestProxy.create(TestInterface.class, new HttpPipelineBuilder().httpClient(client).build());
+
+        StepVerifier.create(testInterface.testEventStreamByContentTypeAsync())
+            .assertNext(response -> assertCloseableStreamingResponse(response, client))
+            .verifyComplete();
+    }
+
+    @Test
+    public void regularBinaryDataResponseIsNotCloseable() {
+        LocalHttpClient client = new LocalHttpClient();
+        TestInterface testInterface
+            = RestProxy.create(TestInterface.class, new HttpPipelineBuilder().httpClient(client).build());
+
+        Response<BinaryData> response = testInterface.testBinaryDataResponse();
+
+        assertFalse(response instanceof Closeable);
+    }
+
+    private static void assertCloseableStreamingResponse(Response<BinaryData> response, LocalHttpClient client) {
+        assertTrue(response instanceof Closeable);
+        assertFalse(response.getValue().isReplayable());
+        assertEquals("data: event\n\n", response.getValue().toString());
+
+        try {
+            ((Closeable) response).close();
+            ((Closeable) response).close();
+        } catch (Exception exception) {
+            throw new AssertionError("Closing the streaming response should not fail.", exception);
+        }
+
+        assertEquals(1, client.closeCallCount.get());
     }
 
     @ParameterizedTest
@@ -302,6 +393,7 @@ public class RestProxyTests {
         private volatile HttpRequest lastHttpRequest;
         private volatile Context lastContext;
         private volatile boolean closeCalledOnResponse;
+        private final AtomicInteger closeCallCount = new AtomicInteger();
 
         @Override
         public Mono<HttpResponse> send(HttpRequest request) {
@@ -312,17 +404,37 @@ public class RestProxyTests {
         public Mono<HttpResponse> send(HttpRequest request, Context context) {
             lastHttpRequest = request;
             lastContext = context;
-            boolean success = request.getUrl().getPath().equals("/my/url/path");
+            String path = request.getUrl().getPath();
+            boolean streamingPath
+                = "/my/sse-by-accept/path".equals(path) || "/my/sse-by-content-type/path".equals(path);
+            boolean binaryPath = "/my/binary/path".equals(path);
+            boolean success = "/my/url/path".equals(path) || streamingPath || binaryPath;
             if (request.getHttpMethod().equals(HttpMethod.POST)) {
                 success &= "application/json".equals(request.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
             } else {
                 success &= request.getHttpMethod().equals(HttpMethod.GET);
             }
 
-            return Mono.just(new MockHttpResponse(request, success ? 200 : 400) {
+            HttpHeaders headers = new HttpHeaders();
+            if ("/my/sse-by-content-type/path".equals(path)) {
+                headers.set(HttpHeaderName.CONTENT_TYPE, "Text/Event-Stream; charset=utf-8");
+            } else {
+                headers.set(HttpHeaderName.CONTENT_TYPE, "application/json");
+            }
+            byte[] body = streamingPath || binaryPath
+                ? "data: event\n\n".getBytes(java.nio.charset.StandardCharsets.UTF_8)
+                : new byte[0];
+
+            return Mono.just(new MockHttpResponse(request, success ? 200 : 400, headers, body) {
+                @Override
+                public BinaryData getBodyAsBinaryData() {
+                    return BinaryData.fromFlux(getBody(), null, false).block();
+                }
+
                 @Override
                 public void close() {
                     closeCalledOnResponse = true;
+                    closeCallCount.incrementAndGet();
                     super.close();
                 }
             });
