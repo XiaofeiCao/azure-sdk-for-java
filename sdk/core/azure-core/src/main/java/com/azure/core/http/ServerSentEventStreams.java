@@ -15,7 +15,8 @@ import java.util.function.Predicate;
  * Consumes a single HTTP response as a server-sent event stream.
  *
  * <p>A returned {@link Flux} consumes one supplied response body and supports exactly one subscription. Cancellation
- * is propagated to the {@link BinaryData} body publisher so transport-owned resources can be released.</p>
+ * closes stream-backed response bodies and is propagated to reactive body publishers so transport-owned resources can
+ * be released.</p>
  *
  * <p>The stream incrementally decodes a supported {@code charset} declared by its {@code Content-Type}; UTF-8 is
  * used when no charset is declared, and an initial byte-order mark takes precedence over the declaration.</p>
@@ -27,9 +28,9 @@ public final class ServerSentEventStreams {
     /**
      * Decodes a single server-sent event response as a {@link Flux}.
      *
-     * <p>The response body is validated as {@code text/event-stream}, decoded incrementally, and cancelled when
-     * consumption ends early or validation fails. A 204 response produces an empty {@link Flux}. Only HTTP 200 and
-     * 204 responses are accepted.</p>
+     * <p>The response body is validated as {@code text/event-stream}, decoded incrementally, and released when
+     * consumption ends early or validation fails. A 204 response produces an empty {@link Flux}. Only HTTP 200 and 204
+     * responses are accepted.</p>
      *
      * @param response The streaming response.
      * @param converter Converts an event name and data payload into the generated event type.

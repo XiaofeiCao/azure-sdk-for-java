@@ -145,7 +145,7 @@ public final class JdkHttpResponseSync extends JdkHttpResponseBase {
 
     private BinaryData getBinaryData() {
         if (binaryData == null) {
-            binaryData = super.getBodyAsBinaryData();
+            binaryData = BinaryData.fromStream(bodyStream);
         }
         return binaryData;
     }

@@ -6,9 +6,14 @@ package com.azure.core.implementation.util;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.BinaryData;
+import com.azure.core.util.FluxUtil;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;
+import reactor.core.publisher.Flux;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Objects;
@@ -18,10 +23,10 @@ import java.util.Objects;
  */
 final class ServerSentEventStreamResponse {
     private final int statusCode;
-    private final BinaryData body;
+    private final Flux<ByteBuffer> body;
     private final Charset charset;
 
-    ServerSentEventStreamResponse(int statusCode, BinaryData body, Charset charset) {
+    ServerSentEventStreamResponse(int statusCode, Flux<ByteBuffer> body, Charset charset) {
         this.statusCode = statusCode;
         this.body = body;
         this.charset = charset;
@@ -54,7 +59,8 @@ final class ServerSentEventStreamResponse {
                 throw new NullPointerException("'response.getValue()' cannot be null unless the status code is 204.");
             }
         }
-        return new ServerSentEventStreamResponse(response.getStatusCode(), body, charset);
+        return new ServerSentEventStreamResponse(response.getStatusCode(),
+            body == null ? Flux.empty() : claimBody(body), charset);
     }
 
     private static void cancelBody(Response<BinaryData> response) {
@@ -63,7 +69,7 @@ final class ServerSentEventStreamResponse {
             return;
         }
 
-        body.toFluxByteBuffer().subscribe(new BaseSubscriber<ByteBuffer>() {
+        claimBody(body).subscribe(new BaseSubscriber<ByteBuffer>() {
             @Override
             protected void hookOnSubscribe(Subscription subscription) {
                 cancel();
@@ -71,11 +77,30 @@ final class ServerSentEventStreamResponse {
         });
     }
 
+    private static Flux<ByteBuffer> claimBody(BinaryData body) {
+        BinaryDataContent content = BinaryDataHelper.getContent(body);
+        if (content instanceof InputStreamContent) {
+            return Flux.using(content::toStream,
+                stream -> FluxUtil.toFluxByteBuffer(stream, BinaryDataContent.STREAM_READ_SIZE),
+                ServerSentEventStreamResponse::closeStream);
+        }
+
+        return body.toFluxByteBuffer();
+    }
+
+    private static void closeStream(InputStream stream) {
+        try {
+            stream.close();
+        } catch (IOException exception) {
+            throw new UncheckedIOException(exception);
+        }
+    }
+
     int getStatusCode() {
         return statusCode;
     }
 
-    BinaryData getBody() {
+    Flux<ByteBuffer> getBody() {
         return body;
     }
 

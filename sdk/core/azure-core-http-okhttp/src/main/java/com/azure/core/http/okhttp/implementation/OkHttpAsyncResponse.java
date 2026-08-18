@@ -27,7 +27,6 @@ public final class OkHttpAsyncResponse extends OkHttpAsyncResponseBase {
     private static final int BYTE_BUFFER_CHUNK_SIZE = 8192;
 
     private final ResponseBody responseBody;
-    private BinaryData binaryData;
 
     /**
      * Creates an OkHttpAsyncResponse.
@@ -48,10 +47,7 @@ public final class OkHttpAsyncResponse extends OkHttpAsyncResponseBase {
 
     @Override
     public BinaryData getBodyAsBinaryData() {
-        if (binaryData == null) {
-            binaryData = super.getBodyAsBinaryData();
-        }
-        return binaryData;
+        return BinaryData.fromStream(this.responseBody.byteStream());
     }
 
     @Override

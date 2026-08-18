@@ -195,9 +195,13 @@ public final class ServerSentEventStream {
 
     private static <T> Flux<ServerSentEvent<T>> decodeBody(BinaryData body, StreamState state, Charset charset,
         BiFunction<String, String, T> deserializer) {
+        return decodeBody(body.toFluxByteBuffer(), state, charset, deserializer);
+    }
+
+    private static <T> Flux<ServerSentEvent<T>> decodeBody(Flux<ByteBuffer> body, StreamState state, Charset charset,
+        BiFunction<String, String, T> deserializer) {
         ServerSentEventDecoder decoder = new ServerSentEventDecoder(state, charset);
-        Flux<ServerSentEventFrame> frames = body.toFluxByteBuffer()
-            .concatMap(buffer -> Flux.fromIterable(decoder.feed(buffer)), 1)
+        Flux<ServerSentEventFrame> frames = body.concatMap(buffer -> Flux.fromIterable(decoder.feed(buffer)), 1)
             .concatWith(Flux.defer(() -> Flux.fromIterable(decoder.finish())));
         return frames.concatMap(frame -> deserializeFrame(frame, deserializer), 1);
     }
@@ -211,10 +215,16 @@ public final class ServerSentEventStream {
     private static <T> boolean processBody(BinaryData body, StreamState state, Charset charset,
         BiFunction<String, String, T> deserializer, TerminalEventPolicy<T> terminalPolicy,
         ServerSentEventListener<T> listener) throws IOException {
+        return processBody(body.toFluxByteBuffer(), state, charset, deserializer, terminalPolicy, listener);
+    }
+
+    private static <T> boolean processBody(Flux<ByteBuffer> body, StreamState state, Charset charset,
+        BiFunction<String, String, T> deserializer, TerminalEventPolicy<T> terminalPolicy,
+        ServerSentEventListener<T> listener) throws IOException {
         ServerSentEventDecoder decoder = new ServerSentEventDecoder(state, charset);
         byte[] readBuffer = new byte[8192];
 
-        try (InputStream stream = new FluxInputStream(body.toFluxByteBuffer())) {
+        try (InputStream stream = new FluxInputStream(body)) {
             int read;
             while (true) {
                 checkInterrupted();

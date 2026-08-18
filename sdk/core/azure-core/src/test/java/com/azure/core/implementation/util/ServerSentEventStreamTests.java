@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -267,6 +268,47 @@ public class ServerSentEventStreamTests {
             .verify();
 
         assertTrue(cancelled.get());
+    }
+
+    @Test
+    public void toFluxCompletionClosesInputStreamBody() {
+        AtomicBoolean closed = new AtomicBoolean();
+        BinaryData body = inputStreamBody("data: one\n\n", false, closed);
+        TestResponse response = response(200, body);
+
+        StepVerifier.create(ServerSentEventStreams.toFlux(response, (event, data) -> data))
+            .assertNext(event -> assertEquals("one", event.getData()))
+            .verifyComplete();
+
+        assertTrue(closed.get());
+    }
+
+    @Test
+    public void toFluxCancellationClosesInputStreamBody() {
+        AtomicBoolean closed = new AtomicBoolean();
+        BinaryData body = inputStreamBody("data: one\n\n", true, closed);
+        TestResponse response = response(200, body);
+
+        StepVerifier.create(ServerSentEventStreams.toFlux(response, (event, data) -> data))
+            .assertNext(event -> assertEquals("one", event.getData()))
+            .thenCancel()
+            .verify();
+
+        assertTrue(closed.get());
+    }
+
+    @Test
+    public void validationFailureClosesInputStreamBody() {
+        AtomicBoolean closed = new AtomicBoolean();
+        BinaryData body = inputStreamBody("data: one\n\n", true, closed);
+        TestResponse response = response(200, body, "application/json");
+
+        StepVerifier.create(ServerSentEventStreams.toFlux(response, (event, data) -> data))
+            .expectErrorMessage(
+                "Expected a successful server-sent event response to have Content-Type " + "'text/event-stream'.")
+            .verify();
+
+        assertTrue(closed.get());
     }
 
     @Test
@@ -536,6 +578,21 @@ public class ServerSentEventStreamTests {
     }
 
     @Test
+    public void listenTerminalEventClosesInputStreamBody() {
+        AtomicBoolean closed = new AtomicBoolean();
+        BinaryData body = inputStreamBody("data: one\n\ndata: [DONE]\n\n", true, closed);
+        TestResponse response = response(200, body);
+        List<String> events = new ArrayList<>();
+
+        ServerSentEventStreams.listen(response, (event, data) -> data, event -> "[DONE]".equals(event.getData()),
+            event -> events.add(event.getData()));
+
+        assertEquals(2, events.size());
+        assertEquals("[DONE]", events.get(1));
+        assertTrue(closed.get());
+    }
+
+    @Test
     public void listenFailsOnEofBeforeTerminalEventAndNotifiesListener() {
         TestResponse response = response(200, BinaryData.fromString("data: one\n\n"));
         AtomicReference<Throwable> reportedError = new AtomicReference<>();
@@ -622,6 +679,10 @@ public class ServerSentEventStreamTests {
         return BinaryData.fromFlux(Flux.<ByteBuffer>never().doOnCancel(() -> cancelled.set(true)), null, false).block();
     }
 
+    private static BinaryData inputStreamBody(String value, boolean infinite, AtomicBoolean closed) {
+        return BinaryData.fromStream(new TrackingInputStream(value.getBytes(StandardCharsets.UTF_8), infinite, closed));
+    }
+
     private static TestResponse response(int statusCode, BinaryData body, String contentType) {
         return new TestResponse(statusCode, new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, contentType), body);
     }
@@ -629,6 +690,56 @@ public class ServerSentEventStreamTests {
     private static final class TestResponse extends ResponseBase<Object, BinaryData> {
         private TestResponse(int statusCode, HttpHeaders headers, BinaryData value) {
             super(null, statusCode, headers, value, null);
+        }
+    }
+
+    private static final class TrackingInputStream extends InputStream {
+        private final byte[] bytes;
+        private final boolean infinite;
+        private final AtomicBoolean closed;
+        private int position;
+
+        private TrackingInputStream(byte[] bytes, boolean infinite, AtomicBoolean closed) {
+            this.bytes = bytes;
+            this.infinite = infinite;
+            this.closed = closed;
+        }
+
+        @Override
+        public int read() {
+            if (closed.get()) {
+                return -1;
+            }
+            if (position < bytes.length) {
+                return bytes[position++] & 0xFF;
+            }
+            return infinite ? ' ' : -1;
+        }
+
+        @Override
+        public int read(byte[] destination, int offset, int length) {
+            if (closed.get()) {
+                return -1;
+            }
+            if (position < bytes.length) {
+                int count = Math.min(length, bytes.length - position);
+                System.arraycopy(bytes, position, destination, offset, count);
+                position += count;
+                return count;
+            }
+            if (!infinite) {
+                return -1;
+            }
+
+            for (int i = offset; i < offset + length; i++) {
+                destination[i] = ' ';
+            }
+            return length;
+        }
+
+        @Override
+        public void close() {
+            closed.set(true);
         }
     }
 }

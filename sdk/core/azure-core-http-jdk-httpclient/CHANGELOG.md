@@ -8,9 +8,6 @@
 
 ### Bugs Fixed
 
-- Fixed synchronous streaming `BinaryData` response bodies to release JDK HttpClient response resources when reactive
-  consumption is cancelled.
-
 ### Other Changes
 
 ## 1.1.6 (2026-08-12)
@@ -293,4 +290,5 @@ This package's
 [documentation](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core-http-jdk-httpclient/README.md)
 
 Initial release. Please see the README and wiki for information on the new design.
+
 

@@ -8,9 +8,6 @@
 
 ### Bugs Fixed
 
-- Fixed synchronous streaming `BinaryData` response bodies to release OkHttp response resources when reactive
-  consumption is cancelled.
-
 ### Other Changes
 
 ## 1.13.6 (2026-08-12)
