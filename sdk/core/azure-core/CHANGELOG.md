@@ -4,6 +4,17 @@
 
 ### Features Added
 
+- Added generic `ServerSentEvent<T>`, `ServerSentEventListener<T>`, and `ServerSentEventStreams` for typed,
+  incrementally decoded server-sent event streams. The REST proxy preserves live-body ownership, HTTP response logging
+  does not consume SSE bodies, and streams stop cleanly on HTTP 204 or response-body EOF. Early termination is
+  propagated to the `BinaryData` body publisher so HTTP transports can release response resources. Asynchronous
+  decoding parses the reactive response body without blocking worker threads.
+- Added optional service-defined terminal-event predicates for server-sent event streams. Predicate overloads complete
+  after delivering a terminal event and report an incomplete stream when response-body EOF occurs first; existing
+  overloads continue to complete on HTTP 204 or EOF.
+- Server-sent event response streams are single-subscription and accept HTTP 200 or 204 responses. Terminal-event
+  predicates require a terminal event even when the response is HTTP 204.
+
 ### Breaking Changes
 
 ### Bugs Fixed

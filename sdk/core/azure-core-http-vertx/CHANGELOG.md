@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed streaming response bodies to close the Vert.x response socket when reactive consumption is cancelled.
+
 ### Other Changes
 
 ## 1.1.6 (2026-08-12)

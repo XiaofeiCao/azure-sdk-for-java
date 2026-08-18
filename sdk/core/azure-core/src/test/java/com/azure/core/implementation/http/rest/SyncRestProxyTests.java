@@ -13,6 +13,7 @@ import com.azure.core.annotation.Put;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeaderName;
+import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
@@ -32,6 +33,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import reactor.core.publisher.Mono;
 
 import java.io.ByteArrayInputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -41,6 +43,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -67,6 +70,10 @@ public class SyncRestProxyTests {
         @Put("my/url/path")
         @ExpectedResponses({ 200 })
         Response<InputStream> testInputStreamResponse(Context context);
+
+        @Get("my/url/path")
+        @ExpectedResponses({ 200 })
+        Response<BinaryData> testStreamingBinaryDataResponse(@HeaderParam("Accept") String accept, Context context);
     }
 
     @Test
@@ -128,6 +135,19 @@ public class SyncRestProxyTests {
         assertTrue(client.lastResponseClosed);
     }
 
+    @Test
+    public void streamingBinaryDataResponseIsNotCloseable() {
+        LocalHttpClient client = new LocalHttpClient();
+        HttpPipeline pipeline = new HttpPipelineBuilder().httpClient(client).build();
+        TestInterface testInterface = RestProxy.create(TestInterface.class, pipeline);
+
+        Response<BinaryData> response
+            = testInterface.testStreamingBinaryDataResponse("text/event-stream", Context.NONE);
+
+        assertFalse(response instanceof Closeable);
+        assertEquals("data: one\n\n", response.getValue().toString());
+    }
+
     private static final class LocalHttpClient implements HttpClient {
 
         private volatile boolean lastResponseClosed;
@@ -144,6 +164,11 @@ public class SyncRestProxyTests {
                 success &= "application/json".equals(request.getHeaders().getValue(HttpHeaderName.CONTENT_TYPE));
             } else if (request.getHttpMethod().equals(HttpMethod.GET)) {
                 success &= request.getHttpMethod().equals(HttpMethod.GET);
+                if ("text/event-stream".equals(request.getHeaders().getValue(HttpHeaderName.ACCEPT))) {
+                    return new MockHttpResponse(request, success ? 200 : 400,
+                        new HttpHeaders().set(HttpHeaderName.CONTENT_TYPE, "text/event-stream"),
+                        "data: one\n\n".getBytes());
+                }
             } else {
                 success &= request.getHttpMethod().equals(HttpMethod.PUT);
                 return new MockHttpResponse(request, success ? 200 : 400,
