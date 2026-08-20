@@ -39,6 +39,7 @@ public class SearchCustomizations extends Customization {
 
         ClassCustomization serviceVersion = documents.getClass("SearchServiceVersion");
         includeOldApiVersions(serviceVersion);
+        includeKnowledgeBaseStreamingApiVersion(serviceVersion);
 
         ClassCustomization searchClient = documents.getClass("SearchClient");
         ClassCustomization searchAsyncClient = documents.getClass("SearchAsyncClient");
@@ -134,6 +135,21 @@ public class SearchCustomizations extends Customization {
             }
 
             enumDeclaration.setEntries(entries);
+        }));
+    }
+
+    // The standalone SSE prototype targets a newer preview than the package's pinned generated API surface.
+    private static void includeKnowledgeBaseStreamingApiVersion(ClassCustomization customization) {
+        customization.customizeAst(ast -> ast.getEnumByName(customization.getClassName()).ifPresent(enumDeclaration -> {
+            boolean alreadyPresent = enumDeclaration.getEntries()
+                .stream()
+                .anyMatch(entry -> "V2026_08_01_PREVIEW".equals(entry.getNameAsString()));
+            if (!alreadyPresent) {
+                enumDeclaration.getEntries()
+                    .add(new EnumConstantDeclaration("V2026_08_01_PREVIEW")
+                        .addArgument(new StringLiteralExpr("2026-08-01-preview"))
+                        .setJavadocComment("Enum value 2026-08-01-preview."));
+            }
         }));
     }
 

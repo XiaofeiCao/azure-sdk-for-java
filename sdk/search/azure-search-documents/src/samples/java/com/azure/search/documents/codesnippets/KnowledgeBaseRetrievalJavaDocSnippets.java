@@ -3,12 +3,15 @@
 package com.azure.search.documents.codesnippets;
 
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.search.documents.SearchServiceVersion;
+import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReference;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeRetrievalSemanticIntent;
 import com.azure.search.documents.knowledgebases.models.SearchIndexKnowledgeSourceParams;
 
@@ -18,6 +21,7 @@ import java.util.Arrays;
 public class KnowledgeBaseRetrievalJavaDocSnippets {
 
     private static KnowledgeBaseRetrievalClient retrievalClient;
+    private static KnowledgeBaseRetrievalAsyncClient retrievalAsyncClient;
 
     /**
      * Code snippet for creating a {@link KnowledgeBaseRetrievalClient}.
@@ -28,9 +32,19 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
             .credential(new AzureKeyCredential("{key}"))
             .endpoint("{endpoint}")
             .knowledgeBaseName("my-knowledge-base")
+            .serviceVersion(SearchServiceVersion.V2026_08_01_PREVIEW)
             .buildClient();
         // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.instantiation
         return retrievalClient;
+    }
+
+    private static KnowledgeBaseRetrievalAsyncClient createRetrievalAsyncClient() {
+        return new KnowledgeBaseRetrievalClientBuilder()
+            .credential(new AzureKeyCredential("{key}"))
+            .endpoint("{endpoint}")
+            .knowledgeBaseName("my-knowledge-base")
+            .serviceVersion(SearchServiceVersion.V2026_08_01_PREVIEW)
+            .buildAsyncClient();
     }
 
     /**
@@ -104,5 +118,39 @@ public class KnowledgeBaseRetrievalJavaDocSnippets {
         }
         // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieve.withSourceParams
     }
-}
 
+    /**
+     * Code snippet for synchronous streaming retrieval.
+     */
+    public static void retrieveStream() {
+        retrievalClient = createRetrievalClient();
+        // BEGIN: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieveStream
+        KnowledgeBaseRetrievalOptions request = new KnowledgeBaseRetrievalOptions()
+            .setIntents(new KnowledgeRetrievalSemanticIntent("What hotels are near the ocean?"));
+
+        retrievalClient.retrieveStream(request, event -> {
+            if (event.isAnswerCompleted()) {
+                System.out.println(event.asAnswerCompleted().getMessage());
+            } else if (event.isResponseCompleted()) {
+                System.out.println("Retrieval completed with status "
+                    + event.asResponseCompleted().getStatusCode());
+            }
+        });
+        // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient.retrieveStream
+    }
+
+    /**
+     * Code snippet for asynchronous streaming retrieval.
+     */
+    public static void retrieveStreamAsync() {
+        retrievalAsyncClient = createRetrievalAsyncClient();
+        // BEGIN: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient.retrieveStream
+        KnowledgeBaseRetrievalOptions request = new KnowledgeBaseRetrievalOptions()
+            .setIntents(new KnowledgeRetrievalSemanticIntent("What hotels are near the ocean?"));
+        retrievalAsyncClient.retrieveStream(request)
+            .filter(KnowledgeBaseRetrievalStreamEvent::isAnswerCompleted)
+            .doOnNext(event -> System.out.println(event.asAnswerCompleted().getMessage()))
+            .blockLast();
+        // END: com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient.retrieveStream
+    }
+}
