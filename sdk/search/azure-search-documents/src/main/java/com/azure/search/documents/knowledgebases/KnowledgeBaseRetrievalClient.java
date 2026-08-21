@@ -14,6 +14,8 @@ import com.azure.core.exception.ResourceModifiedException;
 import com.azure.core.exception.ResourceNotFoundException;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.ServerSentEventListener;
+import com.azure.core.http.ServerSentEventStreams;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.BinaryData;
@@ -21,6 +23,9 @@ import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
+
+import java.util.Objects;
 
 /**
  * Initializes a new instance of the synchronous KnowledgeBaseRetrievalClient type.
@@ -87,7 +92,7 @@ public final class KnowledgeBaseRetrievalClient {
      * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
      * @return the output contract for the retrieval response along with {@link Response}.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     public Response<KnowledgeBaseRetrievalResult> retrieveWithResponse(KnowledgeBaseRetrievalOptions retrievalRequest,
         RequestOptions requestOptions) {
         return convertResponse(
@@ -222,7 +227,7 @@ public final class KnowledgeBaseRetrievalClient {
      * @return the output contract for the retrieval response along with {@link Response}.
      */
     @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     Response<BinaryData> hiddenGeneratedRetrieveWithResponse(BinaryData retrievalRequest,
         RequestOptions requestOptions) {
         return this.serviceClient.retrieveWithResponse(retrievalRequest, requestOptions);
@@ -275,5 +280,63 @@ public final class KnowledgeBaseRetrievalClient {
         }
         return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions).getValue()
             .toObject(KnowledgeBaseRetrievalResult.class);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores as a raw server-sent event response.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param requestOptions The options to configure the HTTP request before it is sent.
+     * @return the raw server-sent event response.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<BinaryData> retrieveStreamWithResponse(BinaryData retrievalRequest, RequestOptions requestOptions) {
+        return serviceClient.retrieveStreamWithResponse(retrievalRequest, requestOptions);
+    }
+
+    /**
+     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
+     *
+     * <p>The call returns after the service closes the response stream.</p>
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param listener The listener that receives server-sent events.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener) {
+        listen(retrievalRequest, listener, new RequestOptions());
+    }
+
+    /**
+     * Retrieves relevant data from backing stores and delivers progress and results as server-sent events.
+     *
+     * @param retrievalRequest The retrieval request to process.
+     * @param querySourceAuthorization Token used to enforce document-level access restrictions.
+     * @param queryWorkIQSourceAuthorization User assertion token used for Work IQ on-behalf-of authentication.
+     * @param listener The listener that receives server-sent events.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization,
+        String queryWorkIQSourceAuthorization, ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener) {
+        RequestOptions requestOptions = new RequestOptions();
+        if (querySourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                querySourceAuthorization);
+        }
+        if (queryWorkIQSourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-work-iq-source-authorization"),
+                queryWorkIQSourceAuthorization);
+        }
+        listen(retrievalRequest, listener, requestOptions);
+    }
+
+    private void listen(KnowledgeBaseRetrievalOptions retrievalRequest,
+        ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent> listener, RequestOptions requestOptions) {
+        Objects.requireNonNull(listener, "'listener' cannot be null.");
+        Response<BinaryData> response
+            = retrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions);
+        ServerSentEventStreams.listen(response, KnowledgeBaseRetrievalStreamEvent::fromEvent, listener);
     }
 }
