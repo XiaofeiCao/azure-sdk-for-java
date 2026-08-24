@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `CloseableIterableStream`, an `IterableStream` that closes a caller-supplied resource.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -110,6 +110,18 @@ public class IterableStreamJavaDocCodeSnippets {
         // END: com.azure.core.util.iterableStream.stream.filter
     }
 
+    /**
+     * Closes a resource after iterating over a {@link CloseableIterableStream}.
+     */
+    public void closeableIterableStreamSnippet() {
+        // BEGIN: com.azure.core.util.closeableIterableStream
+        try (CloseableIterableStream<Integer> iterableStream =
+            new CloseableIterableStream<>(Flux.just(1, 2, 3), () -> { })) {
+            iterableStream.forEach(System.out::println);
+        }
+        // END: com.azure.core.util.closeableIterableStream
+    }
+
     private PagedResponseBase<String, Integer> createPagedResponse(HttpRequest httpRequest, HttpHeaders httpHeaders,
         String deserializedHeaders, int i, int noOfPages) {
         return new PagedResponseBase<>(httpRequest, HttpURLConnection.HTTP_OK,
