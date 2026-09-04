@@ -14,6 +14,7 @@ import com.azure.core.exception.ResourceModifiedException;
 import com.azure.core.exception.ResourceNotFoundException;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.rest.RequestOptions;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.BinaryData;
@@ -24,7 +25,6 @@ import com.azure.search.documents.knowledgebases.implementation.KnowledgeBaseRet
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
-import com.azure.search.documents.models.ServerSentEvent;
 import com.azure.search.documents.models.implementation.sse.ServerSentEventStreams;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

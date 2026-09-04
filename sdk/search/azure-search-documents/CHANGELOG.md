@@ -6,9 +6,15 @@
 
 ### Breaking Changes
 
+- Replaced the Search-specific `ServerSentEvent` and `ServerSentEventListener` types with
+  `com.azure.core.http.ServerSentEvent`. Synchronous knowledge base retrieval streaming APIs now return
+  `CloseableIterableStream<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>>` and must be closed after use.
+
 ### Bugs Fixed
 
 ### Other Changes
+
+- Upgraded `azure-core` from `1.59.1` to version `1.60.0-beta.1`.
 
 ## 12.1.0-beta.2 (2026-08-28)
 

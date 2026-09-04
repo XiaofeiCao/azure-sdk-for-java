@@ -77,7 +77,8 @@ import com.azure.search.documents.knowledgebases.models.KnowledgeSourceParams;
 import com.azure.search.documents.knowledgebases.models.PurviewSensitivityLabelInfo;
 import com.azure.search.documents.knowledgebases.models.SearchIndexKnowledgeSourceParams;
 import com.azure.search.documents.models.QueryType;
-import com.azure.search.documents.models.ServerSentEvent;
+import com.azure.core.http.ServerSentEvent;
+import com.azure.core.util.CloseableIterableStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -1593,8 +1594,10 @@ public class KnowledgeBaseTests extends SearchTestBase {
             .setIntents(new KnowledgeRetrievalSemanticIntent("What are the pet policies at the hotel?"))
             .setIncludeActivity(true);
         List<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> events = new ArrayList<>();
-
-        retrievalClient.retrieveStream(request, events::add);
+        try (CloseableIterableStream<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> stream
+            = retrievalClient.retrieveStream(request)) {
+            stream.forEach(events::add);
+        }
 
         assertSuccessfulRetrievalStream(events);
     }

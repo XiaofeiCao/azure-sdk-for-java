@@ -4,9 +4,11 @@
 package com.azure.search.documents.knowledgebases;
 
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.HttpHeaderName;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.test.http.MockHttpResponse;
+import com.azure.core.util.CloseableIterableStream;
 import com.azure.search.documents.knowledgebases.implementation.KnowledgeBaseRetrievalStreamEventConverter;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseActivityCompletedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseActivityRecord;
@@ -24,22 +26,17 @@ import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalSt
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseStreamErrorEvent;
 import com.azure.search.documents.knowledgebases.models.UnknownKnowledgeBaseRetrievalStreamEvent;
-import com.azure.search.documents.models.ServerSentEvent;
-import com.azure.search.documents.models.ServerSentEventListener;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -149,34 +146,15 @@ public class KnowledgeBaseRetrievalStreamTests {
         KnowledgeBaseRetrievalClient client
             = createBuilder(streamWithUnknownEvent(), QUERY_SOURCE_TOKEN, QUERY_WORK_IQ_SOURCE_TOKEN).buildClient();
         List<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> events = new ArrayList<>();
-        AtomicReference<Throwable> error = new AtomicReference<>();
-        AtomicBoolean closed = new AtomicBoolean();
+        try (CloseableIterableStream<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> stream = client
+            .retrieveStream(new KnowledgeBaseRetrievalOptions(), QUERY_SOURCE_TOKEN, QUERY_WORK_IQ_SOURCE_TOKEN)) {
+            stream.forEach(events::add);
+        }
 
-        client.retrieveStream(new KnowledgeBaseRetrievalOptions(), QUERY_SOURCE_TOKEN, QUERY_WORK_IQ_SOURCE_TOKEN,
-            new ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent>() {
-                @Override
-                public void onEvent(ServerSentEvent<KnowledgeBaseRetrievalStreamEvent> event) {
-                    assertFalse(closed.get());
-                    events.add(event);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    error.set(throwable);
-                }
-
-                @Override
-                public void onClose() {
-                    assertEquals(3, events.size());
-                    assertInstanceOf(UnknownKnowledgeBaseRetrievalStreamEvent.class, events.get(1).getData());
-                    assertFalse(events.get(1).getData().isTerminal());
-                    assertTrue(events.get(2).getData().isTerminal());
-                    closed.set(true);
-                }
-            });
-
-        assertNull(error.get());
-        assertTrue(closed.get());
+        assertEquals(3, events.size());
+        assertInstanceOf(UnknownKnowledgeBaseRetrievalStreamEvent.class, events.get(1).getData());
+        assertFalse(events.get(1).getData().isTerminal());
+        assertTrue(events.get(2).getData().isTerminal());
     }
 
     @Test
@@ -195,30 +173,12 @@ public class KnowledgeBaseRetrievalStreamTests {
     public void syncClientMinimalOverloadOmitsAuthorizationHeaders() {
         KnowledgeBaseRetrievalClient client = createBuilder(streamWithUnknownEvent(), null, null).buildClient();
         List<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> events = new ArrayList<>();
-        AtomicReference<Throwable> error = new AtomicReference<>();
-        AtomicBoolean closed = new AtomicBoolean();
-
-        client.retrieveStream(new KnowledgeBaseRetrievalOptions(),
-            new ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent>() {
-                @Override
-                public void onEvent(ServerSentEvent<KnowledgeBaseRetrievalStreamEvent> event) {
-                    events.add(event);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    error.set(throwable);
-                }
-
-                @Override
-                public void onClose() {
-                    closed.set(true);
-                }
-            });
+        try (CloseableIterableStream<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> stream
+            = client.retrieveStream(new KnowledgeBaseRetrievalOptions())) {
+            stream.forEach(events::add);
+        }
 
         assertEquals(3, events.size());
-        assertNull(error.get());
-        assertTrue(closed.get());
     }
 
     private static KnowledgeBaseRetrievalClientBuilder createBuilder(String responseBody, String querySourceToken,

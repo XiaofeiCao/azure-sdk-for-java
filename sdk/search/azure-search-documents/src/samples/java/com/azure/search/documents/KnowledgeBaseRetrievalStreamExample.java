@@ -4,6 +4,8 @@
 package com.azure.search.documents;
 
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.http.ServerSentEvent;
+import com.azure.core.util.CloseableIterableStream;
 import com.azure.search.documents.indexes.SearchIndexClient;
 import com.azure.search.documents.indexes.SearchIndexClientBuilder;
 import com.azure.search.documents.indexes.models.AzureOpenAIModelName;
@@ -32,8 +34,6 @@ import com.azure.search.documents.models.IndexAction;
 import com.azure.search.documents.models.IndexActionType;
 import com.azure.search.documents.models.IndexDocumentsBatch;
 import com.azure.search.documents.models.IndexDocumentsResult;
-import com.azure.search.documents.models.ServerSentEvent;
-import com.azure.search.documents.models.ServerSentEventListener;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -117,22 +117,12 @@ public class KnowledgeBaseRetrievalStreamExample {
     private static void streamSynchronously(KnowledgeBaseRetrievalClient client, KnowledgeBaseRetrievalOptions request) {
         AtomicBoolean started = new AtomicBoolean();
         AtomicBoolean completed = new AtomicBoolean();
-        client.retrieveStream(request, new ServerSentEventListener<KnowledgeBaseRetrievalStreamEvent>() {
-            @Override
-            public void onEvent(ServerSentEvent<KnowledgeBaseRetrievalStreamEvent> event) {
+        try (CloseableIterableStream<ServerSentEvent<KnowledgeBaseRetrievalStreamEvent>> events
+            = client.retrieveStream(request)) {
+            for (ServerSentEvent<KnowledgeBaseRetrievalStreamEvent> event : events) {
                 inspectEvent(event, started, completed);
             }
-
-            @Override
-            public void onError(Throwable error) {
-                throw new IllegalStateException("Knowledge base retrieval stream failed.", error);
-            }
-
-            @Override
-            public void onClose() {
-                System.out.println("Stream closed.");
-            }
-        });
+        }
         verifyStream(started, completed);
     }
 

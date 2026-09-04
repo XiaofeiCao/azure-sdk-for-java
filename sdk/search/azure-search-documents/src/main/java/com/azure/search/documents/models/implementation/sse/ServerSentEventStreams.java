@@ -3,10 +3,10 @@
 
 package com.azure.search.documents.models.implementation.sse;
 
+import com.azure.core.http.ServerSentEvent;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.BinaryData;
-import com.azure.search.documents.models.ServerSentEvent;
-import com.azure.search.documents.models.ServerSentEventListener;
+import com.azure.core.util.CloseableIterableStream;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import reactor.core.publisher.Flux;
@@ -48,31 +48,33 @@ public final class ServerSentEventStreams {
     }
 
     /**
-     * Decodes one response and delivers events to a listener until the response body ends.
+     * Decodes one response as a closeable iterable until the response body ends.
      *
      * @param response The streaming response.
      * @param converter Converts an event name and data payload into the event data type.
-     * @param listener The listener that receives events and lifecycle notifications.
      * @param <T> The event data type.
+     * @return A closeable iterable of decoded server-sent events.
+     * Callers must close the returned stream to release the response body.
      */
-    public static <T> void listen(Response<BinaryData> response, BiFunction<String, String, T> converter,
-        ServerSentEventListener<T> listener) {
-        ServerSentEventStream.listen(response, converter, listener);
+    public static <T> CloseableIterableStream<ServerSentEvent<T>> toIterableStream(Response<BinaryData> response,
+        BiFunction<String, String, T> converter) {
+        return ServerSentEventStream.toIterableStream(response, converter);
     }
 
     /**
-     * Decodes one response until an inclusive terminal event is delivered to a listener.
+     * Decodes one response as a closeable iterable until an inclusive terminal event is returned.
      *
-     * <p>HTTP 204 and response-body EOF close normally without requiring a terminal event.</p>
+     * <p>HTTP 204 and response-body EOF complete normally without requiring a terminal event.</p>
      *
      * @param response The streaming response.
      * @param converter Converts an event name and data payload into the event data type.
      * @param terminalEvent Identifies an inclusive terminal event that ends processing early.
-     * @param listener The listener that receives events and lifecycle notifications.
      * @param <T> The event data type.
+     * @return A closeable iterable of decoded server-sent events.
+     * Callers must close the returned stream to release the response body.
      */
-    public static <T> void listen(Response<BinaryData> response, BiFunction<String, String, T> converter,
-        Predicate<ServerSentEvent<T>> terminalEvent, ServerSentEventListener<T> listener) {
-        ServerSentEventStream.listen(response, converter, terminalEvent, listener);
+    public static <T> CloseableIterableStream<ServerSentEvent<T>> toIterableStream(Response<BinaryData> response,
+        BiFunction<String, String, T> converter, Predicate<ServerSentEvent<T>> terminalEvent) {
+        return ServerSentEventStream.toIterableStream(response, converter, terminalEvent);
     }
 }
