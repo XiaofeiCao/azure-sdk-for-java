@@ -23,7 +23,7 @@ import com.azure.search.documents.indexes.models.SearchFieldDataType;
 import com.azure.search.documents.indexes.models.SearchIndex;
 import com.azure.search.documents.indexes.models.SearchSuggester;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseAnswerCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalAnswerCompletedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
 import com.azure.search.documents.models.IndexAction;
@@ -58,8 +58,9 @@ public class ReadmeSamples {
         try (CloseableIterableStream<KnowledgeBaseRetrievalStreamEvent> events = client.retrieveStream(request)) {
             for (KnowledgeBaseRetrievalStreamEvent event : events) {
                 System.out.println(event.getEventName());
-                if (event instanceof KnowledgeBaseAnswerCompletedStreamEvent) {
-                    KnowledgeBaseAnswerCompletedStreamEvent answer = (KnowledgeBaseAnswerCompletedStreamEvent) event;
+                if (event instanceof KnowledgeBaseRetrievalAnswerCompletedStreamEvent) {
+                    KnowledgeBaseRetrievalAnswerCompletedStreamEvent answer
+                        = (KnowledgeBaseRetrievalAnswerCompletedStreamEvent) event;
                     System.out.println(answer.getValue().getMessage());
                 }
             }

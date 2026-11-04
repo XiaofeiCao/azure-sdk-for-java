@@ -4,6 +4,7 @@
 package com.azure.search.documents;
 
 import com.azure.core.util.BinaryData;
+import com.azure.search.documents.implementation.KnowledgeBaseRetrievalStreamEventSerializer;
 import com.azure.search.documents.indexes.CreateSkillsetExample;
 import com.azure.search.documents.indexes.models.AzureOpenAIModelName;
 import com.azure.search.documents.indexes.models.ContentUnderstandingSkill;
@@ -23,7 +24,6 @@ import com.azure.search.documents.indexes.models.SearchIndexerDataSourceConnecti
 import com.azure.search.documents.indexes.models.SearchIndexerDataSourceType;
 import com.azure.search.documents.indexes.models.SearchIndexerDataUserAssignedIdentity;
 import com.azure.search.documents.indexes.models.WebKnowledgeSourceParameters;
-import com.azure.search.documents.knowledgebases.implementation.KnowledgeBaseRetrievalStreamEventConverter;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReference;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
@@ -53,7 +53,7 @@ public class SearchGaSamplesTests {
     @Test
     @org.junit.jupiter.api.parallel.ResourceLock(org.junit.jupiter.api.parallel.Resources.SYSTEM_OUT)
     public void streamSampleLogsErrorPayloadBeforeThrowing() throws IOException {
-        KnowledgeBaseRetrievalStreamEvent error = KnowledgeBaseRetrievalStreamEventConverter.convert("error",
+        KnowledgeBaseRetrievalStreamEvent error = KnowledgeBaseRetrievalStreamEventSerializer.deserialize("error",
             "{\"error\":{\"code\":\"BadRequest\",\"message\":\"invalid request\"}}");
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream original = System.out;
@@ -204,12 +204,12 @@ public class SearchGaSamplesTests {
             "{\"statusCode\":200,\"response\":{}}" };
         for (int i = 0; i < names.length; i++) {
             KnowledgeBaseRetrievalStreamEvent event
-                = KnowledgeBaseRetrievalStreamEventConverter.convert(names[i], payloads[i]);
+                = KnowledgeBaseRetrievalStreamEventSerializer.deserialize(names[i], payloads[i]);
             KnowledgeBaseRetrievalStreamExample.inspectEvent(event, started, completed);
         }
         assertTrue(started.get());
         assertTrue(completed.get());
-        KnowledgeBaseRetrievalStreamEvent error = KnowledgeBaseRetrievalStreamEventConverter.convert("error",
+        KnowledgeBaseRetrievalStreamEvent error = KnowledgeBaseRetrievalStreamEventSerializer.deserialize("error",
             "{\"error\":{\"code\":\"BadRequest\",\"message\":\"invalid request\"}}");
         assertThrows(IllegalStateException.class,
             () -> KnowledgeBaseRetrievalStreamExample.inspectEvent(error, started, completed));

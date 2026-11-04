@@ -47,7 +47,7 @@ import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessage;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseModelAnswerSynthesisActivityRecord;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseModelQueryPlanningActivityRecord;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseResponseCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResponseCompletedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStartedStreamEvent;
@@ -1034,9 +1034,9 @@ public class KnowledgeBaseTests extends SearchTestBase {
     private static void assertSuccessfulRetrievalStream(List<KnowledgeBaseRetrievalStreamEvent> events) {
         assertFalse(events.isEmpty());
         assertTrue(events.stream().anyMatch(KnowledgeBaseRetrievalStartedStreamEvent.class::isInstance));
-        KnowledgeBaseResponseCompletedStreamEvent completed = events.stream()
-            .filter(KnowledgeBaseResponseCompletedStreamEvent.class::isInstance)
-            .map(KnowledgeBaseResponseCompletedStreamEvent.class::cast)
+        KnowledgeBaseRetrievalResponseCompletedStreamEvent completed = events.stream()
+            .filter(KnowledgeBaseRetrievalResponseCompletedStreamEvent.class::isInstance)
+            .map(KnowledgeBaseRetrievalResponseCompletedStreamEvent.class::cast)
             .findFirst()
             .orElseThrow(() -> new AssertionError("Expected a response.completed event."));
         assertTrue(completed.isTerminal());

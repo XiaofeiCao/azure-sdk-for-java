@@ -24,7 +24,7 @@ import com.azure.search.documents.indexes.models.SemanticPrioritizedFields;
 import com.azure.search.documents.indexes.models.SemanticSearch;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseErrorStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalErrorStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStartedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
@@ -200,7 +200,7 @@ public class KnowledgeBaseConfigurationExample {
                         throw new IllegalStateException("The retrieval didn't use the expected reasoning effort.");
                     }
                     reasoningEffortReported = true;
-                } else if (event instanceof KnowledgeBaseErrorStreamEvent) {
+                } else if (event instanceof KnowledgeBaseRetrievalErrorStreamEvent) {
                     throw new IllegalStateException("The retrieval stream reported an error.");
                 }
             }

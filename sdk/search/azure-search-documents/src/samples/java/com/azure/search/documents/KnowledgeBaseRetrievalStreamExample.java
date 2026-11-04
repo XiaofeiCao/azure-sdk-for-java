@@ -26,13 +26,13 @@ import com.azure.search.documents.indexes.models.SemanticSearch;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalAsyncClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClient;
 import com.azure.search.documents.knowledgebases.KnowledgeBaseRetrievalClientBuilder;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseAnswerCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalAnswerCompletedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseMessageTextContent;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseActivityStartedStreamEvent;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseActivityCompletedStreamEvent;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseReferencesCompletedStreamEvent;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseErrorStreamEvent;
-import com.azure.search.documents.knowledgebases.models.KnowledgeBaseResponseCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalActivityStartedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalActivityCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalReferencesCompletedStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalErrorStreamEvent;
+import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResponseCompletedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStartedStreamEvent;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
@@ -152,8 +152,9 @@ public class KnowledgeBaseRetrievalStreamExample {
     static void inspectEvent(KnowledgeBaseRetrievalStreamEvent event, AtomicBoolean started,
         AtomicBoolean completed) {
         System.out.println("Received event: " + event.getEventName());
-        if (event instanceof KnowledgeBaseAnswerCompletedStreamEvent) {
-            KnowledgeBaseAnswerCompletedStreamEvent answerEvent = (KnowledgeBaseAnswerCompletedStreamEvent) event;
+        if (event instanceof KnowledgeBaseRetrievalAnswerCompletedStreamEvent) {
+            KnowledgeBaseRetrievalAnswerCompletedStreamEvent answerEvent
+                = (KnowledgeBaseRetrievalAnswerCompletedStreamEvent) event;
             printEventData(answerEvent.getValue());
             answerEvent.getValue().getMessage().getContent().forEach(content -> {
                 if (content instanceof KnowledgeBaseMessageTextContent) {
@@ -169,29 +170,29 @@ public class KnowledgeBaseRetrievalStreamExample {
                 System.out.println("Reasoning effort: " + retrieval.getValue().getReasoningEffort().getKind());
             }
         }
-        if (event instanceof KnowledgeBaseActivityStartedStreamEvent) {
-            printEventData(((KnowledgeBaseActivityStartedStreamEvent) event).getValue());
+        if (event instanceof KnowledgeBaseRetrievalActivityStartedStreamEvent) {
+            printEventData(((KnowledgeBaseRetrievalActivityStartedStreamEvent) event).getValue());
             System.out.println("Activity started: "
-                + ((KnowledgeBaseActivityStartedStreamEvent) event).getValue().getId());
+                + ((KnowledgeBaseRetrievalActivityStartedStreamEvent) event).getValue().getId());
         }
-        if (event instanceof KnowledgeBaseActivityCompletedStreamEvent) {
-            printEventData(((KnowledgeBaseActivityCompletedStreamEvent) event).getValue());
+        if (event instanceof KnowledgeBaseRetrievalActivityCompletedStreamEvent) {
+            printEventData(((KnowledgeBaseRetrievalActivityCompletedStreamEvent) event).getValue());
             System.out.println("Activity completed: "
-                + ((KnowledgeBaseActivityCompletedStreamEvent) event).getValue().getType());
+                + ((KnowledgeBaseRetrievalActivityCompletedStreamEvent) event).getValue().getType());
         }
-        if (event instanceof KnowledgeBaseReferencesCompletedStreamEvent) {
-            printEventData(((KnowledgeBaseReferencesCompletedStreamEvent) event).getValue());
-            ((KnowledgeBaseReferencesCompletedStreamEvent) event).getValue().forEach(reference ->
+        if (event instanceof KnowledgeBaseRetrievalReferencesCompletedStreamEvent) {
+            printEventData(((KnowledgeBaseRetrievalReferencesCompletedStreamEvent) event).getValue());
+            ((KnowledgeBaseRetrievalReferencesCompletedStreamEvent) event).getValue().forEach(reference ->
                 System.out.println("Citation URL: " + KnowledgeRetrievalResponseExample.citationUrl(reference)));
         }
-        if (event instanceof KnowledgeBaseErrorStreamEvent) {
-            printEventData(((KnowledgeBaseErrorStreamEvent) event).getValue());
+        if (event instanceof KnowledgeBaseRetrievalErrorStreamEvent) {
+            printEventData(((KnowledgeBaseRetrievalErrorStreamEvent) event).getValue());
             throw new IllegalStateException("Knowledge retrieval failed: "
-                + ((KnowledgeBaseErrorStreamEvent) event).getValue().getError().getMessage());
+                + ((KnowledgeBaseRetrievalErrorStreamEvent) event).getValue().getError().getMessage());
         }
-        if (event instanceof KnowledgeBaseResponseCompletedStreamEvent) {
-            KnowledgeBaseResponseCompletedStreamEvent completionEvent
-                = (KnowledgeBaseResponseCompletedStreamEvent) event;
+        if (event instanceof KnowledgeBaseRetrievalResponseCompletedStreamEvent) {
+            KnowledgeBaseRetrievalResponseCompletedStreamEvent completionEvent
+                = (KnowledgeBaseRetrievalResponseCompletedStreamEvent) event;
             printEventData(completionEvent.getValue());
             if (!completionEvent.isTerminal() || completionEvent.getValue().getResponse() == null) {
                 throw new IllegalStateException("The terminal event didn't contain the completed response.");
