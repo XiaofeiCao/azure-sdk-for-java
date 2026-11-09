@@ -71,8 +71,6 @@ public class SearchCustomizations extends Customization {
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalClient"));
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"));
 
-        preserveHiddenRetrieveStreamApis(knowledge.getClass("KnowledgeBaseRetrievalClient"));
-        preserveHiddenRetrieveStreamApis(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"));
         addQuerySourceAuthorizationOption(
             libraryCustomization.getPackage("com.azure.search.documents.knowledgebases.models")
                 .getClass("KnowledgeBaseRetrievalOptions"));
@@ -136,35 +134,6 @@ public class SearchCustomizations extends Customization {
                     .forEach(MethodDeclaration::setModifiers);
             }));
         }
-    }
-
-    // Native streaming replaces generated raw convenience methods, but their hidden compatibility APIs remain.
-    private static void preserveHiddenRetrieveStreamApis(ClassCustomization customization) {
-        customization.customizeAst(ast -> {
-            var clazz = ast.getClassByName(customization.getClassName())
-                .orElseThrow(() -> new IllegalStateException("Retrieval client class not found."));
-            if (!clazz.getMethodsByName("hiddenGeneratedRetrieveStream").isEmpty()) {
-                throw new IllegalStateException("Hidden raw streaming convenience APIs are already generated.");
-            }
-            boolean async = customization.getClassName().endsWith("AsyncClient");
-            for (boolean withAuthorization : new boolean[] { false, true }) {
-                String parameters = "KnowledgeBaseRetrievalOptions retrievalRequest"
-                    + (withAuthorization ? ", String querySourceAuthorization" : "");
-                String authorization = withAuthorization
-                    ? "if (querySourceAuthorization != null) {\n"
-                        + "    requestOptions.setHeader(HttpHeaderName.fromString(\"x-ms-query-source-authorization\"),\n"
-                        + "        querySourceAuthorization);\n" + "}\n"
-                    : "";
-                clazz.addMember(StaticJavaParser.parseBodyDeclaration(
-                    "/** Retrieves the raw response through the hidden streaming protocol API. */\n"
-                        + "@Generated\n@ServiceMethod(returns = ReturnType.SINGLE)\n"
-                        + (async ? "Mono<BinaryData>" : "BinaryData") + " hiddenGeneratedRetrieveStream(" + parameters
-                        + ") {\n" + "    RequestOptions requestOptions = new RequestOptions();\n" + authorization
-                        + "    return hiddenGeneratedRetrieveStreamWithResponse(\n"
-                        + "        BinaryData.fromObject(retrievalRequest), requestOptions)"
-                        + (async ? ".flatMap(FluxUtil::toMono);" : ".getValue();") + "\n}\n"));
-            }
-        });
     }
 
     private static void customizeKnowledgeSourceStatusDurationParsing(ClassCustomization customization) {

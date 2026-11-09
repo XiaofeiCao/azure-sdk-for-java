@@ -449,31 +449,4 @@ public final class KnowledgeBaseRetrievalClient {
         }
         return requestOptions;
     }
-
-    /**
-     * Retrieves the raw response through the hidden streaming protocol API.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    BinaryData hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        RequestOptions requestOptions = new RequestOptions();
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .getValue();
-    }
-
-    /**
-     * Retrieves the raw response through the hidden streaming protocol API.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    BinaryData hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
-        String querySourceAuthorization) {
-        RequestOptions requestOptions = new RequestOptions();
-        if (querySourceAuthorization != null) {
-            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
-                querySourceAuthorization);
-        }
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .getValue();
-    }
 }

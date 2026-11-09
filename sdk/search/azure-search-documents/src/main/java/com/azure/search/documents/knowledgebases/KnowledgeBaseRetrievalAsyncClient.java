@@ -446,31 +446,4 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         }
         return requestOptions;
     }
-
-    /**
-     * Retrieves the raw response through the hidden streaming protocol API.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        RequestOptions requestOptions = new RequestOptions();
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono);
-    }
-
-    /**
-     * Retrieves the raw response through the hidden streaming protocol API.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
-        String querySourceAuthorization) {
-        RequestOptions requestOptions = new RequestOptions();
-        if (querySourceAuthorization != null) {
-            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
-                querySourceAuthorization);
-        }
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono);
-    }
 }
