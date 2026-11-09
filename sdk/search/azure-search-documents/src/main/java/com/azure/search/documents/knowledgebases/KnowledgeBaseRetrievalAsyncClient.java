@@ -24,7 +24,7 @@ import com.azure.search.documents.implementation.KnowledgeBaseRetrievalStreamEve
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
-import com.azure.search.documents.models.implementation.sse.ServerSentEventStreams;
+import com.azure.search.documents.models.implementation.sse.ServerSentEventStreamHelper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -365,7 +365,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
     public Flux<KnowledgeBaseRetrievalStreamEvent> retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, null);
         return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMapMany(response -> ServerSentEventStreams.toFlux(response,
+            .flatMapMany(response -> ServerSentEventStreamHelper.toFlux(response,
                 KnowledgeBaseRetrievalStreamEventSerializer::deserialize,
                 KnowledgeBaseRetrievalStreamEvent::isTerminal));
     }
@@ -402,7 +402,7 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         String querySourceAuthorization) {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, querySourceAuthorization);
         return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMapMany(response -> ServerSentEventStreams.toFlux(response,
+            .flatMapMany(response -> ServerSentEventStreamHelper.toFlux(response,
                 KnowledgeBaseRetrievalStreamEventSerializer::deserialize,
                 KnowledgeBaseRetrievalStreamEvent::isTerminal));
     }
@@ -445,5 +445,32 @@ public final class KnowledgeBaseRetrievalAsyncClient {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"), authorization);
         }
         return requestOptions;
+    }
+
+    /**
+     * Retrieves the raw response through the hidden streaming protocol API.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
+        RequestOptions requestOptions = new RequestOptions();
+        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .flatMap(FluxUtil::toMono);
+    }
+
+    /**
+     * Retrieves the raw response through the hidden streaming protocol API.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        String querySourceAuthorization) {
+        RequestOptions requestOptions = new RequestOptions();
+        if (querySourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                querySourceAuthorization);
+        }
+        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .flatMap(FluxUtil::toMono);
     }
 }

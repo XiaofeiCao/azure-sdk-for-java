@@ -24,7 +24,7 @@ import com.azure.search.documents.implementation.KnowledgeBaseRetrievalStreamEve
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
-import com.azure.search.documents.models.implementation.sse.ServerSentEventStreams;
+import com.azure.search.documents.models.implementation.sse.ServerSentEventStreamHelper;
 
 /**
  * Initializes a new instance of the synchronous KnowledgeBaseRetrievalClient type.
@@ -365,7 +365,7 @@ public final class KnowledgeBaseRetrievalClient {
     public CloseableIterableStream<KnowledgeBaseRetrievalStreamEvent>
         retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, null);
-        return ServerSentEventStreams.toIterableStream(
+        return ServerSentEventStreamHelper.toIterableStream(
             hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
             KnowledgeBaseRetrievalStreamEventSerializer::deserialize, KnowledgeBaseRetrievalStreamEvent::isTerminal);
     }
@@ -406,7 +406,7 @@ public final class KnowledgeBaseRetrievalClient {
     public CloseableIterableStream<KnowledgeBaseRetrievalStreamEvent>
         retrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest, String querySourceAuthorization) {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, querySourceAuthorization);
-        return ServerSentEventStreams.toIterableStream(
+        return ServerSentEventStreamHelper.toIterableStream(
             hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions),
             KnowledgeBaseRetrievalStreamEventSerializer::deserialize, KnowledgeBaseRetrievalStreamEvent::isTerminal);
     }
@@ -448,5 +448,32 @@ public final class KnowledgeBaseRetrievalClient {
             requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"), authorization);
         }
         return requestOptions;
+    }
+
+    /**
+     * Retrieves the raw response through the hidden streaming protocol API.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    BinaryData hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
+        RequestOptions requestOptions = new RequestOptions();
+        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .getValue();
+    }
+
+    /**
+     * Retrieves the raw response through the hidden streaming protocol API.
+     */
+    @Generated
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    BinaryData hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
+        String querySourceAuthorization) {
+        RequestOptions requestOptions = new RequestOptions();
+        if (querySourceAuthorization != null) {
+            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
+                querySourceAuthorization);
+        }
+        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
+            .getValue();
     }
 }

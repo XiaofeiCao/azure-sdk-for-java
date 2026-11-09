@@ -12,7 +12,6 @@ import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -72,7 +71,8 @@ public class SearchCustomizations extends Customization {
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalClient"));
         hideWithResponseBinaryDataApis(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"));
 
-        useSearchStreamRuntime(libraryCustomization, knowledge);
+        preserveHiddenRetrieveStreamApis(knowledge.getClass("KnowledgeBaseRetrievalClient"));
+        preserveHiddenRetrieveStreamApis(knowledge.getClass("KnowledgeBaseRetrievalAsyncClient"));
         addQuerySourceAuthorizationOption(
             libraryCustomization.getPackage("com.azure.search.documents.knowledgebases.models")
                 .getClass("KnowledgeBaseRetrievalOptions"));
@@ -138,43 +138,33 @@ public class SearchCustomizations extends Customization {
         }
     }
 
-    // Keep native event models and deserialization while retaining Search's shared streaming runtime.
-    private static void useSearchStreamRuntime(LibraryCustomization customization, PackageCustomization knowledge) {
-        for (String className : Arrays.asList("KnowledgeBaseRetrievalClient", "KnowledgeBaseRetrievalAsyncClient")) {
-            knowledge.getClass(className).customizeAst(ast -> {
-                ast.getImports()
-                    .removeIf(declaration -> declaration.getNameAsString()
-                        .equals("com.azure.search.documents.models.implementation.sse.ServerSentEventStreamHelper"));
-                ast.addImport("com.azure.search.documents.models.implementation.sse.ServerSentEventStreams");
-                List<NameExpr> helperReferences = ast.findAll(NameExpr.class,
-                    expression -> "ServerSentEventStreamHelper".equals(expression.getNameAsString()));
-                if (helperReferences.size() != 2) {
-                    throw new IllegalStateException("Expected 2 native stream runtime calls in " + className
-                        + " but found " + helperReferences.size() + ".");
-                }
-                helperReferences.forEach(expression -> expression.setName("ServerSentEventStreams"));
-            });
-        }
-        customization.getRawEditor()
-            .removeFile(
-                "src/main/java/com/azure/search/documents/models/implementation/sse/ServerSentEventStreamHelper.java");
-        customization.getPackage("com.azure.search.documents.models.implementation.sse")
-            .getClass("ServerSentEventStreamResponse")
-            .customizeAst(ast -> {
-                List<MethodDeclaration> validators = ast.getClassByName("ServerSentEventStreamResponse")
-                    .orElseThrow(() -> new IllegalStateException("ServerSentEventStreamResponse class not found."))
-                    .getMethodsByName("isTextEventStream");
-                if (validators.size() != 1) {
-                    throw new IllegalStateException("Expected exactly one server-sent event media type validator.");
-                }
-                validators.get(0)
-                    .setBody(StaticJavaParser.parseBlock("{\n"
-                        + "    if (contentType == null || contentType.indexOf(',') >= 0) {\n"
-                        + "        return false;\n" + "    }\n" + "    int parameterIndex = contentType.indexOf(';');\n"
-                        + "    String mediaType = parameterIndex < 0 ? contentType : contentType.substring(0, parameterIndex);\n"
-                        + "    return \"text/event-stream\".equals(mediaType.trim().toLowerCase(Locale.ROOT));\n"
-                        + "}\n"));
-            });
+    // Native streaming replaces generated raw convenience methods, but their hidden compatibility APIs remain.
+    private static void preserveHiddenRetrieveStreamApis(ClassCustomization customization) {
+        customization.customizeAst(ast -> {
+            var clazz = ast.getClassByName(customization.getClassName())
+                .orElseThrow(() -> new IllegalStateException("Retrieval client class not found."));
+            if (!clazz.getMethodsByName("hiddenGeneratedRetrieveStream").isEmpty()) {
+                throw new IllegalStateException("Hidden raw streaming convenience APIs are already generated.");
+            }
+            boolean async = customization.getClassName().endsWith("AsyncClient");
+            for (boolean withAuthorization : new boolean[] { false, true }) {
+                String parameters = "KnowledgeBaseRetrievalOptions retrievalRequest"
+                    + (withAuthorization ? ", String querySourceAuthorization" : "");
+                String authorization = withAuthorization
+                    ? "if (querySourceAuthorization != null) {\n"
+                        + "    requestOptions.setHeader(HttpHeaderName.fromString(\"x-ms-query-source-authorization\"),\n"
+                        + "        querySourceAuthorization);\n" + "}\n"
+                    : "";
+                clazz.addMember(StaticJavaParser.parseBodyDeclaration(
+                    "/** Retrieves the raw response through the hidden streaming protocol API. */\n"
+                        + "@Generated\n@ServiceMethod(returns = ReturnType.SINGLE)\n"
+                        + (async ? "Mono<BinaryData>" : "BinaryData") + " hiddenGeneratedRetrieveStream(" + parameters
+                        + ") {\n" + "    RequestOptions requestOptions = new RequestOptions();\n" + authorization
+                        + "    return hiddenGeneratedRetrieveStreamWithResponse(\n"
+                        + "        BinaryData.fromObject(retrievalRequest), requestOptions)"
+                        + (async ? ".flatMap(FluxUtil::toMono);" : ".getValue();") + "\n}\n"));
+            }
+        });
     }
 
     private static void customizeKnowledgeSourceStatusDurationParsing(ClassCustomization customization) {
