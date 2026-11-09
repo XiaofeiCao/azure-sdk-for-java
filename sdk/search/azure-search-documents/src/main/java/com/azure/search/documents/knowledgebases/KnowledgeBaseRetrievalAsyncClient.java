@@ -20,7 +20,7 @@ import com.azure.core.util.BinaryData;
 import com.azure.core.util.FluxUtil;
 import com.azure.search.documents.SearchServiceVersion;
 import com.azure.search.documents.implementation.KnowledgeBaseRetrievalClientImpl;
-import com.azure.search.documents.knowledgebases.implementation.KnowledgeBaseRetrievalStreamEventConverter;
+import com.azure.search.documents.implementation.KnowledgeBaseRetrievalStreamEventSerializer;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalOptions;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalResult;
 import com.azure.search.documents.knowledgebases.models.KnowledgeBaseRetrievalStreamEvent;
@@ -348,32 +348,9 @@ public final class KnowledgeBaseRetrievalAsyncClient {
      * clients may expose the raw response without typed event parsing. Do not deserialize the
      * complete response body as a single JSON document.
      *
-     * @param retrievalRequest The retrieval request to process.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws HttpResponseException thrown if the request is rejected by server.
-     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
-     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
-     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the response body on successful completion of {@link Mono}.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest) {
-        // Generated convenience method for hiddenGeneratedRetrieveStreamWithResponse
-        RequestOptions requestOptions = new RequestOptions();
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono);
-    }
-
-    /**
-     * Retrieves relevant data from backing stores and streams progress and results as server-sent events.
-     *
      * Events are polymorphic: see {@link KnowledgeBaseRetrievalStreamEvent} for the known subtypes. Use a known
-     * subtype's {@code getValue()} to access its typed payload, for example
-     * {@link com.azure.search.documents.knowledgebases.models.KnowledgeBaseAnswerCompletedStreamEvent#getValue()}.
-     * Unrecognized events expose only their names through {@link KnowledgeBaseRetrievalStreamEvent#getEventName()};
-     * their payloads are not available.
+     * subtype's {@code getValue()} to access its typed payload. Unrecognized events expose only their names through
+     * {@link KnowledgeBaseRetrievalStreamEvent#getEventName()}; their payloads are not available.
      *
      * If received, the terminal {@code error} or {@code response.completed} event is emitted before the stream
      * completes. End-of-stream without a terminal event completes normally. Transport and decoding failures are
@@ -389,17 +366,23 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, null);
         return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .flatMapMany(response -> ServerSentEventStreams.toFlux(response,
-                KnowledgeBaseRetrievalStreamEventConverter::convert, KnowledgeBaseRetrievalStreamEvent::isTerminal));
+                KnowledgeBaseRetrievalStreamEventSerializer::deserialize,
+                KnowledgeBaseRetrievalStreamEvent::isTerminal));
     }
 
     /**
-     * Retrieves relevant data from backing stores and streams progress and results as server-sent events.
+     * Retrieves relevant data from backing stores and streams progress and results as server-sent
+     * events.
+     *
+     * Process the response incrementally using server-sent event framing. Each event contains an
+     * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
+     * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
+     * clients may expose the raw response without typed event parsing. Do not deserialize the
+     * complete response body as a single JSON document.
      *
      * Events are polymorphic: see {@link KnowledgeBaseRetrievalStreamEvent} for the known subtypes. Use a known
-     * subtype's {@code getValue()} to access its typed payload, for example
-     * {@link com.azure.search.documents.knowledgebases.models.KnowledgeBaseAnswerCompletedStreamEvent#getValue()}.
-     * Unrecognized events expose only their names through {@link KnowledgeBaseRetrievalStreamEvent#getEventName()};
-     * their payloads are not available.
+     * subtype's {@code getValue()} to access its typed payload. Unrecognized events expose only their names through
+     * {@link KnowledgeBaseRetrievalStreamEvent#getEventName()}; their payloads are not available.
      *
      * If received, the terminal {@code error} or {@code response.completed} event is emitted before the stream
      * completes. End-of-stream without a terminal event completes normally. Transport and decoding failures are
@@ -420,7 +403,8 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         RequestOptions requestOptions = createRetrieveRequestOptions(retrievalRequest, querySourceAuthorization);
         return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .flatMapMany(response -> ServerSentEventStreams.toFlux(response,
-                KnowledgeBaseRetrievalStreamEventConverter::convert, KnowledgeBaseRetrievalStreamEvent::isTerminal));
+                KnowledgeBaseRetrievalStreamEventSerializer::deserialize,
+                KnowledgeBaseRetrievalStreamEvent::isTerminal));
     }
 
     /**
@@ -449,41 +433,6 @@ public final class KnowledgeBaseRetrievalAsyncClient {
         return hiddenGeneratedRetrieveWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
             .flatMap(FluxUtil::toMono)
             .map(protocolMethodData -> protocolMethodData.toObject(KnowledgeBaseRetrievalResult.class));
-    }
-
-    /**
-     * Retrieves relevant data from backing stores and streams progress and results as server-sent
-     * events.
-     *
-     * Process the response incrementally using server-sent event framing. Each event contains an
-     * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
-     * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
-     * clients may expose the raw response without typed event parsing. Do not deserialize the
-     * complete response body as a single JSON document.
-     *
-     * @param retrievalRequest The retrieval request to process.
-     * @param querySourceAuthorization Token identifying the user for which the query is being executed. This token is
-     * used to enforce security restrictions on documents.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws HttpResponseException thrown if the request is rejected by server.
-     * @throws ClientAuthenticationException thrown if the request is rejected by server on status code 401.
-     * @throws ResourceNotFoundException thrown if the request is rejected by server on status code 404.
-     * @throws ResourceModifiedException thrown if the request is rejected by server on status code 409.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     * @return the response body on successful completion of {@link Mono}.
-     */
-    @Generated
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<BinaryData> hiddenGeneratedRetrieveStream(KnowledgeBaseRetrievalOptions retrievalRequest,
-        String querySourceAuthorization) {
-        // Generated convenience method for hiddenGeneratedRetrieveStreamWithResponse
-        RequestOptions requestOptions = new RequestOptions();
-        if (querySourceAuthorization != null) {
-            requestOptions.setHeader(HttpHeaderName.fromString("x-ms-query-source-authorization"),
-                querySourceAuthorization);
-        }
-        return hiddenGeneratedRetrieveStreamWithResponse(BinaryData.fromObject(retrievalRequest), requestOptions)
-            .flatMap(FluxUtil::toMono);
     }
 
     private static RequestOptions createRetrieveRequestOptions(KnowledgeBaseRetrievalOptions retrievalRequest,
